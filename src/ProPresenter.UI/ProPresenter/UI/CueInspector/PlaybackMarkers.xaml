@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.PlaybackMarkers" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.CueInspector" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:thumbnail="clr-namespace:ProPresenter.UI.Thumbnails" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../SourceDetailListResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="playbackMarkersVMProxy" Data="{Binding}" />
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+      <local:PlaybackMarkerTimestampToStringConverter x:Key="PlaybackMarkerTimestampToStringConverter" Data="{Binding Data.ActiveMediaCue.MediaAction.Media, Source={StaticResource playbackMarkersVMProxy}}" />
+      <ContextMenu x:Key="MarkerContextMenu" Closed="MarkerMenu_Closed" Opened="MarkerMenu_Opened">
+        <ItemsControl.ItemsSource>
+          <local:PlaybackMarkerContextMenuSource ActionsMenuVM="{Binding Data.ActionsMenuVM, Source={StaticResource playbackMarkersVMProxy}}" MarkerColor="{Binding Data.MarkerColor, Mode=TwoWay, Source={StaticResource playbackMarkersVMProxy}}" MoveToPlayheadCommand="{Binding Data.MoveToPlayheadCommand, Source={StaticResource playbackMarkersVMProxy}}" />
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Button Grid.Row="0" Width="200" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding AddMarkerCommand}" Content="{mex:Localized PLAYBACK_MARKERS_ADD_BUTTON_title}" />
+    <local:PlaybackMarkerList Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectItemsOnSelfDrop="False" SelectionMode="Extended" VirtualizingPanel.ScrollUnit="Pixel" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyCommand}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding CutCommand}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicateCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteCommand}" DropActionCommand="{Binding DropActionCommand}" ItemsSource="{Binding PlaybackMarkers}" MovePlayheadToMarkerCommand="{Binding MovePlayheadToMarkerCommand}" SelectedListItem="{Binding SelectedPlaybackMarker}" SelectedListItems="{Binding SelectedPlaybackMarkers}" UpdateDialogPlacementCommand="{Binding UpdateDialogPlacementCommand}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition />
+              <RowDefinition Height="*" />
+              <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Row="0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Path Grid.Column="0" Width="20px" Height="20px" HorizontalAlignment="Center" VerticalAlignment="Bottom" Data="M13,2 C13.55,2 14,2.45 14,3 C14,3 14,9.37 14,9.37 C14,9.84 13.83,10.3 13.53,10.66 C13.53,10.66 9.38,15.55 9.38,15.55 C9.2,15.76 8.89,15.79 8.68,15.61 C8.66,15.59 8.64,15.57 8.62,15.55 C8.62,15.55 4.47,10.66 4.47,10.66 C4.17,10.3 4,9.84 4,9.37 C4,9.37 4,3 4,3 C4,2.45 4.45,2 5,2 C5,2 13,2 13,2 M12.25,8 C12.25,8 7.5,8 7.5,8 C7.22,8 7,8.22 7,8.5 C7,8.78 7.22,9 7.5,9 C7.5,9 7.5,9 7.5,9 C7.5,9 12.25,9 12.25,9 C12.53,9 12.75,8.78 12.75,8.5 C12.75,8.22 12.53,8 12.25,8 C12.25,8 12.25,8 12.25,8 M5.75,8 C5.47,8 5.25,8.22 5.25,8.5 C5.25,8.78 5.47,9 5.75,9 C6.03,9 6.25,8.78 6.25,8.5 C6.25,8.22 6.03,8 5.75,8 M12.25,6 C12.25,6 7.5,6 7.5,6 C7.22,6 7,6.22 7,6.5 C7,6.78 7.22,7 7.5,7 C7.5,7 7.5,7 7.5,7 C7.5,7 12.25,7 12.25,7 C12.53,7 12.75,6.78 12.75,6.5 C12.75,6.22 12.53,6 12.25,6 C12.25,6 12.25,6 12.25,6 M5.75,6 C5.47,6 5.25,6.22 5.25,6.5 C5.25,6.78 5.47,7 5.75,7 C6.03,7 6.25,6.78 6.25,6.5 C6.25,6.22 6.03,6 5.75,6 M12.25,4 C12.25,4 7.5,4 7.5,4 C7.22,4 7,4.22 7,4.5 C7,4.78 7.22,5 7.5,5 C7.5,5 7.5,5 7.5,5 C7.5,5 12.25,5 12.25,5 C12.53,5 12.75,4.78 12.75,4.5 C12.75,4.22 12.53,4 12.25,4 C12.25,4 12.25,4 12.25,4 M5.75,4 C5.47,4 5.25,4.22 5.25,4.5 C5.25,4.78 5.47,5 5.75,5 C6.03,5 6.25,4.78 6.25,4.5 C6.25,4.22 6.03,4 5.75,4" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
+              <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Timestamp, Converter={StaticResource PlaybackMarkerTimestampToStringConverter}}" />
+              <commonControls:EditableTextBlock Grid.Column="2" Margin="0,0,15,0" HorizontalAlignment="Right" VerticalAlignment="Center" ClickToEdit="False" Text="{Binding Name}" />
+            </Grid>
+            <thumbnail:ThumbnailScrimView Grid.Row="1" Margin="8,5,8,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Items="{Binding ScrimItems}" />
+            <Separator Grid.Row="2" Margin="0" />
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemContainerStyle>
+        <Style BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+          <Setter Property="BorderThickness" Value="0" />
+          <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource MarkerContextMenu}" />
+          <Setter Property="commonControls:ListBoxItem.FocusOnContextMenuClose" Value="False" />
+          <Setter Property="Padding" Value="0,7,0,0" />
+          <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+      <FrameworkElement.ContextMenu>
+        <ContextMenu>
+          <ItemsControl.ItemsSource>
+            <local:PlaybackScrubberContextMenuSource AddPlaybackMarkerCommand="{Binding Data.AddMarkerCommand, Source={StaticResource playbackMarkersVMProxy}}" />
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </local:PlaybackMarkerList>
+    <TextBlock Grid.Row="1" Margin="0,100,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" IsHitTestVisible="False" Text="{mex:Localized PLAYBACK_MARKERS_NO_MARKERS_label}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="0" Binding="{Binding PlaybackMarkers.Count}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+  </Grid>
+</UserControl>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>Pro.Common</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWPF>True</UseWPF>
+    <TargetFramework>netcoreapp9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="effects\resources\inverteffect.fx.ps" />
+    <None Remove="effects\resources\circularblureffect.fx.ps" />
+    <EmbeddedResource Include="effects\resources\inverteffect.fx.ps" LogicalName="effects/resources/inverteffect.fx.ps" />
+    <EmbeddedResource Include="effects\resources\circularblureffect.fx.ps" LogicalName="effects/resources/circularblureffect.fx.ps" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Reactive">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="Testably.Abstractions.FileSystem.Interface">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Testably.Abstractions.FileSystem.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Common.Standard">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WpfScreenHelper">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\WpfScreenHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\System.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="CommunityToolkit.Mvvm">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Flurl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

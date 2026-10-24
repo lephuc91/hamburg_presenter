@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ReflowEditor.ReflowEditor" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonResources="clr-namespace:Pro.UI.Resources;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:floatingHeaders="clr-namespace:ProPresenter.UI.FloatingHeaders" xmlns:local="clr-namespace:ProPresenter.UI.ReflowEditor" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proDO="clr-namespace:Pro.DO;assembly=Pro.DO" xmlns:slidemenu="clr-namespace:ProPresenter.UI.SlideMenu" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:thumbnails="clr-namespace:ProPresenter.UI.Thumbnails" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self" uiUtility:UIElementHelper.Palette="{Binding PRESENTATION_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../ActionPalette/ActionPaletteItemStyle.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+      <converters:KeyToStringConverter x:Key="KeyToStringConverter" />
+      <commonConverters:ColorInverterConverter x:Key="ColorInverterConverter" />
+      <Style x:Key="HotkeyStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
+        <Setter Property="UIElement.Effect">
+          <Setter.Value>
+            <DropShadowEffect BlurRadius="1" ShadowDepth="2" />
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding ElementName=self}" />
+      <slidemenu:CustomSlideMenu x:Key="slideContextMenu" ShowQuickEdit="False" DataContext="{Binding Data.CustomSlideMenuVM, Source={StaticResource proxy}}" ThemeContextGroup="{Binding Data.ThemeContextGroup, Source={StaticResource proxy}}" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="27" />
+    </Grid.RowDefinitions>
+    <Grid Name="HeaderGrid" Row="0" HorizontalAlignment="Stretch">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType={x:Type local:ReflowEditor}}}" Text="{mex:Localized REFLOW_EDITOR_title}" />
+      <commonControls:CloseButton Grid.Row="0" Grid.Column="2" Margin="5" HorizontalAlignment="Right" Visibility="{Binding ShowCloseButton, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" Click="ReflowEditorBtnClose_Click" />
+    </Grid>
+    <Grid Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" MinWidth="280" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" MinWidth="280" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <local:ReflowTextList x:Name="ReflowTextList" LayoutUpdated="ReflowTextList_LayoutUpdated" Grid.Column="0" HorizontalContentAlignment="Stretch" Background="#00FFFFFF" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding DocumentCue.DocumentAction.ActiveArrangement.ArrangedCues, ElementName=self}" SelectedListItem="{Binding SelectedSlide, ElementName=self, Mode=OneWay}" ScrollViewer.ScrollChanged="ReflowTextList_ScrollChanged">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="18" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <commonControls:TruncatedTextblock MinWidth="48" Effect="{StaticResource DefaultDropShadowEffect}" FontWeight="Bold" HorizontalTextAlignment="Right" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType={x:Type local:ReflowEditor}}}" Text="{Binding Group.Label.Text}" Visibility="{Binding IsGroupHead, Converter={StaticResource ValueToVisibilityConverter}}">
+                <FrameworkElement.LayoutTransform>
+                  <RotateTransform Angle="-90" />
+                </FrameworkElement.LayoutTransform>
+              </commonControls:TruncatedTextblock>
+              <Grid Column="1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="4" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" BorderThickness="0,0,4,0" Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" BorderBrush="{Binding Group.Label.Color, Converter={StaticResource ColorToBrushConverter}}" />
+                <local:ReflowText x:Name="ReflowContent" BackSpaceMerge="ReflowText_BackSpaceMerge" CaretPositionChanged="ReflowText_CaretPositionChanged" Select="ReflowText_Select" Grid.Column="1" IgnoreMargins="True" SlideTextContextMenu="{StaticResource slideContextMenu}" Foreground="{Binding Foreground, ElementName=self}" Slide="{Binding}" ZoomLevel="{Binding TextZoomLevel, ElementName=self}" />
+              </Grid>
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="#00FFFFFF" />
+            <Setter Property="Height" Value="Auto" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                  <ContentPresenter Height="Auto" />
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+      </local:ReflowTextList>
+      <GridSplitter Grid.Column="1" Width="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" />
+      <floatingHeaders:FlatFloatingHeaderControl x:Name="ThumbnailControl" Grid.Column="2">
+        <thumbnails:CustomPresentationThumbnailPanel x:Name="ReflowThumbnailPanel" VerticalAlignment="Stretch" AllowDrag="False" ThumbnailContextMenu="{StaticResource slideContextMenu}" AddDroppedActionCommand="{Binding Data.AddDroppedActionCommand, Source={StaticResource proxy}}" AddDroppedMediaActionCommand="{Binding Data.AddDroppedMediaActionCommand, Source={StaticResource proxy}}" AddMediaActionCommand="{Binding Data.AddMediaActionCommand, Source={StaticResource proxy}}" AddMediaPlaylistActionCommand="{Binding Data.AddMediaPlaylistActionCommand, Source={StaticResource proxy}}" CopyCommand="{Binding Data.CopyCommand, Source={StaticResource proxy}}" CutCommand="{Binding Data.CutCommand, Source={StaticResource proxy}}" DeleteCommand="{Binding Data.DeleteCommand, Source={StaticResource proxy}}" DocumentCue="{Binding Data.DocumentCue, Source={StaticResource proxy}}" DropMediaFilesCommand="{Binding Data.DropMediaFilesCommand, Source={StaticResource proxy}}" DropPropCommand="{Binding Data.DropPropCommand, Source={StaticResource proxy}}" Items="{Binding Data.DocumentCue.DocumentAction.ActiveArrangement.ArrangedCues, Source={StaticResource proxy}}" PasteCommand="{Binding Data.PasteCommand, Source={StaticResource proxy}}" RowCapacity="{Binding Data.RowCapacity, Source={StaticResource proxy}}" SelectedItem="{Binding Data.SelectedSlide, Source={StaticResource proxy}, Mode=TwoWay}" SelectedItems="{Binding Data.SelectedSlides, Source={StaticResource proxy}}" Source="{Binding Data.DocumentCue.DocumentAction.Presentation, Source={StaticResource proxy}}">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <DataTemplate x:Key="{DataTemplateKey {x:Type proDO:Hotkey}}" DataType="{x:Type proDO:Hotkey}">
+                <Border Width="16" Height="16" CornerRadius="3" Style="{StaticResource HotkeyStyle}">
+                  <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding Color, Converter={StaticResource ColorInverterConverter}}" Text="{Binding Key, Converter={StaticResource KeyToStringConverter}}" />
+                </Border>
+              </DataTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+        </thumbnails:CustomPresentationThumbnailPanel>
+      </floatingHeaders:FlatFloatingHeaderControl>
+    </Grid>
+    <Grid Row="2" uiUtility:UIElementHelper.Palette="{Binding PRESENTATION_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <StackPanel Grid.Column="0" Margin="8,0,0,0" HorizontalAlignment="Left" Orientation="Horizontal">
+        <commonControls:FillSlider Name="ZoomSlider" Width="100" VerticalAlignment="Center" DockPanel.Dock="Right" IsMoveToPointEnabled="True" Maximum="1" Minimum="0.1" Value="{Binding TextZoomLevel, ElementName=self, Mode=TwoWay}" />
+        <Button Height="22" MinWidth="100" Margin="8,0,0,0" Padding="5,0" Content="{mex:Localized REFLOW_EDITOR_INSERT_SLIDE_BREAK_title}" Click="BtnInsertSlideBreak_Click" />
+      </StackPanel>
+      <commonControls:FillSlider Name="SliderZoom" Grid.Column="2" Width="100" Margin="0,0,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" IsDirectionReversed="True" IsSnapToTickEnabled="True" Maximum="4" Minimum="1" TickFrequency="1" Value="{Binding RowCapacity, ElementName=self, Mode=TwoWay}" />
+    </Grid>
+  </Grid>
+</UserControl>

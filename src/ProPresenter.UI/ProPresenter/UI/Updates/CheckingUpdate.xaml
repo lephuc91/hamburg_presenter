@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Updates.CheckingUpdate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" Width="500" xmlns:updates="clr-namespace:ProPresenter.UI.Updates;assembly=ProPresenter.UI">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Margin="0,10,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" Text="{mex:Localized UPDATES_CHECK_FOR_UPDATES_label}" />
+    <ProgressBar Grid.Row="1" Height="20" HorizontalAlignment="Stretch" IsIndeterminate="True" />
+  </Grid>
+</UserControl>

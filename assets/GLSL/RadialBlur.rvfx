@@ -1,0 +1,50 @@
+{
+    "description": "Mix Plasma with image.",
+    "name": "Radial Blur",
+    "numPasses": 1,
+    "shaderFile": "RadialBlur",
+    "type": 0,
+    "uuid": "6BC757C8-3F76-4E7E-885A-7A7C944465A5",
+    "variables": [
+        {
+            "name": "blendValue",
+            "label": "Blend",
+            "description": "Amount to Blend",
+            "type": 1,
+            "min": [0.01, 0.01, 0.01, 0.01],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "speed",
+            "label": "Speed",
+            "description": "Amount to Blend",
+            "type": 1,
+            "min": [0.01, 0.01, 0.01, 0.01],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "iterations",
+            "label": "Iterations",
+            "description": "Amount to Blend",
+            "type": 1,
+            "min": [4.0, 0.01, 0.01, 0.01],
+            "max": [24, 1, 1, 1],
+            "defValue": [10, 0.5, 0.5, 0.5],
+            "value": [10, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "decay",
+            "label": "Decay",
+            "description": "Amount to Blend",
+            "type": 1,
+            "min": [0.8, 0.01, 0.01, 0.01],
+            "max": [1.05, 1, 1, 1],
+            "defValue": [0.97, 0.5, 0.5, 0.5],
+            "value": [0.97, 0.5, 0.5, 0.5]
+        }
+    ]
+}

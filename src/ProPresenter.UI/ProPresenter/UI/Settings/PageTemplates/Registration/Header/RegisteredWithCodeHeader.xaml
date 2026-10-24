@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.Header.RegisteredWithCodeHeader" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:header="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.Header;assembly=ProPresenter.UI">
+  <StackPanel Orientation="Vertical">
+    <Image Width="340" Margin="20" HorizontalAlignment="Stretch" Source="{StaticResource {x:Static themesUI:Icons.RenewedVisionLogoLarge}}">
+      <UIElement.Effect>
+        <DropShadowEffect BlurRadius="8" Direction="270" Opacity="0.7" ShadowDepth="1" Color="{StaticResource {x:Static themesUI:Colors.Shadow}}" />
+      </UIElement.Effect>
+    </Image>
+    <TextBlock Margin="0,0,0,20" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized SETTINGS_ACCOUNT_MIGRATE_label}" />
+    <StackPanel Margin="0,8" HorizontalAlignment="Center" Orientation="Horizontal">
+      <Button Margin="0,0,12,0" Padding="20,0" HorizontalAlignment="Center" uiUtility:UIElementHelper.CornerRadius="4" Command="{Binding LearnMoreCommand}" Content="{mex:Localized SETTINGS_ACCOUNT_LEARN_MORE_BUTTON_title}" />
+      <Button Padding="20,0" uiUtility:UIElementHelper.CornerRadius="4" IsDefault="True" Command="{Binding MigrateCommand}" Content="{mex:Localized SETTINGS_ACCOUNT_MIGRATE_BUTTON_title}" />
+    </StackPanel>
+  </StackPanel>
+</UserControl>

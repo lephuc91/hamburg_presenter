@@ -1,0 +1,40 @@
+{
+    "description": "Swaps one color for another.",
+    "name": "Color Swap",
+    "numPasses": 1,
+    "shaderFile": "ColorSwap",
+    "type": 0,
+    "uuid": "7511AE15-3C2D-4840-BD66-DDC0C4A3DABE",
+    "variables": [
+        {
+            "name": "tolerance",
+            "label": "Tolerance",
+            "description": "Amount to Blend",
+            "type": 1,
+            "min": [0.01, 0.01, 0.01, 0.01],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "srcColor",
+            "label": "Old Color",
+            "description": "color to change",
+            "type": 2,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 1],
+            "value": [1, 1, 1, 1]
+        },
+        {
+            "name": "dstColor",
+            "label": "New Color",
+            "description": "color to change to",
+            "type": 2,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

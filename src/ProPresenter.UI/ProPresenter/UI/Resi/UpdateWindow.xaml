@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Resi.UpdateWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverter="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO.Resi;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="updateWindow" MaxWidth="470" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.HideOnClose="True" uiUtility:WindowHelper.UseGlobalStyle="True" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" xmlns:resi="clr-namespace:ProPresenter.UI.Resi;assembly=ProPresenter.UI" Title="{mex:Localized RESI_PREFERENCES_UPDATE_AVAILABLE_title}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverter:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverter:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverter:EnumToContentConverter x:Key="EnumToContentConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Width="60" Height="60" Margin="0,0,10,0" VerticalAlignment="Center" Source="{StaticResource {x:Static themesUI:Icons.AppIcon}}" Stretch="Uniform" />
+    <TextBlock Grid.Row="0" Grid.Column="1" MinHeight="35" TextWrapping="WrapWithOverflow" Text="{Binding UpdateDisplayText}" Visibility="{Binding UpdateStatus, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static do:UpdateStatus.None}}" />
+    <Grid Row="0" Column="1" Visibility="{Binding UpdateStatus, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:UpdateStatus.None}}">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding UpdateStatus, Converter={StaticResource EnumToContentConverter}}" />
+      <ProgressBar Grid.Row="1" Width="362" Height="20" Maximum="100" Value="{Binding DownloadProgress, Mode=OneWay}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type ProgressBar}}" TargetType="{x:Type ProgressBar}">
+            <Setter Property="ProgressBar.IsIndeterminate" Value="False" />
+            <Style.Triggers>
+              <DataTrigger Value="Installing" Binding="{Binding UpdateStatus}">
+                <Setter Property="ProgressBar.IsIndeterminate" Value="True" />
+              </DataTrigger>
+              <DataTrigger Value="Starting" Binding="{Binding UpdateStatus}">
+                <Setter Property="ProgressBar.IsIndeterminate" Value="True" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ProgressBar>
+    </Grid>
+    <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding UpdateStatus, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static do:UpdateStatus.None}}">
+      <Button Height="22" MinWidth="80" Margin="10,0,0,0" Padding="4,0" Command="{Binding InstallLaterCommand}" Content="{mex:Localized RESI_PREFERENCES_INSTALL_LATER_BUTTON_title}" />
+      <Button Height="22" MinWidth="80" Margin="10,0,0,0" Padding="4,0" IsDefault="True" Command="{Binding InstallNowCommand}" Content="{mex:Localized RESI_PREFERENCES_INSTALL_NOW_BUTTON_title}" />
+    </StackPanel>
+    <Button Grid.Row="1" Grid.Column="1" Height="22" MinWidth="80" Margin="10,0,0,0" Padding="4,0" HorizontalAlignment="Right" IsDefault="True" Command="{Binding CancelDownloadCommand}" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" Visibility="{Binding UpdateStatus, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static do:UpdateStatus.Downloading}}" />
+  </Grid>
+</windowing:ChromedWindow>

@@ -1,0 +1,50 @@
+{
+    "description": "Scroller.",
+    "name": "Scroller",
+    "numPasses": 1,
+    "shaderFile": "scroller",
+    "type": 1,
+    "uuid": "C3F80ED6-2E29-4B4A-8A1C-C72104D0C377",
+    "variables": [
+        {
+            "name": "fadeLeft",
+            "label": "fadeLeft",
+            "description": "Fade for left side",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 20, 20, 20],
+            "defValue": [0, 10, 10, 10],
+            "value": [40, 10, 10, 10]
+        },
+        {
+            "name": "fadeRight",
+            "label": "fadeRight",
+            "description": "Fade for right side",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 20, 20, 20],
+            "defValue": [1, 10, 10, 10],
+            "value": [40, 10, 10, 10]
+        },
+        {
+            "name": "fadeTop",
+            "label": "fadeTop",
+            "description": "Fade for top side",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 20, 20, 20],
+            "defValue": [0, 10, 10, 10],
+            "value": [40, 10, 10, 10]
+        },
+        {
+            "name": "fadeBottom",
+            "label": "fadeBottom",
+            "description": "Fade for bottom side",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 20, 20, 20],
+            "defValue": [1, 10, 10, 10],
+            "value": [40, 10, 10, 10]
+        }
+    ]
+}

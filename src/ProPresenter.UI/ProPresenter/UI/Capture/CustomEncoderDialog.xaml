@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Capture.CustomEncoderDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:captureDO="clr-namespace:ProPresenter.DO.Capture;assembly=ProPresenter.DO" xmlns:commonConverter="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Capture" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:validation="clr-namespace:ProPresenter.UI.Validation" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Title="CustomEncoderDialog" Height="214" VerticalAlignment="Top" CanClose="False" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" ShowInTaskbar="False" ShowTitlebar="False" SizeToContent="Width" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner">
+  <FrameworkElement.Resources>
+    <commonConverter:EnumToContentConverter x:Key="EnumToContentConverter" />
+    <local:BitrateToStringConverter x:Key="BitrateToStringConverter" />
+    <commonConverter:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid Margin="20" VerticalAlignment="Top">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Grid}">
+          <Setter Property="UIElement.Effect" Value="{x:Null}" />
+          <Style.Triggers>
+            <DataTrigger Value="True" Binding="{Binding IsValidationTakingTime}">
+              <Setter Property="UIElement.Effect">
+                <Setter.Value>
+                  <BlurEffect Radius="10" />
+                </Setter.Value>
+              </Setter>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_CUSTOM_RESOLUTION_label}" />
+      <controls:IntegerUpDown Grid.Row="0" Grid.Column="1" Width="65" Height="22" Margin="0,0,5,0" FormatString="{}{0:0} px" Maximum="{x:Static captureDO:Encoder.MAX_SCREEN_SIZE}" Minimum="0">
+        <UpDownBase.Value xmlns="http://schemas.xceed.com/wpf/xaml/toolkit">
+          <Binding Mode="TwoWay" Path="Width" UpdateSourceTrigger="PropertyChanged" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+            <Binding.ValidationRules>
+              <validation:IntegerRangeValidationRule Maximum="{x:Static captureDO:Encoder.MAX_SCREEN_SIZE}" Minimum="0" ValidatesOnTargetUpdated="True" />
+            </Binding.ValidationRules>
+          </Binding>
+        </UpDownBase.Value>
+      </controls:IntegerUpDown>
+      <controls:IntegerUpDown Grid.Row="0" Grid.Column="2" Width="65" Height="22" FormatString="{}{0:0} px" Maximum="{x:Static captureDO:Encoder.MAX_SCREEN_SIZE}" Minimum="0">
+        <UpDownBase.Value xmlns="http://schemas.xceed.com/wpf/xaml/toolkit">
+          <Binding Mode="TwoWay" Path="Height" UpdateSourceTrigger="PropertyChanged" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+            <Binding.ValidationRules>
+              <validation:IntegerRangeValidationRule Maximum="{x:Static captureDO:Encoder.MAX_SCREEN_SIZE}" Minimum="0" ValidatesOnTargetUpdated="True" />
+            </Binding.ValidationRules>
+          </Binding>
+        </UpDownBase.Value>
+      </controls:IntegerUpDown>
+      <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Text="{mex:Localized GLOBAL_WIDTH}" />
+      <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Text="{mex:Localized GLOBAL_HEIGHT}" />
+      <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,8,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_CUSTOM_FRAME_RATE_label}" />
+      <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="22" Margin="0,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding FrameRates}" SelectedItem="{Binding FrameRate, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+      <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,8,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized RECORDING_WINDOW_ENCODING_VIDEO_BITRATE_label}" />
+      <ComboBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Height="22" Margin="0,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding VideoBitrates}" SelectedItem="{Binding VideoBitrate, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Converter={StaticResource BitrateToStringConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+      <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,8,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized RECORDING_WINDOW_ENCODING_AUDIO_BITRATE_label}" />
+      <ComboBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Height="22" Margin="0,8,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding AudioBitrates}" SelectedItem="{Binding AudioBitrate, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Converter={StaticResource BitrateToStringConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+      <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <Button MinWidth="100" Margin="0,0,6,0" IsCancel="True" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" />
+        <Button MinWidth="100" Margin="6,0,0,0" IsDefault="True" Command="{Binding CreateEncoderCommand}" Content="{mex:Localized GLOBAL_OK_BUTTON_title}" />
+      </StackPanel>
+    </Grid>
+    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#00FFFFFF" Visibility="{Binding IsValidationTakingTime, Converter={StaticResource ValueToVisibilityConverter}}">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+        <TextBlock Margin="0,0,0,10" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{mex:Localized RECORDING_ENCODER_VALIDATION_TAKING_TIME_title}" />
+        <controls:LoadingIndicator Width="30" Height="30" DisplayMode="Spinner" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</windowing:ChromedWindow>

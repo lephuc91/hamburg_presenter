@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Macros.MacroGroupListView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:converters1="clr-namespace:ProPresenter.UI.Converters" xmlns:local="clr-namespace:ProPresenter.UI.Macros" xmlns:macros="clr-namespace:ProPresenter.DO.Macros;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="macroGroupdListView" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="MacroGroupsResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="macrosVMProxy" Data="{Binding}" />
+      <ContextMenu x:Key="ActionsMenu" DataContext="{Binding Data, Source={StaticResource macrosVMProxy}}" Closed="MacroMenu_Closed" Opened="MacroMenu_Opened">
+        <ItemsControl.ItemsSource>
+          <local:MacroItemMenuSource ActionsMenuVM="{Binding Data.ActionsMenuVM, Source={StaticResource macrosVMProxy}}" />
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <converters1:MacroAddCommandVisibilityMultiConverter x:Key="MacroAddCommandVisibilityMultiConverter" />
+      <converters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <local:MacroList x:Name="macroList" Grid.Row="1" Margin="0,-1,0,0" HorizontalContentAlignment="Stretch" BorderThickness="0" ContextMenu="{StaticResource CollectionContextMenu}" DeselectOnLostFocus="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectItemsOnSelfDrop="False" SelectionMode="Extended" Style="{StaticResource {x:Type ListBox}}" VirtualizingPanel.ScrollUnit="Pixel" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyCommand}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding CutCommand}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicateCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteCommand}" ActiveItem="{Binding ActiveMacro}" DragDropItemsSource="{Binding SourceMacros}" DropActionCommand="{Binding DropActionCommand}" ItemsSource="{Binding FilteredMacros}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedListItem="{Binding SelectedMacro, Mode=TwoWay}" SelectedListItems="{Binding SelectedMacros}" UpdateDialogPlacementCommand="{Binding UpdateDialogPlacementCommand}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="{x:Type macros:ProPresenterMacro}">
+          <Border BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+            <local:MacroListItemTemplate IsTriggering="{Binding IsTriggering}" TriggerMacroCommand="{Binding Data.TriggerMacroCommand, Source={StaticResource macrosVMProxy}}" />
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemContainerStyle>
+        <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+          <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource ActionsMenu}" />
+          <Setter Property="commonControls:ListBoxItem.FocusOnContextMenuClose" Value="False" />
+          <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </local:MacroList>
+    <controls:ImageTextButton Grid.Row="1" ButtonBackground="#80707070" ButtonHeight="80" ButtonWidth="80" ImageSource="{StaticResource {x:Static themes:Icons.EmptyAdd}}" Command="{Binding AddMacroCommand}" Text="{mex:Localized MACROS_WINDOW_ADD_MACROS_label}">
+      <UIElement.Visibility>
+        <MultiBinding Converter="{StaticResource MacroAddCommandVisibilityMultiConverter}">
+          <Binding Path="SourceMacros" />
+          <Binding Path="FilterText" />
+        </MultiBinding>
+      </UIElement.Visibility>
+    </controls:ImageTextButton>
+  </Grid>
+</UserControl>

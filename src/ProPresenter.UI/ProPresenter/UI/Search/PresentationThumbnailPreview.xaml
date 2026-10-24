@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Search.PresentationThumbnailPreview" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:fh="clr-namespace:ProPresenter.UI.FloatingHeaders" xmlns:multiTracks="clr-namespace:ProPresenter.UI.MultiTracks" xmlns:thumbnails="clr-namespace:ProPresenter.UI.Thumbnails" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:search="clr-namespace:ProPresenter.UI.Search">
+  <Grid Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+    <fh:FlatFloatingHeaderControl>
+      <thumbnails:CustomPresentationThumbnailPanel IsHitTestVisible="False" ListViewHeightIncrement="100" MinimumListViewHeight="5" RowCapacity="{Binding RowCapacity}" ViewSettings="{Binding ThumbnailSettings}">
+        <thumbnails:UniformViewPanel.Items>
+          <PriorityBinding>
+            <Binding Path="SelectedPresentation.ActiveArrangement.ArrangedCues" />
+            <Binding Path="SelectedPresentation.DefaultArrangement.ArrangedCues" />
+          </PriorityBinding>
+        </thumbnails:UniformViewPanel.Items>
+      </thumbnails:CustomPresentationThumbnailPanel>
+    </fh:FlatFloatingHeaderControl>
+    <multiTracks:MultiTracksUnauthorizedOverlay IsMultiTracksAvailable="{Binding IsAvailable}" OpenWebsiteCommand="{Binding OpenWebsiteCommand}" RetryAuthorizationCommand="{Binding RetryAuthorizationCommand}" SelectedPresentation="{Binding SelectedPresentation}" />
+  </Grid>
+</UserControl>

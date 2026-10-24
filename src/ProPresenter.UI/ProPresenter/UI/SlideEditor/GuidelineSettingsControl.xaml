@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.GuidelineSettingsControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:slideeditor="clr-namespace:ProPresenter.UI.SlideEditor" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="10,15,10,10" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+      </Style>
+      <Style x:Key="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+        <Setter Property="Margin" Value="0,10,0,0" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:ColorPicker}" BasedOn="{StaticResource {x:Type commonControls:ColorPicker}}" TargetType="{x:Type commonControls:ColorPicker}">
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Width" Value="50" />
+      </Style>
+      <Style x:Key="{x:Type Separator}" TargetType="{x:Type Separator}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="10,0" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderBrush="#FFA9A9A9" BorderThickness="1">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <TextBlock Text="{mex:Localized EDITOR_GUIDELINES_SLIDE_GUIDES_HEADER_label}" />
+      <StackPanel Grid.Column="1" Margin="10" Orientation="Vertical">
+        <commonControls:ColorPicker HorizontalAlignment="Left" SelectedColor="{Binding SlidesGuidesColor, Mode=TwoWay}" />
+        <CheckBox Content="{mex:Localized EDITOR_GUIDELINES_SLIDE_GUIDES_ENABLE_BUTTON_title}" IsChecked="{Binding ShowSlidesGuides}" />
+      </StackPanel>
+      <Separator Grid.Row="1" Grid.ColumnSpan="2" />
+      <TextBlock Grid.Row="2" Text="{mex:Localized EDITOR_GUIDELINES_TEMPLATE_GUIDES_HEADER_label}" />
+      <StackPanel Grid.Row="2" Grid.Column="1" Margin="10" Orientation="Vertical">
+        <commonControls:ColorPicker HorizontalAlignment="Left" SelectedColor="{Binding TemplateGuidesColor, Mode=TwoWay}" />
+        <CheckBox Content="{mex:Localized EDITOR_GUIDELINES_TEMPLATE_GUIDES_ENABLE_BUTTON_title}" IsChecked="{Binding ShowTemplateGuides}" />
+      </StackPanel>
+      <Separator Grid.Row="3" Grid.ColumnSpan="2" />
+      <TextBlock Grid.Row="4" Text="{mex:Localized EDITOR_GUIDELINES_ALIGNMENT_GUIDES_HEADER_label}" />
+      <StackPanel Grid.Row="4" Grid.Column="2" Margin="10" Orientation="Vertical">
+        <commonControls:ColorPicker HorizontalAlignment="Left" SelectedColor="{Binding AlignmentGuidesColor, Mode=TwoWay}" />
+        <CheckBox Content="{mex:Localized EDITOR_GUIDELINES_ALIGNMENT_GUIDES_RELATIVE_SPACING_BUTTON_title}" IsChecked="{Binding ShowRelativeSpacing}" />
+        <CheckBox Content="{mex:Localized EDITOR_GUIDELINES_ALIGNMENT_GUIDES_RELATIVE_SIZING_BUTTON_title}" IsChecked="{Binding ShowRelativeSizing}" />
+        <CheckBox Content="{mex:Localized EDITOR_GUIDELINES_ALIGNMENT_GUIDES_CENTER_GUIDES_BUTTON_title}" IsChecked="{Binding ShowCenterGuides}" />
+        <CheckBox Content="{mex:Localized EDITOR_GUIDELINES_ALIGNMENT_GUIDES_EDGE_GUIDES_BUTTON_title}" IsChecked="{Binding ShowEdgeGuides}" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.AudioLibrary.AudioView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverter="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonResources="clr-namespace:Pro.UI.Resources;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.AudioLibrary" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mediaLibrary="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:playlist="clr-namespace:ProPresenter.DO.Playlists;assembly=ProPresenter.DO" xmlns:proSSAPI="clr-namespace:Pro.ssAPI;assembly=Pro.ssAPI" xmlns:settings="clr-namespace:ProPresenter.DO.Settings;assembly=ProPresenter.DO" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:triggering="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="audioView" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding LISTITEM_CONTENT, Source={x:Static theming:AppTheme.Active}}" GotFocus="AudioView_GotFocus">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../SourceDetailListResources.xaml" />
+        <ui:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverter:TimeSliceToDoubleSecondConverter x:Key="TimeSliceToDoubleSecondConverter" RoundDecimalPlace="1" />
+      <commonConverter:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverter:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <local:CheckAudioBehaviorConverter x:Key="CheckAudioBehaviorConverter" />
+      <commonConverter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <commonConverter:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+      <ObjectDataProvider x:Key="AudioSortTypes" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="media:AudioSortType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="PlaybackBehaviorType" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="proSSAPI:PlaybackBehaviorType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <commonUtility:BindingProxy x:Key="audioLibraryVMProxy" Data="{Binding}" />
+      <commonConverter:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverter:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <mediaLibrary:CheckCompletionTargetConverter x:Key="CheckCompletionTargetConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="{Binding AudioTreeViewHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}">
+        <FrameworkContentElement.Style>
+          <Style TargetType="{x:Type RowDefinition}">
+            <Setter Property="MinHeight" Value="100" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding AudioOutlineVisible, Source={x:Static settings:Layout.Settings}}">
+                <Setter Property="MinHeight" Value="50" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkContentElement.Style>
+      </RowDefinition>
+      <RowDefinition Height="Auto" />
+      <RowDefinition MinHeight="27" Height="{Binding AudioItemViewHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+      <RowDefinition Height="27" />
+    </Grid.RowDefinitions>
+    <local:AudioPlaylistsTreeView x:Name="AudioTreeView" Grid.Row="0" Margin="0,22,0,0" BorderThickness="0" DeselectOnLostFocus="True" Style="{StaticResource PlaylistTreeViewStyle}" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding PlaylistVM.DeletePlaylistCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding PlaylistVM.DuplicatePlaylistCommand}" ActiveItem="{Binding PlaylistVM.SelectedPlaylist}" DropAudioFilesCommand="{Binding DropAudioFilesCommand}" ItemsSource="{Binding PlaylistVM.Playlists}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedTreeItems="{Binding PlaylistVM.SelectedPlaylists}" Visibility="{Binding AudioOutlineVisible, Source={x:Static settings:Layout.Settings}, Converter={StaticResource ValueToVisibilityConverter}}">
+      <ItemsControl.ItemContainerStyle>
+        <Style BasedOn="{StaticResource {x:Type commonControls:TreeViewItem}}" TargetType="{x:Type commonControls:TreeViewItem}">
+          <Setter Property="FrameworkElement.ContextMenu">
+            <Setter.Value>
+              <ContextMenu DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" CommandTarget="{Binding}" />
+              </ContextMenu>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </local:AudioPlaylistsTreeView>
+    <Grid Row="0" Margin="0,2,0,0" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" uiUtility:TextHelper.Capitalize="True" FontWeight="Bold" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{mex:Localized AUDIO_BIN_HEADER_title}" />
+      <StackPanel Grid.Row="0" Margin="0,0,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+        <commonControls:BorderlessPathButton HorizontalAlignment="Right" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" PathType="Plus">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <Style x:Key="MenuItemIcon" TargetType="{x:Type Rectangle}">
+                    <Setter Property="Fill" Value="{Binding MENUCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                    <Setter Property="Height" Value="16" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Width" Value="16" />
+                  </Style>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+              <MenuItem Command="{Binding Data.NewPlaylistCommand, Source={StaticResource audioLibraryVMProxy}}" Header="{mex:Localized PLAYLIST_GLOBAL_ADD_PLAYLIST_MENU_ITEM_title}">
+                <MenuItem.Icon>
+                  <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.AudioPlaylist}}" />
+                </MenuItem.Icon>
+              </MenuItem>
+              <MenuItem Command="{Binding Data.NewGroupFolderCommand, Source={StaticResource audioLibraryVMProxy}}" Header="{mex:Localized PLAYLIST_GLOBAL_ADD_PLAYLIST_FOLDER_MENU_ITEM_title}">
+                <MenuItem.Icon>
+                  <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.PlaylistFolder}}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </commonControls:BorderlessPathButton>
+        <commonControls:ExpanderToggleButton Margin="8,0,0,0" CollapsedPathType="VDownArrow" ExpandedPathType="VUpArrow" ShouldFill="False" IsChecked="{Binding AudioOutlineVisible, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+      </StackPanel>
+      <StackPanel Grid.Row="1" Height="22" Margin="16,5,0,5" HorizontalAlignment="Left" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Background="#00FFFFFF" Orientation="Horizontal" Visibility="{Binding AudioOutlineVisible, Source={x:Static settings:Layout.Settings}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Image x:Key="PlaylistIcon" Width="18" Height="18" RenderOptions.BitmapScalingMode="Fant">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Image}">
+                  <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.LibraryPlaylist}}" />
+                  <Style.Triggers>
+                    <DataTrigger Value="{x:Static playlist:PlaylistType.Group}" Binding="{Binding Type}">
+                      <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.PlaylistFolder}}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </Image>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Placement="Bottom" ItemsSource="{Binding Data.PlaylistVM.Playlists, Source={StaticResource audioLibraryVMProxy}}">
+            <ItemsControl.ItemTemplate>
+              <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                <TextBlock Text="{Binding Name}" />
+              </HierarchicalDataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+              <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                <Setter Property="MenuItem.Command" Value="{Binding Data.PlaylistVM.SelectPlaylistCommand, Source={StaticResource audioLibraryVMProxy}}" />
+                <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                <Setter Property="MenuItem.Icon" Value="{DynamicResource PlaylistIcon}" />
+              </Style>
+            </ItemsControl.ItemContainerStyle>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+        <commonControls:Icon Source="{StaticResource {x:Static themes:Icons.AudioPlaylist}}" />
+        <TextBlock VerticalAlignment="Center" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{Binding ActiveAudioPlaylist.Name}" />
+        <commonControls:PathControl Width="12" Height="12" Margin="8,0,0,0" PathType="DownArrow" Fill="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Stroke="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" />
+      </StackPanel>
+    </Grid>
+    <GridSplitter Name="AudioLibrarySplitter" Grid.Row="1" Height="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" HorizontalAlignment="Stretch" DragDelta="AudioRowSplitter_DragDelta">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type GridSplitter}}" TargetType="{x:Type GridSplitter}">
+          <Style.Triggers>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Value="False" Binding="{Binding IsDragging, RelativeSource={RelativeSource Self}}" />
+                <Condition Value="False" Binding="{Binding AudioOutlineVisible, Source={x:Static settings:Layout.Settings}}" />
+              </MultiDataTrigger.Conditions>
+              <Setter Property="Visibility" Value="Collapsed" />
+            </MultiDataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </GridSplitter>
+    <Grid Name="AudioItemsView" Row="2" uiUtility:UIElementHelper.Palette="{Binding DETAILHEADER_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="27" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid Row="0" uiUtility:UIElementHelper.Palette="{Binding DETAILHEADER_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Foreground">
+                <Setter.Value>
+                  <PriorityBinding>
+                    <Binding Path="(uiUtility:UIElementHelper.Palette).Standard.Content" RelativeSource="{RelativeSource AncestorType=Grid}" />
+                  </PriorityBinding>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <StackPanel Margin="8,0,0,0" HorizontalAlignment="Left" Orientation="Horizontal">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontWeight" Value="Bold" />
+              </Style>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <TextBlock Margin="5,0" VerticalAlignment="Center" uiUtility:TextHelper.Capitalize="True" Text="{Binding PlaylistVM.ItemCountLabel}" />
+          <TextBlock VerticalAlignment="Center" uiUtility:TextHelper.Capitalize="True" Text="{Binding PlaylistVM.TotalPlayLength}" />
+        </StackPanel>
+        <commonControls:BorderlessPathButton Margin="0,0,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" PathType="Plus" Command="{Binding AddAudioItemCommand}" ToolTip="{mex:Localized AUDIO_BIN_PLAYLIST_ITEM_HEADER_ADD_BUTTON_tooltip}" Visibility="{Binding ElementName=AudioLibraryList, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+      </Grid>
+      <local:AudioItemsListBox x:Name="AudioLibraryList" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" BorderThickness="0" DeselectOnLostFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" Style="{StaticResource {x:Type ListBox}}" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding RemoveSelectedPlaylistItemsCommand}" DragDropSource="{Binding PlaylistVM.DragDropCueSource}" DropAudioFilesCommand="{Binding DropAudioFilesCommand}" ItemsSource="{Binding PlaylistVM.FilteredCues}" SelectedListItem="{Binding PlaylistVM.SelectedPlaylistItem}" SelectedListItems="{Binding PlaylistVM.SelectedPlaylistItems}" Sort="{Binding SortType}">
+        <ItemsControl.ItemContainerStyle>
+          <Style BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+            <Setter Property="FrameworkElement.ContextMenu">
+              <Setter.Value>
+                <ContextMenu>
+                  <MenuItem Command="{Binding Data.ShowInFileExplorerCommand, Source={StaticResource audioLibraryVMProxy}}" Header="{mex:Localized GLOBAL_SHOW_IN_FINDER_MENU_ITEM_windows_title}" />
+                  <MenuItem Header="{mex:Localized PLAYLIST_ITEM_GLOBAL_PLAYBACK_BEHAVIOR_MENU_ITEM_title}" Visibility="{Binding Data.PlaylistVM.SelectedPlaylistItem.MediaAction.AudioMedia.AudioType, Source={StaticResource audioLibraryVMProxy}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static media:AudioType.AudioTrack}}">
+                    <ItemsControl.ItemsSource>
+                      <CompositeCollection>
+                        <triggering:AudioBehaviorType>Stop</triggering:AudioBehaviorType>
+                        <triggering:AudioBehaviorType>Loop</triggering:AudioBehaviorType>
+                        <triggering:AudioBehaviorType>Next</triggering:AudioBehaviorType>
+                      </CompositeCollection>
+                    </ItemsControl.ItemsSource>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <ContentPresenter Content="{Binding Converter={StaticResource EnumToContentConverter}}" />
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerStyle>
+                      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                        <Setter Property="MenuItem.Command" Value="{Binding Data.UpdateAudioBehaviorCommand, Source={StaticResource audioLibraryVMProxy}}" />
+                        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                        <Setter Property="MenuItem.IsChecked">
+                          <Setter.Value>
+                            <MultiBinding Converter="{StaticResource CheckAudioBehaviorConverter}" Mode="OneWay">
+                              <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                              <Binding Path="Data.SelectedAudioBehaviorType" Source="{StaticResource audioLibraryVMProxy}" />
+                            </MultiBinding>
+                          </Setter.Value>
+                        </Setter>
+                      </Style>
+                    </ItemsControl.ItemContainerStyle>
+                  </MenuItem>
+                  <MenuItem CommandParameter="{x:Static media:AudioType.SoundEffect}" Command="{Binding Data.SetAudioTypeCommand, Source={StaticResource audioLibraryVMProxy}}" Header="{mex:Localized AUDIO_BIN_PLAYLIST_ITEM_CONTEXT_MENU_SET_AS_SOUND_EFFECT_title}" Visibility="{Binding Data.PlaylistVM.SelectedPlaylistItem.MediaAction.AudioMedia.AudioType, Source={StaticResource audioLibraryVMProxy}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static media:AudioType.AudioTrack}}" />
+                  <MenuItem Command="{Binding Data.SetAudioTypeCommand, Source={StaticResource audioLibraryVMProxy}}" Header="{mex:Localized AUDIO_BIN_PLAYLIST_ITEM_CONTEXT_MENU_SET_AS_AUDIO_TRACK_title}" Visibility="{Binding Data.PlaylistVM.SelectedPlaylistItem.MediaAction.AudioMedia.AudioType, Source={StaticResource audioLibraryVMProxy}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static media:AudioType.SoundEffect}}" />
+                  <Separator />
+                  <commonControls:RoutedMenuItem Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.PlaylistVM.SelectedPlaylistItems, Source={StaticResource audioLibraryVMProxy}, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" />
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" />
+                  <Separator />
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                </ContextMenu>
+              </Setter.Value>
+            </Setter>
+            <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding DETAILLISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+            <EventSetter Event="PreviewMouseLeftButtonUp" Handler="AudioItemListBox_PreviewMouseLeftButtonUp" />
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <local:AudioItemTemplate ActiveAudioItems="{Binding Data.ActiveAudioItems, Source={StaticResource audioLibraryVMProxy}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </local:AudioItemsListBox>
+      <controls:ImageTextButton Grid.Row="1" ButtonBackground="#80707070" ButtonHeight="80" ButtonWidth="80" ImageSource="{StaticResource {x:Static themes:Icons.EmptyImport}}" Command="{Binding AddAudioItemCommand}" DragDropSource="{Binding PlaylistVM.DragDropCueSource}" DropAudioFilesCommand="{Binding DropAudioFilesCommand}" Text="{mex:Localized AUDIO_BIN_IMPORT_AUDIO_label}" Visibility="{Binding PlaylistVM.SelectedPlaylist.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}" />
+    </Grid>
+    <Grid Row="3" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:BorderlessToggleButton Name="ShuffleToggleBtn" Grid.Column="0" Margin="8,0,0,0" HorizontalAlignment="Right" IsChecked="{Binding IsShuffle}" ToolTip="{mex:Localized AUDIO_BIN_FOOTER_SHUFFLE_BUTTON_tooltip}">
+        <Image HorizontalAlignment="Center" VerticalAlignment="Center" StretchDirection="DownOnly">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Style.Triggers>
+                <DataTrigger Value="True" Binding="{Binding ElementName=ShuffleToggleBtn, Path=IsChecked}">
+                  <Setter Property="Source" Value="../Resources/Icons/Shuffle/On.png" />
+                </DataTrigger>
+                <DataTrigger Value="False" Binding="{Binding ElementName=ShuffleToggleBtn, Path=IsChecked}">
+                  <Setter Property="Source" Value="../Resources/Icons/Shuffle/Off.png" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+      </commonControls:BorderlessToggleButton>
+      <commonControls:FilterBox Grid.Column="1" Height="22" Margin="8,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" PlaceholderText="{mex:Localized GLOBAL_FILTER_FIELD_placeholder}" Text="{Binding PlaylistVM.SearchText, UpdateSourceTrigger=PropertyChanged}" />
+      <StackPanel Grid.Column="2" HorizontalAlignment="Center" Orientation="Horizontal">
+        <Path Width="18" Height="18" Data="{StaticResource Dissolve}" Fill="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        <commonControls:FillSlider Width="100" Margin="8,0" VerticalAlignment="Center" Maximum="10.0" Minimum="0.0" ToolTip="{mex:Localized AUDIO_BIN_FOOTER_TRANSITION_DURATION_SLIDER_tooltip}" Value="{Binding TransitionDuration, Converter={StaticResource TimeSliceToDoubleSecondConverter}, Mode=TwoWay}" />
+        <commonControls:DoubleUpDown Width="30" Height="24" Margin="0,0,8,0" VerticalAlignment="Center" HorizontalContentAlignment="Center" Background="#00FFFFFF" BorderBrush="#00FFFFFF" FormatString="F1" Increment="0.1" Maximum="10.0" Minimum="0.0" ShowButtonSpinner="False" ToolTip="{mex:Localized AUDIO_BIN_FOOTER_TRANSITION_DURATION_SLIDER_tooltip}" Value="{Binding TransitionDuration, Converter={StaticResource TimeSliceToDoubleSecondConverter}, Mode=TwoWay}" />
+      </StackPanel>
+    </Grid>
+  </Grid>
+</UserControl>

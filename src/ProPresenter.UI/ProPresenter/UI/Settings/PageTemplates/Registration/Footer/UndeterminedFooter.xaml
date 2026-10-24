@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.Footer.UndeterminedFooter" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.Footer" xmlns:markdown="clr-namespace:Pro.UI.Controls.Markdown;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <commonControls:HelpButton Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" HelpCommand="{Binding HelpCommand}" />
+  </Grid>
+</UserControl>

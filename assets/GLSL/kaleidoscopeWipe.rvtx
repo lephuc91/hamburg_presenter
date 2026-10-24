@@ -1,0 +1,11 @@
+{
+    "category": "Objects",
+    "description": "Kaleidoscope Wipe",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Kaleidoscope Wipe",
+    "numPasses": 1,
+    "shaderFile": "kaleidoscopeWipe",
+    "type": 1,
+    "uuid": "5717B340-8ED9-457C-A6EE-74A8D2679E43"
+}

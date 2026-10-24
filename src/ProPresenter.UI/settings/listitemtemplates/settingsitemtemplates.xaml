@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:listItemTemplates="clr-namespace:ProPresenter.UI.Settings.ListItemTemplates" xmlns:registrationVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Registration" xmlns:search="clr-namespace:ProPresenter.UI.ViewModels.Settings.Search" xmlns:settingsVM="clr-namespace:ProPresenter.UI.ViewModels.Settings">
+  <DataTemplate x:Key="{DataTemplateKey {x:Type settingsVM:ISettingsListItem}}" DataType="{x:Type settingsVM:ISettingsListItem}">
+    <listItemTemplates:SettingsItemTemplate />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type settingsVM:ISettingsHeaderItemVM}}" DataType="{x:Type settingsVM:ISettingsHeaderItemVM}">
+    <listItemTemplates:SettingsHeaderItemTemplate />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type registrationVM:IRegistrationMainPageVM}}" DataType="{x:Type registrationVM:IRegistrationMainPageVM}">
+    <listItemTemplates:RegistrationItemTemplate />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type search:ISettingsSearchResultItemVM}}" DataType="{x:Type search:ISettingsSearchResultItemVM}">
+    <listItemTemplates:SearchResultItemTemplate />
+  </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,12 @@
+using System.Windows.Controls;
+using System.Windows.Markup;
+
+namespace ProPresenter.UI.Settings.PageTemplates.Registration.Footer;
+
+public partial class Footer : UserControl, IComponentConnector
+{
+	public Footer()
+	{
+		InitializeComponent();
+	}
+}

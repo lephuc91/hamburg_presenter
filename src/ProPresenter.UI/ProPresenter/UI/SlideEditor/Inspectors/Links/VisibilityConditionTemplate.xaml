@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Links.VisibilityConditionTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtitlity="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:links="clr-namespace:ProPresenter.DO.Slide.Links;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Links" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="visibilityConditionTemplate">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtitlity:BindingProxy x:Key="visibilityConditionTemplateProxy" Data="{Binding ElementName=visibilityConditionTemplate}" />
+      <commonUtitlity:BindingProxy x:Key="visibilityCondition" Data="{Binding}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="NonCollapseValueToVisibilityConverter" IsCollapsing="False" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <local:CheckVisibilityLinkObjectConverter x:Key="CheckVisibilityLinkObjectConverter" />
+      <ObjectDataProvider x:Key="ElementVisibilityCriteria" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type links:ElementVisibilityCriteria}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="TimerVisibilityCriteria" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type links:TimerVisibilityCriteria}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="VideoCountdownVisibilityCriteria" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type links:VideoCountdownVisibilityCriteria}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="AudioCountdownVisibilityCriteria" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type links:AudioCountdownVisibilityCriteria}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="CaptureSessionVisibilityCriteria" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type links:CaptureSessionVisibilityCriteria}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="VideoInputVisibilityCriteria" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type links:VideoInputVisibilityCriteria}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <Style x:Key="VisibilityCriteriaStyle" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+        <Style.Triggers>
+          <DataTrigger Value="SlideObject" Binding="{Binding LinkedObject.Type}">
+            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource ElementVisibilityCriteria}}" />
+          </DataTrigger>
+          <DataTrigger Value="Timer" Binding="{Binding LinkedObject.Type}">
+            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource TimerVisibilityCriteria}}" />
+          </DataTrigger>
+          <DataTrigger Value="VideoCountdown" Binding="{Binding LinkedObject.Type}">
+            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource VideoCountdownVisibilityCriteria}}" />
+          </DataTrigger>
+          <DataTrigger Value="AudioCountdown" Binding="{Binding LinkedObject.Type}">
+            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource AudioCountdownVisibilityCriteria}}" />
+          </DataTrigger>
+          <DataTrigger Value="CaptureSession" Binding="{Binding LinkedObject.Type}">
+            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource CaptureSessionVisibilityCriteria}}" />
+          </DataTrigger>
+          <DataTrigger Value="VideoInput" Binding="{Binding LinkedObject.Type}">
+            <Setter Property="ItemsSource" Value="{Binding Source={StaticResource VideoInputVisibilityCriteria}}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Button Grid.Row="0" Grid.Column="0" Height="22" Padding="6,1,1,1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+      <ContentControl.Content>
+        <PriorityBinding>
+          <Binding Path="LinkedObject.Content" />
+          <Binding Source="{mex:Localized VISIBILITY_LINK_NONE_PLACEHOLDER_title}" />
+        </PriorityBinding>
+      </ContentControl.Content>
+      <FrameworkElement.ContextMenu>
+        <ContextMenu Placement="Bottom" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+          <MenuItem Header="{Binding Source={x:Static links:VisibilityLinkType.SlideObject}, Converter={StaticResource EnumToContentConverter}}" IsChecked="{Binding Data.LinkedObject.Type, Source={StaticResource visibilityCondition}, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static links:VisibilityLinkType.SlideObject}}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding Data.AvailableElementsCollection, Source={StaticResource visibilityConditionTemplateProxy}}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Name}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+              <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                <Setter Property="MenuItem.IsChecked">
+                  <Setter.Value>
+                    <MultiBinding Converter="{StaticResource CheckVisibilityLinkObjectConverter}" Mode="OneWay">
+                      <Binding Path="Data.LinkedObject" Source="{StaticResource visibilityCondition}" />
+                      <Binding />
+                    </MultiBinding>
+                  </Setter.Value>
+                </Setter>
+                <EventSetter Event="Click" Handler="ElementVisibilityLink_Click" />
+              </Style>
+            </ItemsControl.ItemContainerStyle>
+          </MenuItem>
+          <MenuItem Header="{Binding Source={x:Static links:VisibilityLinkType.Timer}, Converter={StaticResource EnumToContentConverter}}" IsChecked="{Binding Data.LinkedObject.Type, Source={StaticResource visibilityCondition}, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static links:VisibilityLinkType.Timer}}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding Data.AvailableTimerCollection, Source={StaticResource visibilityConditionTemplateProxy}}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Name}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+              <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                <Setter Property="MenuItem.IsChecked">
+                  <Setter.Value>
+                    <MultiBinding Converter="{StaticResource CheckVisibilityLinkObjectConverter}" Mode="OneWay">
+                      <Binding Path="Data.LinkedObject" Source="{StaticResource visibilityCondition}" />
+                      <Binding />
+                    </MultiBinding>
+                  </Setter.Value>
+                </Setter>
+                <EventSetter Event="Click" Handler="TimerVisibilityLink_Click" />
+              </Style>
+            </ItemsControl.ItemContainerStyle>
+          </MenuItem>
+          <MenuItem Command="{Binding Data.SetVideoCountdownVisibilityLinkCommand, Source={StaticResource visibilityConditionTemplateProxy}}" CommandParameter="{Binding Data.DataContext, Source={StaticResource visibilityConditionTemplateProxy}}" Header="{Binding Source={x:Static links:VisibilityLinkType.VideoCountdown}, Converter={StaticResource EnumToContentConverter}}" IsChecked="{Binding Data.LinkedObject.Type, Source={StaticResource visibilityCondition}, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static links:VisibilityLinkType.VideoCountdown}}" />
+          <MenuItem Command="{Binding Data.SetAudioCountdownVisibilityLinkCommand, Source={StaticResource visibilityConditionTemplateProxy}}" CommandParameter="{Binding Data.DataContext, Source={StaticResource visibilityConditionTemplateProxy}}" Header="{Binding Source={x:Static links:VisibilityLinkType.AudioCountdown}, Converter={StaticResource EnumToContentConverter}}" IsChecked="{Binding Data.LinkedObject.Type, Source={StaticResource visibilityCondition}, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static links:VisibilityLinkType.AudioCountdown}}" />
+          <MenuItem Command="{Binding Data.SetCaptureSessionVisibilityLinkCommand, Source={StaticResource visibilityConditionTemplateProxy}}" CommandParameter="{Binding Data.DataContext, Source={StaticResource visibilityConditionTemplateProxy}}" Header="{Binding Source={x:Static links:VisibilityLinkType.CaptureSession}, Converter={StaticResource EnumToContentConverter}}" IsChecked="{Binding Data.LinkedObject.Type, Source={StaticResource visibilityCondition}, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static links:VisibilityLinkType.CaptureSession}}" />
+          <MenuItem Command="{Binding Data.SetVideoInputVisibilityLinkCommand, Source={StaticResource visibilityConditionTemplateProxy}}" CommandParameter="{Binding Data.DataContext, Source={StaticResource visibilityConditionTemplateProxy}}" Header="{Binding Source={x:Static links:VisibilityLinkType.VideoInput}, Converter={StaticResource EnumToContentConverter}}" IsChecked="{Binding Data.LinkedObject.Type, Source={StaticResource visibilityCondition}, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static links:VisibilityLinkType.VideoInput}}" />
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </Button>
+    <ComboBox Grid.Row="1" Grid.Column="0" Margin="0,5,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Left" Style="{StaticResource VisibilityCriteriaStyle}" IsEnabled="{Binding LinkedObject, Converter={StaticResource IsNotNullToBoolConverter}}" SelectedItem="{Binding LinkedObject.SelectedCriterion, Mode=TwoWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+    <local:VisibilityVideoInputSelector Grid.Row="2" Margin="0,5,0,0" AvailableLiveVideoInputs="{Binding Data.AvailableLiveVideoInputs, Source={StaticResource visibilityConditionTemplateProxy}}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type local:VisibilityVideoInputSelector}">
+          <Setter Property="local:VisibilityVideoInputSelector.VideoInputIndex" Value="-1" />
+          <Setter Property="Visibility" Value="{Binding LinkedObject.Type, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static links:VisibilityLinkType.VideoInput}}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding LinkedObject}" Value="{x:Null}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="VideoInput" Binding="{Binding LinkedObject.Type}">
+              <Setter Property="local:VisibilityVideoInputSelector.VideoInputIndex">
+                <Setter.Value>
+                  <PriorityBinding>
+                    <Binding Path="LinkedObject.VideoInputIndex" />
+                  </PriorityBinding>
+                </Setter.Value>
+              </Setter>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:VisibilityVideoInputSelector>
+    <commonControls:BorderlessPathButton Grid.Row="1" Grid.Column="1" Margin="2,0" PathType="Minus" Command="{Binding RemoveConditionCommand, ElementName=visibilityConditionTemplate}" CommandParameter="{Binding}" Visibility="{Binding CanRemoveCondition, ElementName=visibilityConditionTemplate, Converter={StaticResource NonCollapseValueToVisibilityConverter}}" />
+    <commonControls:BorderlessPathButton Grid.Row="1" Grid.Column="2" PathType="Plus" Command="{Binding AddConditionCommand, ElementName=visibilityConditionTemplate}" />
+  </Grid>
+</UserControl>

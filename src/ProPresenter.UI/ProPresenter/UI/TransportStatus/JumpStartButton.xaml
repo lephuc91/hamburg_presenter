@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commonControls:BorderlessButton x:Class="ProPresenter.UI.TransportStatus.JumpStartButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="self" Style="{StaticResource {x:Type commonControls:BorderlessButton}}" xmlns:transportstatus="clr-namespace:ProPresenter.UI.TransportStatus;assembly=ProPresenter.UI">
+  <Grid>
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Grid}">
+        <Style.Triggers>
+          <DataTrigger Value="0" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_0_tooltip}" />
+          </DataTrigger>
+          <DataTrigger Value="5" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_0_tooltip}" />
+          </DataTrigger>
+          <DataTrigger Value="10" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_10_tooltip}" />
+          </DataTrigger>
+          <DataTrigger Value="15" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_15_tooltip}" />
+          </DataTrigger>
+          <DataTrigger Value="20" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_20_tooltip}" />
+          </DataTrigger>
+          <DataTrigger Value="25" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_25_tooltip}" />
+          </DataTrigger>
+          <DataTrigger Value="30" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_30_tooltip}" />
+          </DataTrigger>
+          <DataTrigger Value="60" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_60_tooltip}" />
+          </DataTrigger>
+          <DataTrigger Value="90" Binding="{Binding JumpTime, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_GO_TO_START_90_tooltip}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <TextBlock Margin="0,1,3,0" HorizontalAlignment="Right" FontSize="11" FontStretch="UltraCondensed" FontWeight="SemiBold" Foreground="{Binding Foreground, ElementName=self}" Text="{Binding JumpTime, ElementName=self, StringFormat=+{0}}" />
+    <Path Width="26" Height="26" Data="M22,18 L2.5,18 M3.5,13 L3.5,23 M8.5,13.5 L5,18 L8.5,22.5" StrokeThickness="2" Stroke="{Binding Foreground, ElementName=self}" />
+  </Grid>
+</commonControls:BorderlessButton>

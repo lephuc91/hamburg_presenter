@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<components:FrameworkCollection x:Class="ProPresenter.UI.ActionsMenu.AddEditActionMenuSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:components="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.ActionsMenu" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="addEditActionMenuSource">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="AddEditActionMenuSourceStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="vmProxy" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="selfProxy" Data="{Binding ElementName=addEditActionMenuSource}" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <local:AddActionMenuSource CanAddCaptureAction="{Binding Data.CanAddCaptureAction, Source={StaticResource selfProxy}}" CanAddMediaAction="{Binding Data.CanAddMediaAction, Source={StaticResource selfProxy}}" CanAddPlaylistAction="{Binding Data.CanAddPlaylistAction, Source={StaticResource selfProxy}}" DataContext="{Binding Data, Source={StaticResource vmProxy}}" />
+  <Separator Visibility="{Binding Data.ShowEditRemoveActionSeparator, Source={StaticResource vmProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+  <local:EditActionMenuSource DataContext="{Binding Data, Source={StaticResource vmProxy}}" />
+  <Separator Visibility="{Binding Data.EditableActions.Count, Source={StaticResource vmProxy}, Converter={StaticResource CountToVisibilityConverter}}" />
+  <local:RemoveActionMenuSource DataContext="{Binding Data, Source={StaticResource vmProxy}}" />
+  <Separator Visibility="{Binding Data.MediaActionPresent, Source={StaticResource vmProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+  <commonControls:RoutedMenuItem Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.SelectedItem, Source={StaticResource vmProxy}, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" Visibility="{Binding Data.MediaActionPresent, Source={StaticResource vmProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+</components:FrameworkCollection>

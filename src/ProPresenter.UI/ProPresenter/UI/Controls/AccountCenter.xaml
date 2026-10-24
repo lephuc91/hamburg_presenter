@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Controls.AccountCenter" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:accountCenter="clr-namespace:ProPresenter.UI.ViewModels.AccountCenter" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:controls1="clr-namespace:ProPresenter.UI.Controls" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:dependencyInjection="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:mediaService="clr-namespace:Pro.CoreApplication.Media.V1;assembly=Pro.CoreApplication" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proUIThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:viewModels="clr-namespace:ProPresenter.UI.ViewModels" xmlns:workspace="clr-namespace:ProPresenter.UI.Workspaces" DataContext="{dependencyInjection:DIMarkup {x:Type accountCenter:IAccountCenterVM}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CloudOnboarding/CloudOnboardingResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <converters:ValueToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" IsInverted="True" />
+      <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <Style x:Key="CommonTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <Style x:Key="ColoredCommonTextBlockStyle" BasedOn="{StaticResource CommonTextBlockStyle}" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" />
+      </Style>
+      <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" BasedOn="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}" TargetType="{x:Type Separator}">
+        <Setter Property="Margin" Value="0,5,0,5" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type Separator}">
+              <Border Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" />
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <ControlTemplate x:Key="MenuTemplate" TargetType="{x:Type MenuItem}">
+        <Border Name="templateRoot" Background="{TemplateBinding Control.Background}" SnapsToDevicePixels="True" TextElement.Foreground="{TemplateBinding Control.Foreground}">
+          <DockPanel LastChildFill="True">
+            <Path Name="RightArrow" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Data="M0,0 L4,3.5 L0,7" DockPanel.Dock="Right" Fill="{TemplateBinding Control.Foreground}" />
+            <Popup Name="PART_Popup" AllowsTransparency="True" Focusable="False" HorizontalOffset="2" IsOpen="{TemplateBinding MenuItem.IsSubmenuOpen}" Placement="Right" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" VerticalOffset="-3">
+              <Border Name="SubMenuBorder" Padding="2" BorderThickness="1">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type Border}">
+                    <Setter Property="Background">
+                      <Setter.Value>
+                        <PriorityBinding>
+                          <Binding Path="(uiUtility:UIElementHelper.Palette).Standard.Background" RelativeSource="{RelativeSource TemplatedParent}" />
+                        </PriorityBinding>
+                      </Setter.Value>
+                    </Setter>
+                    <Setter Property="BorderBrush">
+                      <Setter.Value>
+                        <PriorityBinding>
+                          <Binding Path="(uiUtility:UIElementHelper.Palette).Standard.Border" RelativeSource="{RelativeSource TemplatedParent}" />
+                        </PriorityBinding>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </FrameworkElement.Style>
+                <ScrollViewer Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=FrameworkElement, ResourceId=MenuScrollViewer}}">
+                  <Grid RenderOptions.ClearTypeHint="Enabled">
+                    <Canvas Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                      <Rectangle Name="OpaqueRect" Width="Auto" Height="Auto" Fill="{x:Null}" />
+                    </Canvas>
+                    <ItemsPresenter Name="ItemsPresenter" Grid.IsSharedSizeScope="True" KeyboardNavigation.DirectionalNavigation="Cycle" KeyboardNavigation.TabNavigation="Cycle" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                    <Rectangle Width="1" Margin="29,2,0,2" HorizontalAlignment="Left">
+                      <FrameworkElement.Style>
+                        <Style TargetType="{x:Type Rectangle}">
+                          <Setter Property="Fill">
+                            <Setter.Value>
+                              <PriorityBinding>
+                                <Binding Path="(uiUtility:UIElementHelper.Palette).Standard.Divider" RelativeSource="{RelativeSource TemplatedParent}" />
+                              </PriorityBinding>
+                            </Setter.Value>
+                          </Setter>
+                        </Style>
+                      </FrameworkElement.Style>
+                    </Rectangle>
+                  </Grid>
+                </ScrollViewer>
+              </Border>
+            </Popup>
+            <ContentPresenter Margin="{TemplateBinding Control.Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Content="{TemplateBinding HeaderedContentControl.Header}" ContentSource="Header" ContentStringFormat="{TemplateBinding HeaderedItemsControl.HeaderStringFormat}" ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}" DockPanel.Dock="Left" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource CommonTextBlockStyle}" TargetType="{x:Type TextBlock}">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                  </Style>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+            </ContentPresenter>
+          </DockPanel>
+        </Border>
+        <ControlTemplate.Triggers>
+          <Trigger Property="MenuItem.Role" Value="TopLevelItem">
+            <Setter TargetName="RightArrow" Property="UIElement.Visibility" Value="Collapsed" />
+          </Trigger>
+          <Trigger Property="MenuItem.Role" Value="SubmenuItem">
+            <Setter TargetName="RightArrow" Property="UIElement.Visibility" Value="Collapsed" />
+          </Trigger>
+          <Trigger Property="MenuItem.IsHighlighted" Value="True">
+            <Setter Property="MenuItem.IsSubmenuOpen" Value="True" />
+          </Trigger>
+          <Trigger Property="MenuItem.IsSuspendingPopupAnimation" Value="True">
+            <Setter TargetName="PART_Popup" Property="Popup.PopupAnimation" Value="{x:Static Member=PopupAnimation.None}" />
+          </Trigger>
+          <Trigger SourceName="SubMenuScrollViewer" Property="ScrollViewer.CanContentScroll" Value="False">
+            <Setter TargetName="OpaqueRect" Property="Canvas.Left" Value="{Binding ElementName=SubMenuScrollViewer, Path=HorizontalOffset}" />
+            <Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding ElementName=SubMenuScrollViewer, Path=VerticalOffset}" />
+          </Trigger>
+        </ControlTemplate.Triggers>
+      </ControlTemplate>
+      <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Background" Value="#00FFFFFF" />
+        <Setter Property="Foreground" Value="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Template" Value="{StaticResource MenuTemplate}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="uiUtility:CommandTargets.Default" Value="True" />
+        <Style.Triggers>
+          <Trigger Property="IsEnabled" Value="False">
+            <Setter Property="Foreground" Value="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+          </Trigger>
+          <Trigger Property="MenuItem.IsHighlighted" Value="True">
+            <Setter Property="FrameworkElement.Cursor" Value="Hand" />
+            <Setter Property="Foreground" Value="#FF007AFF" />
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <controls:ToolBarToggleButton Name="AccountButton" VerticalAlignment="Bottom" IsChecked="{Binding IsPopUpOpen}" IsHitTestVisible="{Binding ElementName=AccountCenterPopup, Path=IsOpen, Converter={StaticResource InvertedBooleanConverter}}" Label="{mex:Localized MAIN_TOOLBAR_STATUS_BUTTON_label}">
+      <Grid>
+        <Ellipse Stretch="UniformToFill">
+          <Shape.Fill>
+            <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Icon.Value}" />
+          </Shape.Fill>
+        </Ellipse>
+        <Image Height="20" Margin="0,-5,-5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{mex:FeatureFlag Cloud}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="Source" Value="{StaticResource {x:Static proUIThemes:Icons.SyncActive}}" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static accountCenter:SyncStatus.Active}" Binding="{Binding CloudSyncStatus.Value}">
+                  <Setter Property="Source" Value="{x:Null}" />
+                </DataTrigger>
+                <DataTrigger Value="{x:Static accountCenter:SyncStatus.Paused}" Binding="{Binding CloudSyncStatus.Value}">
+                  <Setter Property="Source" Value="{StaticResource {x:Static proUIThemes:Icons.SyncPauseStatus}}" />
+                </DataTrigger>
+                <DataTrigger Value="{x:Static accountCenter:SyncStatus.Offline}" Binding="{Binding CloudSyncStatus.Value}">
+                  <Setter Property="Source" Value="{StaticResource {x:Static proUIThemes:Icons.SyncOfflineStatus}}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding CloudSyncStatus.Value}" Value="{x:Null}">
+                  <Setter Property="Source" Value="{x:Null}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+      </Grid>
+    </controls:ToolBarToggleButton>
+    <controls:AnchoredPopup Name="AccountCenterPopup" HorizontalAlignment="Right" VerticalAlignment="Stretch" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsPopUpOpen}" PlacementTarget="{Binding ElementName=AccountButton}">
+      <Grid>
+        <Border Padding="10" Visibility="{mex:FeatureFlag Cloud}">
+          <controls1:CloudWorkspacesToolbarStatus />
+        </Border>
+        <Border Padding="10" Visibility="{mex:FeatureFlag Cloud, IsInverted=True}">
+          <Border MinWidth="200" BorderThickness="1" CornerRadius="5" Background="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding PRIMARYLIGHT, Source={x:Static theming:AppTheme.Active}}">
+            <UIElement.Effect>
+              <DropShadowEffect Opacity="0.2" />
+            </UIElement.Effect>
+            <Menu Margin="10,10,10,10">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <MenuItem Command="{Binding ShowRegistrationCommand, Source={dependencyInjection:DIMarkup {x:Type viewModels:IMainLayoutVM}}}">
+                <HeaderedItemsControl.Header>
+                  <StackPanel Orientation="Horizontal">
+                    <Ellipse MaxHeight="38" Margin="0,0,10,0" HorizontalAlignment="Left" Stretch="UniformToFill">
+                      <Shape.Fill>
+                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Icon.Value}" />
+                      </Shape.Fill>
+                    </Ellipse>
+                    <StackPanel>
+                      <TextBlock FontSize="14" FontWeight="Bold" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding ListItemTitle.Value}" />
+                      <TextBlock Text="{Binding ListItemSubscript.Value}" />
+                    </StackPanel>
+                  </StackPanel>
+                </HeaderedItemsControl.Header>
+              </MenuItem>
+              <Separator />
+              <MenuItem Margin="0,5,0,5" Cursor="Arrow" Style="{StaticResource {x:Type MenuItem}}">
+                <HeaderedItemsControl.Header>
+                  <DockPanel Margin="0,0,-5,0" LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Left" FontWeight="Bold" Style="{StaticResource ColoredCommonTextBlockStyle}" Text="{mex:Localized TOOLBAR_WORKSPACE_HEADER_title}" />
+                    <workspace:WorkspaceControl HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" DockPanel.Dock="Right" ShowExtraMenuItems="False" />
+                  </DockPanel>
+                </HeaderedItemsControl.Header>
+              </MenuItem>
+              <Separator />
+              <MenuItem Margin="0,5,0,5" Visibility="{mex:FeatureFlag CloudComingSoon}">
+                <HeaderedItemsControl.Header>
+                  <StackPanel Margin="0,5,0,5" HorizontalAlignment="Center" Orientation="Vertical">
+                    <Image Width="75" Margin="0,0,0,15" HorizontalAlignment="Center" Source="{DynamicResource {x:Static proUIThemes:Icons.CloudWorkspaceLogo}}" Stretch="Uniform" />
+                    <Button Height="32" Margin="0,0,0,10" Padding="10,0" HorizontalAlignment="Stretch" Command="{Binding CloudTeaseSignUpForEarlyAccessCommand}" Content="{mex:Localized CLOUD_COMING_SOON_SIGN_UP_BUTTON_title}" />
+                    <Button HorizontalAlignment="Center" Background="#00FFFFFF" BorderThickness="0" Cursor="Hand" Command="{Binding CloudTeaseLearnMoreCommand}">
+                      <ContentControl.Content>
+                        <StackPanel Orientation="Horizontal">
+                          <TextBlock VerticalAlignment="Center" Foreground="{StaticResource CloudOnboarding.HyperlinkBrush}" Text="{mex:Localized SETTINGS_ACCOUNT_LEARN_MORE_BUTTON_title}" />
+                          <Rectangle Width="8" Height="8" Margin="3,0,0,0" VerticalAlignment="Center" Fill="{StaticResource CloudOnboarding.HyperlinkBrush}">
+                            <UIElement.OpacityMask>
+                              <ImageBrush ImageSource="{StaticResource {x:Static proUIThemes:Icons.CloudWorkspaceArrow}}" />
+                            </UIElement.OpacityMask>
+                          </Rectangle>
+                        </StackPanel>
+                      </ContentControl.Content>
+                      <Control.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                          <ContentPresenter />
+                        </ControlTemplate>
+                      </Control.Template>
+                    </Button>
+                  </StackPanel>
+                </HeaderedItemsControl.Header>
+              </MenuItem>
+              <Separator Visibility="{mex:FeatureFlag CloudComingSoon}" />
+              <MenuItem Margin="0,5,0,0" IsEnabled="False">
+                <HeaderedItemsControl.Header>
+                  <DockPanel Margin="0,0,-5,0" HorizontalAlignment="Stretch" LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Left" Text="{mex:Localized MEDIA_MANAGEMENT_STATUS_label}" />
+                    <TextBlock HorizontalAlignment="Right" DockPanel.Dock="Right" FontStyle="Italic" Text="{Binding MediaManagementProgressStatus.Value}" />
+                  </DockPanel>
+                </HeaderedItemsControl.Header>
+              </MenuItem>
+              <MenuItem Margin="0,5,0,5" Header="{mex:Localized MEDIA_MANAGEMENT_PAUSE_title}" Visibility="{Binding IsMediaManagementPaused.Value, Converter={StaticResource InvertedBooleanToVisibilityConverter}}">
+                <Border BorderThickness="1" CornerRadius="5" Background="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding PRIMARYLIGHT, Source={x:Static theming:AppTheme.Active}}">
+                  <UIElement.Effect>
+                    <DropShadowEffect Opacity="0.2" />
+                  </UIElement.Effect>
+                  <Menu>
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <MenuItem Margin="0,5,0,0" CommandParameter="{x:Static mediaService:PauseGenerationOptions.ONE_HOUR}" Command="{Binding PauseThumbnailGenerationCommand}" Header="{mex:Localized MEDIA_MANAGEMENT_PAUSE_ONE_HOUR_title}" />
+                    <MenuItem Margin="0,5,0,5" CommandParameter="{x:Static mediaService:PauseGenerationOptions.EOD}" Command="{Binding PauseThumbnailGenerationCommand}" Header="{mex:Localized MEDIA_MANAGEMENT_PAUSE_UNTIL_EOD_title}" />
+                    <MenuItem Margin="0,0,0,5" CommandParameter="{x:Static mediaService:PauseGenerationOptions.TWENTY_FOUR_HOURS}" Command="{Binding PauseThumbnailGenerationCommand}" Header="{mex:Localized MEDIA_MANAGEMENT_PAUSE_TWENTY_FOUR_HOURS_title}" />
+                  </Menu>
+                </Border>
+              </MenuItem>
+              <MenuItem Margin="0,5,0,5" Command="{Binding ResumeThumbnailGenerationCommand}" Header="{mex:Localized MEDIA_MANAGEMENT_RESUME_title}" Visibility="{Binding IsMediaManagementPaused.Value, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Menu>
+          </Border>
+        </Border>
+      </Grid>
+    </controls:AnchoredPopup>
+  </Grid>
+</UserControl>

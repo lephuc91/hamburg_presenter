@@ -1,0 +1,30 @@
+{
+    "description": "Linear interpolation between two colors based on brightness.",
+    "name": "Two Color",
+    "numPasses": 1,
+    "shaderFile": "TwoColor",
+    "type": 0,
+    "uuid": "258D3830-8496-4712-AAAE-A68BCA23D805",
+    "variables": [
+        {
+            "name": "darkColor",
+            "label": "Dark Color",
+            "description": "color for dark regions",
+            "type": 2,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0, 0, 0, 1],
+            "value": [1, 1, 1, 1]
+        },
+        {
+            "name": "brightColor",
+            "label": "Bright Color",
+            "description": "color for bright regions",
+            "type": 2,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

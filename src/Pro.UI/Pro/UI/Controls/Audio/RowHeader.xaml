@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.Audio.RowHeader" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:Pro.UI.Controls.Audio" x:Name="self">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding ElementName=self}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <ItemsControl Grid.Column="1" Margin="0,0,5,0" FocusVisualStyle="{x:Null}" ItemsSource="{Binding Channels, ElementName=self}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <local:AudioChannelTemplate Orientation="Row" Width="{Binding Data.TemplateWidth, Source={StaticResource proxy}}" Height="{Binding Data.TemplateHeight, Source={StaticResource proxy}}" AudioChannel="{Binding}" ShowAudioChannelControls="{Binding Data.ShowChannelControls, Source={StaticResource proxy}}" ShowChannelIndex="{Binding Data.ShowChannelIndex, Source={StaticResource proxy}}" ShowMuteControls="{Binding Data.ShowMuteControls, Source={StaticResource proxy}}" ShowSoloControls="{Binding Data.ShowSoloControls, Source={StaticResource proxy}}" ShowTestControls="{Binding Data.ShowTestControls, Source={StaticResource proxy}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ItemsControl>
+  </Grid>
+</UserControl>

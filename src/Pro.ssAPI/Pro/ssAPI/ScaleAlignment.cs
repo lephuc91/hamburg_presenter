@@ -1,0 +1,25 @@
+using Pro.Localization;
+
+namespace Pro.ssAPI;
+
+public enum ScaleAlignment
+{
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_TOP_LEFT_title")]
+	TopLeft,
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_TOP_CENTER_title")]
+	TopCenter,
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_TOP_RIGHT_title")]
+	TopRight,
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_MIDDLE_LEFT_title")]
+	MiddleLeft,
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_MIDDLE_CENTER_title")]
+	MiddleCenter,
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_MIDDLE_RIGHT_title")]
+	MiddleRight,
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_BOTTOM_LEFT_title")]
+	BottomLeft,
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_BOTTOM_CENTER_title")]
+	BottomCenter,
+	[LocalizedString("CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_BOTTOM_RIGHT_title")]
+	BottomRight
+}

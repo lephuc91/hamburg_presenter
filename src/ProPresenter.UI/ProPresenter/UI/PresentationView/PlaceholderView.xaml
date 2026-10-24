@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.PlaceholderView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:doActions="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.PresentationView" x:Name="placeholderView">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="PlaceholderViewSelfProxy" Data="{Binding ElementName=placeholderView}" />
+      <local:PresentationView x:Key="PresentationView" Cue="{Binding Cue, ElementName=placeholderView}" PresentationVM="{Binding PresentationVM, ElementName=placeholderView}" ThumbnailContextMenu="{Binding ThumbnailContextMenu, ElementName=placeholderView}" />
+      <local:MediaView x:Key="MediaView" ActiveItem="{Binding PresentationVM.ActivePlaylistItem, ElementName=placeholderView}" MediaItem="{Binding Cue, ElementName=placeholderView}" TriggerMediaItemCommand="{Binding TriggerMediaItemCommand, ElementName=placeholderView}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+</UserControl>

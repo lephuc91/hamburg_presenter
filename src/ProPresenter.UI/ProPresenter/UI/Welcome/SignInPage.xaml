@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Welcome.SignInPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Background="#00FFFFFF" xmlns:welcome="clr-namespace:ProPresenter.UI.Welcome;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ProPresenter.UI;component/CloudOnboarding/CloudOnboardingResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+        <Image Width="372" Height="47" Margin="0,0,0,20" HorizontalAlignment="Center" Source="{StaticResource {x:Static themes:Icons.ProPresenterWordmark}}" />
+        <StackPanel Orientation="Vertical" Visibility="{Binding ShowSignInButtons, Converter={StaticResource BoolToVis}}">
+          <StackPanel Margin="0,0,0,25" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Margin="0,0,8,0" Padding="25,3" Command="{Binding SignUpCommand}" Content="{markupExtensions:Localized ONBOARDING_WELCOME_SIGN_UP_title}" />
+            <Button Margin="8,0,0,0" Padding="25,3" IsDefault="True" Command="{Binding SignInCommand}" Content="{markupExtensions:Localized ONBOARDING_WELCOME_SIGN_IN_title}" />
+          </StackPanel>
+          <TextBlock HorizontalAlignment="Center" FontSize="14">
+            <Hyperlink Command="{Binding StartFreeTrialCommand}">
+              <Run Foreground="#FF3498DB" Text="{markupExtensions:Localized ONBOARDING_WELCOME_START_TRIAL_title}" />
+            </Hyperlink>
+          </TextBlock>
+        </StackPanel>
+        <Button Padding="50,6" HorizontalAlignment="Center" IsDefault="True" Command="{Binding ContinueCommand}" Content="{markupExtensions:Localized GLOBAL_CONTINUE_BUTTON_title}" Visibility="{Binding ShowContinueButton, Converter={StaticResource BoolToVis}}" />
+      </StackPanel>
+    </Grid>
+    <Grid Row="1" Visibility="{Binding ShowSkipButton, Converter={StaticResource BoolToVis}}">
+      <Border Height="56" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource CloudOnboarding.BottomStripeBrush}" />
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="{StaticResource CloudOnboarding.SubtleBrush}">
+        <Hyperlink Command="{Binding SkipCommand}">
+          <Run Text="{markupExtensions:Localized ONBOARDING_WELCOME_SKIP_title}" /> <Run Text=" &gt;" /></Hyperlink>
+      </TextBlock>
+    </Grid>
+  </Grid>
+</UserControl>

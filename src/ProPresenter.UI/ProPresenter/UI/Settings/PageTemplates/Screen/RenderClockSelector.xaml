@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Screen.RenderClockSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:ssAPI="clr-namespace:Pro.ssAPI.Devices;assembly=Pro.ssAPI" xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Name="renderClockSelector" xmlns:screen="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Screen;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="clockSelectorVMProxy" Data="{Binding}" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Row="1" Margin="20,0,0,0">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="WrapWithOverflow" Text="{mex:Localized SETTINGS_SCREENS_TIMING_SOURCE_title}" Visibility="{Binding ShowTitle, Converter={StaticResource ValueToVisibilityConverter}, ElementName=renderClockSelector}" />
+    <commonControls:BorderlessDropDownButton Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Right">
+      <commonControls:BorderlessDropDownButton.CustomContent>
+        <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding SelectedClockSourceName}" />
+      </commonControls:BorderlessDropDownButton.CustomContent>
+      <commonControls:BorderlessDropDownButton.CustomContextMenu>
+        <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <CollectionViewSource x:Key="Outputs" Source="{Binding Data.Outputs, Source={StaticResource clockSelectorVMProxy}}" />
+              <CollectionViewSource x:Key="Inputs" Source="{Binding Data.Inputs, Source={StaticResource clockSelectorVMProxy}}" />
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type ssAPI:ClockSource}}">
+                <MenuItem Command="{Binding Data.SelectClockSourceCommand, Source={StaticResource clockSelectorVMProxy}}" CommandParameter="{Binding}" Header="{Binding DisplayName}">
+                  <MenuItem.IsChecked>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                      <Binding Path="Data.SelectedClockSource" Source="{StaticResource clockSelectorVMProxy}" />
+                      <Binding />
+                    </MultiBinding>
+                  </MenuItem.IsChecked>
+                </MenuItem>
+              </ItemContainerTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <MenuItem DataContext="{x:Static ssAPI:ClockSource.Automatic}" Command="{Binding Data.SelectClockSourceCommand, Source={StaticResource clockSelectorVMProxy}}" CommandParameter="{Binding}" Header="{Binding DisplayName}">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                    <Setter Property="MenuItem.IsChecked" Value="False" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Data.SelectedClockSource, Source={StaticResource clockSelectorVMProxy}}" Value="{x:Null}">
+                        <Setter Property="MenuItem.IsChecked" Value="True" />
+                      </DataTrigger>
+                      <DataTrigger xmlns:system="clr-namespace:System;assembly=System.Private.CoreLib" Value="{x:Static system:String.Empty}" Binding="{Binding Data.SelectedClockSource.UUID, Source={StaticResource clockSelectorVMProxy}}">
+                        <Setter Property="MenuItem.IsChecked" Value="True" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </MenuItem>
+              <MenuItem IsEnabled="False" Header="{mex:Localized SETTINGS_SCREENS_TIMING_SOURCE_OUTPUTS_title}" Visibility="{Binding Data.Outputs.Count, Source={StaticResource clockSelectorVMProxy}, Converter={StaticResource CountToVisibilityConverter}}" />
+              <CollectionContainer Collection="{Binding Source={StaticResource Outputs}}" />
+              <MenuItem IsEnabled="False" Header="{mex:Localized SETTINGS_SCREENS_TIMING_SOURCE_INPUTS_title}" Visibility="{Binding Data.Inputs.Count, Source={StaticResource clockSelectorVMProxy}, Converter={StaticResource CountToVisibilityConverter}}" />
+              <CollectionContainer Collection="{Binding Source={StaticResource Inputs}}" />
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </commonControls:BorderlessDropDownButton.CustomContextMenu>
+    </commonControls:BorderlessDropDownButton>
+  </Grid>
+</UserControl>

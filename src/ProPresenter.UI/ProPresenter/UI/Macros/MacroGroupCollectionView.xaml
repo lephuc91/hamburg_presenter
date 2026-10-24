@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Macros.MacroGroupCollectionView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:local="clr-namespace:ProPresenter.UI.Macros" xmlns:ui="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" Focusable="True">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ui:BindingProxy x:Key="macroCollectionViewProxy" Data="{Binding}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <controls:GridOrList SearchText="{Binding SelectedMacroGroup.FilterText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ViewType="{Binding Data.ListOrGrid, Source={StaticResource macroCollectionViewProxy}, Mode=TwoWay}">
+    <controls:GridOrList.ListElement>
+      <local:MacroGroupListView Margin="5" DataContext="{Binding Data.SelectedMacroGroup, Source={StaticResource macroCollectionViewProxy}}" />
+    </controls:GridOrList.ListElement>
+    <controls:GridOrList.GridElement>
+      <local:MacroGroupGridView Margin="5" DataContext="{Binding Data.SelectedMacroGroup, Source={StaticResource macroCollectionViewProxy}}" />
+    </controls:GridOrList.GridElement>
+    <controls:GridOrList.HeaderElement>
+      <local:MacroGroupSelector />
+    </controls:GridOrList.HeaderElement>
+  </controls:GridOrList>
+</UserControl>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commonComponents:FrameworkCollection x:Class="ProPresenter.UI.CueInspector.PlaybackScrubberContextMenuSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonComponents="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="scrubberMenuSource" xmlns:cueinspector="clr-namespace:ProPresenter.UI.CueInspector;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="scrubberMenuSourceProxy" Data="{Binding ElementName=scrubberMenuSource}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <MenuItem Command="{Binding Data.AddPlaybackMarkerCommand, Source={StaticResource scrubberMenuSourceProxy}}" Header="{mex:Localized PLAYBACK_MARKERS_ADD_BUTTON_title}" />
+  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+</commonComponents:FrameworkCollection>

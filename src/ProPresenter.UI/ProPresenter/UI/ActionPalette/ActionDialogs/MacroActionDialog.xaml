@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ActionPalette.ActionDialogs.MacroActionDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:macroGroups="clr-namespace:ProPresenter.DO.MacroGroups;assembly=ProPresenter.DO" xmlns:macros="clr-namespace:ProPresenter.DO.Macros;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" Width="250" xmlns:actiondialogs="clr-namespace:ProPresenter.UI.ActionPalette.ActionDialogs">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../../ActionsMenu/AddEditActionMenuSourceStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <Style x:Key="TextStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="Margin" Value="0,5" />
+      </Style>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <converters:MacroGroupCheckedConverter x:Key="MacroGroupCheckedConverter" />
+      <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type macros:ProPresenterMacro}}">
+        <MenuItem uiUtility:CommandHelper.CommandParameter="{Binding}" Command="{Binding Data.SelectMacroCommand, Source={StaticResource proxy}}" Header="{Binding Name}">
+          <MenuItem.IsChecked>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+              <Binding Path="Data.Action.MacroID" Source="{StaticResource proxy}" />
+              <Binding Path="ID" />
+            </MultiBinding>
+          </MenuItem.IsChecked>
+        </MenuItem>
+      </ItemContainerTemplate>
+      <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type macroGroups:MacroGroup}}">
+        <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding}">
+          <MenuItem.IsChecked>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource MacroGroupCheckedConverter}">
+              <Binding />
+              <Binding Path="Data.Action.MacroID" Source="{StaticResource proxy}" />
+            </MultiBinding>
+          </MenuItem.IsChecked>
+        </MenuItem>
+      </ItemContainerTemplate>
+      <MenuItem x:Key="OpenMacrosMenuItem" uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Macros.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized ACTION_PALETTE_OPEN_MACROS_title}" />
+      <MenuItem x:Key="NoMacroMenuItem" IsChecked="True" Header="{mex:Localized GLOBAL_NO_SELECTION}" Visibility="{Binding Data.Action.MacroID, ConverterParameter={x:Static system1:Guid.Empty}, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+      <ContextMenu x:Key="MacroGroupsMenu" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <CollectionViewSource x:Key="MacroGroups" Source="{Binding Data.MacroGroups, Source={StaticResource proxy}}" />
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <StaticResourceExtension ResourceKey="NoMacroMenuItem" xmlns="" />
+            <Separator Visibility="{Binding Data.Action.MacroID, ConverterParameter={x:Static Guid.Empty}, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <CollectionContainer Collection="{Binding Source={StaticResource MacroGroups}}" />
+            <Separator />
+            <StaticResourceExtension ResourceKey="OpenMacrosMenuItem" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <ContextMenu x:Key="MacrosMenu" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <CollectionViewSource x:Key="Macros" Source="{Binding Data.Macros, Source={StaticResource proxy}}" />
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <StaticResourceExtension ResourceKey="NoMacroMenuItem" />
+            <Separator Visibility="{Binding Data.Action.MacroID, ConverterParameter={x:Static Guid.Empty}, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <CollectionContainer Collection="{Binding Source={StaticResource Macros}}" />
+            <Separator />
+            <StaticResourceExtension ResourceKey="OpenMacrosMenuItem" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <TextBlock VerticalAlignment="Center" Style="{StaticResource TextStyle}" Text="{mex:Localized ACTION_PALETTE_MACRO_SELECTION_FIELD_title}" />
+      <commonControls:DropDownButton Grid.Row="1" Margin="0,5" CustomContextMenu="{StaticResource MacroGroupsMenu}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type commonControls:DropDownButton}">
+            <Setter Property="commonControls:DropDownButton.CustomContent" Value="{Binding Action.MacroName}" />
+            <Style.Triggers>
+              <DataTrigger Value="{x:Static Guid.Empty}" Binding="{Binding Action.MacroID}">
+                <Setter Property="commonControls:DropDownButton.CustomContent" Value="{mex:Localized GLOBAL_NO_SELECTION}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:DropDownButton>
+    </Grid>
+  </Grid>
+</UserControl>

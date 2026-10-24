@@ -1,0 +1,20 @@
+{
+    "description": "Adjusts the alpha value.",
+    "name": "Alpha Adjust",
+    "numPasses": 1,
+    "shaderFile": "AdjustAlpha",
+    "type": 0,
+    "uuid": "56C8A640-8BFF-4AFF-BBA5-23134683DB2F",
+    "variables": [
+        {
+            "name": "amount",
+            "label": "Amount",
+            "description": "Amount to multiply the alpha by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

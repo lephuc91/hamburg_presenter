@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ui:SharedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actions="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" xmlns:actionsDO="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI">
+  <Style x:Key="ActionPaletteItemStyle" TargetType="{x:Type Image}">
+    <Setter Property="Image.StretchDirection" Value="DownOnly" />
+    <Style.Triggers>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.All}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearAll.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.Audio}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearAudio.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.Background}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearBackground.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.LiveVideo}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearVideoInput.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.Props}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearProps.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.Messages}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearMessages.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.Slide}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearSlide.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.ToLogo}" Binding="{Binding}">
+        <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.Library}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.Announcement}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearAnnouncements.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actionsDO:ClearType.Slide}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearSlide.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Prop}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionProp.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Message}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionMessage.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Macro}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Macro.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.StageLayout}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Toolbar/toolbarStage.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Timer}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionTimer.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Media}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionMedia.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.VisualPlaylist}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionMediaPlaylist.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.AudioPlaylist}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionAudioPlaylist.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Communication}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionCommunications.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.AudienceLook}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionLook.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.AudioInput}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Preferences/Input/AudioInput.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static media:MediaType.Image}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionMedia.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static media:MediaType.Video}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionMedia.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static media:MediaType.Audio}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/PlaylistItemAudio.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static media:MediaType.LiveVideo}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/SlideElements/slideElementVideoInput.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.SlideDestination}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/actionStageOnly.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.ClearGroup}" Binding="{Binding}">
+        <Setter Property="Source" Value="../Resources/Icons/Actions/clearAll.png" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Capture}" Binding="{Binding}">
+        <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.VideoCapture}}" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <Style x:Key="ActionBaseImageMaskStyle" TargetType="{x:Type commonControls:ImageMask}">
+    <Setter Property="UIElement.Effect" Value="{DynamicResource ScrimItemDropShadowEffect}" />
+    <Style.Triggers>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.All}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearAll}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.Audio}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearAudio}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.Background}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearBackground}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.LiveVideo}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearVideoInput}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.Props}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearProps}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.Messages}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearMessages}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.Slide}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearSlide}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.Announcement}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearAnnouncements}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Clear}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:ClearType.ToLogo}" Binding="{Binding ClearType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.Library}}" />
+      </MultiDataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Message}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionMessages}}" />
+      </DataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Prop}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:PropTriggerType.Trigger}" Binding="{Binding PropTriggerType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="../Resources/Icons/Actions/actionProp.png" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Prop}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static actionsDO:PropTriggerType.Clear}" Binding="{Binding PropTriggerType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionClearProps}}" />
+      </MultiDataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.StageLayout}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionStage}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Timer}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionTimer}}" />
+      </DataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Media}" Binding="{Binding ActionType}" />
+          <Condition Value="Audio" Binding="{Binding Media.MediaType}" />
+          <Condition Value="AudioTrack" Binding="{Binding AudioMedia.AudioType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionAudioTrack}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Media}" Binding="{Binding ActionType}" />
+          <Condition Value="Audio" Binding="{Binding Media.MediaType}" />
+          <Condition Value="SoundEffect" Binding="{Binding AudioMedia.AudioType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionAudioSoundEffect}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Media}" Binding="{Binding ActionType}" />
+          <Condition Value="{x:Static media:MediaType.LiveVideo}" Binding="{Binding Media.MediaType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionVideoInput}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Media}" Binding="{Binding ActionType}" />
+          <Condition Value="Background" Binding="{Binding TriggerLayer}" />
+          <Condition Value="Image" Binding="{Binding Media.MediaType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionBackgroundMedia}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Media}" Binding="{Binding ActionType}" />
+          <Condition Value="Background" Binding="{Binding TriggerLayer}" />
+          <Condition Value="Video" Binding="{Binding Media.MediaType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionBackgroundMedia}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Media}" Binding="{Binding ActionType}" />
+          <Condition Value="Foreground" Binding="{Binding TriggerLayer}" />
+          <Condition Value="Image" Binding="{Binding Media.MediaType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionForegroundMedia}}" />
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="{x:Static actions:ActionType.Media}" Binding="{Binding ActionType}" />
+          <Condition Value="Foreground" Binding="{Binding TriggerLayer}" />
+          <Condition Value="Video" Binding="{Binding Media.MediaType}" />
+        </MultiDataTrigger.Conditions>
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionForegroundMedia}}" />
+      </MultiDataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Communication}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionCommunications}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.AudienceLook}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionLooks}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.AudioInput}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionAudioInput}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.VisualPlaylist}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionMediaPlaylist}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.AudioPlaylist}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionAudioPlaylist}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.SlideDestination}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionSlideDestination}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Macro}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.MacroDefault}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.Capture}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.VideoCapture}}" />
+      </DataTrigger>
+      <DataTrigger Value="{x:Static actions:ActionType.ClearGroup}" Binding="{Binding ActionType}">
+        <Setter Property="commonControls:ImageMask.ImageSource" Value="{Binding Target.Icon}" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+</ui:SharedResourceDictionary>

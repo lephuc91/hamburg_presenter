@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.AudioBehaviorControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proUI="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="self" xmlns:cueinspector="clr-namespace:ProPresenter.UI.CueInspector;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <proUI:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <proUI:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    </proUI:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" MinWidth="80" MaxWidth="200" SharedSizeGroup="CIPropertiesLabelColumnGroup" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Name="pbLabel" Grid.Row="0" Grid.Column="0" Margin="0,0,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_PLAYBACK_BEHAVIOR_label}" />
+    <ComboBox Name="PlaybackBehaviorComboBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="22" Margin="0,0,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AudioBehaviors, ElementName=self}" SelectedItem="{Binding AudioBehaviorType, ElementName=self, Mode=TwoWay}" Visibility="{Binding Visibility, ElementName=pbLabel}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_IN_POINT_label}" />
+    <Grid Row="1" Column="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:TimeSliceTextBox Grid.Column="0" Height="22" VerticalAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource {x:Type TextBox}}" TextAlignment="Right" UpdateTextOnEnterKey="True" TimeValue="{Binding InPoint, ElementName=self, Mode=TwoWay}" />
+      <commonControls:BorderlessButton Grid.Column="1" Margin="2,0,0,0" Command="{Binding SetMediaInPointCommand, ElementName=self}" ToolTip="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_IN_POINT_tooltip}">
+        <commonControls:PathControl VerticalAlignment="Center" Data="{StaticResource InOut}" StrokeThickness="0" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+      </commonControls:BorderlessButton>
+    </Grid>
+    <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_OUT_POINT_label}" />
+    <Grid Row="2" Column="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:TimeSliceTextBox Grid.Column="0" Height="22" Margin="0,5" VerticalAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource {x:Type TextBox}}" TextAlignment="Right" UpdateTextOnEnterKey="True" TimeValue="{Binding OutPoint, ElementName=self, Mode=TwoWay}" />
+      <commonControls:BorderlessButton Grid.Column="1" Margin="2,0,0,0" Command="{Binding SetMediaOutPointCommand, ElementName=self}" ToolTip="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_OUT_POINT_tooltip}">
+        <commonControls:PathControl VerticalAlignment="Center" Data="{StaticResource InOut}" StrokeThickness="0" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+      </commonControls:BorderlessButton>
+    </Grid>
+    <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_DURATION_label}" />
+    <commonControls:TimeSliceTextBox Grid.Row="3" Grid.Column="1" Height="22" VerticalAlignment="Center" VerticalContentAlignment="Center" IsEnabled="False" Style="{StaticResource {x:Type TextBox}}" TextAlignment="Right" TimeValue="{Binding Duration, ElementName=self, Mode=TwoWay}" />
+    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,5,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_DELAY_TIME_label}" />
+    <commonControls:TimeSliceTextBox Grid.Row="4" Grid.Column="1" Height="22" Margin="0,5" VerticalAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource {x:Type TextBox}}" TextAlignment="Right" TimeValue="{Binding DelayTime, Mode=TwoWay, ElementName=self}" />
+    <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_PLAY_RATE_label}" Visibility="{Binding Visibility, ElementName=pbLabel}" />
+    <Grid Row="5" Column="1" Visibility="{Binding Visibility, ElementName=pbLabel}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Slider Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Maximum="2" Minimum=".2" TickFrequency=".1" Value="{Binding PlayRate, ElementName=self}" />
+      <commonControls:DoubleUpDown Grid.Column="1" Width="60" Height="22" VerticalAlignment="Center" FormatString="P0" Increment=".01" Maximum="2" Minimum=".2" TextAlignment="Right" Value="{Binding PlayRate, ElementName=self}" />
+    </Grid>
+  </Grid>
+</UserControl>

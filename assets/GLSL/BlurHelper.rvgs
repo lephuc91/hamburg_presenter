@@ -1,0 +1,20 @@
+{
+    "description": "Mimic Gaussian Blur of the image.",
+    "name": "BlurHelper",
+    "numPasses": 5,
+    "shaderFile": "BlurHelper",
+    "type": 0,
+    "uuid": "D84CE4A3-D1C3-4F7C-AA75-4C645A3621F2",
+    "variables": [
+        {
+            "name": "blurAmount",
+            "label": "Intensity",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

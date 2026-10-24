@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Links.RssFeed" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:link="clr-namespace:ProPresenter.DO.Slide.Links;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:text="clr-namespace:Pro.Text;assembly=Pro.Text" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="rssFeed" xmlns:links="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Links">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="rssFeedLinkVMProxy" Data="{Binding}" />
+      <ObjectDataProvider x:Key="RssFeedContentModes" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type link:RssFeedContentMode}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{Binding TEXTBOX_PALETTE.Standard.HelperContent, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid IsSharedSizeScope="True">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="RssFeedLabel" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_TEXT_TICKER_SOURCE_RSS_URL_label}" />
+      <commonControls:PlaceholderTextBox Grid.Column="1" Height="22" AcceptsReturn="False" PlaceholderText="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_TEXT_TICKER_SOURCE_RSS_URL_placeholder}" Text="{Binding Url}" />
+    </Grid>
+    <Grid Row="1" Margin="0,8,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="RssFeedLabel" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_TEXT_TICKER_SOURCE_RSS_CONTENT_label}" />
+      <ComboBox Grid.Column="1" ItemsSource="{Binding Source={StaticResource RssFeedContentModes}}" SelectedItem="{Binding ContentMode, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </Grid>
+    <Grid Row="2" Margin="0,8,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="RssFeedLabel" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_TEXT_TICKER_DELIMITER_label}" />
+      <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" IsEditable="True" ItemsSource="{x:Static text:Delimiters.Default}" Text="{Binding TextDelimiter, Mode=TwoWay}" />
+    </Grid>
+  </Grid>
+</UserControl>

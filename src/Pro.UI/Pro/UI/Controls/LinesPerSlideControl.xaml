@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.LinesPerSlideControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Pro.UI.Controls">
+  <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:LinesPerSlideControl}}}">
+    <controls:LabeledSlider x:Name="PART_LabeledSlider" IsSnapToTickEnabled="True" Orientation="Horizontal" TextElement.Foreground="#FFFFFFFF" TickFrequency="1" TickPlacement="BottomRight" Width="{Binding Width}" Height="{Binding Height}" Labels="{Binding Labels}" Maximum="{Binding ActualMaximum, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding ActualMinimum, UpdateSourceTrigger=PropertyChanged}" Ticks="{Binding Ticks}" Value="{Binding ActualSelectedValue, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

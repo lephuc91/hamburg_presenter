@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Slider x:Class="Pro.UI.Controls.SpeedSlider" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls" xmlns:proUIThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes" Background="{StaticResource {x:Static proUIThemes:Brushes.SliderTrackBackground}}" Focusable="False" Foreground="{StaticResource {x:Static proUIThemes:Brushes.ControlForeground}}" IsMoveToPointEnabled="True" TickPlacement="Both">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Pro.UI;component/Themes/Brushes.xaml" />
+        <ResourceDictionary Source="/Pro.UI;component/Themes/Colors.xaml" />
+        <ResourceDictionary Source="/Pro.UI;component/Themes/Icons.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <SolidColorBrush x:Key="FillBrush" Color="{StaticResource {x:Static proUIThemes:Colors.ContentHelper}}" />
+      <SolidColorBrush x:Key="PrimaryFillBrush" Color="{StaticResource {x:Static proUIThemes:Colors.ContentSecondary}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Control.Template>
+    <ControlTemplate TargetType="{x:Type Slider}">
+      <Border SnapsToDevicePixels="True">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" MinHeight="{TemplateBinding FrameworkElement.MinHeight}" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <commonControls:ImageMask x:Name="PART_LeftIcon" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Fill="{StaticResource FillBrush}" ImageSource="{StaticResource {x:Static proUIThemes:Icons.Tortoise}}" />
+          <Border Name="PART_Background" Grid.Row="1" Grid.Column="1" Height="2" Margin="5,0" VerticalAlignment="Center" Background="{TemplateBinding Control.Background}" />
+          <Border Name="PART_TrackBackground" Grid.Row="1" Grid.Column="1" Height="5" Margin="5,0" VerticalAlignment="Center" Background="#00FFFFFF" BorderThickness="0">
+            <Border Name="PART_FillBar" Height="5" HorizontalAlignment="Stretch" Background="{StaticResource {x:Static proUIThemes:Brushes.WindowBorder}}" />
+          </Border>
+          <TickBar Name="PART_TopTick" Grid.Row="1" Grid.Column="1" Height="6" Margin="0,0,0,6" Fill="{StaticResource PrimaryFillBrush}" Placement="Top" Visibility="Collapsed" />
+          <TickBar Name="PART_BottomTick" Grid.Row="1" Grid.Column="1" Height="6" Margin="0,6,0,0" Fill="{StaticResource PrimaryFillBrush}" Placement="Bottom" Visibility="Collapsed" />
+          <Track Name="PART_Track" Grid.Row="1" Grid.Column="1">
+            <Track.DecreaseRepeatButton>
+              <RepeatButton Name="PART_DecreaseButton" Command="Slider.DecreaseLarge">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type RepeatButton}">
+                    <Setter Property="Background" Value="#00FFFFFF" />
+                    <Setter Property="Focusable" Value="False" />
+                    <Setter Property="IsTabStop" Value="False" />
+                    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True" />
+                    <Setter Property="Template">
+                      <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                          <Rectangle Width="{TemplateBinding FrameworkElement.Width}" Height="{TemplateBinding FrameworkElement.Height}" Fill="{TemplateBinding Control.Background}" />
+                        </ControlTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </FrameworkElement.Style>
+              </RepeatButton>
+            </Track.DecreaseRepeatButton>
+            <Track.IncreaseRepeatButton>
+              <RepeatButton Command="Slider.IncreaseLarge">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type RepeatButton}">
+                    <Setter Property="Background" Value="#00FFFFFF" />
+                    <Setter Property="Focusable" Value="False" />
+                    <Setter Property="IsTabStop" Value="False" />
+                    <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True" />
+                    <Setter Property="Template">
+                      <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                          <Rectangle Width="{TemplateBinding FrameworkElement.Width}" Height="{TemplateBinding FrameworkElement.Height}" Fill="{TemplateBinding Control.Background}" />
+                        </ControlTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </FrameworkElement.Style>
+              </RepeatButton>
+            </Track.IncreaseRepeatButton>
+            <Track.Thumb>
+              <Thumb Name="Thumb" VerticalAlignment="Center" Focusable="False" Foreground="{TemplateBinding Control.Foreground}">
+                <Control.Template>
+                  <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Name="PART_Grip" Width="8" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource FillBrush}" CornerRadius="3" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                      <UIElement.Effect>
+                        <DropShadowEffect ShadowDepth="0" Color="{DynamicResource {x:Static proUIThemes:Colors.Shadow}}" />
+                      </UIElement.Effect>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="UIElement.IsMouseCaptured" Value="True">
+                        <Setter TargetName="PART_Grip" Value="{StaticResource {x:Static proUIThemes:Brushes.ControlForegroundSubdued}}" Property="Border.Background" />
+                      </Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </Control.Template>
+              </Thumb>
+            </Track.Thumb>
+          </Track>
+          <commonControls:ImageMask x:Name="PART_RightIcon" Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" Fill="{StaticResource FillBrush}" ImageSource="{StaticResource {x:Static proUIThemes:Icons.Bunny}}" />
+        </Grid>
+      </Border>
+      <ControlTemplate.Triggers>
+        <Trigger Property="Slider.TickPlacement" Value="TopLeft">
+          <Setter TargetName="PART_TopTick" Property="UIElement.Visibility" Value="Visible" />
+          <Setter TargetName="PART_TrackBackground" Property="FrameworkElement.Margin" Value="5,2,5,0" />
+        </Trigger>
+        <Trigger Property="Slider.TickPlacement" Value="BottomRight">
+          <Setter TargetName="PART_BottomTick" Property="UIElement.Visibility" Value="Visible" />
+          <Setter TargetName="PART_TrackBackground" Property="FrameworkElement.Margin" Value="5,0,5,2" />
+        </Trigger>
+        <Trigger Property="Slider.TickPlacement" Value="Both">
+          <Setter TargetName="PART_BottomTick" Property="UIElement.Visibility" Value="Visible" />
+          <Setter TargetName="PART_TopTick" Property="UIElement.Visibility" Value="Visible" />
+        </Trigger>
+      </ControlTemplate.Triggers>
+    </ControlTemplate>
+  </Control.Template>
+</Slider>

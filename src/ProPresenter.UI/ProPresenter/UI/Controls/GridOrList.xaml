@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Controls.GridOrList" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Controls" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding LISTITEM_CONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid VerticalAlignment="Stretch" Background="{Binding SOURCELIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ContentPresenter Name="HeaderContent" Grid.Row="0" Content="{Binding HeaderElement, RelativeSource={RelativeSource AncestorType={x:Type local:GridOrList}}}" />
+    <Grid Row="1">
+      <ContentControl>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Style.Triggers>
+              <DataTrigger Value="{x:Static do:PanelViewType.Thumbnail}" Binding="{Binding ViewType, RelativeSource={RelativeSource AncestorType={x:Type local:GridOrList}}}">
+                <Setter Property="Content" Value="{Binding GridElement, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GridOrList}}}" />
+              </DataTrigger>
+              <DataTrigger Value="{x:Static do:PanelViewType.List}" Binding="{Binding ViewType, RelativeSource={RelativeSource AncestorType={x:Type local:GridOrList}}}">
+                <Setter Property="Content" Value="{Binding ListElement, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GridOrList}}}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentControl>
+    </Grid>
+    <Grid Name="FooterRow" Row="2" Visibility="{Binding SelectedMacroGroup.MacroGroup.Count, Converter={StaticResource CountToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Separator Grid.ColumnSpan="4" />
+      <controls:FilterBox Grid.Row="1" Grid.Column="1" Width="200" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" PlaceholderText="{mex:Localized GLOBAL_FILTER_FIELD_placeholder}" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, FallbackValue=error, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GridOrList}}}" />
+      <controls:BorderlessRadioToggleButton Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" IsChecked="{Binding ViewType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static do:PanelViewType.Thumbnail}, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type local:GridOrList}}}" ToolTip="{mex:Localized PRESENTATION_TOOLBAR_GRID_VIEW_tooltip}">
+        <controls:ImageMask ImageSource="../Resources/Icons/Footer/Grid.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=controls:BorderlessRadioToggleButton}}" />
+      </controls:BorderlessRadioToggleButton>
+      <controls:BorderlessRadioToggleButton Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" IsChecked="{Binding ViewType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static do:PanelViewType.List}, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type local:GridOrList}}}" ToolTip="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_tooltip}">
+        <controls:ImageMask ImageSource="../Resources/Icons/Footer/Table.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=controls:BorderlessRadioToggleButton}}" />
+      </controls:BorderlessRadioToggleButton>
+    </Grid>
+  </Grid>
+</UserControl>

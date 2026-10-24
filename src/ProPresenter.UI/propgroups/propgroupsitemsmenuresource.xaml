@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:converters1="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Props" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.Props">
+  <converters1:TypeOfConverter x:Key="TypeOfConverter" />
+  <converters1:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+  <converters1:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+  <ui:InterfaceItemContainerTemplateSelector x:Key="GroupTemplateSelector" />
+  <converters1:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+  <ContextMenu x:Key="CollectionContextMenu">
+    <MenuItem UsesItemContainerTemplate="True" ItemContainerTemplateSelector="{StaticResource GroupTemplateSelector}" Header="{mex:Localized PROPS_CONTEXTUAL_MENU_ADD_TO_title}" ItemsSource="{Binding Parent.Parent.PropGroups}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <DataTemplate x:Key="{DataTemplateKey {x:Type vm:IPropGroupVM}}" DataType="{x:Type vm:IPropGroupVM}">
+            <MenuItem Command="{Binding Parent.ActiveGroup.AddPropToGroupCommand}" CommandParameter="{Binding}" Header="{Binding Name}" IsEnabled="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource InvertedBooleanConverter}}">
+              <MenuItem.IsChecked>
+                <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                  <Binding Path="Parent.ActiveGroup" />
+                  <Binding />
+                </MultiBinding>
+              </MenuItem.IsChecked>
+            </MenuItem>
+          </DataTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem UsesItemContainerTemplate="True" ItemContainerTemplateSelector="{StaticResource GroupTemplateSelector}" Header="{mex:Localized PROPS_CONTEXTUAL_MENU_MOVE_TO_title}" ItemsSource="{Binding Parent.Parent.PropGroups}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <DataTemplate x:Key="{DataTemplateKey {x:Type vm:IPropGroupVM}}" DataType="{x:Type vm:IPropGroupVM}">
+            <MenuItem Command="{Binding Parent.ActiveGroup.MoveToGroupCommand}" CommandParameter="{Binding}" Header="{Binding Name}" IsEnabled="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}, Converter={StaticResource InvertedBooleanConverter}}">
+              <MenuItem.IsChecked>
+                <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                  <Binding Path="Parent.ActiveGroup" />
+                  <Binding />
+                </MultiBinding>
+              </MenuItem.IsChecked>
+            </MenuItem>
+          </DataTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <Separator />
+    <MenuItem Command="{Binding Parent.EditPropsCommand}" Header="{mex:Localized PROP_CONTROL_DECK_CONTEXTUAL_MENU_EDIT_title}" />
+    <MenuItem Command="{Binding Parent.TransitionCommand}" CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Header="{mex:Localized PROP_CONTROL_DECK_CONTEXTUAL_MENU_TRANSITIONS_title}" />
+    <local:AutoClearDurationMenuItem IsDefaultAutoClearDurationEnabled="False" AutoClearDuration="{Binding AutoClearDuration}" SetAutoClearCommand="{Binding Parent.SetAutoClearCommand}" SetCustomAutoClearCommand="{Binding Parent.PopupAutoClearCustomCommand}" />
+    <Separator />
+    <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.CutCommand}" />
+    <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Copy}" />
+    <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+    <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+    <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" />
+    <Separator />
+    <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+  </ContextMenu>
+  <ContextMenu x:Key="PropsControlContextMenu">
+    <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+  </ContextMenu>
+</ResourceDictionary>

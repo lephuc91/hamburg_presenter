@@ -1,0 +1,11 @@
+{
+    "category": "Dissolves",
+    "description": "Wave Dissolve",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Wave Dissolve",
+    "numPasses": 1,
+    "shaderFile": "waveDissolve",
+    "type": 1,
+    "uuid": "0540598C-5CED-4F80-AB0E-3566FEA85BCF"
+}

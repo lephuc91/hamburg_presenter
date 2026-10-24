@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter.TryoutLicense" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:behaviors="clr-namespace:Pro.UI.Behaviors;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Registration.ProPresenter" xmlns:propresenter="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="tryoutLicenseProPresenterSectionVMProxy" Data="{Binding}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <Style x:Key="Description" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+      </Style>
+      <Style x:Key="Value" TargetType="{x:Type TextBlock}">
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="UIElement.Opacity" Value="0.6" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+      </Style>
+      <ObjectDataProvider x:Key="SeatStates" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type vm:SeatState}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <commonControls:GroupedControl>
+      <Grid DataContext="{Binding Data, Source={StaticResource tryoutLicenseProPresenterSectionVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock VerticalAlignment="Center" Style="{StaticResource Description}" Text="{mex:Localized SETTINGS_ACCOUNT_DEVICE_NAME_label}" />
+        <TextBox Grid.Column="1" Height="22" Margin="200,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center" TextAlignment="Right" Text="{Binding DeviceName}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource tryoutLicenseProPresenterSectionVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock VerticalAlignment="Center" Style="{StaticResource Description}" Text="{mex:Localized SETTINGS_ACCOUNT_TRIAL_EXPIRATION_label}" />
+        <TextBlock VerticalAlignment="Center" Style="{StaticResource Value}" Text="{Binding LicenseExpiration, StringFormat=D}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource tryoutLicenseProPresenterSectionVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Style="{StaticResource Description}" Text="{mex:Localized SETTINGS_ACCOUNT_CURRENT_SEAT_STATE_label}" />
+        <commonControls:BorderlessComboBox Grid.Column="1" HorizontalAlignment="Right" ItemsSource="{Binding Source={StaticResource SeatStates}}">
+          <behaviors1:Interaction.Behaviors xmlns:behaviors1="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors">
+            <behaviors:CommandableComboboxBehaviour ChangeItemCommand="{Binding ChangeSeatStateCommand}" SelectedItem="{Binding SeatState}" />
+          </behaviors1:Interaction.Behaviors>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </commonControls:BorderlessComboBox>
+      </Grid>
+    </commonControls:GroupedControl>
+    <Button Grid.Row="1" Margin="0,8,0,0" HorizontalAlignment="Right" Command="{Binding PurchaseLicenseCommand}" Content="{mex:Localized SETTINGS_ACCOUNT_PURCHASE_LICENSE_BUTTON_title}" />
+  </Grid>
+</UserControl>

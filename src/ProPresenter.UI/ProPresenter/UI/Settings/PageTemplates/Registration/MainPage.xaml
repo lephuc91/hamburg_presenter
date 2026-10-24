@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.MainPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:footer="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.Footer" xmlns:header="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.Header" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:proContent="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.ProContent" xmlns:proPresenter="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter" xmlns:settings="clr-namespace:ProPresenter.UI.Settings" xmlns:registration="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration">
+  <behaviors:Interaction.Triggers xmlns:behaviors="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors">
+    <behaviors:EventTrigger xmlns:behaviors="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors" behaviors:EventTrigger.EventName="Loaded">
+      <behaviors:InvokeCommandAction behaviors:InvokeCommandAction.Command="{Binding RefreshCommand}" />
+    </behaviors:EventTrigger>
+  </behaviors:Interaction.Triggers>
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <Grid Margin="{Binding Source={x:Static settings:PageConstants.PAGE_MARGIN}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <header:Header Margin="0,0,0,25" DataContext="{Binding Header}" />
+      <proPresenter:ProPresenter Grid.Row="1" DataContext="{Binding ProPresenter}" />
+      <proContent:ProContent Grid.Row="2" Margin="0,25,0,0" DataContext="{Binding ProContent}" />
+      <footer:Footer Grid.Row="4" Margin="0,25,0,0" DataContext="{Binding Footer}" />
+    </Grid>
+  </ScrollViewer>
+</UserControl>

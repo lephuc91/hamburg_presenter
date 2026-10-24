@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Fills.BackgroundEffectBlur" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:fills="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Fills" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" Resources="{commonConverters:EnumToContentConverter Key=EnumToContentConverter}">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="{StaticResource {x:Static themes:Constants.ColumnItemHorizontalWidth}}" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="{StaticResource {x:Static themes:Constants.RowItemVerticalHeight}}" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="{StaticResource {x:Static themes:Constants.RowItemVerticalHeight}}" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized GRAPHIC_FILL_BACKGROUND_EFFECT_BLUR_SATURATION_title}" />
+    <commonControls:UnitsSlider Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" FillMode="None" IsSnapToTickEnabled="True" LargeChange="20" Maximum="100" Minimum="-100" SmallChange="1" TickFrequency="1" Units="%" Value="{Binding Fill.Saturation, Mode=TwoWay, Converter={commonConverters:PercentageConverter}}" />
+    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized GRAPHIC_FILL_BACKGROUND_EFFECT_BLUR_AMOUNT_title}" />
+    <commonControls:UnitsSlider Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" FillMode="None" IsSnapToTickEnabled="True" LargeChange="20" Maximum="100" Minimum="0" SmallChange="1" TickFrequency="1" Units="%" Value="{Binding Slide.BlurAmount, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type fills:BackgroundEffectBlur}}, Converter={commonConverters:PercentageConverter}}" />
+    <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" FontSize="9.5" Text="{mex:Localized GRAPHIC_FILL_BACKGROUND_EFFECT_BLUR_AMOUNT_WARNING_title}" />
+  </Grid>
+</UserControl>

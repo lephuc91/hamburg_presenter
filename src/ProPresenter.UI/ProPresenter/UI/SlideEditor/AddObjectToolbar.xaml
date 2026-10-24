@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.AddObjectToolbar" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:converters1="clr-namespace:ProPresenter.UI.Converters" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:enum="clr-namespace:ProPresenter.UI.ViewModels.Editor" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:links="clr-namespace:ProPresenter.DO.Slide.Links;assembly=ProPresenter.DO" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:propresenterUI="clr-namespace:ProPresenter.UI" xmlns:shapes="clr-namespace:ProPresenter.DO.Slide.Custom.Elements.Shapes;assembly=ProPresenter.DO" xmlns:slide="clr-namespace:ProPresenter.DO.Slide.Links.Text.Slide;assembly=ProPresenter.DO" xmlns:slideEditor="clr-namespace:ProPresenter.UI.SlideEditor" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:timer="clr-namespace:ProPresenter.DO.Timer;assembly=ProPresenter.DO" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility1="clr-namespace:Pro.Common.Utility;assembly=Pro.Common">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../AddShapeMenuSourceEditorToolbar.xaml" />
+        <ui:SharedResourceDictionary Source="pack://application:,,,/ProPresenter.UI;component/Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <converters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <converters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <converters1:AddElementCommandParameterConverter x:Key="AddElementCommandParametersConverter" />
+      <utility1:BindingProxy x:Key="mainLayoutVM" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type propresenterUI:MainLayout}}}" />
+      <utility1:BindingProxy x:Key="slideEditorVM" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type slideEditor:SlideEditorView}}}" />
+      <Style x:Key="{x:Type commonControls:ToolBarButton}" TargetType="{x:Type commonControls:ToolBarButton}">
+        <Setter Property="commonControls:ToolBarButton.ButtonHeight" Value="28" />
+        <Setter Property="commonControls:ToolBarButton.ButtonWidth" Value="70" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:ToolBarToggleButton}" TargetType="{x:Type commonControls:ToolBarToggleButton}">
+        <Setter Property="commonControls:ToolBarToggleButton.ButtonHeight" Value="28" />
+        <Setter Property="commonControls:ToolBarToggleButton.ButtonWidth" Value="70" />
+        <Setter Property="ToggleButton.IsChecked" Value="False" />
+        <Style.Triggers>
+          <DataTrigger Value="True" Binding="{Binding Path=ContextMenu.IsOpen, RelativeSource={RelativeSource Self}}">
+            <Setter Property="ToggleButton.IsChecked" Value="True" />
+          </DataTrigger>
+          <DataTrigger Value="False" Binding="{Binding Path=ContextMenu.IsOpen, RelativeSource={RelativeSource Self}}">
+            <Setter Property="ToggleButton.IsChecked" Value="False" />
+          </DataTrigger>
+          <Trigger Property="ToggleButton.IsChecked" Value="True">
+            <Setter Property="Background" Value="{StaticResource {x:Static themes:Brushes.ControlMouseOver}}" />
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+      <x:StaticExtension x:Key="Toolbar" Member="enum:InsertEditorObjectSourceType.EditorToolbar" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Border Grid.Row="0" Height="40" Margin="0,25,0,0" BorderThickness="1" CornerRadius="4" Background="{Binding SURFACE, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding PRIMARYLIGHT, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding EditMode, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.Stage}}">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <commonControls:ToolBarButton Grid.Column="0" Margin="5,0,0,0" Icon="{StaticResource {x:Static themes:Icons.EditorToolbarTextObject}}" Command="{Binding AddShapeCommand}" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_TEXT_OBJECT_tooltip}">
+          <ButtonBase.CommandParameter>
+            <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+              <Binding Source="{x:Static shapes:ShapeType.Text}" />
+              <Binding Source="{StaticResource Toolbar}" />
+            </MultiBinding>
+          </ButtonBase.CommandParameter>
+        </commonControls:ToolBarButton>
+        <Border Grid.Column="1" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+        <commonControls:ToolBarToggleButton Grid.Column="2" utility:ContextMenuHelper.OpenOnLeftClick="True" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_SHAPE_OBJECT_tooltip}">
+          <Grid>
+            <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static themes:Icons.EditorToolbarShapesObject}}" />
+            <commonControls:Icon Margin="0,0,-15,2" HorizontalAlignment="Right" VerticalAlignment="Center" IconSize="XXSmall" Source="{StaticResource {x:Static themes:Icons.DownArrow}}" />
+          </Grid>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu ItemsSource="{DynamicResource Source}" Placement="Bottom" />
+          </FrameworkElement.ContextMenu>
+        </commonControls:ToolBarToggleButton>
+        <Border Grid.Column="3" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+        <commonControls:ToolBarButton Grid.Column="4" CommandParameter="{StaticResource Toolbar}" Icon="{StaticResource {x:Static themes:Icons.EditorToolbarCustomShapesObject}}" Command="{Binding EditorMenu.InsertShapeCustom.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_CUSTOM_SHAPE_OBJECT_tooltip}" />
+        <Border Grid.Column="5" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+        <commonControls:ToolBarButton Grid.Column="6" Margin="0,0,5,0" CommandParameter="{StaticResource Toolbar}" Icon="{StaticResource {x:Static themes:Icons.EditorToolbarMediaObject}}" Command="{Binding AddMediaCommand}" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_MEDIA_OBJECT_tooltip}" />
+        <Border Grid.Column="7" Margin="0,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" Visibility="{Binding ShowFullAddMenu, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <commonControls:ToolBarButton Grid.Column="8" CommandParameter="{StaticResource Toolbar}" Icon="{StaticResource {x:Static themes:Icons.EditorToolbarVideoInputObject}}" Command="{Binding AddLiveVideoElementCommand}" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_VIDEO_INPUT_OBJECT_tooltip}" Visibility="{Binding ShowFullAddMenu, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <Border Grid.Column="9" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" Visibility="{Binding ShowFullAddMenu, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <commonControls:ToolBarButton Grid.Column="10" Margin="0,0,5,0" CommandParameter="{StaticResource Toolbar}" Icon="{StaticResource {x:Static themes:Icons.EditorToolbarWebObject}}" Command="{Binding AddHTMLElementCommand}" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_WEB_OBJECT_tooltip}" Visibility="{Binding ShowFullAddMenu, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </Grid>
+    </Border>
+    <Grid Row="0" Visibility="{Binding EditMode, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.Stage}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Row="0" Grid.Column="0" Height="40" Margin="0,25,0,0" CornerRadius="4" Background="{Binding SURFACE, Source={x:Static theming:AppTheme.Active}}">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <commonControls:ToolBarToggleButton Grid.Column="0" Margin="5,0,0,0" utility:ContextMenuHelper.OpenOnLeftClick="True" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_CURRENT_SLIDE_OBJECT_tooltip}">
+            <Grid>
+              <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static themes:Icons.EditorToolbarCurrentSlideObject}}" />
+              <commonControls:Icon Margin="0,0,-15,2" HorizontalAlignment="Right" VerticalAlignment="Center" IconSize="XXSmall" Source="{StaticResource {x:Static themes:Icons.DownArrow}}" />
+            </Grid>
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Placement="Bottom">
+                <MenuItem FontStyle="Italic" IsEnabled="False" Header="{mex:Localized EDITOR_MENU_INSERT_CURRENT_SLIDE_ITEM_title}" />
+                <MenuItem Command="{Binding AddCurrentStageSlideCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_PREVIEW_TEXT_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static slide:SlideMenuTextMode.TextOnly}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </MenuItem>
+                <MenuItem Command="{Binding AddStaticSlideImageCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_PREVIEW_IMAGE_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static links:SlideTargetSourceMode.Current}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </MenuItem>
+                <MenuItem Command="{Binding AddCurrentStageSlideCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_NOTES_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static slide:SlideMenuTextMode.Notes}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </MenuItem>
+                <MenuItem Command="{Binding AddCurrentStageSlideCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_PREVIEW_TEXT_AND_CHORDS_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static slide:SlideMenuTextMode.TextAndChords}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                  <HeaderedItemsControl.HeaderTemplate>
+                    <DataTemplate>
+                      <DockPanel LastChildFill="True">
+                        <Border DockPanel.Dock="Right" Style="{StaticResource EyeCatcher_Border}">
+                          <TextBlock Text="{mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_placeholder}" />
+                        </Border>
+                        <ContentControl Content="{Binding}" />
+                      </DockPanel>
+                    </DataTemplate>
+                  </HeaderedItemsControl.HeaderTemplate>
+                </MenuItem>
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </commonControls:ToolBarToggleButton>
+          <Border Grid.Column="1" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+          <commonControls:ToolBarToggleButton Grid.Column="2" utility:ContextMenuHelper.OpenOnLeftClick="True" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_NEXT_SLIDE_OBJECT_tooltip}">
+            <Grid>
+              <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static themes:Icons.EditorToolbarNextSlideObject}}" />
+              <commonControls:Icon Margin="0,0,-15,2" HorizontalAlignment="Right" VerticalAlignment="Center" IconSize="XXSmall" Source="{StaticResource {x:Static themes:Icons.DownArrow}}" />
+            </Grid>
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Placement="Bottom">
+                <MenuItem FontStyle="Italic" IsEnabled="False" Header="{mex:Localized EDITOR_MENU_INSERT_NEXT_SLIDE_ITEM_title}" />
+                <MenuItem Command="{Binding AddNextStageSlideCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_PREVIEW_TEXT_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static slide:SlideMenuTextMode.TextOnly}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </MenuItem>
+                <MenuItem Command="{Binding AddStaticSlideImageCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_PREVIEW_IMAGE_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static links:SlideTargetSourceMode.Next}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </MenuItem>
+                <MenuItem Command="{Binding AddNextStageSlideCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_NOTES_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static slide:SlideMenuTextMode.Notes}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </MenuItem>
+                <MenuItem Command="{Binding AddNextStageSlideCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_PREVIEW_TEXT_AND_CHORDS_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static slide:SlideMenuTextMode.TextAndChords}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                  <HeaderedItemsControl.HeaderTemplate>
+                    <DataTemplate>
+                      <DockPanel LastChildFill="True">
+                        <Border DockPanel.Dock="Right" Style="{StaticResource EyeCatcher_Border}">
+                          <TextBlock Text="{mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_placeholder}" />
+                        </Border>
+                        <ContentControl Content="{Binding}" />
+                      </DockPanel>
+                    </DataTemplate>
+                  </HeaderedItemsControl.HeaderTemplate>
+                </MenuItem>
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </commonControls:ToolBarToggleButton>
+          <Border Grid.Column="3" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+          <commonControls:ToolBarToggleButton Grid.Column="4" utility:ContextMenuHelper.OpenOnLeftClick="True" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_SCREEN_PREVIEW_OBJECT_tooltip}">
+            <Grid>
+              <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static themes:Icons.EditorToolbarSlidePreviewObject}}" />
+              <commonControls:Icon Margin="0,0,-15,2" HorizontalAlignment="Right" VerticalAlignment="Center" IconSize="XXSmall" Source="{StaticResource {x:Static themes:Icons.DownArrow}}" />
+            </Grid>
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Placement="Bottom" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                <ItemsControl.ItemsSource>
+                  <CompositeCollection>
+                    <MenuItem FontStyle="Italic" IsEnabled="False" Header="{mex:Localized EDITOR_MENU_INSERT_SCREEN_PREVIEW_title}" />
+                    <CollectionContainer Collection="{Binding Data.ScreenConfigVM.Screens, Source={StaticResource mainLayoutVM}}" />
+                  </CompositeCollection>
+                </ItemsControl.ItemsSource>
+                <ItemsControl.ItemContainerStyle>
+                  <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                    <Setter Property="MenuItem.Command" Value="{Binding EditorMenu.AddScreenPreviewElement.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" />
+                    <Setter Property="MenuItem.CommandParameter">
+                      <Setter.Value>
+                        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                          <Binding />
+                          <Binding Source="{StaticResource Toolbar}" />
+                        </MultiBinding>
+                      </Setter.Value>
+                    </Setter>
+                    <Setter Property="Header" Value="{Binding Name}" />
+                  </Style>
+                </ItemsControl.ItemContainerStyle>
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </commonControls:ToolBarToggleButton>
+          <Border Grid.Column="5" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+          <commonControls:ToolBarToggleButton Grid.Column="6" utility:ContextMenuHelper.OpenOnLeftClick="True" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_TIMER_OBJECT_tooltip}">
+            <Grid>
+              <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static themes:Icons.EditorToolbarTimersObject}}" />
+              <commonControls:Icon Margin="0,0,-15,2" HorizontalAlignment="Right" VerticalAlignment="Center" IconSize="XXSmall" Source="{StaticResource {x:Static themes:Icons.DownArrow}}" />
+            </Grid>
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type timer:TimerData}}">
+                      <MenuItem Command="{Binding Data.AddTimerStageItemCommand, Source={StaticResource slideEditorVM}}" Header="{Binding Name}">
+                        <MenuItem.CommandParameter>
+                          <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                            <Binding />
+                            <Binding Source="{StaticResource Toolbar}" />
+                          </MultiBinding>
+                        </MenuItem.CommandParameter>
+                        <FrameworkElement.Style>
+                          <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                            <Setter Property="MenuItem.Icon">
+                              <Setter.Value>
+                                <Image Source="{StaticResource {x:Static themes:Icons.EditorToolbarTimers}}" />
+                              </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                              <DataTrigger Value="CountdownToTime" Binding="{Binding Source.TimerType}">
+                                <Setter Property="MenuItem.Icon">
+                                  <Setter.Value>
+                                    <Image Source="{StaticResource {x:Static themes:Icons.EditorToolbarSegmentedCountdown}}" />
+                                  </Setter.Value>
+                                </Setter>
+                              </DataTrigger>
+                              <DataTrigger Value="ElapsedTime" Binding="{Binding Source.TimerType}">
+                                <Setter Property="MenuItem.Icon">
+                                  <Setter.Value>
+                                    <Image Source="{StaticResource {x:Static themes:Icons.EditorToolbarElapsedTimer}}" />
+                                  </Setter.Value>
+                                </Setter>
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </MenuItem>
+                    </ItemContainerTemplate>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <ItemsControl.ItemsSource>
+                  <CompositeCollection>
+                    <MenuItem FontStyle="Italic" IsEnabled="False" Header="{mex:Localized EDITOR_MENU_INSERT_TIMER_title}" />
+                    <CollectionContainer Collection="{Binding Data.Timers, Source={StaticResource slideEditorVM}}" />
+                    <Separator />
+                    <MenuItem CommandParameter="{StaticResource Toolbar}" Command="{Binding Data.AddSystemClockElementCommand, Source={StaticResource slideEditorVM}}" Header="{mex:Localized EDITOR_MENU_INSERT_SYSTEM_CLOCK_title}">
+                      <MenuItem.Icon>
+                        <Image Source="{StaticResource {x:Static themes:Icons.EditorToolbarSystemClock}}" />
+                      </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem CommandParameter="{StaticResource Toolbar}" Command="{Binding Data.AddStageVideoCountDownElementCommand, Source={StaticResource slideEditorVM}}" Header="{mex:Localized EDITOR_MENU_INSERT_VIDEO_COUNTDOWN_title}">
+                      <MenuItem.Icon>
+                        <Image Source="{StaticResource {x:Static themes:Icons.EditorToolbarVideoTimer}}" />
+                      </MenuItem.Icon>
+                    </MenuItem>
+                    <commonControls:RoutedMenuItem CommandParameter="{StaticResource Toolbar}" Command="{Binding EditorMenu.InsertAudioCountdown.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+                      <MenuItem.Icon>
+                        <Image Source="{StaticResource {x:Static themes:Icons.EditorToolbarAudioTimer}}" />
+                      </MenuItem.Icon>
+                    </commonControls:RoutedMenuItem>
+                  </CompositeCollection>
+                </ItemsControl.ItemsSource>
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </commonControls:ToolBarToggleButton>
+          <Border Grid.Column="7" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+          <commonControls:ToolBarToggleButton Grid.Column="8" utility:ContextMenuHelper.OpenOnLeftClick="True" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_PLAYBACK_MARKER_OBJECT_tooltip}">
+            <Grid>
+              <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static themes:Icons.EditorToolbarPlaybackMarkerObject}}" />
+              <commonControls:Icon Margin="0,0,-15,2" HorizontalAlignment="Right" VerticalAlignment="Center" utility:ContextMenuHelper.OpenOnLeftClick="True" IconSize="XXSmall" Source="{StaticResource {x:Static themes:Icons.DownArrow}}" />
+            </Grid>
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Placement="Bottom">
+                <MenuItem FontStyle="Italic" IsEnabled="False" Header="{mex:Localized TOOLBAR_EDITOR_MENU_INSERT_PLAYBACK_MARKER_title}" />
+                <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertPlaybackMarkerFirst.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized TOOLBAR_EDITOR_PLAYBACK_FIRST_MARKER_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static links:PlaybackMarkerIdentifierType.First}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </commonControls:RoutedMenuItem>
+                <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertPlaybackMarkerPrevious.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized TOOLBAR_EDITOR_PLAYBACK_PREVIOUS_MARKER_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static links:PlaybackMarkerIdentifierType.Previous}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </commonControls:RoutedMenuItem>
+                <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertPlaybackMarkerNext.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized TOOLBAR_EDITOR_PLAYBACK_NEXT_MARKER_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static links:PlaybackMarkerIdentifierType.Next}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </commonControls:RoutedMenuItem>
+                <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertPlaybackMarkerLast.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized TOOLBAR_EDITOR_PLAYBACK_LAST_MARKER_title}">
+                  <MenuItem.CommandParameter>
+                    <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                      <Binding Source="{x:Static links:PlaybackMarkerIdentifierType.Last}" />
+                      <Binding Source="{StaticResource Toolbar}" />
+                    </MultiBinding>
+                  </MenuItem.CommandParameter>
+                </commonControls:RoutedMenuItem>
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </commonControls:ToolBarToggleButton>
+          <Border Grid.Column="9" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+          <commonControls:ToolBarButton Grid.Column="10" Icon="{StaticResource {x:Static themes:Icons.EditorToolbarTextObject}}" Command="{Binding AddShapeCommand}" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_TEXT_OBJECT_tooltip}">
+            <ButtonBase.CommandParameter>
+              <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                <Binding Source="{x:Static shapes:ShapeType.Text}" />
+                <Binding Source="{StaticResource Toolbar}" />
+              </MultiBinding>
+            </ButtonBase.CommandParameter>
+          </commonControls:ToolBarButton>
+          <Border Grid.Column="11" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+          <commonControls:ToolBarToggleButton Grid.Column="12" utility:ContextMenuHelper.OpenOnLeftClick="True" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_SHAPE_OBJECT_tooltip}">
+            <Grid>
+              <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static themes:Icons.EditorToolbarShapesObject}}" />
+              <commonControls:Icon Margin="0,0,-15,2" HorizontalAlignment="Right" VerticalAlignment="Center" IconSize="XXSmall" Source="{StaticResource {x:Static themes:Icons.DownArrow}}" />
+            </Grid>
+            <FrameworkElement.ContextMenu>
+              <ContextMenu ItemsSource="{DynamicResource Source}" Placement="Bottom" />
+            </FrameworkElement.ContextMenu>
+          </commonControls:ToolBarToggleButton>
+          <Border Grid.Column="13" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+          <commonControls:ToolBarButton Grid.Column="14" CommandParameter="{StaticResource Toolbar}" Icon="{StaticResource {x:Static themes:Icons.EditorToolbarCustomShapesObject}}" Command="{Binding EditorMenu.InsertShapeCustom.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" ToolTip="{mex:Localized TOOLBAR_EDITOR_INSERT_CUSTOM_SHAPE_OBJECT_tooltip}" />
+          <Border Grid.Column="15" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+          <commonControls:ToolBarToggleButton Grid.Column="16" Margin="0,0,5,0" utility:ContextMenuHelper.OpenOnLeftClick="True" ToolTip="{mex:Localized TOOLBAR_EDITOR_MORE_tooltip}">
+            <Grid>
+              <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static themes:Icons.EditorToolbarEllipsis}}" />
+              <commonControls:Icon Margin="0,0,-15,2" HorizontalAlignment="Right" VerticalAlignment="Center" IconSize="XXSmall" Source="{StaticResource {x:Static themes:Icons.DownArrow}}" />
+            </Grid>
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Placement="Bottom">
+                <MenuItem CommandParameter="{StaticResource Toolbar}" Command="{Binding AddChordChartElementCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_CHORD_CHART_title}" />
+                <MenuItem CommandParameter="{StaticResource Toolbar}" Command="{Binding AddMessageCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_STAGE_MESSAGE_title}" />
+                <MenuItem CommandParameter="{StaticResource Toolbar}" Command="{Binding AddPCOLiveElementCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_PLANNING_CENTER_LIVE_title}" />
+                <Separator />
+                <commonControls:RoutedMenuItem CommandParameter="{StaticResource Toolbar}" Command="{Binding EditorMenu.InsertTimecode.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" />
+                <MenuItem Header="{mex:Localized TEXT_LINK_GROUP_NAME_title}">
+                  <MenuItem Command="{Binding AddGroupElementCommand}" Header="{mex:Localized TEXT_LINK_GROUP_NAME_CURRENT_SLIDE_title}">
+                    <MenuItem.CommandParameter>
+                      <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                        <Binding Source="{x:Static links:GroupSourceType.CurrentSlide}" />
+                        <Binding Source="{StaticResource Toolbar}" />
+                      </MultiBinding>
+                    </MenuItem.CommandParameter>
+                  </MenuItem>
+                  <MenuItem Command="{Binding AddGroupElementCommand}" Header="{mex:Localized TEXT_LINK_GROUP_NAME_NEXT_SLIDE_title}">
+                    <MenuItem.CommandParameter>
+                      <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                        <Binding Source="{x:Static links:GroupSourceType.NextSlide}" />
+                        <Binding Source="{StaticResource Toolbar}" />
+                      </MultiBinding>
+                    </MenuItem.CommandParameter>
+                  </MenuItem>
+                  <MenuItem Command="{Binding AddGroupElementCommand}" Header="{mex:Localized TEXT_LINK_GROUP_NAME_NEXT_GROUP_title}">
+                    <MenuItem.CommandParameter>
+                      <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                        <Binding Source="{x:Static links:GroupSourceType.NextGroup}" />
+                        <Binding Source="{StaticResource Toolbar}" />
+                      </MultiBinding>
+                    </MenuItem.CommandParameter>
+                  </MenuItem>
+                </MenuItem>
+                <MenuItem Header="{mex:Localized EDITOR_MENU_INSERT_SLIDE_LABEL_title}">
+                  <MenuItem Command="{Binding AddSlideLabelElementCommand}" Header="{mex:Localized TEXT_LINK_SLIDE_LABEL_CURRENT_SLIDE_title}">
+                    <MenuItem.CommandParameter>
+                      <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                        <Binding Source="{x:Static links:SlideTargetSourceMode.Current}" />
+                        <Binding Source="{StaticResource Toolbar}" />
+                      </MultiBinding>
+                    </MenuItem.CommandParameter>
+                  </MenuItem>
+                  <MenuItem Command="{Binding AddSlideLabelElementCommand}" Header="{mex:Localized TEXT_LINK_SLIDE_LABEL_NEXT_SLIDE_title}">
+                    <MenuItem.CommandParameter>
+                      <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+                        <Binding Source="{x:Static links:SlideTargetSourceMode.Next}" />
+                        <Binding Source="{StaticResource Toolbar}" />
+                      </MultiBinding>
+                    </MenuItem.CommandParameter>
+                  </MenuItem>
+                </MenuItem>
+                <MenuItem CommandParameter="{StaticResource Toolbar}" Command="{Binding AddCaptureStatusElementCommand}" Header="{mex:Localized EDITOR_MENU_INSERT_CAPTURE_STATUS_title}" />
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </commonControls:ToolBarToggleButton>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

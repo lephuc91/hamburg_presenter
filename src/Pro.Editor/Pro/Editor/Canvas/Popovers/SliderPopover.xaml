@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<local:PopoverBase x:Class="Pro.Editor.Canvas.Popovers.SliderPopover" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:Pro.Editor.Canvas.Popovers">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="150" />
+      <ColumnDefinition Width="50" />
+    </Grid.ColumnDefinitions>
+    <commonControls:FillSlider Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="None" Maximum="{Binding MaxValue}" Minimum="{Binding MinValue}" Value="{Binding Value, Mode=TwoWay}" />
+    <commonControls:IntegerUpDown Grid.Column="1" FrameworkElement.Height="20" FrameworkElement.HorizontalAlignment="Stretch" p6:UpDownBase.Maximum="{Binding MaxValue}" p6:UpDownBase.Minimum="{Binding MinValue}" p6:UpDownBase.Value="{Binding Value, Mode=TwoWay}" xmlns:p6="clr-namespace:Xceed.Wpf.Toolkit.Primitives;assembly=Xceed.Wpf.Toolkit" />
+  </Grid>
+</local:PopoverBase>

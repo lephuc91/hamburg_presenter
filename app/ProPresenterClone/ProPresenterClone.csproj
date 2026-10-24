@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>..\..\assets\ProPresenter.ico</ApplicationIcon>
+    <AssemblyName>ProPresenterClone</AssemblyName>
+    <RootNamespace>ProPresenterClone</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Pro.SerializationInterop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.SerializationInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Google.Protobuf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
+

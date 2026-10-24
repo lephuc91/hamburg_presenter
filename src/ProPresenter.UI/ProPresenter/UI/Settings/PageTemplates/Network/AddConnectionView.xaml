@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Settings.PageTemplates.Network.AddConnectionView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Title="AddConnectionView" Width="300" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.SendKeyEventsToMainWindow="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" ShowInTaskbar="False" ShowTitle="False" SizeToContent="Height" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" xmlns:network="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Network">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="MinWidth" Value="60" />
+        <Setter Property="Padding" Value="10,0" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Margin="0,5" HorizontalAlignment="Center" Text="{mex:Localized SETTINGS_PAGE_NETWORK_LINK_ADD_CONNECTION_DIALOG_title}" />
+    <TextBlock Grid.Row="1" Margin="20,0" HorizontalAlignment="Center" FontSize="11" TextAlignment="Center" TextWrapping="WrapWithOverflow" Foreground="{Binding CONTENTHELPER, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_PAGE_NETWORK_LINK_ADD_CONNECTION_DIALOG_info}" />
+    <Grid Row="2" Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Top">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="150" MaxWidth="150" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0" Margin="7,10,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_PAGE_NETWORK_LINK_MEMBER_IPADDRESS_title}" />
+      <TextBlock Grid.Row="1" Grid.Column="0" Margin="7,10,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_PAGE_NETWORK_LINK_MEMBER_PORT_title}" />
+      <commonControls:PlaceholderTextBox Name="ipTextbox" Grid.Row="0" Grid.Column="1" Height="22" Margin="7,10,7,0" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" PlaceholderText="192.0.2.15" TextContentHorizontalAlignment="Right" Text="{Binding Ip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+      <commonControls:IntegerUpDown Grid.Row="1" Grid.Column="1" Height="22" Margin="7,10,7,0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" AllowSpin="False" Maximum="65535" Minimum="1024" ShowButtonSpinner="False" UpdateValueOnEnterKey="False" Watermark="8080" Value="{Binding Port, UpdateSourceTrigger=PropertyChanged}" />
+      <StackPanel Grid.Row="2" Grid.Column="1" Margin="7,10,0,0" HorizontalAlignment="Left" Orientation="Horizontal">
+        <Button Margin="0,0,5,0" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" Click="Close_Click" />
+        <Button IsDefault="True" Command="{Binding ContinueCommand}" Content="{mex:Localized GLOBAL_CONTINUE_BUTTON_title}" />
+      </StackPanel>
+    </Grid>
+  </Grid>
+</windowing:ChromedWindow>

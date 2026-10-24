@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Devices.MidiDeviceSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:device="clr-namespace:Pro.MIDI;assembly=Pro.MIDI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Devices" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:settings="clr-namespace:ProPresenter.UI.Settings" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiBehaviors="clr-namespace:Pro.UI.Behaviors;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" x:Name="midiDevicesSettingsView">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="proxy" Data="{Binding}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="{Binding Source={x:Static settings:PageConstants.PAGE_MARGIN}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <controls:GroupedControl Grid.Row="0">
+      <Grid DataContext="{Binding Data, Source={StaticResource proxy}}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{markupExtensions:Localized SETTINGS_DEVICE_SETTINGS_PAGE_DEVICE_NAME_label}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="22" Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Text="{Binding TargetDevice.Label}">
+          <behaviors1:Interaction.Behaviors xmlns:behaviors1="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors">
+            <uiBehaviors:UpdateTextOnEnterKeyBehavior />
+            <uiBehaviors:ReleaseFocusOnMouseDownOutsideBehavior />
+          </behaviors1:Interaction.Behaviors>
+        </TextBox>
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{markupExtensions:Localized SETTINGS_DEVICE_SETTINGS_PAGE_DEVICE_AUTO_RECONNECT_label}" />
+        <controls:ToggleSwitch Grid.Row="1" Grid.Column="1" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding TargetDevice.Reconnect, Mode=TwoWay}" />
+      </Grid>
+    </controls:GroupedControl>
+    <Button Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" HorizontalAlignment="Right" Background="#FF8B0000" Command="{Binding RemoveDeviceItemCommand}" Content="{markupExtensions:Localized SETTINGS_DEVICE_SETTINGS_PAGE_DELETE_DEVICE_title}" Click="DeleteDevice_Click" />
+    <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Text="{markupExtensions:Localized SETTINGS_DEVICE_SETTINGS_PAGE_DEVICE_SOURCES_label}" />
+    <controls:GroupedControl Grid.Row="3" Grid.Column="0">
+      <Grid DataContext="{Binding Data, Source={StaticResource proxy}}">
+        <ItemsControl Grid.Row="0" Grid.Column="0" Margin="0,0,0,7" ItemsSource="{Binding Source={x:Static device:DeviceList.InputDevices}}">
+          <Control.Template>
+            <ControlTemplate>
+              <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+                <ItemsPresenter />
+              </ScrollViewer>
+            </ControlTemplate>
+          </Control.Template>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <utility:BindingProxy x:Key="deviceProxy" Data="{Binding}" />
+                    <local:ActiveMIDIDeviceAdapter x:Key="ActiveMIDIDeviceAdapter" ActiveMIDIDevices="{Binding Data.TargetDevice.ActiveInputs, Source={StaticResource proxy}}" DeviceInfo="{Binding Data.Info, Source={StaticResource deviceProxy}}" />
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Info.Name}" />
+                <controls:ToggleSwitch Grid.Row="0" Grid.Column="2" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding IsActive, Source={StaticResource ActiveMIDIDeviceAdapter}, Mode=TwoWay}" />
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Grid>
+    </controls:GroupedControl>
+    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Text="{markupExtensions:Localized SETTINGS_DEVICE_SETTINGS_PAGE_DEVICE_DESTINATIONS_label}" />
+    <controls:GroupedControl Grid.Row="5" Grid.Column="0">
+      <Grid DataContext="{Binding Data, Source={StaticResource proxy}}">
+        <ItemsControl Grid.Row="0" Grid.Column="0" Margin="0,0,0,7" ItemsSource="{Binding Source={x:Static device:DeviceList.OutputDevices}}">
+          <Control.Template>
+            <ControlTemplate>
+              <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+                <ItemsPresenter />
+              </ScrollViewer>
+            </ControlTemplate>
+          </Control.Template>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Grid>
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <utility:BindingProxy x:Key="deviceProxy" Data="{Binding}" />
+                    <local:ActiveMIDIDeviceAdapter x:Key="ActiveMIDIDeviceAdapter" ActiveMIDIDevices="{Binding Data.TargetDevice.ActiveOutputs, Source={StaticResource proxy}}" DeviceInfo="{Binding Data.Info, Source={StaticResource deviceProxy}}" />
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Info.Name}" />
+                <controls:ToggleSwitch Grid.Row="0" Grid.Column="2" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding IsActive, Source={StaticResource ActiveMIDIDeviceAdapter}, Mode=TwoWay}" />
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Grid>
+    </controls:GroupedControl>
+    <controls:HelpButton Grid.Row="7" Grid.Column="0" Margin="10,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Top" HelpCommand="{Binding Data.HelpCommand, Source={StaticResource proxy}}" />
+  </Grid>
+</UserControl>

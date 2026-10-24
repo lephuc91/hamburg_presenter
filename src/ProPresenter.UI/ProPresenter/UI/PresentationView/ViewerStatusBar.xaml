@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.ViewerStatusBar" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:text="clr-namespace:Pro.Text;assembly=Pro.Text" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transitions="clr-namespace:ProPresenter.UI.Transitions" x:Name="self" xmlns:presentationview="clr-namespace:ProPresenter.UI.PresentationView">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:FontInfoToFontGroupConverter x:Key="FontInfoToFontGroupConverter" />
+      <commonUtility:BindingProxy x:Key="statusBarSelf" Data="{Binding ElementName=self}" />
+      <ObjectDataProvider x:Key="TruncatingModesProvider" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:TruncatingMode" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <Style x:Key="ViewOptionPathControlStyle" TargetType="{x:Type commonControls:PathControl}">
+        <Setter Property="commonControls:PathControl.Fill" Value="{Binding ElementName=self, Path=Foreground}" />
+        <Setter Property="Height" Value="5" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="commonControls:PathControl.PathType" Value="DownArrow" />
+        <Setter Property="commonControls:PathControl.Stroke" Value="{Binding ElementName=self, Path=Foreground}" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Setter Property="Width" Value="5" />
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding IsMouseOver, ElementName=ViewOptionsPanel}" />
+              <Condition Value="True" Binding="{Binding IsViewOptionPopupAvailable, ElementName=self}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Visibility" Value="Visible" />
+          </MultiDataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="TopBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="UIElement.Effect" Value="{StaticResource ControlDropShadowEffect}" />
+        <Setter Property="Border.Padding" Value="0,0,5,5" />
+        <Setter Property="TextElement.Foreground" Value="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+      </Style>
+      <Style x:Key="SubBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="BorderBrush" Value="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="BorderThickness" Value="1" />
+      </Style>
+      <Style x:Key="PopupStyle" BasedOn="{StaticResource {x:Type commonControls:AnchoredPopup}}" TargetType="{x:Type commonControls:AnchoredPopup}">
+        <Setter Property="commonControls:AnchoredPopup.AllowsTransparency" Value="True" />
+        <Setter Property="commonControls:AnchoredPopup.Placement" Value="Top" />
+        <Setter Property="commonControls:AnchoredPopup.StaysOpen" Value="False" />
+        <Setter Property="Width" Value="260" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <transitions:SegmentedButton x:Name="MainTransitionButton" Grid.Column="0" IsGlobalAllowed="False" CollapseControlWidth="{Binding CollapseControlWidth, ElementName=self}" DisplayMode="{Binding TransitionDisplayMode, ElementName=self}" OutputController="{Binding OutputController}" ParentControlWidth="{Binding ActualWidth, ElementName=self}" SelectedTransition="{Binding SelectedTransition, Mode=TwoWay}" SimplifiedTransitionsButtons="{Binding SimplifiedTransitionsButtons, ElementName=self}" TransitionHandler="{Binding TransitionHandler}" />
+    <Separator Name="divider" Grid.Column="1" Height="18" Margin="5,7" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding IsSecondaryTransitionVisible, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <transitions:SegmentedButton x:Name="SecondaryTransitionButton" Grid.Column="2" DisplayMode="Background" IsGlobalAllowed="False" OutputController="{Binding TransitionControl.OutputController, ElementName=self}" SelectedTransition="{Binding TransitionControl.SelectedTransition, Mode=TwoWay, ElementName=self}" TransitionHandler="{Binding TransitionControl.TransitionHandler, ElementName=self}" Visibility="{Binding IsSecondaryTransitionVisible, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <ContentControl Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding CustomContent, ElementName=self}" />
+    <StackPanel Name="ViewOptionsPanel" Grid.Column="4" Orientation="Horizontal">
+      <commonControls:BorderlessRadioToggleButton Name="thumbnailViewOption" VerticalAlignment="Center" IsChecked="{Binding SelectedViewType, ElementName=self, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static do:PanelViewType.Thumbnail}}" ToolTip="{mex:Localized PRESENTATION_TOOLBAR_GRID_VIEW_tooltip}" Visibility="{Binding IsThumbnailViewAvailable, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/Footer/Grid.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessRadioToggleButton}}" />
+      </commonControls:BorderlessRadioToggleButton>
+      <commonControls:BorderlessRadioToggleButton Name="easyViewOption" Margin="6,0,0,0" VerticalAlignment="Center" IsChecked="{Binding SelectedViewType, ElementName=self, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static do:PanelViewType.EasyView}}" ToolTip="{mex:Localized PRESENTATION_TOOLBAR_EASY_VIEW_tooltip}" Visibility="{Binding IsEasyViewAvailable, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/Footer/Easy.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessRadioToggleButton}}" />
+      </commonControls:BorderlessRadioToggleButton>
+      <commonControls:BorderlessRadioToggleButton Name="listViewOption" Margin="6,0,0,0" VerticalAlignment="Center" IsChecked="{Binding SelectedViewType, ElementName=self, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static do:PanelViewType.List}}" ToolTip="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_tooltip}" Visibility="{Binding IsListViewAvailable, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/Footer/Table.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessRadioToggleButton}}" />
+      </commonControls:BorderlessRadioToggleButton>
+    </StackPanel>
+    <commonControls:BorderlessButton Name="OptionButton" Grid.Column="5" Margin="12,0,0,0" Visibility="{Binding IsViewOptionPopupAvailable, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" Click="OptionButton_Click">
+      <commonControls:ImageMask ImageSource="../Resources/Icons/Footer/Options.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+    </commonControls:BorderlessButton>
+    <commonControls:FillSlider Grid.Column="6" Margin="12,0,8,0" VerticalAlignment="Center" DockPanel.Dock="Right" IsDirectionReversed="True" IsMoveToPointEnabled="True" Width="{Binding FillSliderWidth, ElementName=self}" Maximum="{Binding MaxRowCapacity, ElementName=self}" Minimum="{Binding MinRowCapacity, ElementName=self}" Value="{Binding RowCapacity, ElementName=self}" />
+    <commonControls:AnchoredPopup Name="thumbnailSettingsPopup" Style="{StaticResource PopupStyle}" PlacementTarget="{Binding ElementName=thumbnailViewOption}">
+      <Border Style="{StaticResource TopBorderStyle}">
+        <Border Style="{StaticResource SubBorderStyle}">
+          <StackPanel Margin="10" Orientation="Vertical">
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding Data.ThumbnailViewSettings.ByGroups, Source={StaticResource statusBarSelf}}">
+              <TextBlock TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_TOOLBAR_GRID_VIEW_SLIDES_BY_GROUP_title}" />
+            </CheckBox>
+            <Separator Margin="0,10" />
+            <Grid HorizontalAlignment="Stretch">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <CheckBox Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding Data.ThumbnailViewSettings.UseBackgroundColor, Source={StaticResource statusBarSelf}}">
+                <TextBlock TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_TOOLBAR_GRID_VIEW_BACKGROUND_COLOR_title}" />
+              </CheckBox>
+              <commonControls:ColorPicker Grid.Column="1" Width="60" Height="22" IsEnabled="{Binding Data.ThumbnailViewSettings.UseBackgroundColor, Source={StaticResource statusBarSelf}}" SelectedColor="{Binding Data.ThumbnailViewSettings.BackgroundColor, Source={StaticResource statusBarSelf}}" />
+            </Grid>
+            <TextBlock Margin="0,3" TextWrapping="Wrap" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_GRID_VIEW_BACKGROUND_COLOR_explanation}" />
+          </StackPanel>
+        </Border>
+      </Border>
+    </commonControls:AnchoredPopup>
+    <commonControls:AnchoredPopup Name="easySettingsPopup" Style="{StaticResource PopupStyle}" PlacementTarget="{Binding ElementName=easyViewOption}">
+      <Border Style="{StaticResource TopBorderStyle}">
+        <Border Style="{StaticResource SubBorderStyle}">
+          <StackPanel Margin="10" Orientation="Vertical">
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding Data.EasyViewSettings.ByGroups, Source={StaticResource statusBarSelf}}">
+              <TextBlock TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_TOOLBAR_EASY_VIEW_BY_GROUP_title}" />
+            </CheckBox>
+            <CheckBox Margin="0,8,0,0" HorizontalAlignment="Left" IsChecked="{Binding Data.EasyViewSettings.ShowMediaActions, Source={StaticResource statusBarSelf}}">
+              <TextBlock TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_TOOLBAR_EASY_VIEW_SHOW_MEDIA_ACTIONS_title}" />
+            </CheckBox>
+            <Separator Margin="0,10" />
+            <Grid HorizontalAlignment="Stretch">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_EASY_VIEW_BACKGROUND_COLOR_title}" />
+              <commonControls:ColorPicker Grid.Column="1" Width="60" Height="22" SelectedColor="{Binding Data.EasyViewSettings.BackgroundColor, Source={StaticResource statusBarSelf}}" />
+            </Grid>
+            <TextBlock Margin="0,3" TextWrapping="Wrap" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_EASY_VIEW_BACKGROUND_COLOR_explanation}" />
+            <Separator Margin="0,10" />
+            <TextBlock Margin="0,0,0,5" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_EASY_VIEW_FONT_label}" />
+            <commonControls:FontSelector Grid.Column="0" Margin="0,0,0,5" SelectedCharacterSize="{Binding Data.EasyViewSettings.CharacterSize, Mode=TwoWay, Source={StaticResource statusBarSelf}}" SelectedFontGroup="{Binding Data.EasyViewSettings.Font, Mode=TwoWay, Source={StaticResource statusBarSelf}, Converter={StaticResource FontInfoToFontGroupConverter}}" SelectedFontInfo="{Binding Data.EasyViewSettings.Font, Source={StaticResource statusBarSelf}, Mode=TwoWay}" />
+            <commonControls:ColorPicker Width="60" HorizontalAlignment="Right" SelectedColor="{Binding Data.EasyViewSettings.TextColor, Source={StaticResource statusBarSelf}}" />
+            <Separator Margin="0,10" />
+            <TextBlock Margin="0,0,0,5" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_EASY_VIEW_ALIGNMENT_label}" />
+            <commonControls:ParagraphAlignmentSelector Width="Auto" Margin="0,0,0,5" HorizontalAlignment="Stretch" SelectedAlignment="{Binding Data.EasyViewSettings.HorizontalAlignment, Source={StaticResource statusBarSelf}}" />
+            <commonControls:DocumentAlignmentSelector Width="Auto" HorizontalAlignment="Stretch" SelectedAlignment="{Binding Data.EasyViewSettings.VerticalAlignment, Source={StaticResource statusBarSelf}}" />
+            <Grid Margin="0,5,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_EASY_VIEW_TRUNCATE_label}" />
+              <ComboBox Grid.Column="1" Height="22" HorizontalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource TruncatingModesProvider}}" SelectedItem="{Binding Data.EasyViewSettings.TruncatingMode, Source={StaticResource statusBarSelf}}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ComboBox>
+            </Grid>
+          </StackPanel>
+        </Border>
+      </Border>
+    </commonControls:AnchoredPopup>
+    <commonControls:AnchoredPopup Name="listSettingsPopup" Style="{StaticResource PopupStyle}" PlacementTarget="{Binding ElementName=listViewOption}">
+      <Border Style="{StaticResource TopBorderStyle}">
+        <Border Style="{StaticResource SubBorderStyle}">
+          <StackPanel Margin="10" Orientation="Vertical">
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding Data.ListViewSettings.ByGroups, Source={StaticResource statusBarSelf}}">
+              <TextBlock TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_BY_GROUP_title}" />
+            </CheckBox>
+            <Separator Margin="0,10" />
+            <Grid HorizontalAlignment="Stretch">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <CheckBox Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding Data.ListViewSettings.UseBackgroundColor, Source={StaticResource statusBarSelf}}">
+                <TextBlock TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_BACKGROUND_COLOR_title}" />
+              </CheckBox>
+              <commonControls:ColorPicker Grid.Column="1" Width="60" Height="22" IsEnabled="{Binding Data.ListViewSettings.UseBackgroundColor, Source={StaticResource statusBarSelf}}" SelectedColor="{Binding Data.ListViewSettings.BackgroundColor, Source={StaticResource statusBarSelf}}" />
+            </Grid>
+            <TextBlock Margin="0,3" TextWrapping="Wrap" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_BACKGROUND_COLOR_explanation}" />
+            <Separator Margin="0,10" />
+            <Grid HorizontalAlignment="Stretch">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_TABLE_BACKGROUND_COLOR_title}" />
+              <commonControls:ColorPicker Grid.Column="1" Width="60" Height="22" SelectedColor="{Binding Data.ListViewSettings.ControlBackgroundColor, Source={StaticResource statusBarSelf}}" />
+            </Grid>
+            <Separator Margin="0,10" />
+            <TextBlock Margin="0,0,0,5" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_FONT_label}" />
+            <commonControls:FontSelector Margin="0,0,0,5" SelectedCharacterSize="{Binding Data.ListViewSettings.CharacterSize, Mode=TwoWay, Source={StaticResource statusBarSelf}}" SelectedFontGroup="{Binding Data.ListViewSettings.Font, Mode=TwoWay, Source={StaticResource statusBarSelf}, Converter={StaticResource FontInfoToFontGroupConverter}}" SelectedFontInfo="{Binding Data.ListViewSettings.Font, Source={StaticResource statusBarSelf}, Mode=TwoWay}" />
+            <commonControls:ColorPicker Width="60" HorizontalAlignment="Right" SelectedColor="{Binding Data.ListViewSettings.TextColor, Source={StaticResource statusBarSelf}}" />
+            <Separator Margin="0,10" />
+            <TextBlock Margin="0,0,0,5" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_ALIGNMENT_label}" />
+            <commonControls:ParagraphAlignmentSelector Width="Auto" Margin="0,0,0,5" HorizontalAlignment="Stretch" SelectedAlignment="{Binding Data.ListViewSettings.HorizontalAlignment, Source={StaticResource statusBarSelf}}" />
+            <commonControls:DocumentAlignmentSelector Width="Auto" HorizontalAlignment="Stretch" SelectedAlignment="{Binding Data.ListViewSettings.VerticalAlignment, Source={StaticResource statusBarSelf}}" />
+            <Grid Margin="0,5,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{mex:Localized PRESENTATION_TOOLBAR_TABLE_VIEW_TRUNCATE_label}" />
+              <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource TruncatingModesProvider}}" SelectedItem="{Binding Data.ListViewSettings.TruncatingMode, Source={StaticResource statusBarSelf}}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Foreground="{Binding Data.Foreground, Source={StaticResource statusBarSelf}}" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ComboBox>
+            </Grid>
+          </StackPanel>
+        </Border>
+      </Border>
+    </commonControls:AnchoredPopup>
+  </Grid>
+</UserControl>

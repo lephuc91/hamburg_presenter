@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Search.MultiTracksPreview" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:search="clr-namespace:ProPresenter.UI.Search;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:IsNotNullOrWhiteSpaceConverter x:Key="IsNotNullOrWhiteSpaceConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ScrollViewer Grid.Row="0" Margin="0,12" VerticalScrollBarVisibility="Auto">
+      <TextBlock Margin="12,0" FontSize="13" FontWeight="Normal" TextWrapping="Wrap" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource Self}}" Text="{Binding Content}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding HasLyrics}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+    </ScrollViewer>
+    <Grid Row="1" Height="22" VerticalAlignment="Center">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Image Margin="0,0,7,7" VerticalAlignment="Center" Source="../Resources/Icons/Search/Lyrics.png">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Image}">
+            <Setter Property="ToolTipService.ToolTip" Value="{mex:Localized PRESENTATION_QUICK_SEARCH_PREVIEW_MULTITRACKS_LYRICS_ENABLED_tooltip}" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding Content, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="False" Binding="{Binding HasLyrics}">
+                <Setter Property="UIElement.Opacity" Value="0.4" />
+                <Setter Property="ToolTipService.ToolTip" Value="{mex:Localized PRESENTATION_QUICK_SEARCH_PREVIEW_MULTITRACKS_LYRICS_DISABLED_tooltip}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Image>
+      <Image Grid.Column="1" Margin="0,0,7,7" VerticalAlignment="Center" Source="../Resources/Icons/Search/Chords.png">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Image}">
+            <Setter Property="ToolTipService.ToolTip" Value="{mex:Localized PRESENTATION_QUICK_SEARCH_PREVIEW_MULTITRACKS_CHORDS_ENABLED_tooltip}" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding MusicalKey, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="False" Binding="{Binding HasChords}">
+                <Setter Property="UIElement.Opacity" Value="0.4" />
+                <Setter Property="ToolTipService.ToolTip" Value="{mex:Localized PRESENTATION_QUICK_SEARCH_PREVIEW_MULTITRACKS_CHORDS_DISABLED_tooltip}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Image>
+      <TextBlock Grid.Column="2" Margin="0,0,7,7" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold" Text="{Binding MusicalKey}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding HasChords}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="False" Binding="{Binding MusicalKey, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+      <Image Grid.Column="6" Margin="0,0,7,7" VerticalAlignment="Center" Source="../Resources/Icons/Search/Automation.png">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Image}">
+            <Setter Property="ToolTipService.ToolTip" Value="{mex:Localized PRESENTATION_QUICK_SEARCH_PREVIEW_MULTITRACKS_AUTOMATION_ENABLED_tooltip}" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding MusicalKey, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="False" Binding="{Binding HasAutomation}">
+                <Setter Property="UIElement.Opacity" Value="0.4" />
+                <Setter Property="ToolTipService.ToolTip" Value="{mex:Localized PRESENTATION_QUICK_SEARCH_PREVIEW_MULTITRACKS_AUTOMATION_DISABLED_tooltip}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Image>
+    </Grid>
+  </Grid>
+</UserControl>

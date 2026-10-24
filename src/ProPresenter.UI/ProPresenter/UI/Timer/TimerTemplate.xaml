@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Timer.TimerTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO.Timer;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Timer" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="timerTemplate" Foreground="{Binding LISTITEM_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverterNonCollapse" IsCollapsing="False" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverterNonCollapse" IsCollapsing="False" IsInverted="True" />
+      <local:TimerStateToBackgroundConverter x:Key="TimerStateToBackgroundConverter" />
+      <system1:Boolean x:Key="True" xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib">True</system1:Boolean>
+      <Boolean x:Key="False" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">False</Boolean>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Background="{Binding State, Converter={StaticResource TimerStateToBackgroundConverter}, ConverterParameter={StaticResource False}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:ExpanderToggleButton Name="expander" Grid.RowSpan="2" Margin="8,0" CollapsedPathType="VRightArrow" ExpandedPathType="VDownArrow" ShouldFill="False" uiUtility:ToggleButtonHelper.FocusElementOnClick="{Binding ElementName=EditTimerName}" IsChecked="{Binding IsExpanded}" />
+      <TextBlock Grid.Column="1" Margin="3,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding Name}" ToolTip="{Binding Name}" Visibility="{Binding IsChecked, ElementName=expander, Converter={StaticResource InvertedValueToVisibilityConverterNonCollapse}}" />
+      <TextBox Name="EditTimerName" Grid.Column="1" Height="19" VerticalAlignment="Center" HorizontalContentAlignment="Left" uiUtility:TextHelper.SetTextExplicitly="True" Text="{Binding Name}" ToolTip="{Binding Name}" Visibility="{Binding IsChecked, ElementName=expander, Converter={StaticResource ValueToVisibilityConverterNonCollapse}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
+            <Setter Property="Margin" Value="0,8,0,0" />
+            <Style.Triggers>
+              <DataTrigger Value="Collapsed" Binding="{Binding Visibility, ElementName=ResetButton}">
+                <Setter Property="Margin" Value="0,8,23,0" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBox>
+      <Grid Row="1" Column="1" Height="21" Margin="0,2,0,5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image Width="15" Height="15" Margin="0,0,8,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="Source" Value="../Resources/Icons/Timers/timerCountdown.png" />
+              <Style.Triggers>
+                <DataTrigger Value="CountdownToTime" Binding="{Binding TimerType}">
+                  <Setter Property="Source" Value="../Resources/Icons/Timers/timerCountdownToTime.png" />
+                </DataTrigger>
+                <DataTrigger Value="ElapsedTime" Binding="{Binding TimerType}">
+                  <Setter Property="Source" Value="../Resources/Icons/Timers/timerElapsedTime.png" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+        <TextBlock Name="RunningTimeDisplay" Grid.Column="1" HorizontalAlignment="Left">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type TextBlock}">
+              <Setter Property="FontSize" Value="16" />
+              <Setter Property="Margin" Value="0" />
+              <Setter Property="Text" Value="{Binding RunningTime}" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="CountdownToTime" Binding="{Binding TimerType}" />
+                    <Condition Value="Reset" Binding="{Binding State}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="FontSize" Value="13" />
+                  <Setter Property="Foreground" Value="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+                  <Setter Property="Margin" Value="0,2,0,0" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+      </Grid>
+      <commonControls:BorderlessButton Name="ResetButton" Grid.RowSpan="2" Grid.Column="2" Margin="5,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" Focusable="False" Command="{Binding ResetCommand, ElementName=timerTemplate}" CommandParameter="{Binding ID}" ToolTip="{mex:Localized MESSAGES_WINDOW_TIMER_RESET_BUTTON_tooltip}" Visibility="{Binding State, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:TimerState.Expired}}">
+        <commonControls:PathControl Width="14" Height="14" PathType="Beginning" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessButton Name="StartButton" Grid.RowSpan="2" Grid.Column="3" Margin="10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Focusable="False" Command="{Binding StartCommand, ElementName=timerTemplate}" CommandParameter="{Binding ID}" ToolTip="{mex:Localized MESSAGES_WINDOW_START_STOP_TIMER_BUTTON_STOPPED_tooltip}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <DataTrigger Value="Reset" Binding="{Binding State}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+              <DataTrigger Value="Paused" Binding="{Binding State}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+              <DataTrigger Value="Overran" Binding="{Binding State}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <commonControls:PathControl Width="16" Height="16" PathType="Play" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessButton Grid.RowSpan="2" Grid.Column="3" Margin="10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Focusable="True" Command="{Binding StopCommand, ElementName=timerTemplate}" CommandParameter="{Binding ID}" ToolTip="{mex:Localized MESSAGES_WINDOW_START_STOP_TIMER_BUTTON_RUNNING_tooltip}" Visibility="{Binding State, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static do:TimerState.Started}}">
+        <commonControls:PathControl Width="16" Height="16" PathType="Stop" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessButton Grid.RowSpan="2" Grid.Column="3" Margin="10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Focusable="True" Command="{Binding ResetCommand, ElementName=timerTemplate}" CommandParameter="{Binding ID}" ToolTip="{mex:Localized MESSAGES_WINDOW_TIMER_RESET_BUTTON_tooltip}" Visibility="{Binding State, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static do:TimerState.Expired}}">
+        <commonControls:PathControl Width="16" Height="16" PathType="Beginning" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessButton Grid.RowSpan="2" Grid.Column="3" Margin="10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding StopCommand, ElementName=timerTemplate}" CommandParameter="{Binding ID}" ToolTip="{mex:Localized MESSAGES_WINDOW_START_STOP_TIMER_BUTTON_RUNNING_tooltip}" Visibility="{Binding State, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static do:TimerState.Overrunning}}">
+        <commonControls:PathControl Width="16" Height="16" PathType="Stop" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+      </commonControls:BorderlessButton>
+    </Grid>
+    <Border Grid.Row="1" Background="{Binding State, Converter={StaticResource TimerStateToBackgroundConverter}, ConverterParameter={StaticResource True}}" Visibility="{Binding IsChecked, ElementName=expander, Converter={StaticResource ValueToVisibilityConverter}}">
+      <local:TimerDetails Margin="26,8,0,0" EndTime="{Binding EndTime, Mode=TwoWay}" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Format="{Binding Format}" Overrun="{Binding Overrun, Mode=TwoWay}" SelectedTimerType="{Binding TimerTypeSelectorVM.SelectedTimerType, Mode=TwoWay}" StartTime="{Binding StartTime, Mode=TwoWay}">
+        <local:TimerDetails.TimeFormat>
+          <PriorityBinding>
+            <Binding Mode="TwoWay" Path="TimeFormat" />
+          </PriorityBinding>
+        </local:TimerDetails.TimeFormat>
+        <local:TimerDetails.HasEndTime>
+          <PriorityBinding>
+            <Binding Mode="TwoWay" Path="HasEndTime" />
+          </PriorityBinding>
+        </local:TimerDetails.HasEndTime>
+      </local:TimerDetails>
+    </Border>
+  </Grid>
+</UserControl>

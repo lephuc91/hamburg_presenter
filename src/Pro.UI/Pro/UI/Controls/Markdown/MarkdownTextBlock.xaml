@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.Markdown.MarkdownTextBlock" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Pro.UI.Controls.Markdown" xmlns:themes="clr-namespace:Pro.UI.Themes">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <SolidColorBrush x:Key="DefaultLinkColorBrush" Color="{StaticResource {x:Static themes:Colors.Secondary}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <TextBlock Name="text" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:MarkdownTextBlock}}}" TextAlignment="{Binding TextAlignment, RelativeSource={RelativeSource AncestorType={x:Type local:MarkdownTextBlock}}}" TextTrimming="{Binding TextTrimming, RelativeSource={RelativeSource AncestorType={x:Type local:MarkdownTextBlock}}}" TextWrapping="{Binding TextWrapping, RelativeSource={RelativeSource AncestorType={x:Type local:MarkdownTextBlock}}}">
+    <FrameworkElement.Resources>
+      <ResourceDictionary>
+        <Style x:Key="{x:Type Hyperlink}" TargetType="{x:Type Hyperlink}">
+          <Setter Property="Foreground" Value="{Binding LinkTextForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MarkdownTextBlock}}}" />
+          <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding LinkTextForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MarkdownTextBlock}}}" Value="{x:Null}">
+              <Setter Property="Foreground" Value="{StaticResource DefaultLinkColorBrush}" />
+            </DataTrigger>
+            <Trigger Property="ContentElement.IsMouseOver" Value="True">
+              <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </ResourceDictionary>
+    </FrameworkElement.Resources>
+  </TextBlock>
+</UserControl>

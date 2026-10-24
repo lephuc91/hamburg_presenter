@@ -1,0 +1,20 @@
+{
+    "description": "Distorts as if looking through a bubble.",
+    "name": "Image Distortion",
+    "numPasses": 1,
+    "shaderFile": "ImageDistortion",
+    "type": 0,
+    "uuid": "8A0F0EB7-1F75-484B-8367-C390D94EA6C0",
+    "variables": [
+        {
+            "name": "scale",
+            "label": "Scale",
+            "description": "Adjust distortion",
+            "type": 1,
+            "min": [1, 1, 1, 1],
+            "max": [2, 2, 2, 2],
+            "defValue": [1.5, 1.5, 1.5, 1.5],
+            "value": [1.5, 1.5, 1.5, 1.5]
+        }
+    ]
+}

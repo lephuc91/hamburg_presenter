@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.Footer.SignedOutFooter" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.Footer" xmlns:markdown="clr-namespace:Pro.UI.Controls.Markdown;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <SolidColorBrush x:Key="SecondaryColorBrush" Color="{StaticResource {x:Static themes:Colors.ContentSecondary}}" />
+      <SolidColorBrush x:Key="OverlayBrush" Color="{StaticResource {x:Static themes:Colors.PopUpWindowOverlay}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <markdown:MarkdownTextBlock Name="enterConfirmationCodeHelpText" Margin="0,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource SecondaryColorBrush}" HyperlinkCommandsProvider="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SignedOutFooter}}}" Markdown="{mex:Localized SETTINGS_ACCOUNT_HAVING_TROUBLE_HELP_LINK_title, {x:Static local:SignedOutFooter.ENTER_CONFIRMATION_CODE_COMMAND_KEY}}" />
+    <commonControls:HelpButton Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" HelpCommand="{Binding HelpCommand}" />
+    <commonControls:ModalPopup HorizontalAlignment="Center" VerticalAlignment="Center" IsModal="True" OverlayBrush="{StaticResource OverlayBrush}" Placement="Center" IsOpen="{Binding EnterConfirmationCodeVM.IsVisible}" PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+      <local:EnterActivationCode DataContext="{Binding EnterConfirmationCodeVM}" />
+    </commonControls:ModalPopup>
+  </Grid>
+</UserControl>

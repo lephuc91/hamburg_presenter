@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.PlaybackBehaviorControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mediaLibrary="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:mediaProperties="clr-namespace:ProPresenter.DO.Media.Properties;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proSSAPI="clr-namespace:Pro.ssAPI;assembly=Pro.ssAPI" xmlns:proUI="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" x:Name="playbackBehavior" xmlns:cueinspector="clr-namespace:ProPresenter.UI.CueInspector">
+  <FrameworkElement.Resources>
+    <proUI:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <proUI:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:ValueToVisibilityConverter x:Key="BoolToVisConverter" IsInverted="True" />
+      <ObjectDataProvider x:Key="PlaybackBehaviorType" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="proSSAPI:PlaybackBehaviorType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="HardwareDecodingBehaviorType" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="mediaProperties:HardwareDecodingBehaviorType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="EndBehaviorType" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="proSSAPI:EndBehaviorType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:TimeSliceToTimeFormatConverter x:Key="TimeSliceToTimeFormatConverter" />
+      <mediaLibrary:TimeSliceToTotalSecondsConverter x:Key="TimeSliceToTotalSecondsConverter" />
+    </proUI:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" MinWidth="80" MaxWidth="200" SharedSizeGroup="CIPropertiesLabelColumnGroup" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Name="pbLabel" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_PLAYBACK_BEHAVIOR_label}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Margin" Value="0,0,10,5" />
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.Loop}" Binding="{Binding PlaybackBehaviorType, ElementName=playbackBehavior}">
+              <Setter Property="Margin" Value="0,0,10,0" />
+            </DataTrigger>
+            <DataTrigger Value="Audio" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <DataTrigger Value="Video" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <ComboBox Name="PlaybackBehaviorComboBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="22" VerticalAlignment="Stretch" VerticalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource PlaybackBehaviorType}}" SelectedItem="{Binding PlaybackBehaviorType, ElementName=playbackBehavior, Mode=TwoWay}" Visibility="{Binding Visibility, ElementName=pbLabel}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+          <Setter Property="Margin" Value="0,0,0,5" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.Loop}" Binding="{Binding PlaybackBehaviorType, ElementName=playbackBehavior}">
+              <Setter Property="Margin" Value="0,0,0,0" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_PLAYBACK_BEHAVIOR_TIMES_TO_LOOP_label}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.LoopForCount}" Binding="{Binding SelectedItem, ElementName=PlaybackBehaviorComboBox}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <commonControls:IntegerUpDown Grid.Row="1" Grid.Column="1" Height="22" HorizontalAlignment="Stretch" Maximum="{x:Static mediaProperties:TransportProperties.MAX_LOOP_COUNT}" Value="{Binding LoopCount, ElementName=playbackBehavior, Mode=TwoWay}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type commonControls:IntegerUpDown}}" TargetType="{x:Type commonControls:IntegerUpDown}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.LoopForCount}" Binding="{Binding SelectedItem, ElementName=PlaybackBehaviorComboBox}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </commonControls:IntegerUpDown>
+    <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_PLAYBACK_BEHAVIOR_LOOP_TIME_label}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.LoopForTime}" Binding="{Binding SelectedItem, ElementName=PlaybackBehaviorComboBox}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <commonControls:TimeSliceTextBox Grid.Row="2" Grid.Column="1" Height="22" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" TimeValue="{Binding LoopTime, Mode=TwoWay, ElementName=playbackBehavior}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type commonControls:TimeSliceTextBox}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.LoopForTime}" Binding="{Binding SelectedItem, ElementName=PlaybackBehaviorComboBox}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </commonControls:TimeSliceTextBox>
+    <Grid Row="3" Column="1" Height="28">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Grid}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.Stop}" Binding="{Binding SelectedItem, ElementName=PlaybackBehaviorComboBox}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <CheckBox Name="SoftLoopCheckBox" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_PLAYBACK_BEHAVIOR_SOFT_LOOP_label}" IsChecked="{Binding SoftLoop, ElementName=playbackBehavior}" />
+      <ComboBox Grid.Column="2" Height="22" MinWidth="80" ItemsSource="{x:Static mediaLibrary:SoftLoopHelper.Durations}" SelectedItem="{Binding SoftLoopDuration}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Value="false" Binding="{Binding IsChecked, ElementName=SoftLoopCheckBox}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Converter={StaticResource TimeSliceToTotalSecondsConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </Grid>
+    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_RETRIGGER_BEHAVIOR_label}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="Collapsed" Binding="{Binding Visibility, ElementName=pbLabel}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Audio" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Image" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="false" Binding="{Binding ShowRetriggeringBehaviorField, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <ComboBox Name="RetriggerBehaviorComboBox" Grid.Row="4" Grid.Column="1" Height="22" Margin="0,0,0,5" VerticalAlignment="Center" VerticalContentAlignment="Center" SelectedItem="{Binding RetriggerBehavior, ElementName=playbackBehavior, Mode=TwoWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+          <Setter Property="ItemsSource">
+            <Setter.Value>
+              <CompositeCollection>
+                <media:RetriggerBehavior>Always</media:RetriggerBehavior>
+                <media:RetriggerBehavior>Never</media:RetriggerBehavior>
+                <media:RetriggerBehavior>Automatic</media:RetriggerBehavior>
+              </CompositeCollection>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="Collapsed" Binding="{Binding Visibility, ElementName=pbLabel}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Audio" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Image" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="false" Binding="{Binding ShowRetriggeringBehaviorField, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </ComboBox>
+    <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_END_BEHAVIOR_label}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.Loop}" Binding="{Binding SelectedItem, ElementName=PlaybackBehaviorComboBox}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Collapsed" Binding="{Binding Visibility, ElementName=pbLabel}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Audio" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <ComboBox Name="EndBehaviorComboBox" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Height="22" Margin="0,0,0,10" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource EndBehaviorType}}" SelectedItem="{Binding EndBehaviorType, ElementName=playbackBehavior, Mode=TwoWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static proSSAPI:PlaybackBehaviorType.Loop}" Binding="{Binding SelectedItem, ElementName=PlaybackBehaviorComboBox}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Collapsed" Binding="{Binding Visibility, ElementName=pbLabel}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Audio" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </ComboBox>
+    <TextBlock Name="inPointLabel" Grid.Row="6" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_IN_POINT_label}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="Audio" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <DataTrigger Value="Video" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <Grid Row="6" Column="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:TimeFrameTextBox Grid.Column="0" Height="22" VerticalAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource {x:Type TextBox}}" TextAlignment="Right" FramesPerSecond="{Binding FramesPerSecond, ElementName=playbackBehavior}" TimeValue="{Binding InPoint, ElementName=playbackBehavior, Mode=TwoWay}" Visibility="{Binding Visibility, ElementName=inPointLabel}" />
+      <commonControls:BorderlessButton Grid.Column="1" Margin="2,0,0,0" Command="{Binding SetMediaInPointCommand, ElementName=playbackBehavior}" ToolTip="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_IN_POINT_tooltip}" Visibility="{Binding Visibility, ElementName=inPointLabel}">
+        <commonControls:PathControl VerticalAlignment="Center" Data="{StaticResource InOut}" StrokeThickness="0" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+      </commonControls:BorderlessButton>
+    </Grid>
+    <TextBlock Grid.Row="7" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_OUT_POINT_label}" Visibility="{Binding Visibility, ElementName=inPointLabel}" />
+    <Grid Row="7" Column="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:TimeFrameTextBox Grid.Column="0" Height="22" Margin="0,5" VerticalAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource {x:Type TextBox}}" TextAlignment="Right" FramesPerSecond="{Binding FramesPerSecond, ElementName=playbackBehavior}" TimeValue="{Binding OutPoint, ElementName=playbackBehavior, Mode=TwoWay}" Visibility="{Binding Visibility, ElementName=inPointLabel}" />
+      <commonControls:BorderlessButton Grid.Column="1" Margin="2,0,0,0" Command="{Binding SetMediaOutPointCommand, ElementName=playbackBehavior}" ToolTip="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_OUT_POINT_tooltip}" Visibility="{Binding Visibility, ElementName=inPointLabel}">
+        <commonControls:PathControl VerticalAlignment="Center" Data="{StaticResource InOut}" StrokeThickness="0" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+      </commonControls:BorderlessButton>
+    </Grid>
+    <TextBlock Grid.Row="8" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_DURATION_label}" />
+    <commonControls:TimeFrameTextBox Grid.Row="8" Grid.Column="1" Height="22" VerticalAlignment="Center" VerticalContentAlignment="Center" TextAlignment="Right" FramesPerSecond="{Binding FramesPerSecond, ElementName=playbackBehavior}" TimeValue="{Binding Duration, ElementName=playbackBehavior, Mode=TwoWay}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type commonControls:TimeFrameTextBox}">
+          <Setter Property="IsEnabled" Value="False" />
+          <Style.Triggers>
+            <DataTrigger Value="Image" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="IsEnabled" Value="True" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </commonControls:TimeFrameTextBox>
+    <TextBlock Grid.Row="9" Grid.Column="0" Margin="0,5,10,5" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_DELAY_TIME_label}" Visibility="{Binding ElementName=playbackBehavior, Path=HideDelayField, Converter={StaticResource BoolToVisConverter}}" />
+    <commonControls:TimeFrameTextBox Grid.Row="9" Grid.Column="1" Height="22" Margin="0,5" VerticalAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource {x:Type TextBox}}" TextAlignment="Right" FramesPerSecond="{Binding FramesPerSecond, ElementName=playbackBehavior}" TimeValue="{Binding DelayTime, Mode=TwoWay, ElementName=playbackBehavior}" Visibility="{Binding ElementName=playbackBehavior, Path=HideDelayField, Converter={StaticResource BoolToVisConverter}}" />
+    <TextBlock Grid.Row="10" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_PLAY_RATE_label}" Visibility="{Binding Visibility, ElementName=pbLabel}" />
+    <Grid Row="10" Column="1" Visibility="{Binding Visibility, ElementName=pbLabel}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Slider Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Maximum="2" Minimum=".2" TickFrequency=".1" Value="{Binding PlayRate, ElementName=playbackBehavior}" />
+      <commonControls:DoubleUpDown Grid.Column="1" Width="60" Height="22" VerticalAlignment="Center" FormatString="P0" Increment=".01" Maximum="2" Minimum=".2" TextAlignment="Right" Value="{Binding PlayRate, ElementName=playbackBehavior}" />
+    </Grid>
+    <TextBlock Name="hwDecodingLabel" Grid.Row="11" Grid.Column="0" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_HARDWARE_DECODING_label}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="Video" Binding="{Binding MediaType, ElementName=playbackBehavior}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <ComboBox Grid.Row="11" Grid.Column="1" Height="22" Margin="0,5,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource HardwareDecodingBehaviorType}}" SelectedItem="{Binding HardwareDecodingBehavior, ElementName=playbackBehavior, Mode=TwoWay}" Visibility="{Binding Visibility, ElementName=hwDecodingLabel}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+  </Grid>
+</UserControl>

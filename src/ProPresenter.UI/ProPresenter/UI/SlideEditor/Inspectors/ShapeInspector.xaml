@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.ShapeInspector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Interactions="http://schemas.microsoft.com/xaml/behaviors" xmlns:behaviors="clr-namespace:Pro.UI.Behaviors;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:doFills="clr-namespace:ProPresenter.DO.Slide.Custom.Elements.Fills;assembly=ProPresenter.DO" xmlns:editModes="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:fills="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Fills" xmlns:linkUIs="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Links" xmlns:links="clr-namespace:ProPresenter.DO.Slide.Links;assembly=ProPresenter.DO" xmlns:localConverters="clr-namespace:ProPresenter.UI.SlideEditor.Converters" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:shadows="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Shadows" xmlns:slideElements="clr-namespace:ProPresenter.DO.Slide.Custom.Elements;assembly=ProPresenter.DO" xmlns:strokes="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Strokes" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="shapeInspector" xmlns:inspectors="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="pack://application:,,,/ProPresenter.UI;component/Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+      <localConverters:RoundedDoubleConverter x:Key="RoundedDoubleConverter" IsNegativeAllowed="False" />
+      <localConverters:SelectedFillNameConverter x:Key="SelectedFillNameConverter" />
+      <localConverters:SlideObjectLinkEqualityConverter x:Key="SlideObjectLinkEqualityConverter" />
+      <localConverters:PreviewScreenLinkEqualityConverter x:Key="PreviewScreenLinkEqualityConverter" />
+      <localConverters:SlideObjectLinkEqualityConverter x:Key="InvertedSlideObjectLinkEqualityConverter" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" IsInverted="True" />
+      <commonUtility:BindingProxy x:Key="shapeInspectorProxy" Data="{Binding ElementName=shapeInspector}" />
+      <commonUtility:BindingProxy x:Key="shapeInspectorVMProxy" Data="{Binding}" />
+      <ObjectDataProvider x:Key="VisibilityCriterions" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type links:VisibilityCriterion}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <Style x:Key="AlignmentButtonStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="#00FFFFFF" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type Button}">
+              <Border Name="border" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" SnapsToDevicePixels="true">
+                <ContentPresenter Name="contentPresenter" Margin="{TemplateBinding Control.Padding}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" Focusable="False" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+              </Border>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="24" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:DoubleUpDown}" BasedOn="{StaticResource {x:Type commonControls:DoubleUpDown}}" TargetType="{x:Type commonControls:DoubleUpDown}">
+        <Setter Property="Height" Value="24" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Width" Value="60" />
+      </Style>
+      <Style x:Key="LabelStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="9" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <ContextMenu x:Key="FillMenus" Placement="Bottom" MinWidth="{Binding Path=PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <MenuItem CommandParameter="{x:Static doFills:FillType.Solid}" Command="{Binding UpdateFillCommand}" Header="{mex:Localized GRAPHIC_FILL_COLOR_title}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.IsChecked" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Solid" Binding="{Binding FillType}" />
+                    <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <MenuItem CommandParameter="{x:Static doFills:FillType.Gradient}" Command="{Binding UpdateFillCommand}" Header="{mex:Localized GRAPHIC_FILL_GRADIENT_title}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.IsChecked" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Gradient" Binding="{Binding FillType}" />
+                    <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <MenuItem CommandParameter="{x:Static doFills:FillType.Media}" Command="{Binding UpdateFillCommand}" Header="{mex:Localized GRAPHIC_FILL_MEDIA_title}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.IsChecked" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Media" Binding="{Binding FillType}" />
+                    <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <MenuItem CommandParameter="{x:Static doFills:FillType.HTML}" Command="{Binding UpdateFillCommand}" Header="{mex:Localized GRAPHIC_FILL_WEB_title}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.IsChecked" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="HTML" Binding="{Binding FillType}" />
+                    <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <MenuItem CommandParameter="{x:Static doFills:FillType.Live}" Command="{Binding UpdateFillCommand}" Header="{mex:Localized GRAPHIC_FILL_VIDEO_INPUT_title}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.IsChecked" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Live" Binding="{Binding FillType}" />
+                    <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <Separator Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem Name="BackgroundEffectMenu" Header="{mex:Localized GRAPHIC_FILL_BACKGROUND_EFFECT_title}" Visibility="{Binding ShowBackgroundEffects, Converter={StaticResource ValueToVisibilityConverter}}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.IsChecked" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="BackgroundEffectBlur" Binding="{Binding FillType}" />
+                    <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="BackgroundEffectInvert" Binding="{Binding FillType}" />
+                    <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <MenuItem CommandParameter="{x:Static doFills:FillType.BackgroundEffectBlur}" Command="{Binding UpdateFillCommand}" Header="{mex:Localized GRAPHIC_FILL_BACKGROUND_EFFECT_BLUR_title}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                <Setter Property="MenuItem.IsChecked" Value="False" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="BackgroundEffectBlur" Binding="{Binding FillType}" />
+                      <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="MenuItem.IsChecked" Value="True" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </MenuItem>
+          <MenuItem CommandParameter="{x:Static doFills:FillType.BackgroundEffectInvert}" Command="{Binding UpdateFillCommand}" Header="{mex:Localized GRAPHIC_FILL_BACKGROUND_EFFECT_INVERT_title}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                <Setter Property="MenuItem.IsChecked" Value="False" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="BackgroundEffectInvert" Binding="{Binding FillType}" />
+                      <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="MenuItem.IsChecked" Value="True" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </MenuItem>
+        </MenuItem>
+        <Separator Visibility="{Binding ShowBackgroundEffects, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <MenuItem Header="{mex:Localized FILL_LINK_SLIDE_OBJECT_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.Element}, Converter={StaticResource EnumToBooleanConverter}}" ItemsSource="{Binding FillLinkVM.ElementFillLinkVM.LinkableElements}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <ItemsControl.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Command" Value="{Binding Data.FillLinkVM.ElementFillLinkVM.SelectElementCommand, Source={StaticResource shapeInspectorVMProxy}}" />
+              <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+              <Setter Property="MenuItem.IsChecked">
+                <Setter.Value>
+                  <MultiBinding Converter="{StaticResource SlideObjectLinkEqualityConverter}">
+                    <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                    <Binding Path="Data.FillLinkVM.ElementFillLinkVM.LinkedElement" Source="{StaticResource shapeInspectorVMProxy}" />
+                  </MultiBinding>
+                </Setter.Value>
+              </Setter>
+              <Setter Property="IsEnabled">
+                <Setter.Value>
+                  <MultiBinding Converter="{StaticResource InvertedSlideObjectLinkEqualityConverter}">
+                    <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                    <Binding Path="Data.FillLinkVM.ElementFillLinkVM.FirstElement" Source="{StaticResource shapeInspectorVMProxy}" />
+                  </MultiBinding>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </MenuItem>
+        <Separator Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem CommandParameter="{x:Static links:SlideTargetSourceMode.Current}" Command="{Binding FillLinkVM.SlideImageLinkVM.SlideImageFillCommand}" Header="{mex:Localized FILL_LINK_CURRENT_SLIDE_IMAGE_title}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.IsChecked" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="SlidePreview" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                    <Condition Value="Current" Binding="{Binding FillLinkVM.SlideImageLinkVM.SlideTargetSourceMode}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <MenuItem CommandParameter="{x:Static links:SlideTargetSourceMode.Next}" Command="{Binding FillLinkVM.SlideImageLinkVM.SlideImageFillCommand}" Header="{mex:Localized FILL_LINK_NEXT_SLIDE_IMAGE_title}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.IsChecked" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="SlidePreview" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                    <Condition Value="Next" Binding="{Binding FillLinkVM.SlideImageLinkVM.SlideTargetSourceMode}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="MenuItem.IsChecked" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <Separator Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem Header="{mex:Localized FILL_LINK_SCREEN_PREVIEW_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.PreviewScreen}, Converter={StaticResource EnumToBooleanConverter}}" ItemsSource="{Binding FillLinkVM.OutputScreenLinkVM.Screens}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <ItemsControl.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Command" Value="{Binding Data.FillLinkVM.OutputScreenLinkVM.SelectScreeenCommand, Source={StaticResource shapeInspectorVMProxy}}" />
+              <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+              <Setter Property="MenuItem.IsChecked">
+                <Setter.Value>
+                  <MultiBinding Converter="{StaticResource PreviewScreenLinkEqualityConverter}">
+                    <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                    <Binding Path="Data.FillLinkVM.OutputScreenLinkVM.SelectedScreen" Source="{StaticResource shapeInspectorVMProxy}" />
+                  </MultiBinding>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </MenuItem>
+        <Separator Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem CommandParameter="{x:Static links:LinkedFillType.ChordChart}" Command="{Binding FillLinkVM.SetLinkedFillCommand}" Header="{mex:Localized FILL_LINK_CHORD_CHART_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.ChordChart}, Converter={StaticResource EnumToBooleanConverter}}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem CommandParameter="{x:Static links:LinkedFillType.PCOLive}" Command="{Binding FillLinkVM.SetLinkedFillCommand}" Header="{mex:Localized FILL_LINK_PLANNING_CENTER_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.PCOLive}, Converter={StaticResource EnumToBooleanConverter}}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem CommandParameter="{x:Static links:LinkedFillType.GroupColor}" Command="{Binding FillLinkVM.SetLinkedFillCommand}" Header="{mex:Localized FILL_LINK_GROUP_COLOR_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.GroupColor}, Converter={StaticResource EnumToBooleanConverter}}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem CommandParameter="{x:Static links:LinkedFillType.SlideLabelColor}" Command="{Binding FillLinkVM.SetLinkedFillCommand}" Header="{mex:Localized FILL_LINK_LABEL_COLOR_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.SlideLabelColor}, Converter={StaticResource EnumToBooleanConverter}}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem CommandParameter="{x:Static links:LinkedFillType.CaptureStatusColor}" Command="{Binding FillLinkVM.SetLinkedFillCommand}" Header="{mex:Localized FILL_LINK_CAPTURE_STATUS_COLOR_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.CaptureStatusColor}, Converter={StaticResource EnumToBooleanConverter}}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <Separator Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem CommandParameter="{x:Static links:LinkedFillType.PlaybackMarkerColor}" Command="{Binding FillLinkVM.SetLinkedFillCommand}" Header="{mex:Localized FILL_LINK_PLAYBACK_MARKER_COLOR_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.PlaybackMarkerColor}, Converter={StaticResource EnumToBooleanConverter}}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <MenuItem CommandParameter="{x:Static links:LinkedFillType.TimecodeStatusColor}" Command="{Binding FillLinkVM.SetLinkedFillCommand}" Header="{mex:Localized FILL_LINK_TIMECODE_STATUS_title}" IsChecked="{Binding FillLinkVM.LinkedFillType, ConverterParameter={x:Static links:LinkedFillType.TimecodeStatusColor}, Converter={StaticResource EnumToBooleanConverter}}" Visibility="{Binding EditMode, ConverterParameter={x:Static editModes:EditMode.Mask}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+      </ContextMenu>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="0,5,0,0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="2" Visibility="{Binding ShowFullInspector, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type Image}" TargetType="{x:Type Image}">
+              <Setter Property="Image.StretchDirection" Value="DownOnly" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <Button CommandParameter="{x:Static slideElements:AlignmentType.Left}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding AlignCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeLeft.png" />
+        </Button>
+        <Button CommandParameter="{x:Static slideElements:AlignmentType.Center}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding AlignCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeCenter.png" />
+        </Button>
+        <Button CommandParameter="{x:Static slideElements:AlignmentType.Right}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding AlignCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeRight.png" />
+        </Button>
+      </StackPanel>
+      <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type Image}" TargetType="{x:Type Image}">
+              <Setter Property="Image.StretchDirection" Value="DownOnly" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <Button CommandParameter="{x:Static slideElements:AlignmentType.Top}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding AlignCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeTop.png" />
+        </Button>
+        <Button CommandParameter="{x:Static slideElements:AlignmentType.Middle}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding AlignCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeMiddle.png" />
+        </Button>
+        <Button CommandParameter="{x:Static slideElements:AlignmentType.Bottom}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding AlignCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeBottom.png" />
+        </Button>
+      </StackPanel>
+      <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type Image}" TargetType="{x:Type Image}">
+              <Setter Property="Image.StretchDirection" Value="DownOnly" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <Button CommandParameter="{x:Static slideElements:DistributionType.Horizontally}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding DistributeCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeHorizontally.png" />
+        </Button>
+        <Button CommandParameter="{x:Static slideElements:DistributionType.Vertically}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding DistributeCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeVertically.png" />
+        </Button>
+        <Button CommandParameter="{x:Static slideElements:DistributionType.Evenly}" Style="{StaticResource AlignmentButtonStyle}" Command="{Binding DistributeCommand}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Arrange/arrangeEvenly.png" />
+        </Button>
+      </StackPanel>
+    </Grid>
+    <Separator Grid.Row="3" Margin="-10,10" Visibility="{Binding ShowFullInspector, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Grid Row="4">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_POSITION_label}" />
+      <commonControls:DoubleUpDown Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" FormatString="F0" LargeIncrement="10" Value="{Binding Left, Mode=TwoWay}">
+        <behaviors1:Interaction.Behaviors xmlns:behaviors1="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors">
+          <behaviors:DoubleUpDownMathExpressionBehavior />
+        </behaviors1:Interaction.Behaviors>
+      </commonControls:DoubleUpDown>
+      <commonControls:DoubleUpDown Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" FormatString="F0" LargeIncrement="10" Value="{Binding Top, Mode=TwoWay}">
+        <Interaction.Behaviors xmlns="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors">
+          <behaviors:DoubleUpDownMathExpressionBehavior />
+        </Interaction.Behaviors>
+      </commonControls:DoubleUpDown>
+      <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,0,0,5" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}" Text="{mex:Localized GLOBAL_X_COORDINATE}" />
+      <TextBlock Grid.Row="1" Grid.Column="4" Margin="0,0,0,5" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}" Text="{mex:Localized GLOBAL_Y_COORDINATE}" />
+      <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SIZE_label}" />
+      <commonControls:DoubleUpDown Grid.Row="2" Grid.Column="2" FormatString="F0" LargeIncrement="10" Maximum="10000" IsEnabled="{Binding IsWidthSupported}" Value="{Binding Width, Mode=TwoWay, Converter={StaticResource RoundedDoubleConverter}}">
+        <Interaction.Behaviors xmlns="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors">
+          <behaviors:DoubleUpDownMathExpressionBehavior />
+        </Interaction.Behaviors>
+      </commonControls:DoubleUpDown>
+      <commonControls:BorderlessToggleButton Grid.Row="2" Grid.Column="3" Margin="5,0" IsChecked="{Binding IsAspectRatioLocked}" ToolTip="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_ASPECT_RATIO_LOCK_BUTTON_tooltip}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessToggleButton}}" TargetType="{x:Type commonControls:BorderlessToggleButton}">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate>
+                  <commonControls:ImageMask HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{Binding BUTTON_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type commonControls:ImageMask}">
+                        <Style.Triggers>
+                          <DataTrigger Value="False" Binding="{Binding IsAspectRatioLocked}">
+                            <Setter Property="commonControls:ImageMask.ImageSource" Value="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Shape/Lock/unlock.png" />
+                          </DataTrigger>
+                          <DataTrigger Value="True" Binding="{Binding IsAspectRatioLocked}">
+                            <Setter Property="commonControls:ImageMask.ImageSource" Value="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Shape/Lock/lock.png" />
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </commonControls:ImageMask>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding IsAspectRatioLockForced}">
+                <Setter Property="ToggleButton.IsChecked" Value="True" />
+                <Setter Property="IsEnabled" Value="False" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:BorderlessToggleButton>
+      <commonControls:DoubleUpDown Grid.Row="2" Grid.Column="4" FormatString="F0" LargeIncrement="10" Maximum="10000" IsEnabled="{Binding IsHeightSupported}" Value="{Binding Height, Mode=TwoWay, Converter={StaticResource RoundedDoubleConverter}}">
+        <Interaction.Behaviors xmlns="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors">
+          <behaviors:DoubleUpDownMathExpressionBehavior />
+        </Interaction.Behaviors>
+      </commonControls:DoubleUpDown>
+      <TextBlock Grid.Row="3" Grid.Column="2" Margin="0,0,0,5" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}" Text="{mex:Localized GLOBAL_WIDTH}" />
+      <TextBlock Grid.Row="3" Grid.Column="4" Margin="0,0,0,5" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}" Text="{mex:Localized GLOBAL_HEIGHT}" />
+      <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_TRANSFORM_label}" />
+      <StackPanel Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding ShowFullInspector, Converter={StaticResource ValueToVisibilityConverter}}">
+        <ToggleButton Padding="3,0" IsChecked="{Binding FlipHorizontally}" ToolTip="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_FLIP_HORIZONTALLY_BUTTON_tooltip}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Flip/vertical.png" />
+        </ToggleButton>
+        <ToggleButton Padding="3,0" IsChecked="{Binding FlipVertically}" ToolTip="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_FLIP_VERTICALLY_BUTTON_tooltip}">
+          <Image Source="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Flip/flipVertical.png" />
+        </ToggleButton>
+      </StackPanel>
+      <commonControls:RotatorUpDownPicker Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Angle="{Binding Rotation, Mode=TwoWay}" IsEnabled="{Binding IsRotationSupported}" />
+      <TextBlock Grid.Row="5" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource LabelStyle}" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_ROTATION_CONTROL_title}" />
+    </Grid>
+    <Separator Grid.Row="5" Margin="-10,10" Visibility="{Binding ShowFullInspector, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Grid Row="6" Visibility="{Binding ShowFullInspector, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_OPACITY_label}" />
+      <commonControls:UnitsSlider Grid.Column="1" Grid.ColumnSpan="2" Margin="20,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FillMode="Opacity" IsSnapToTickEnabled="True" LargeChange="20" Maximum="100" Minimum="0" SmallChange="1" TickFrequency="1" Units="%" Value="{Binding Opacity, Mode=TwoWay, Converter={commonConverters:PercentageConverter}}" />
+    </Grid>
+    <Separator Grid.Row="7" Margin="-10,10" Visibility="{Binding ShowFullInspector, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Grid Row="8" Visibility="{Binding ShowFullInspector, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <CheckBox Name="fillCheck" Grid.Row="0" Grid.Column="0" Height="22" Margin="0,0,14,0" VerticalAlignment="Top" Content="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_FILL_label}" IsChecked="{Binding IsFillVisible, Mode=TwoWay}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+            <Setter Property="IsEnabled" Value="True" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding IsFillSupported}">
+                <Setter Property="IsEnabled" Value="False" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </CheckBox>
+      <Button Name="FillSelector" Grid.Row="0" Grid.Column="1" Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" ContextMenu="{Binding Source={StaticResource FillMenus}}" IsEnabled="{Binding IsFillSupported}" Visibility="{Binding IsChecked, ElementName=fillCheck, Converter={StaticResource ValueToVisibilityConverter}}">
+        <Grid Width="{Binding ActualWidth, ElementName=FillSelector}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text">
+                  <Setter.Value>
+                    <MultiBinding Converter="{StaticResource SelectedFillNameConverter}">
+                      <Binding Path="Data.FillType" Source="{StaticResource shapeInspectorVMProxy}" />
+                      <Binding Path="Data.FillLinkVM.LinkedFillType" Source="{StaticResource shapeInspectorVMProxy}" />
+                      <Binding Path="Data.FillLinkVM.ElementFillLinkVM.LinkedElement" Source="{StaticResource shapeInspectorVMProxy}" />
+                      <Binding Path="Data.FillLinkVM.SlideImageLinkVM.SlideTargetSourceMode" Source="{StaticResource shapeInspectorVMProxy}" />
+                      <Binding Path="Data.FillLinkVM.OutputScreenLinkVM.SelectedScreen" Source="{StaticResource shapeInspectorVMProxy}" />
+                    </MultiBinding>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+          <commonControls:PathControl Grid.Column="1" Width="8" Height="8" Margin="0,0,8,0" HorizontalAlignment="Right" PathType="DownArrow" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+        </Grid>
+      </Button>
+      <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Visibility="{Binding IsChecked, ElementName=fillCheck, Converter={StaticResource ValueToVisibilityConverter}}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Setter Property="Content" Value="{x:Null}" />
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static doFills:FillType.Solid}" Binding="{Binding FillType}" />
+                  <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <fills:SolidColors Margin="0,5,0,0" HorizontalAlignment="Right" />
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static doFills:FillType.Gradient}" Binding="{Binding FillType}" />
+                  <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <fills:GradientColors Margin="0,5,0,0" HorizontalAlignment="Right" />
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static doFills:FillType.Media}" Binding="{Binding FillType}" />
+                  <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <fills:Media Margin="0,5,0,0" HorizontalAlignment="Stretch" CreateMediaFillCommand="{Binding CreateMediaFillCommand}" EditMediaCommand="{Binding Data.EditMediaCommand, Source={StaticResource shapeInspectorProxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static doFills:FillType.Live}" Binding="{Binding FillType}" />
+                  <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <fills:LiveVideo Margin="0,5,0,0" HorizontalAlignment="Stretch" AvailableInputs="{Binding AvailableInputs}" LiveVideoMedia="{Binding Fill.LiveVideo}" OpenSetupCommand="{Binding OpenSetupCommand}" />
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static doFills:FillType.HTML}" Binding="{Binding FillType}" />
+                  <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <fills:HTMLFill Margin="0,5,0,0" HorizontalAlignment="Stretch" />
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static doFills:FillType.BackgroundEffectBlur}" Binding="{Binding FillType}" />
+                  <Condition Value="None" Binding="{Binding FillLinkVM.LinkedFillType}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <fills:BackgroundEffectBlur Margin="5,10,0,0" Slide="{Binding SelectedSlide}" />
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+              <DataTrigger Value="{x:Static links:LinkedFillType.PCOLive}" Binding="{Binding FillLinkVM.LinkedFillType}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <linkUIs:PlanningCenter Margin="0,5,0,0" HorizontalAlignment="Right" DataContext="{Binding Data.FillLinkVM.PCOLinkVM, Source={StaticResource shapeInspectorVMProxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="{x:Static links:LinkedFillType.GroupColor}" Binding="{Binding FillLinkVM.LinkedFillType}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <linkUIs:GroupColor Margin="0,5,0,0" HorizontalAlignment="Right" DataContext="{Binding Data.FillLinkVM.GroupColorFillLinkVM, Source={StaticResource shapeInspectorVMProxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="{x:Static links:LinkedFillType.SlideLabelColor}" Binding="{Binding FillLinkVM.LinkedFillType}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <linkUIs:SlideLabelColor Margin="0,5,0,0" HorizontalAlignment="Right" DataContext="{Binding Data.FillLinkVM.SlideLabelColorFillLinkVM, Source={StaticResource shapeInspectorVMProxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="{x:Static links:LinkedFillType.PlaybackMarkerColor}" Binding="{Binding FillLinkVM.LinkedFillType}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <linkUIs:PlaybackMarker Margin="45,5,0,0" HorizontalAlignment="Stretch" IsText="False" DataContext="{Binding Data.FillLinkVM.PlaybackMarkerColorFillLinkVM, Source={StaticResource shapeInspectorVMProxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentControl>
+    </Grid>
+    <Separator Grid.Row="9" Margin="-10,10" Visibility="{Binding ShowStroke, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Grid Row="10" Visibility="{Binding ShowStroke, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <CheckBox Name="strokeCheck" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_STROKE_label}" IsChecked="{Binding IsStrokeVisible, Mode=TwoWay}" />
+      <ContentControl Grid.Row="1" Margin="0,5,0,0" Visibility="{Binding IsChecked, ElementName=strokeCheck, Converter={StaticResource ValueToVisibilityConverter}}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Setter Property="Content" Value="{x:Null}" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding IsChecked, ElementName=strokeCheck}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <strokes:Strokes HorizontalAlignment="Right" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentControl>
+    </Grid>
+    <Separator Grid.Row="11" Margin="-10,10" Visibility="{Binding ShowShadow, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Grid Row="12" Visibility="{Binding ShowShadow, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <CheckBox Name="shadowCheck" Grid.Row="0" VerticalAlignment="Center" Content="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_label}" IsChecked="{Binding IsShadowVisible, Mode=TwoWay}" />
+      <ContentControl Grid.Row="1">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Setter Property="Content" Value="{x:Null}" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding IsChecked, ElementName=shadowCheck}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <shadows:DropShadows Margin="0,5,0,0" HorizontalAlignment="Right" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentControl>
+    </Grid>
+    <Separator Grid.Row="13" Margin="-10,10" Visibility="{Binding ShowFeatheringOption, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Grid Row="14" Visibility="{Binding ShowFeatheringOption, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <CheckBox Name="featheringCheckBox" Grid.Column="0" VerticalAlignment="Center" Content="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_FEATHERING_label}" IsChecked="{Binding FeatherEnabled, Mode=TwoWay}" />
+      <ContentControl Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center" Visibility="{Binding IsChecked, ElementName=featheringCheckBox, Converter={StaticResource ValueToVisibilityConverter}}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Setter Property="Content" Value="{x:Null}" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding IsChecked, ElementName=featheringCheckBox}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <commonControls:UnitsSlider Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" FillMode="Feather" IsSnapToTickEnabled="True" LargeChange="20" Maximum="100" Minimum="0" SmallChange="1" TickFrequency="1" Units="%" Value="{Binding FeatherRadius, Mode=TwoWay, Converter={commonConverters:PercentageConverter}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentControl>
+    </Grid>
+    <Separator Grid.Row="15" Margin="-10,10" Visibility="{Binding ShowVisibility, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Grid Row="16" Visibility="{Binding ShowVisibility, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <CheckBox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_VISIBILITY_label}" IsChecked="{Binding VisibilityLinkVM.IsVisibilityLinkEnabled, Mode=TwoWay}" />
+      <linkUIs:Visibility Grid.Row="1" Margin="0,5,0,0" DataContext="{Binding VisibilityLinkVM}" Visibility="{Binding IsVisibilityLinkEnabled, Converter={StaticResource ValueToVisibilityConverter}}" />
+    </Grid>
+  </Grid>
+</UserControl>

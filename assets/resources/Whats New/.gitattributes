@@ -1,0 +1,7 @@
+autoClearProps.png filter=lfs diff=lfs merge=lfs -text
+singlePropMode.png filter=lfs diff=lfs merge=lfs -text
+updatedSettings.png filter=lfs diff=lfs merge=lfs -text
+propCollections.png filter=lfs diff=lfs merge=lfs -text
+tcpIP.png filter=lfs diff=lfs merge=lfs -text
+userAccounts.png filter=lfs diff=lfs merge=lfs -text
+whatsNewRefresh.png filter=lfs diff=lfs merge=lfs -text

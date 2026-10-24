@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CloudWorkspaces.SyncStatusIndicator" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:accountCenter="clr-namespace:ProPresenter.UI.ViewModels.AccountCenter" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:cloudworkspaces="clr-namespace:ProPresenter.UI.CloudWorkspaces" Resources="{converters:EnumToContentConverter Key=EnumToContentConverter}">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Image Grid.Column="0" Width="16" Height="16" Margin="0,0,4,0">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Image}">
+          <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.SyncActive}}" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static accountCenter:SyncStatus.Active}" Binding="{Binding CloudSyncStatus.Value}">
+              <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.SyncActive}}" />
+            </DataTrigger>
+            <DataTrigger Value="{x:Static accountCenter:SyncStatus.Paused}" Binding="{Binding CloudSyncStatus.Value}">
+              <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.SyncPause}}" />
+            </DataTrigger>
+            <DataTrigger Value="{x:Static accountCenter:SyncStatus.Offline}" Binding="{Binding CloudSyncStatus.Value}">
+              <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.SyncOffline}}" />
+            </DataTrigger>
+            <DataTrigger Value="{x:Static accountCenter:SyncStatus.Error}" Binding="{Binding CloudSyncStatus.Value}">
+              <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.SyncOffline}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding CloudSyncStatus.Value}" Value="{x:Null}">
+              <Setter Property="Source" Value="{x:Null}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Image>
+    <TextBlock Grid.Column="1" VerticalAlignment="Center" FontStyle="Italic" Text="{Binding CloudSyncStatus.Value, Converter={StaticResource EnumToContentConverter}}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type TextBlock}">
+          <Setter Property="Foreground" Value="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static accountCenter:SyncStatus.Active}" Binding="{Binding CloudSyncStatus.Value}">
+              <Setter Property="Foreground" Value="{StaticResource {x:Static themesUI:Brushes.StateActive}}" />
+            </DataTrigger>
+            <DataTrigger Value="{x:Static accountCenter:SyncStatus.Paused}" Binding="{Binding CloudSyncStatus.Value}">
+              <Setter Property="Foreground" Value="{StaticResource {x:Static themesUI:Brushes.StateCaution}}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+  </Grid>
+</UserControl>

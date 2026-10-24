@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ScreenPreviewControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:preview="clr-namespace:ProPresenter.UI.Preview" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="screenPreviewControlSelf" Background="{Binding PREVIEWBACKGROUND, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PREVIEWFOREGROUND, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonUtility:BindingProxy x:Key="vmproxy" Data="{Binding}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="27" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Grid Row="0" Column="0" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+      <preview:OutputPreviewControl Grid.Row="1" Grid.Column="0" DataContext="{Binding Data.PreviewVM, Source={StaticResource vmproxy}}" />
+    </Grid>
+    <local:PreviewClearActionControl Grid.Row="0" Grid.Column="1" ClearAllCommand="{Binding ClearAllCommand, ElementName=screenPreviewControlSelf}" ClearAnnouncementCommand="{Binding ClearAnnouncementCommand, ElementName=screenPreviewControlSelf}" ClearAudioCommand="{Binding ClearAudioCommand, ElementName=screenPreviewControlSelf}" ClearBackgroundCommand="{Binding ClearBackgroundCommand, ElementName=screenPreviewControlSelf}" ClearGroups="{Binding ClearGroups}" ClearMessagesCommand="{Binding ClearMessagesCommand, ElementName=screenPreviewControlSelf}" ClearPropsCommand="{Binding ClearPropsCommand, ElementName=screenPreviewControlSelf}" ClearSlideCommand="{Binding ClearSlideCommand, ElementName=screenPreviewControlSelf}" ClearVideoInputCommand="{Binding ClearVideoInputCommand, ElementName=screenPreviewControlSelf}" TriggerClearGroupCommand="{Binding TriggerClearGroupCommand, ElementName=screenPreviewControlSelf}" />
+    <Grid Row="1" Column="0" ColumnSpan="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" MaxWidth="200" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <commonControls:BorderlessButton Grid.Column="0" Height="22" MinWidth="100" Margin="8,0,0,0" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text" Value="{Binding SelectedPreviewScreen.Name}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding SelectedPreviewScreen}" Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="Text" Value="{mex:Localized SIDEBAR_OUTPUT_SELECTOR_BUTTON_NO_SELECTION_title}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+          <Border Width="16" Margin="4,0,0,0" HorizontalAlignment="Right">
+            <commonControls:PathControl Name="Arrow" Grid.Column="1" Width="8" Height="8" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="#00FFFFFF" PathType="VDownArrow" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+          </Border>
+        </StackPanel>
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Placement="Bottom">
+            <ItemsControl.ItemsSource>
+              <CompositeCollection>
+                <CollectionContainer>
+                  <CollectionContainer.Collection>
+                    <preview:ScreenSelector SelectScreenCommand="{Binding Data.SetScreenIDCommand, Source={StaticResource vmproxy}}" SelectedScreen="{Binding Data.SelectedPreviewScreen, Source={StaticResource vmproxy}}" />
+                  </CollectionContainer.Collection>
+                </CollectionContainer>
+                <Separator />
+                <preview:WindowedOutputMenuItem />
+              </CompositeCollection>
+            </ItemsControl.ItemsSource>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+      </commonControls:BorderlessButton>
+      <Button Grid.Column="1" Margin="0,0,8,0" Padding="10,0" HorizontalAlignment="Right" uiUtility:UIElementHelper.Palette="{Binding CLEARTOLOGO_PALETTE, Source={x:Static theming:AppTheme.Active}}" Command="{Binding TriggerLogoCommand}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Logo}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{mex:Localized SIDEBAR_CLEAR_TO_LOGO_title}" />
+      </Button>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.GenericTextBoxDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="self" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" Loaded="GenericTextBoxDialog_OnLoaded">
+  <TextBox Name="GenericTextBox" Width="250" Height="22" VerticalContentAlignment="Center" Text="{Binding ItemName, ElementName=self}" />
+</UserControl>

@@ -1,0 +1,9 @@
+{
+    "category": "None",
+    "description": "Cut.",
+    "name": "Cut",
+    "numPasses": 1,
+    "shaderFile": "cut",
+    "type": 1,
+    "uuid": "AB29D07B-E9E2-4E0A-93BD-AD3EA58120FA"
+}

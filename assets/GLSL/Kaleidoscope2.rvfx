@@ -1,0 +1,50 @@
+{
+    "description": "Filters based on color.",
+    "name": "Kaleidoscope 2",
+    "numPasses": 1,
+    "shaderFile": "Kaleidoscope2",
+    "type": 0,
+    "uuid": "47BAC53A-761B-478D-AC74-2CA7A8CFB7D5",
+    "variables": [
+        {
+            "name": "speed",
+            "label": "Speed",
+            "description": "Speed of effect",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "numSides",
+            "label": "Sides",
+            "description": "Number of sides",
+            "type": 0,
+            "min": [4, 4, 4, 4],
+            "max": [20, 20, 20, 20],
+            "defValue": [7, 7, 7, 7],
+            "value": [7, 7, 7, 7]
+        },
+        {
+            "name": "centerX",
+            "label": "Center X",
+            "description": "Horizontal center",
+            "type": 1,
+            "min": [-1, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0, 0.5, 0.5, 0.5],
+            "value": [0, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "centerY",
+            "label": "Center Y",
+            "description": "Vertical center",
+            "type": 1,
+            "min": [-1, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0, 0.5, 0.5, 0.5],
+            "value": [0, 0.5, 0.5, 0.5]
+        }
+    ]
+}

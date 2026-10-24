@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Welcome.ScreenConfigPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Welcome" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:outputConfig="clr-namespace:ProPresenter.UI.OutputConfiguration" xmlns:outputConfigurationDO="clr-namespace:ProPresenter.DO.OutputConfiguration;assembly=ProPresenter.DO" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <Grid>
+    <FrameworkElement.Resources>
+      <ResourceDictionary>
+        <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+        <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsCollapsing="False" />
+        <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+        <commonUtility:BindingProxy x:Key="screenConfigVM" Data="{Binding ScreenConfigVM}" />
+        <outputConfig:DeviceSelector x:Key="deviceSelector" HorizontalAlignment="Right" Placement="Bottom" AddCombinedScreenCommand="{Binding Data.AddCombinedScreenCommand, Source={StaticResource screenConfigVM}}" AddEdgeBlendScreenCommand="{Binding Data.AddEdgeBlendScreenCommand, Source={StaticResource screenConfigVM}}" AssignDeviceCommand="{Binding Data.AssignDeviceCommand, Source={StaticResource screenConfigVM}}" AttachedPhysicalDevices="{Binding Data.AttachedPhysicalDevices, Source={StaticResource screenConfigVM}}" ClearScreenIdentifyCommand="{Binding Data.ClearScreenIdentifyCommand, Source={StaticResource screenConfigVM}}" Devices="{Binding Data.OutputConfiguration.Devices, Source={StaticResource screenConfigVM}}" IdentifyScreenCommand="{Binding Data.IdentifyScreenCommand, Source={StaticResource screenConfigVM}}" />
+      </ResourceDictionary>
+    </FrameworkElement.Resources>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,0,40" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="30" IsHitTestVisible="False" Text="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_title}" />
+      <commonControls:HelpButton Grid.Column="1" Margin="0,0,-63,0" HorizontalAlignment="Right" VerticalAlignment="Top" HelpCommand="{Binding OpenScreenConfigurationHelpCommand}" />
+    </Grid>
+    <Border Grid.Row="1" Margin="0,0,0,30" Padding="40" BorderThickness="1" CornerRadius="8" Background="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding (uiUtility:UIElementHelper.Palette).Standard.Border, RelativeSource={RelativeSource Self}}">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,0,72">
+          <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Text="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_AUDIENCE_SCREENS_label}" />
+          <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" TextWrapping="Wrap" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource Self}}" Text="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_AUDIENCE_explanation}" />
+          <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="22" Height="22" Margin="0,0,5,0" Source="../Resources/Icons/WarningIcon.png">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Image}">
+                <Setter Property="Visibility" Value="Hidden" />
+                <Style.Triggers>
+                  <DataTrigger Value="True" Binding="{Binding ScreenConfigVM.SelectedAudienceScreenArrangement.HasConflictingScreens}">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Image>
+          <local:ScreenConfigurationScreenSelectionButton Grid.RowSpan="2" Grid.Column="2" VerticalAlignment="Center" DeviceSelector="{StaticResource deviceSelector}" ScreenTargetType="{x:Static outputConfigurationDO:ScreenTargetType.Audience}" Configuration="{Binding Data.AudienceScreen, Source={StaticResource proxy}}" />
+        </Grid>
+        <Grid Row="1" VerticalAlignment="Bottom">
+          <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Text="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_STAGE_SCREENS_label}" />
+          <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" TextWrapping="Wrap" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource Self}}" Text="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_STAGE_explanation}" />
+          <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Width="22" Height="22" Margin="0,0,5,0" Source="../Resources/Icons/WarningIcon.png">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Image}">
+                <Setter Property="Visibility" Value="Hidden" />
+                <Style.Triggers>
+                  <DataTrigger Value="True" Binding="{Binding ScreenConfigVM.SelectedStageScreenArrangement.HasConflictingScreens}">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </Image>
+          <local:ScreenConfigurationScreenSelectionButton Grid.RowSpan="2" Grid.Column="2" VerticalAlignment="Center" DeviceSelector="{StaticResource deviceSelector}" ScreenTargetType="{x:Static outputConfigurationDO:ScreenTargetType.Stage}" Configuration="{Binding Data.StageScreen, Source={StaticResource proxy}}" />
+        </Grid>
+      </Grid>
+    </Border>
+    <TextBlock Grid.Row="2" Margin="20,0,0,12" HorizontalAlignment="Left" FontSize="16" IsHitTestVisible="False" TextWrapping="Wrap" Text="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_ADDITIONAL_SCREENS_explanation}" />
+    <commonControls:BorderlessButton Grid.Row="3" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Bottom" uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" Cursor="Hand" FontSize="18" Command="{Binding ScreensMenu.ConfigureScreens.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Content="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_HELP_LINK_title}" Foreground="{Binding TOGGLESWITCH_PALETTE.Checked.Background, Source={x:Static theming:AppTheme.Active}}" />
+    <TextBlock Grid.Row="5" Width="750" Margin="0,0,0,12" HorizontalAlignment="Left" FontSize="14" IsHitTestVisible="False" TextWrapping="NoWrap" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource Self}}" Text="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_ACCESS_explanation}" />
+  </Grid>
+</UserControl>

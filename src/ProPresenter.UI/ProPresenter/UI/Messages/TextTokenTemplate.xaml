@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Messages.TextTokenTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="textTokenSelf" xmlns:messages="clr-namespace:ProPresenter.UI.Messages" Foreground="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding TokenName, ElementName=textTokenSelf, StringFormat={}{0}}" />
+    <TextBlock Grid.Row="1" Grid.Column="0" Margin="15,0,5,5" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized MESSAGES_WINDOW_TEXT_PROMPT_TEXT_LABEL_title}" />
+    <TextBox Grid.Row="1" Grid.Column="1" Height="22" Margin="0,0,0,5" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ElementName=textTokenSelf}" />
+  </Grid>
+</UserControl>

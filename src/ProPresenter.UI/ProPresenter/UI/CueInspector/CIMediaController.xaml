@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.CIMediaController" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtilities="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.CueInspector" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transportControls="clr-namespace:ProPresenter.UI.TransportStatus" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <system1:Boolean x:Key="True" xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib">True</system1:Boolean>
+      <Boolean x:Key="False" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">False</Boolean>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonUtilities:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonUtilities:BindingProxy x:Key="selfProxy" Data="{Binding ElementName=self}" />
+      <ContextMenu x:Key="StepBackwardButtonContextMenu" Placement="Right" ItemsSource="{Binding Data.StepPositionIntervals, Source={StaticResource proxy}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" />
+            </Style>
+            <Style x:Key="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Command" Value="{Binding Data.SetStepBackwardPositionCommand, Source={StaticResource proxy}}" />
+              <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+              <Setter Property="HeaderedItemsControl.HeaderStringFormat" Value="+{0}" />
+              <Setter Property="MenuItem.IsChecked">
+                <Setter.Value>
+                  <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                    <Binding Mode="OneWay" Path="Data.StepBackwardPosition" Source="{StaticResource proxy}" />
+                  </MultiBinding>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ContextMenu>
+      <ContextMenu x:Key="StepForwardButtonContextMenu" Placement="Right" ItemsSource="{Binding Data.StepPositionIntervals, Source={StaticResource proxy}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" />
+            </Style>
+            <Style x:Key="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Command" Value="{Binding Data.SetStepForwardPositionCommand, Source={StaticResource proxy}}" />
+              <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+              <Setter Property="HeaderedItemsControl.HeaderStringFormat" Value="-{0}" />
+              <Setter Property="MenuItem.IsChecked">
+                <Setter.Value>
+                  <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                    <Binding Mode="OneWay" Path="Data.StepForwardPosition" Source="{StaticResource proxy}" />
+                  </MultiBinding>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ContextMenu>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="30,0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <ui:PlaybackScrubber Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Center" Focusable="True" Style="{StaticResource FullPlaybackScrubber}" uiUtility:UIElementHelper.Palette="{Binding PLAYBACKSLIDER_PALETTE, Source={x:Static theming:AppTheme.Active}}" BeginScrubCommand="{Binding BeginScrubCommand}" EndScrubCommand="{Binding EndScrubCommand}" InPoint="{Binding InPoint}" OutPoint="{Binding OutPoint}" PlaybackMarkers="{Binding PlaybackMarkers, ElementName=self}" Playhead="{Binding CurrentTime}" ScrubCommand="{Binding ScrubCommand}" SelectMarkerCommand="{Binding SelectMarkerCommand, ElementName=self}" SetContextMenuPositionCommand="{Binding SetContextMenuPositionCommand, ElementName=self}" StartDragInPointCommand="{Binding StartDragInPointCommand}" StartDragOutPointCommand="{Binding StartDragOutPointCommand}" StopDragInPointCommand="{Binding StopDragInPointCommand}" StopDragOutPointCommand="{Binding StopDragOutPointCommand}" TotalDuration="{Binding Duration}" TriggeredMedia="{Binding ActiveMediaCue.MediaAction.Media}">
+      <ui:PlaybackScrubber.MarkerContextMenu>
+        <ContextMenu Closed="MarkerMenu_Closed" Opened="MarkerMenu_Opened">
+          <ItemsControl.ItemsSource>
+            <local:PlaybackMarkerContextMenuSource UsePopupRename="True" ActionsMenuVM="{Binding Data.ActionsMenuVM, Source={StaticResource selfProxy}}" ContextMenuTarget="{Binding Data.ContextMenuTarget, Source={StaticResource selfProxy}, Mode=TwoWay}" MarkerColor="{Binding Data.MarkerColor, Source={StaticResource selfProxy}, Mode=TwoWay}" MarkerName="{Binding Data.MarkerName, Source={StaticResource selfProxy}, Mode=TwoWay}" MoveToPlayheadCommand="{Binding Data.MoveToPlayheadCommand, Source={StaticResource selfProxy}}" />
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </ui:PlaybackScrubber.MarkerContextMenu>
+      <FrameworkElement.ContextMenu>
+        <ContextMenu>
+          <ItemsControl.ItemsSource>
+            <local:PlaybackScrubberContextMenuSource AddPlaybackMarkerCommand="{Binding Data.AddPlaybackMarkerCommand, Source={StaticResource selfProxy}}" />
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </ui:PlaybackScrubber>
+    <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="{Binding CurrentTimeStr}" />
+    <Grid Row="1" Column="1" Margin="0,8" HorizontalAlignment="Center">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <transportControls:JumpStartButton Grid.Column="0" Margin="10,0,0,0" CommandParameter="{StaticResource True}" ContextMenu="{StaticResource StepBackwardButtonContextMenu}" Command="{Binding GoToCIPositionCommand}" JumpTime="{Binding StepBackwardPosition}" />
+      <commonControls:BorderlessRepeatButton Grid.Column="1" Margin="2,0" Command="{Binding StepCIMediaBackwardCommand}" Visibility="{Binding ActiveMediaCue.MediaAction.Media.MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.Audio}}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/TransportControls/StepBackward.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessRepeatButton}}" />
+      </commonControls:BorderlessRepeatButton>
+      <commonControls:BorderlessRepeatButton Grid.Column="2" Margin="2,0" Command="{Binding StepCIMediaForwardCommand}" Visibility="{Binding ActiveMediaCue.MediaAction.Media.MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.Audio}}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/TransportControls/StepForward.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessRepeatButton}}" />
+      </commonControls:BorderlessRepeatButton>
+      <commonControls:BorderlessButton Grid.Column="3" Margin="2,0" Command="{Binding PauseCIMediaCommand}" Visibility="{Binding IsPlaying, Converter={StaticResource ValueToVisibilityConverter}}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/TransportControls/Pause.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessButton Grid.Column="4" Margin="2,0" Command="{Binding PlayCIMediaCommand}" Visibility="{Binding IsPlaying, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/TransportControls/Play.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessButton Grid.Column="5" Margin="2,0" Command="{Binding JumpBack15SecondsCommand}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/TransportControls/JumpBack_15.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessButton Grid.Column="6" Margin="2,0" Command="{Binding JumpForward15SecondsCommand}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/TransportControls/JumpForward_15.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      </commonControls:BorderlessButton>
+      <transportControls:JumpEndButton Grid.Column="7" Margin="0,0,10,0" CommandParameter="{StaticResource False}" ContextMenu="{StaticResource StepForwardButtonContextMenu}" Command="{Binding GoToCIPositionCommand}" JumpTime="{Binding StepForwardPosition}" />
+    </Grid>
+    <TextBlock Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Text="{Binding RemainingTimeStr, StringFormat=-{0}}" />
+  </Grid>
+</UserControl>

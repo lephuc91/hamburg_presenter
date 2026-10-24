@@ -1,0 +1,26 @@
+using System;
+
+namespace Pro.Common.Win32;
+
+[Flags]
+public enum FILE_ATTRIBUTE : uint
+{
+	READONLY = 1u,
+	HIDDEN = 2u,
+	SYSTEM = 4u,
+	DIRECTORY = 0x10u,
+	ARCHIVE = 0x20u,
+	DEVICE = 0x40u,
+	NORMAL = 0x80u,
+	TEMPORARY = 0x100u,
+	SPARSE_FILE = 0x200u,
+	REPARSE_POINT = 0x400u,
+	COMPRESSED = 0x800u,
+	OFFLINE = 0x1000u,
+	NOT_CONTENT_INDEXED = 0x2000u,
+	ENCRYPTED = 0x4000u,
+	INTEGRITY_STREAM = 0x8000u,
+	VIRTUAL = 0x10000u,
+	NO_SCRUB_DATA = 0x20000u,
+	EA = 0x40000u
+}

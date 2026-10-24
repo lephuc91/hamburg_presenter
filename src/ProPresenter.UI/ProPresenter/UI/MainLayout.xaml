@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.MainLayout" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:bibles="clr-namespace:ProPresenter.UI.Bibles" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonResources="clr-namespace:Pro.UI.Resources;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:libraryView="clr-namespace:ProPresenter.UI.LibraryView" xmlns:local="clr-namespace:ProPresenter.UI" xmlns:mediaLibrary="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:pcoLive="clr-namespace:ProPresenter.UI.PCOLive" xmlns:presentationLibrary="clr-namespace:ProPresenter.UI.PresentationLibrary" xmlns:presentationView="clr-namespace:ProPresenter.UI.PresentationView" xmlns:reflow="clr-namespace:ProPresenter.UI.ReflowEditor" xmlns:settings="clr-namespace:ProPresenter.DO.Settings;assembly=ProPresenter.DO" xmlns:slideEditor="clr-namespace:ProPresenter.UI.SlideEditor" xmlns:slideTrigger="clr-namespace:ProPresenter.UI.SlideTrigger" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transport="clr-namespace:ProPresenter.UI.TransportStatus" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:web="clr-namespace:ProPresenter.UI.Web" x:Name="this" Focusable="true" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}" FocusVisualStyle="{x:Null}">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="thisProxy" Data="{Binding ElementName=this}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <converters:PopupTypeToIsOpenConverter x:Key="PopupTypeToIsOpenConverter" Data="{Binding Data.SelectedView, Source={StaticResource thisProxy}}" />
+      <web:WebBrowserView x:Key="WebBrowserView">
+        <web:WebBrowserView.Url>
+          <PriorityBinding>
+            <Binding Path="Data.RegistrationVM.RenewedVisionLink" Source="{StaticResource proxy}" />
+          </PriorityBinding>
+        </web:WebBrowserView.Url>
+      </web:WebBrowserView>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Name="mainLayoutGrid">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}">
+      <local:ToolbarLayout x:Name="ToolbarLayout" Margin="0,5" CaptureViewModel="{Binding CaptureVM}" RightColumnWidth="{Binding ActualWidth, ElementName=RightPaneGrid}" ViewModel="{Binding ToolBarVM}" />
+    </Border>
+    <Grid Name="LayoutGrid" Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition MinWidth="{x:Static settings:Layout.LeftColumnMinWidth}" Width="{Binding LeftColumnWidth, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition MinWidth="{x:Static settings:Layout.RightColumnMinWidth}" Width="{Binding RightColumnWidth, Source={x:Static settings:Layout.Settings}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+      </Grid.ColumnDefinitions>
+      <Grid Column="0">
+        <Grid.RowDefinitions>
+          <RowDefinition MinHeight="{x:Static settings:Layout.PresentationViewRowMinHeight}" Height="{Binding TopRowHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Name="BottomRow">
+            <FrameworkContentElement.Style>
+              <Style TargetType="{x:Type RowDefinition}">
+                <Setter Property="Height" Value="{Binding BottomRowHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+                <Setter Property="MaxHeight" Value="0" />
+                <Setter Property="MinHeight" Value="0" />
+                <Style.Triggers>
+                  <DataTrigger Value="False" Binding="{Binding MediaLibraryCollapsed, Source={x:Static settings:Layout.Settings}}">
+                    <Setter Property="MaxHeight" xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib" Value="{x:Static system1:Double.PositiveInfinity}" />
+                    <Setter Property="MinHeight" Value="{x:Static settings:Layout.TopRowMinHeight}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkContentElement.Style>
+          </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Row="0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="{x:Static settings:Layout.LibraryMinWidth}" Width="{Binding LibraryWidth, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition MinWidth="{x:Static settings:Layout.MainViewMinWidth}" Width="{Binding MainViewWidth, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+          </Grid.ColumnDefinitions>
+          <libraryView:LibraryView DataContext="{Binding LibraryVM}" />
+          <GridSplitter Grid.Column="1" Width="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" />
+          <Grid Column="2">
+            <presentationView:PresentationViewer x:Name="PresentationViewer" DataContext="{Binding PresentationVM}" GotFocusCommand="{Binding GotFocusCommand}" Items="{Binding Items}" PCOLiveVM="{Binding Data.PCOLiveVM, Source={StaticResource proxy}}" TriggerMediaItemCommand="{Binding Data.LibraryVM.TriggerMediaItemCommand, Source={StaticResource proxy}}" Visibility="{Binding ActiveInlineView, ElementName=this, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:InlineType.Presentation}}" />
+            <bibles:BiblesViewer DataContext="{Binding Data.BibleVM, Source={StaticResource proxy}}" SelectedSlides="{Binding SelectedItems}" Visibility="{Binding ActiveInlineView, ElementName=this, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:InlineType.Bible}}" />
+            <reflow:ReflowEditor x:Name="ReflowEditor" Close="ResetInlineView" ShowCloseButton="True" AddDroppedActionCommand="{Binding PresentationVM.AddDroppedActionCommand}" AddDroppedMediaActionCommand="{Binding PresentationVM.AddDroppedMediaActionCommand}" AddMediaActionCommand="{Binding PresentationVM.AddMediaActionCommand}" AddMediaPlaylistActionCommand="{Binding PresentationVM.AddMediaPlaylistActionCommand}" CopyCommand="{Binding PresentationVM.CopyCommand}" CustomSlideMenuVM="{Binding PresentationVM.CustomSlideMenuVM}" CutCommand="{Binding PresentationVM.CutCommand}" DeleteCommand="{Binding PresentationVM.DeleteCommand}" DropMediaFilesCommand="{Binding PresentationVM.DropMediaFilesCommand}" DropPropCommand="{Binding PresentationVM.DropPropCommand}" GotFocusCommand="{Binding PresentationVM.GotFocusCommand}" PasteCommand="{Binding PresentationVM.PasteCommand}" RowCapacity="{Binding PresentationVM.ReflowRowCapacity, Mode=TwoWay}" SelectedSlide="{Binding PresentationVM.SelectedSlide, Mode=TwoWay}" SelectedSlides="{Binding PresentationVM.SelectedSlides}" SelectedTransition="{Binding PresentationVM.SelectedTransition}" TextZoomLevel="{Binding PresentationVM.ReflowTextZoomLevel, Mode=TwoWay}" Visibility="{Binding ActiveInlineView, ElementName=this, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:InlineType.Reflow}}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type reflow:ReflowEditor}">
+                  <Setter Property="reflow:ReflowEditor.PlaylistItem" Value="{Binding LibraryVM.ActiveCue.Cue}" />
+                  <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding LibraryVM.UseContextMenuReflowTarget}">
+                      <Setter Property="reflow:ReflowEditor.PlaylistItem" Value="{Binding LibraryVM.ReflowTargetCue.Cue}" />
+                    </DataTrigger>
+                    <Trigger Property="UIElement.IsVisible" Value="False">
+                      <Setter Property="reflow:ReflowEditor.PlaylistItem" Value="{x:Null}" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </reflow:ReflowEditor>
+          </Grid>
+        </Grid>
+        <GridSplitter Name="MediaRowSplitter" Grid.Row="1" Height="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DragDelta="MediaRowSplitter_DragDelta">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type GridSplitter}}" TargetType="{x:Type GridSplitter}">
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="False" Binding="{Binding IsDragging, RelativeSource={RelativeSource Self}}" />
+                    <Condition Value="True" Binding="{Binding MediaLibraryCollapsed, Source={x:Static settings:Layout.Settings}}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </GridSplitter>
+        <mediaLibrary:MediaView Grid.Row="2" DataContext="{Binding MediaLibraryVM}" GotFocusCommand="{Binding GotFocusCommand}" OutputController="{Binding OutputController}" SetMediaTransitionCommand="{Binding SetMediaTransitionCommand}" SortMediaItemsCommand="{Binding SortMediaItemsCommand}" />
+      </Grid>
+      <GridSplitter Grid.Column="1" Width="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" />
+      <Grid Name="RightPaneGrid" Column="2">
+        <Grid.RowDefinitions>
+          <RowDefinition Name="ScreenPreviewRow" MinHeight="260" Height="{Binding PreviewHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+          <RowDefinition Name="TransportRow" Height="165" />
+          <RowDefinition Name="GoferRow" MinHeight="205" Height="{Binding GoferHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+        </Grid.RowDefinitions>
+        <local:ScreenPreviewControl x:Name="ScreenPreview" Grid.Row="0" ClearAllCommand="{Binding Data.OutputVM.ClearAllCommand, Source={StaticResource proxy}}" ClearAnnouncementCommand="{Binding Data.OutputVM.ClearAnnouncementCommand, Source={StaticResource proxy}}" ClearAudioCommand="{Binding Data.OutputVM.ClearAudioCommand, Source={StaticResource proxy}}" ClearBackgroundCommand="{Binding Data.OutputVM.ClearBackgroundCommand, Source={StaticResource proxy}}" ClearMessagesCommand="{Binding Data.OutputVM.ClearMessagesCommand, Source={StaticResource proxy}}" ClearPropsCommand="{Binding Data.OutputVM.ClearPropsCommand, Source={StaticResource proxy}}" ClearSlideCommand="{Binding Data.OutputVM.ClearSlideCommand, Source={StaticResource proxy}}" ClearVideoInputCommand="{Binding Data.OutputVM.ClearVideoInputCommand, Source={StaticResource proxy}}" DataContext="{Binding ScreenPreviewVM}" LoadPreviewCommand="{Binding LoadPreviewCommand}" TriggerClearGroupCommand="{Binding Data.OutputVM.TriggerClearGroupCommand, Source={StaticResource proxy}}" UnloadPreviewCommand="{Binding UnloadPreviewCommand}" />
+        <GridSplitter Grid.Row="1" Height="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+        <transport:TransportStatusControl Grid.Row="1" DataContext="{Binding TransportStatusVM}" />
+        <GridSplitter Grid.Row="1" Height="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" />
+        <local:UtilityView Grid.Row="4" DataContext="{Binding}" />
+      </Grid>
+      <commonControls:ModalPopup Name="NewPresentationPopup" HorizontalAlignment="Center" IsModal="True" Placement="Bottom" IsOpen="{Binding SelectedView, ElementName=this, Converter={StaticResource PopupTypeToIsOpenConverter}, ConverterParameter={x:Static local:PopupType.NewPresentation}, Mode=TwoWay}" PlacementTarget="{Binding ElementName=ToolbarLayout}">
+        <presentationLibrary:NewPresentationDialog DataContext="{Binding LibraryVM.NewPresentationVM}" DefaultTheme="{Binding Data.TemplateVM.DefaultTheme, Source={StaticResource proxy}}" />
+      </commonControls:ModalPopup>
+      <commonControls:ResizeableDockablePopup Name="pcoLivePopup" Width="600" Height="650" MinWidth="600" MinHeight="650" HorizontalAlignment="Center" AllowsTransparency="True" SendKeyEventsToMainWindow="False" IsOpen="{Binding SelectedView, ElementName=this, Converter={StaticResource PopupTypeToIsOpenConverter}, ConverterParameter={x:Static local:PopupType.PCOLive}, Mode=TwoWay}" PlacementTarget="{Binding ElementName=ToolbarLayout}">
+        <local:DockableContent Accept="PCOLiveViewer_Accept" ToggleDock="PCOLiveViewer_ToggleDock" Title="{mex:Localized PCO_LIVE_WINDOW_title}" DataContext="{Binding Data.PCOLiveVM, Source={StaticResource proxy}}" Foreground="{Binding HEADERCONTENT, Source={x:Static theming:AppTheme.Active}}">
+          <local:DockableContent.AdditionalHeaderContent>
+            <commonControls:BorderlessButton Width="22" Height="22" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+              <FrameworkElement.ContextMenu>
+                <ContextMenu Placement="Bottom">
+                  <Control.Template>
+                    <ControlTemplate>
+                      <pcoLive:PCOTreeView Width="400" MaxHeight="200" BorderThickness="1" ItemContainerStyle="{StaticResource {x:Type commonControls:TreeViewItem}}" Style="{StaticResource {x:Type TreeView}}" ActiveItem="{Binding ActivePlan}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" ItemsSource="{Binding PCOOrganization.Items}" SelectedTreeItem="{Binding SelectedPlan}" />
+                    </ControlTemplate>
+                  </Control.Template>
+                </ContextMenu>
+              </FrameworkElement.ContextMenu>
+              <Image Opacity="0.85" Source="{StaticResource {x:Static uiThemes:Icons.PlanningCenterServicesIcon}}" />
+            </commonControls:BorderlessButton>
+          </local:DockableContent.AdditionalHeaderContent>
+          <local:DockableContent.SubHeader>
+            <TextBlock Margin="10,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding ActivePlan.Name}" ToolTip="{Binding ActivePlan.Name}" />
+          </local:DockableContent.SubHeader>
+          <pcoLive:PCOLiveViewer Close="PCOLiveViewer_Close" LivePlan="{Binding ActivePlan}" />
+        </local:DockableContent>
+      </commonControls:ResizeableDockablePopup>
+      <commonControls:AnchoredPopup Name="SlideTriggerPopup" Width="Auto" Height="Auto" HorizontalAlignment="Center" AllowsTransparency="True" Placement="Center" ShowActivated="False" StaysOpen="True" VerticalOffset="200" IsOpen="{Binding Path=CanShowPopup, ElementName=slideTriggerControl}" PlacementTarget="{Binding ElementName=mainLayoutGrid}" Opened="Start_PopupTimer">
+        <slideTrigger:SlideTriggerControl x:Name="slideTriggerControl" />
+      </commonControls:AnchoredPopup>
+    </Grid>
+    <slideEditor:SlideEditorView x:Name="SlideEditorView" Close="ResetInlineView" Grid.Row="1" DataContext="{Binding PresentationEditorVM}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type slideEditor:SlideEditorView}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static local:InlineType.SlideEditor}" Binding="{Binding ActiveInlineView, ElementName=this}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <DataTrigger Value="{x:Static local:InlineType.StageEditor}" Binding="{Binding ActiveInlineView, ElementName=this}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </slideEditor:SlideEditorView>
+    <slideEditor:SlideEditorView x:Name="TemplateEditorView" Close="ResetInlineView" Grid.Row="1" DataContext="{Binding TemplateEditorVM}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type slideEditor:SlideEditorView}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static local:InlineType.TemplateEditor}" Binding="{Binding ActiveInlineView, ElementName=this}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <DataTrigger Value="{x:Static local:InlineType.CCLITemplateEditor}" Binding="{Binding ActiveInlineView, ElementName=this}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </slideEditor:SlideEditorView>
+    <slideEditor:SlideEditorView x:Name="PropsEditorView" Close="ResetInlineView" Grid.Row="1" DataContext="{Binding PropsEditorVM}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type slideEditor:SlideEditorView}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="{x:Static local:InlineType.PropsEditor}" Binding="{Binding ActiveInlineView, ElementName=this}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </slideEditor:SlideEditorView>
+    <slideEditor:SlideEditorView x:Name="MaskEditorView" Close="ResetInlineView" Grid.Row="1" DataContext="{Binding MaskEditorVM}" Visibility="{Binding ActiveInlineView, ElementName=this, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:InlineType.MaskEditor}}" />
+  </Grid>
+</UserControl>

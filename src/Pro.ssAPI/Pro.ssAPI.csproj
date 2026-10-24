@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Pro.ssAPI</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>netcoreapp9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Pro.Common">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Localization">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.SerializationInterop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.SerializationInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="ProCore.Interop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProCore.Interop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.Info" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:livevideo="clr-namespace:ProPresenter.UI.LiveVideo" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mediaLibrary="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="self" xmlns:cueinspector="clr-namespace:ProPresenter.UI.CueInspector">
+  <FrameworkElement.Resources>
+    <commonConverters:TimeSliceToStringConverter x:Key="TimeSliceToStringConverter" />
+    <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+    <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" MinWidth="80" MaxWidth="200" SharedSizeGroup="CIPropertiesLabelColumnGroup" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Media ID:" Visibility="{Binding ShowId, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <TextBox Grid.Row="0" Grid.Column="1" Height="22" Margin="0,0,0,10" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" IsReadOnly="True" Text="{Binding Media.ID, Mode=OneWay}" Visibility="{Binding ShowId, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_ACTION_NAME_label}" />
+    <TextBox Name="mediaName" Grid.Row="1" Grid.Column="1" Height="22" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Name, Mode=OneWay}">
+      <UIElement.InputBindings>
+        <KeyBinding Key="Return" Command="{Binding RenameMediaCommand}" CommandParameter="{Binding Text, ElementName=mediaName}" />
+      </UIElement.InputBindings>
+    </TextBox>
+    <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_FILE_PATH_label}" Visibility="{Binding MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.LiveVideo}}" />
+    <Grid Row="2" Column="1" Margin="0,5,0,0" Visibility="{Binding MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.LiveVideo}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Margin="0,0,10,0" VerticalAlignment="Top" TextWrapping="Wrap" Text="{Binding FilePath}" />
+      <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+        <commonControls:BorderlessButton Name="InfoFolderButton" Height="22" Margin="0,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Command="{Binding ShowFileCommand}" ToolTip="{mex:Localized GLOBAL_SHOW_IN_FINDER_MENU_ITEM_windows_title}">
+          <commonControls:ImageMask Width="16" Height="16" ImageSource="../Resources/Icons/spotlight.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+        </commonControls:BorderlessButton>
+        <commonControls:BorderlessButton Height="22" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding UpdateMediaCommand}" ToolTip="{mex:Localized CUE_INSPECTOR_INFO_TAB_REPLACE_FILE_tooltip}" Visibility="{Binding Media.SupportsSwappingSource, Converter={StaticResource ValueToVisibilityConverter}}">
+          <commonControls:ImageMask Width="14" Height="14" ImageSource="../Resources/Icons/GearIcon.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+        </commonControls:BorderlessButton>
+      </StackPanel>
+    </Grid>
+    <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_VIDEO_SOURCE_label}" Visibility="{Binding MediaType, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.LiveVideo}}" />
+    <livevideo:VideoInputSelector Grid.Row="2" Grid.Column="1" Height="22" Margin="0,5,0,0" AvailableInputs="{Binding AvailableVideoInputs}" LiveVideoInput="{Binding VideoInput, Mode=TwoWay}" OpenSetupCommand="{Binding OpenVideoInputSetupCommand}" Visibility="{Binding MediaType, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.LiveVideo}}" />
+    <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_THUMBNAIL_label}" Visibility="{Binding MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.Audio}}" />
+    <Grid Row="4" Column="1" Margin="0,5,0,0" Visibility="{Binding MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.Audio}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Border Name="PreviewFrame" Grid.Row="0" HorizontalAlignment="Left" BorderThickness="1" BorderBrush="{Binding PANELBREAK, Source={x:Static theming:AppTheme.Active}}">
+        <mediaLibrary:MediaPreview Width="192" Height="108" Media="{Binding Media}" />
+      </Border>
+      <Button Grid.Row="1" Height="22" MinWidth="120" Margin="0,5,0,0" Padding="7,0" HorizontalAlignment="Left" Command="{Binding SetToCurrentFrameCommand}" Content="{mex:Localized CUE_INSPECTOR_INFO_TAB_SET_TO_CURRENT_FRAME_title}" Visibility="{Binding MediaType, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static media:MediaType.Video}}" />
+    </Grid>
+    <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_DETAILS_label}" />
+    <Border Grid.Row="5" Grid.Column="1" Margin="0,5,0,0">
+      <Grid HorizontalAlignment="Stretch">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="InfoTextBlockStyleBase" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Foreground" Value="{Binding GROUPCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+              <Setter Property="HorizontalAlignment" Value="Left" />
+              <Setter Property="Margin" Value="5,0,0,0" />
+              <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="InfoTextBlockStyle" BasedOn="{StaticResource InfoTextBlockStyleBase}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Visibility" Value="Visible" />
+              <Style.Triggers>
+                <DataTrigger Value="LiveVideo" Binding="{Binding MediaType}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+            <Style x:Key="{x:Type Separator}" BasedOn="{StaticResource {x:Type Separator}}" TargetType="{x:Type Separator}">
+              <Setter Property="Visibility" Value="Visible" />
+              <Style.Triggers>
+                <DataTrigger Value="LiveVideo" Binding="{Binding MediaType}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+            <Style x:Key="DurationRowDefinition" TargetType="{x:Type RowDefinition}">
+              <Setter Property="Height" Value="0" />
+              <Style.Triggers>
+                <DataTrigger Value="Video" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+                <DataTrigger Value="Audio" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+            <Style x:Key="SizeRowDefinition" TargetType="{x:Type RowDefinition}">
+              <Setter Property="Height" Value="0" />
+              <Style.Triggers>
+                <DataTrigger Value="Video" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+                <DataTrigger Value="Image" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+                <DataTrigger Value="LiveVideo" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+            <Style x:Key="CodecRowDefinition" TargetType="{x:Type RowDefinition}">
+              <Setter Property="Height" Value="0" />
+              <Style.Triggers>
+                <DataTrigger Value="Video" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+            <Style x:Key="FPSRowDefinition" TargetType="{x:Type RowDefinition}">
+              <Setter Property="Height" Value="0" />
+              <Style.Triggers>
+                <DataTrigger Value="Video" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+                <DataTrigger Value="LiveVideo" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+            <Style x:Key="HdrFormatRowDefinition" TargetType="{x:Type RowDefinition}">
+              <Setter Property="Height" Value="0" />
+              <Style.Triggers>
+                <DataTrigger Value="Video" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+                <DataTrigger Value="Image" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+                <DataTrigger Value="LiveVideo" Binding="{Binding MediaType}">
+                  <Setter Property="Height" Value="Auto" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+            <Style x:Key="HdrGammaRowDefinition" TargetType="{x:Type RowDefinition}">
+              <Setter Property="Height" Value="0" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Video" Binding="{Binding MediaType}" />
+                    <Condition Value="True" Binding="{Binding IsHdrContent}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Height" Value="Auto" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Image" Binding="{Binding MediaType}" />
+                    <Condition Value="True" Binding="{Binding IsHdrContent}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Height" Value="Auto" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="LiveVideo" Binding="{Binding MediaType}" />
+                    <Condition Value="True" Binding="{Binding IsHdrContent}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Height" Value="Auto" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Style="{StaticResource DurationRowDefinition}" />
+          <RowDefinition Style="{StaticResource DurationRowDefinition}" />
+          <RowDefinition Style="{StaticResource CodecRowDefinition}" />
+          <RowDefinition Style="{StaticResource CodecRowDefinition}" />
+          <RowDefinition Style="{StaticResource SizeRowDefinition}" />
+          <RowDefinition Style="{StaticResource SizeRowDefinition}" />
+          <RowDefinition Style="{StaticResource FPSRowDefinition}" />
+          <RowDefinition Style="{StaticResource FPSRowDefinition}" />
+          <RowDefinition Style="{StaticResource HdrFormatRowDefinition}" />
+          <RowDefinition Style="{StaticResource HdrFormatRowDefinition}" />
+          <RowDefinition Style="{StaticResource HdrGammaRowDefinition}" />
+          <RowDefinition Style="{StaticResource HdrGammaRowDefinition}" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource InfoTextBlockStyleBase}" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_TYPE_label}" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{Binding GROUPCONTENT, Source={x:Static theming:AppTheme.Active}}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Text" Value="{Binding FileType}" />
+              <Style.Triggers>
+                <DataTrigger Value="LiveVideo" Binding="{Binding MediaType}">
+                  <Setter Property="Text" Value="{Binding ActiveMediaCue.MediaAction.LiveVideo.LiveVideo.Input.VideoDevice.Name}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+        <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource InfoTextBlockStyle}" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_DURATION_label}" />
+        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource InfoTextBlockStyle}" Text="{Binding Duration, Converter={StaticResource TimeSliceToStringConverter}}" />
+        <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource InfoTextBlockStyle}" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_VIDEO_CODEC_label}" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource InfoTextBlockStyle}" Text="{Binding MediaType}" />
+        <Separator Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource InfoTextBlockStyle}" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_SIZE_label}" />
+        <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource InfoTextBlockStyle}">
+          <TextBlock.Text>
+            <MultiBinding StringFormat="{}{0} x {1}">
+              <Binding Path="Size.X" />
+              <Binding Path="Size.Y" />
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
+        <Separator Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource InfoTextBlockStyle}" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_FPS_label}" />
+        <TextBlock Grid.Row="8" Grid.Column="1" Style="{StaticResource InfoTextBlockStyle}" Text="{Binding FPS, StringFormat={}{0:F2}}" />
+        <Separator Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Grid.Row="10" Grid.Column="0" Style="{StaticResource InfoTextBlockStyle}" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_RENDER_FORMAT_label}" />
+        <TextBlock Grid.Row="10" Grid.Column="1">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource InfoTextBlockStyle}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Text" Value="{mex:Localized CUE_INSPECTOR_INFO_TAB_FORMAT_SDR_title}" />
+              <Style.Triggers>
+                <DataTrigger Value="True" Binding="{Binding IsHdrContent}">
+                  <Setter Property="Text" Value="{mex:Localized CUE_INSPECTOR_INFO_TAB_FORMAT_HDR_title}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+        <Separator Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" />
+        <TextBlock Grid.Row="12" Grid.Column="0" Style="{StaticResource InfoTextBlockStyle}" Text="{mex:Localized CUE_INSPECTOR_INFO_TAB_GAMMA_label}" />
+        <TextBlock Grid.Row="12" Grid.Column="1" Style="{StaticResource InfoTextBlockStyle}" Text="{Binding GammaVariant, Converter={StaticResource EnumToContentConverter}}" />
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

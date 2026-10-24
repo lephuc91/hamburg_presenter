@@ -1,0 +1,11 @@
+{
+    "category": "Dissolves",
+    "description": "Cross Dissolve.",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Dissolve",
+    "numPasses": 1,
+    "shaderFile": "dissolve",
+    "type": 1,
+    "uuid": "EC52A828-AD85-4602-B70C-1DEE7C904DB6"
+}

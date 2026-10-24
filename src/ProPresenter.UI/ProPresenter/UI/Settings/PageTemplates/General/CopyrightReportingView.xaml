@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.General.CopyrightReportingView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ccliSettings="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Integrations.CCLI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:settings="clr-namespace:ProPresenter.UI.Settings" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="copyrightReportingView" xmlns:general="clr-namespace:ProPresenter.UI.Settings.PageTemplates.General">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="copryrightSettingVMProxy" Data="{Binding}" />
+      <Style x:Key="ElementStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="{Binding Source={x:Static settings:PageConstants.PAGE_MARGIN}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <commonControls:GroupedControl Grid.Row="0" Margin="0,0,0,25">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_GENERAL_COPYRIGHT_REPORTING_BUTTON_desc}" />
+        <commonControls:ToggleSwitch Grid.Column="1" BorderBrush="#00FFFFFF" IsChecked="{Binding Data.ReportsVM.AutoReportUsage, Source={StaticResource copryrightSettingVMProxy}, Mode=TwoWay}" />
+      </Grid>
+    </commonControls:GroupedControl>
+    <TextBlock Grid.Row="1" Margin="0,0,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Text="{mex:Localized SETTINGS_GENERAL_CCLI_USAGE_REPORT_WINDOW_title}" />
+    <ScrollViewer Grid.Row="2" Margin="0,0,0,8" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+      <DataGrid AutoGenerateColumns="False" CanUserSortColumns="True" GridLinesVisibility="None" IsReadOnly="True" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" ItemsSource="{Binding Data.ReportsVM.FilteredReports, Source={StaticResource copryrightSettingVMProxy}}">
+        <DataGrid.Columns>
+          <DataGridTemplateColumn Width="Auto" CanUserResize="False" Header="{mex:Localized SETTINGS_GENERAL_COPYRIGHT_REPORTING_COLUMN_REPORTED_title}">
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Ellipse Width="10" Height="10" Margin="4" ToolTip="{Binding ReportStateToolTip}">
+                  <Shape.Fill>
+                    <MultiBinding Converter="{ccliSettings:CCLIReportStateColorConverter}">
+                      <Binding Path="ReportState" />
+                      <Binding Path="CanAutoReport" />
+                    </MultiBinding>
+                  </Shape.Fill>
+                </Ellipse>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          <DataGridTextColumn Width="Auto" CanUserResize="False" ElementStyle="{StaticResource ElementStyle}" Binding="{Binding DateUsed, StringFormat=MM/dd/yy}" Header="{mex:Localized SETTINGS_GENERAL_COPYRIGHT_REPORTING_DATE_USED_title}" />
+          <DataGridTextColumn Width="Auto" CanUserResize="False" ElementStyle="{StaticResource ElementStyle}" Binding="{Binding CCLINumber}" Header="{mex:Localized SETTINGS_GENERAL_COPYRIGHT_REPORTING_COLUMN_CCLI_NUMBER_title}" />
+          <DataGridTextColumn Width="Auto" CanUserResize="False" ElementStyle="{StaticResource ElementStyle}" Binding="{Binding Title}" Header="{mex:Localized SETTINGS_GENERAL_COPYRIGHT_REPORTING_COLUMN_TITLE_title}" />
+          <DataGridTextColumn Width="Auto" CanUserResize="False" ElementStyle="{StaticResource ElementStyle}" Binding="{Binding Author}" Header="{mex:Localized SETTINGS_GENERAL_COPYRIGHT_REPORTING_COLUMN_AUTHOR_title}" />
+          <DataGridTextColumn Width="Auto" CanUserResize="False" ElementStyle="{StaticResource ElementStyle}" Binding="{Binding Publisher}" Header="{mex:Localized SETTINGS_GENERAL_COPYRIGHT_REPORTING_COLUMN_PUBLISHER_title}" />
+          <DataGridTextColumn Width="Auto" CanUserResize="False" Binding="{Binding CopyRight}" Header="{mex:Localized SETTINGS_GENERAL_COPYRIGHT_REPORTING_COLUMN_COPYRIGHT_title}">
+            <DataGridBoundColumn.ElementStyle>
+              <Style BasedOn="{StaticResource ElementStyle}" TargetType="{x:Type TextBlock}">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+              </Style>
+            </DataGridBoundColumn.ElementStyle>
+          </DataGridTextColumn>
+        </DataGrid.Columns>
+      </DataGrid>
+    </ScrollViewer>
+    <Grid Row="3" Margin="0,0,0,20">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Button Grid.Column="0" Height="22" MinWidth="80" Padding="5,0" HorizontalAlignment="Left" uiUtility:UIElementHelper.CornerRadius="4" Command="{Binding Data.ReportsVM.ResetCommand, Source={StaticResource copryrightSettingVMProxy}}" Content="{mex:Localized SETTINGS_GENERAL_CCLI_REPORTING_CLEAR_BUTTON_title}" />
+      <Button Grid.Column="1" Height="22" MinWidth="80" HorizontalAlignment="Right" uiUtility:UIElementHelper.CornerRadius="4" Command="{Binding Data.ReportsVM.ExportCommand, Source={StaticResource copryrightSettingVMProxy}}" Content="{mex:Localized SETTINGS_GENERAL_CCLI_REPORTING_EXPORT_BUTTON_title}" />
+    </Grid>
+    <commonControls:HelpButton Grid.Row="4" HorizontalAlignment="Right" HelpCommand="{Binding Data.HelpCommand, Source={StaticResource copryrightSettingVMProxy}}" />
+  </Grid>
+</UserControl>

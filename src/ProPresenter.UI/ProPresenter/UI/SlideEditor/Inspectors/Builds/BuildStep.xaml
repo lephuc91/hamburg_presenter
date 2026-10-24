@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Builds.BuildStep" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="self" xmlns:builds="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Builds" TextElement.Foreground="{Binding LISTITEM_CONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="#00FFFFFF" />
+        <Setter Property="BorderBrush" Value="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
+        <Style.Triggers>
+          <DataTrigger Value="True" Binding="{Binding IsSelected, ElementName=self}">
+            <Setter Property="Background" Value="{Binding LISTITEM_SELECTED_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" />
+          </DataTrigger>
+          <DataTrigger Value="0" Binding="{Binding Index, ElementName=self}">
+            <Setter Property="BorderThickness" Value="0" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border Style="{StaticResource BorderStyle}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="-20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding StartNumber, ElementName=self}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="UIElement.Opacity" Value="0.5" />
+              <Style.Triggers>
+                <DataTrigger Value="OnClick" Binding="{Binding Build.Start, ElementName=self}">
+                  <Setter Property="FontWeight" Value="Bold" />
+                  <Setter Property="UIElement.Opacity" Value="1" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+        <TextBlock Grid.Column="1" MaxHeight="26" Margin="7,5,0,5" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Build.Name, ElementName=self}" />
+        <TextBlock Grid.Column="2" Margin="0,5,7,5" HorizontalAlignment="Right" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Build.Description, ElementName=self}" />
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

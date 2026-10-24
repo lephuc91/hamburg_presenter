@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.LiveVideo.VideoInputDeviceSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.LiveVideo" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" x:Name="videoSourceSelector">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="videoSourceSelectorProxy" Data="{Binding ElementName=videoSourceSelector}" />
+      <local:VideoDeviceNameConveter x:Key="VideoDeviceNameConveter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <commonControls:DropDownButton Name="DeviceSelectorButton">
+    <commonControls:DropDownButton.CustomContent>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Height="11" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="Fant" Stretch="Uniform">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.VideoInput}}" />
+              <Style.Triggers>
+                <DataTrigger Value="Aircast" Binding="{Binding Data.SelectedLiveVideoInput.VideoDevice.Type, Source={StaticResource videoSourceSelectorProxy}}">
+                  <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.AirCastVideo}}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Data.SelectedLiveVideoInput.VideoDevice, Source={StaticResource videoSourceSelectorProxy}}" Value="{x:Null}">
+                  <Setter Property="Source" Value="{x:Null}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+        <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
+          <TextBlock.Text>
+            <MultiBinding Converter="{StaticResource VideoDeviceNameConveter}">
+              <Binding Path="Data.SelectedLiveVideoInput.VideoDevice" Source="{StaticResource videoSourceSelectorProxy}" />
+              <Binding Path="Data.SelectedLiveVideoInput.VideoMode" Source="{StaticResource videoSourceSelectorProxy}" />
+              <Binding Path="Data.SelectedLiveVideoInput.DeviceName" Source="{StaticResource videoSourceSelectorProxy}" />
+              <Binding Path="Data.SelectedLiveVideoInput.DeviceRenderID" Source="{StaticResource videoSourceSelectorProxy}" />
+              <Binding Path="Data.IsDeviceConnected" Source="{StaticResource videoSourceSelectorProxy}" />
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
+      </Grid>
+    </commonControls:DropDownButton.CustomContent>
+    <commonControls:DropDownButton.CustomContextMenu>
+      <ContextMenu Placement="Bottom" VirtualizingPanel.IsVirtualizing="True" MinWidth="{Binding Path=PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <CollectionContainer>
+              <CollectionContainer.Collection>
+                <local:VideoInputDeviceSelectorSource AddAirCastDeviceCommand="{Binding Data.AddAirCastDeviceCommand, Source={StaticResource videoSourceSelectorProxy}}" AvailableDevices="{Binding Data.AvailableDevices, Source={StaticResource videoSourceSelectorProxy}}" IsDeviceConnected="{Binding Data.IsDeviceConnected, Source={StaticResource videoSourceSelectorProxy}}" SelectVideoDeviceCommand="{Binding Data.SelectVideoDeviceCommand, Source={StaticResource videoSourceSelectorProxy}}" SelectedLiveVideoInput="{Binding Data.SelectedLiveVideoInput, Source={StaticResource videoSourceSelectorProxy}}" SetNoSourceCommand="{Binding Data.ClearSelectedVideoInputDeviceCommand, Source={StaticResource videoSourceSelectorProxy}}" />
+              </CollectionContainer.Collection>
+            </CollectionContainer>
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </commonControls:DropDownButton.CustomContextMenu>
+  </commonControls:DropDownButton>
+</UserControl>

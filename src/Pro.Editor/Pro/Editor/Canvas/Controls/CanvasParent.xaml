@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.Editor.Canvas.Controls.CanvasParent" x:ClassModifier="internal" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:Pro.Editor.Canvas.Controls" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self" uiUtility:ScrollViewerHelper.UseHorizontalScrolling="True" Focusable="True">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="selfProxy" Data="{Binding ElementName=self}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Name="HorizontalRulerRow">
+        <FrameworkContentElement.Style>
+          <Style TargetType="{x:Type RowDefinition}">
+            <Setter Property="Height" Value="18" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding IsRulerVisible}">
+                <Setter Property="Height" Value="0" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkContentElement.Style>
+      </RowDefinition>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Name="VerticalRulerColumn">
+        <FrameworkContentElement.Style>
+          <Style TargetType="{x:Type ColumnDefinition}">
+            <Setter Property="Width" Value="18" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding IsRulerVisible}">
+                <Setter Property="Width" Value="0" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkContentElement.Style>
+      </ColumnDefinition>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <local:CanvasRuler x:Name="HorizontalRuler" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" IsHorizontal="True" OriginOffset="18" Background="{Binding ElementName=self, Path=RulerBackground}" IsMouseInCanvas="{Binding IsMouseInCanvas}" IsTransformActive="{Binding IsTransformActive}" MousePosition="{Binding MousePosition}" MouseTrackerColor="{Binding ElementName=self, Path=MouseTrackerColor}" ObjectBounds="{Binding SelectedElementsBounds}" ObjectBoundsColor="{Binding ElementName=self, Path=ObjectBoundsColor}" Origin="{Binding CanvasOrigin.X}" RulerBrush="{Binding ElementName=self, Path=RulerBrush}" ScrollOffset="{Binding HorizontalOffset, ElementName=CanvasScrollViewer}" TabStopsControl="{Binding ElementName=TabStopsControl}" ZoomFactor="{Binding ZoomFactor}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type local:CanvasRuler}">
+          <Setter Property="FrameworkElement.ContextMenu" Value="{Binding RulerContextMenu}" />
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="0" Binding="{Binding Path=Height, ElementName=HorizontalRulerRow}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="True" Binding="{Binding TabStops.IsEditing}">
+              <Setter Property="FrameworkElement.ContextMenu" Value="{Binding AddTabStopMenu}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:CanvasRuler>
+    <local:CanvasRuler x:Name="VerticalRuler" Grid.Row="1" Grid.Column="0" IsHorizontal="False" Background="{Binding ElementName=self, Path=RulerBackground}" ContextMenu="{Binding RulerContextMenu}" IsMouseInCanvas="{Binding IsMouseInCanvas}" IsTransformActive="{Binding IsTransformActive}" MousePosition="{Binding MousePosition}" MouseTrackerColor="{Binding ElementName=self, Path=MouseTrackerColor}" ObjectBounds="{Binding SelectedElementsBounds}" ObjectBoundsColor="{Binding ElementName=self, Path=ObjectBoundsColor}" Origin="{Binding CanvasOrigin.Y}" RulerBrush="{Binding ElementName=self, Path=RulerBrush}" ScrollOffset="{Binding VerticalOffset, ElementName=CanvasScrollViewer}" ZoomFactor="{Binding ZoomFactor}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type local:CanvasRuler}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="0" Binding="{Binding Path=Width, ElementName=VerticalRulerColumn}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:CanvasRuler>
+    <Grid Row="1" Column="1">
+      <ScrollViewer Name="CanvasScrollViewer" Focusable="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Background="{Binding CanvasBrush, ElementName=self}">
+        <Grid Name="CanvasContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#00FFFFFF">
+          <commonControls:Checkerboard HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding RootElement.Size.X}" Height="{Binding RootElement.Size.Y}" PrimaryBrush="{Binding CheckerboardPrimaryBrush}" ScaleFactor="{Binding ZoomFactor}" SecondaryBrush="{Binding CheckerboardSecondaryBrush}" Visibility="{Binding RenderTransparencyCheckerboard, Converter={StaticResource ValueToVisibilityConverter}}">
+            <FrameworkElement.LayoutTransform>
+              <ScaleTransform ScaleX="{Binding ZoomFactor}" ScaleY="{Binding ZoomFactor}" />
+            </FrameworkElement.LayoutTransform>
+          </commonControls:Checkerboard>
+          <local:CanvasElement x:Name="Canvas" HorizontalAlignment="Center" VerticalAlignment="Center" RootControl="{Binding}" SourceElement="{Binding RootElement}" ZoomFactor="{Binding ZoomFactor}">
+            <FrameworkElement.LayoutTransform>
+              <ScaleTransform ScaleX="{Binding ZoomFactor}" ScaleY="{Binding ZoomFactor}" />
+            </FrameworkElement.LayoutTransform>
+          </local:CanvasElement>
+          <local:GridControl x:Name="GridControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanvasOrigin="{Binding CanvasOrigin}" ScrollHorizontalOffset="{Binding HorizontalOffset, ElementName=CanvasScrollViewer}" ScrollVerticalOffset="{Binding VerticalOffset, ElementName=CanvasScrollViewer}" Spacing="{Binding GridSpacing}" Subdivisions="{Binding GridSubdivisions}" ViewportHeight="{Binding ViewportHeight, ElementName=CanvasScrollViewer}" ViewportWidth="{Binding ViewportWidth, ElementName=CanvasScrollViewer}" Visibility="{Binding IsGridVisible, Converter={StaticResource ValueToVisibilityConverter}}" ZoomFactor="{Binding ZoomFactor}" Color="{Binding GridColor}" />
+          <local:Mask x:Name="PasteboardArea" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Multiplier="{Binding PasteboardMultiplier}" Origin="{Binding CanvasOrigin}" Size="{Binding RootElement.Size}" ZoomFactor="{Binding ZoomFactor}" />
+          <local:Mask x:Name="ElementMask" HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ActualWidth, ElementName=PasteboardArea}" Height="{Binding ActualHeight, ElementName=PasteboardArea}" Origin="{Binding ElementMaskOrigin}" Rotation="{Binding MaskElement.Rotation}" Size="{Binding MaskElement.Size}" Visibility="{Binding MaskElement, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}" ZoomFactor="{Binding ZoomFactor}">
+            <local:Mask.FillBrush>
+              <SolidColorBrush Opacity="0.5" Color="Black" />
+            </local:Mask.FillBrush>
+          </local:Mask>
+          <local:GuidelinesControl x:Name="GuidelinesControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanvasOrigin="{Binding CanvasOrigin}" DeleteGuidelineLocaleString="{Binding DeleteGuidelineLocaleString, ElementName=self}" DeleteGuidelinesLocaleString="{Binding DeleteGuidelinesLocaleString, ElementName=self}" ScrollHorizontalOffset="{Binding HorizontalOffset, ElementName=CanvasScrollViewer}" ScrollVerticalOffset="{Binding VerticalOffset, ElementName=CanvasScrollViewer}" SnapController="{Binding SnapController}" StaticGuidelines="{Binding StaticGuides}" ZoomFactor="{Binding ZoomFactor}" />
+          <commonControls:SelectionBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionBounds="{Binding SelectionBounds}" Visibility="{Binding IsSelectionActive, Converter={StaticResource ValueToVisibilityConverter}}" ZoomFactor="{Binding ZoomFactor}" Offset="{Binding CanvasOrigin}" />
+          <AdornerDecorator>
+            <local:OverlaysControl x:Name="Overlays" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsTransformActive="{Binding IsTransformActive}" LocationScale="{Binding ZoomFactor}" Origin="{Binding CanvasOrigin}" PopoverBackground="{Binding ElementName=self, Path=PopoverBackground}" PopoverForeground="{Binding ElementName=self, Path=PopoverForeground}" RootControl="{Binding}" SelectedElements="{Binding SelectedElements}" SnapController="{Binding SnapController}" />
+          </AdornerDecorator>
+          <commonControls:FixedControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" LocationScale="{Binding ZoomFactor}" Origin="{Binding CanvasOrigin}">
+            <commonControls:FixedControl Location="{Binding MousePosition}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type commonControls:FixedControl}">
+                  <Setter Property="Visibility" Value="Visible" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding TooltipSource.TooltipLabel, ElementName=Overlays}" Value="{x:Null}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                    <DataTrigger Value="" Binding="{Binding TooltipSource.TooltipLabel, ElementName=Overlays}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <Border MinWidth="25" MinHeight="20" Margin="50,-50,-50,50" Background="#FF000000" BorderBrush="#FFD3D3D3" BorderThickness="1">
+                <TextBlock Padding="3,0,3,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFFFFFFF">
+                  <FrameworkElement.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                      <Setter Property="Text" Value="{Binding TooltipSource.TooltipLabel, ElementName=Overlays}" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding TooltipSource.TooltipLabel, ElementName=Overlays}" Value="{x:Null}">
+                          <Setter Property="Text" xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib" Value="{x:Static system1:String.Empty}" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </TextBlock>
+              </Border>
+            </commonControls:FixedControl>
+          </commonControls:FixedControl>
+        </Grid>
+      </ScrollViewer>
+      <ContentControl Content="{Binding LowerOverlay}" />
+    </Grid>
+    <local:TabStopsControl x:Name="TabStopsControl" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" OriginOffset="18" RulerHeight="18" TabStopColor="#FFADD8E6" CanvasOrigin="{Binding CanvasOrigin}" DeleteMenuHeader="{mex:Localized GLOBAL_DELETE_title}" ScrollOffSet="{Binding HorizontalOffset, ElementName=CanvasScrollViewer}" TabStops="{Binding TabStops}" ZoomFactor="{Binding ZoomFactor}" />
+  </Grid>
+</UserControl>

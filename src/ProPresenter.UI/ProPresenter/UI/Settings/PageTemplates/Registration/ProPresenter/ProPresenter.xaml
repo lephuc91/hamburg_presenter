@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter.ProPresenter" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Registration.ProPresenter">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ui:InterfaceDataTemplateSelector x:Key="ProPresenterTemplateSelector">
+        <ui:InterfaceDataTemplateSelector.TemplateDictionary>
+          <ResourceDictionary>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:IProPresenterPlusProPresenterSectionVM}}" DataType="{x:Type vm:IProPresenterPlusProPresenterSectionVM}">
+              <local:RegisteredWithProPresenterPlusCode />
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:ILegacyTrialProPresenterSectionVM}}" DataType="{x:Type vm:ILegacyTrialProPresenterSectionVM}">
+              <local:RegisteredWithTrialCode />
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:ILegacyRentalProPresenterSectionVM}}" DataType="{x:Type vm:ILegacyRentalProPresenterSectionVM}">
+              <local:RegisteredWithRentalCode />
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:ISubscribedProPresenterSectionVM}}" DataType="{x:Type vm:ISubscribedProPresenterSectionVM}">
+              <local:Subscribed />
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:ITryoutLicenseProPresenterSectionVM}}" DataType="{x:Type vm:ITryoutLicenseProPresenterSectionVM}">
+              <local:TryoutLicense />
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:IUnregisteredProPresenterSectionVM}}" DataType="{x:Type vm:IUnregisteredProPresenterSectionVM}">
+              <local:Unregistered />
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:IUndeterminedProPresenterSectionVM}}" DataType="{x:Type vm:IUndeterminedProPresenterSectionVM}">
+              <local:Undetermined />
+            </DataTemplate>
+          </ResourceDictionary>
+        </ui:InterfaceDataTemplateSelector.TemplateDictionary>
+      </ui:InterfaceDataTemplateSelector>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel Orientation="Vertical">
+    <Image Height="18" Margin="8" HorizontalAlignment="Left" Source="{StaticResource {x:Static themesUI:Icons.ProPresenterWordmark}}" />
+    <commonControls:NonLeakingTemplateSelectingContentControl ContentTemplateSelector="{StaticResource ProPresenterTemplateSelector}" Content="{Binding}" />
+  </StackPanel>
+</UserControl>

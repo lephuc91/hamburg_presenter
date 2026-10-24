@@ -1,0 +1,28 @@
+using Google.Protobuf;
+using Pro.DO.Analytics;
+using Pro.SerializationInterop.RVProtoData.Analytics;
+using Pro.SerializationInterop.RVProtoData.Analytics.Logs;
+
+namespace ProPresenter.DO.Analytics.Events.CloudDiagnostics;
+
+public record LogDocumentDownloadedEvent(string DocumentId, string DocumentName, string WorkspaceId, string PeerId, string LogMessage) : IAnalyticEvent
+{
+	public IMessage Serialize()
+	{
+		return ProtoEventExtensions.Build(delegate(Event e)
+		{
+			e.LogDocumentDownloaded = new LogDocumentDownloaded
+			{
+				DocumentIdentifier = DocumentId,
+				DocumentName = DocumentName,
+				Metadata = new LogMetadata
+				{
+					PeerId = PeerId,
+					WorkspaceIdentifier = WorkspaceId,
+					LogSource = LogSource.Client,
+					LogMessage = LogMessage
+				}
+			};
+		});
+	}
+}

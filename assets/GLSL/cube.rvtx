@@ -1,0 +1,10 @@
+{
+    "category": "Objects",
+    "description": "Rotating Cube",
+    "duration": 0.6,
+    "name": "Cube",
+    "numPasses": 1,
+    "shaderFile": "cube",
+    "type": 1,
+    "uuid": "CD545FC3-70FA-4120-8A48-29EFE903BD10"
+}

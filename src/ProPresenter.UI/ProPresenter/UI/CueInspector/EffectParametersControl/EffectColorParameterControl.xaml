@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.EffectParametersControl.EffectColorParameterControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" x:Name="colorParamSelf" xmlns:effectparameterscontrol="clr-namespace:ProPresenter.UI.CueInspector.EffectParametersControl;assembly=ProPresenter.UI">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="100" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="0" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding Label}" />
+    <commonControls:ColorPicker Grid.Column="1" Width="50" Height="22" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedColor="{Binding Value, ElementName=colorParamSelf, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

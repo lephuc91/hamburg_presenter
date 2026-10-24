@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="ProPresenter.UI.SlideEditor.Inspectors.Links.PreviewFile" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="previewFile" Title="PreviewFile" Width="700" Height="500" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.HideOnClose="True" uiUtility:WindowHelper.SendKeyEventsToMainWindow="True" uiUtility:WindowHelper.UseGlobalStyle="True" WindowStartupLocation="CenterOwner" xmlns:links="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Links;assembly=ProPresenter.UI">
+  <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <TextBlock Name="textBlock" FontSize="17" Foreground="{Binding Foreground, ElementName=previewFile}" />
+  </ScrollViewer>
+</Window>

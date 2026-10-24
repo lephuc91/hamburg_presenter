@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlidePreview" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:liveVideo="clr-namespace:ProPresenter.UI.LiveVideo" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:thumbnail="clr-namespace:ProPresenter.UI.Thumbnails" xmlns:thumbnailOverlay="clr-namespace:ProPresenter.UI.ThumbnailOverlay" xmlns:thumbnailViewSettings="clr-namespace:ProPresenter.DO.PanelViewSettings;assembly=ProPresenter.DO" x:Name="slidePreview" xmlns:ui="clr-namespace:ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <thumbnail:PreviewContainer x:Name="PreviewContainer" AspectRatio="{Binding ElementName=slidePreview, Path=AspectRatio}" ViewSettings="{di:DIMarkup {x:Type thumbnailViewSettings:ThumbnailViewSettings}}">
+    <Grid>
+      <Grid Name="backgroundGrid">
+        <commonControls:Checkerboard Width="{Binding ActualWidth, ElementName=PreviewImage}" Height="{Binding ActualHeight, ElementName=PreviewImage}" PrimaryBrush="{Binding PrimaryCheckerboardBrush, ElementName=slidePreview}" SecondaryBrush="{Binding SecondaryCheckerboardBrush, ElementName=slidePreview}" Visibility="{Binding RenderTransparencyCheckerboard, ElementName=slidePreview, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <Rectangle Name="PendingMediaBackground" Fill="{StaticResource {x:Static themes:Brushes.PendingMediaBackgroundGradient}}" Visibility="{Binding Source.IsBackgroundMediaPending, ElementName=slidePreview, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="6*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Image Grid.Row="1" Grid.Column="1" Source="{StaticResource {x:Static themes:Icons.MediaPendingPlaceholder}}" Stretch="Uniform" Visibility="{Binding Source.IsBackgroundMediaPending, ElementName=slidePreview, Converter={StaticResource ValueToVisibilityConverter}}" />
+        </Grid>
+        <liveVideo:VideoInputPreview VideoInput="{Binding LiveVideoInput, ElementName=slidePreview}" Visibility="{Binding LiveVideoInput, ElementName=slidePreview, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+        <Image Name="BackgroundImage" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="Fant" Stretch="Uniform" />
+      </Grid>
+      <thumbnailOverlay:MediaOverlay x:Name="overlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowText="False" BackgroundControl="{Binding ElementName=backgroundGrid}" DataContext="{Binding OverlayVM, ElementName=slidePreview}" />
+      <Image Name="PreviewImage" RenderOptions.BitmapScalingMode="Fant" Stretch="Uniform" />
+    </Grid>
+  </thumbnail:PreviewContainer>
+</UserControl>

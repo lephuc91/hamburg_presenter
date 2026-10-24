@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.Properties" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:doMedia="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.CueInspector" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proSSAPI="clr-namespace:Pro.ssAPI;assembly=Pro.ssAPI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" x:Name="properties">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="bindingProxy" Data="{Binding}" />
+      <ObjectDataProvider x:Key="ScaleAlignments" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="proSSAPI:ScaleAlignment" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="NativeRotation" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="media:NativeRotation" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <converters:EnumToDescriptionConverter x:Key="DescriptionAttributeConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <Style x:Key="DrawingPropertyVisibility" TargetType="{x:Type FrameworkElement}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="Image" Binding="{Binding MediaType}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+          <DataTrigger Value="Video" Binding="{Binding MediaType}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+          <DataTrigger Value="LiveVideo" Binding="{Binding MediaType}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Style="{StaticResource DrawingPropertyVisibility}">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" MinWidth="80" MaxWidth="200" SharedSizeGroup="CIPropertiesLabelColumnGroup" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_SCALE_BEHAVIOR_label}" />
+        <ComboBox Grid.Row="0" Grid.Column="1" Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectedItem="{Binding ScaleBehavior, Mode=TwoWay}">
+          <ItemsControl.ItemsSource>
+            <ui:ScaleBehaviorItemsSource SupportsCustomScale="{Binding Data.SupportsCustomScale, Source={StaticResource bindingProxy}}" SupportsScaleAndBlur="{Binding Data.SupportsScaleAndBlur, Source={StaticResource bindingProxy}}" />
+          </ItemsControl.ItemsSource>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_SCALE_ALIGNMENT_label}" Visibility="{Binding SupportsScaleAlignment, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter=true}" />
+        <ComboBox Grid.Row="1" Grid.Column="1" Height="22" Margin="0,5,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource ScaleAlignments}}" SelectedItem="{Binding ScaleAlignment, Mode=TwoWay}" Visibility="{Binding SupportsScaleAlignment, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter=true}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+        <CheckBox Grid.Row="2" Grid.Column="1" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_FLIP_HORIZONTALLY_title}" IsChecked="{Binding FlipHorizontally, Mode=TwoWay}" />
+        <CheckBox Grid.Row="3" Grid.Column="1" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_FLIP_VERTICALLY_title}" IsChecked="{Binding FlipVertically, Mode=TwoWay}" />
+        <CheckBox Name="CropMedia" Grid.Row="4" Grid.Column="1" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_CROP_title}" IsChecked="{Binding CropEnable, Mode=TwoWay}" Visibility="{Binding MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static doMedia:MediaType.LiveVideo}}" />
+        <Grid Row="5" Column="0" ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="{Binding IsChecked, ElementName=CropMedia, Converter={StaticResource ValueToVisibilityConverter}}">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_CROP_TOP_label}" />
+          <commonControls:DoubleUpDown Grid.Row="0" Grid.Column="1" Width="60" Height="22" Margin="0,5" ClipValueToMinMax="False" FormatString="{}{0:F0}px" Minimum="0" Maximum="{Binding CropTopMax}" Value="{Binding CropTop, Mode=TwoWay}" />
+          <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+            <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_CROP_LEFT_label}" />
+            <commonControls:DoubleUpDown Width="60" Height="22" Margin="0,5" ClipValueToMinMax="False" FormatString="{}{0:F0}px" Minimum="0" Maximum="{Binding CropLeftMax}" Value="{Binding CropLeft, Mode=TwoWay}" />
+          </StackPanel>
+          <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_CROP_RIGHT_label}" />
+          <commonControls:DoubleUpDown Grid.Row="1" Grid.Column="2" Width="60" Height="22" Margin="0,5" ClipValueToMinMax="False" FormatString="{}{0:F0}px" Minimum="0" Maximum="{Binding CropRightMax}" Value="{Binding CropRight, Mode=TwoWay}" />
+          <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_CROP_BOTTOM_label}" />
+          <commonControls:DoubleUpDown Grid.Row="2" Grid.Column="1" Width="60" Height="22" Margin="0,5" ClipValueToMinMax="False" FormatString="{}{0:F0}px" Minimum="0" Maximum="{Binding CropBottomMax}" Value="{Binding CropBottom, Mode=TwoWay}" />
+        </Grid>
+        <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_NATIVE_ROTATION_label}" Visibility="{Binding MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static doMedia:MediaType.LiveVideo}}" />
+        <ComboBox Grid.Row="6" Grid.Column="1" Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource NativeRotation}}" SelectedItem="{Binding Rotation, Mode=TwoWay}" Visibility="{Binding MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static doMedia:MediaType.LiveVideo}}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Converter={StaticResource DescriptionAttributeConverter}, StringFormat={}{0:F0}°}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="7" Grid.Column="0" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_ALPHA_TYPE_label}" Visibility="{Binding SupportsPremultipliedAlphaSetting, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <ComboBox Grid.Row="7" Grid.Column="1" Height="22" Margin="0,5,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectedItem="{Binding AlphaType, Mode=TwoWay}" Visibility="{Binding SupportsPremultipliedAlphaSetting, Converter={StaticResource ValueToVisibilityConverter}}">
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <media:AlphaType>Straight</media:AlphaType>
+              <media:AlphaType>Premultiplied</media:AlphaType>
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+          <ItemsControl.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="{x:Type ComboBoxItem}">
+              <Setter Property="Content" Value="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </ComboBox>
+      </Grid>
+    </Border>
+    <Separator Grid.Row="1" Margin="0,10">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type Separator}}" TargetType="{x:Type Separator}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="Audio" Binding="{Binding MediaType}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Separator>
+    <local:PlaybackBehaviorControl Grid.Row="2" DelayTime="{Binding DelayTime}" EndBehaviorType="{Binding EndBehavior}" FramesPerSecond="{Binding FrameRate}" HardwareDecodingBehavior="{Binding HardwareDecodingBehavior}" InPoint="{Binding InPoint, Mode=TwoWay}" LoopCount="{Binding LoopCount}" LoopTime="{Binding LoopTime}" MediaType="{Binding MediaType}" OutPoint="{Binding OutPoint, Mode=TwoWay}" PlayRate="{Binding PlayRate, Mode=TwoWay}" PlaybackBehaviorType="{Binding PlaybackBehavior}" RetriggerBehavior="{Binding RetriggerBehavior, Mode=TwoWay}" SetMediaInPointCommand="{Binding SetMediaInPointCommand}" SetMediaOutPointCommand="{Binding SetMediaOutPointCommand}" ShowRetriggeringBehaviorField="{Binding ShowRetriggeringBehaviorField, Mode=TwoWay}" SoftLoop="{Binding SoftLoop}" Visibility="{Binding MediaType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static doMedia:MediaType.Audio}}" Duration="{Binding Duration, Mode=TwoWay}" />
+    <local:AudioBehaviorControl Grid.Row="2" AudioBehaviorType="{Binding AudioBehaviorType, Mode=TwoWay}" AudioBehaviors="{Binding AudioBehaviors}" DelayTime="{Binding DelayTime}" InPoint="{Binding InPoint, Mode=TwoWay}" OutPoint="{Binding OutPoint, Mode=TwoWay}" PlayRate="{Binding PlayRate, Mode=TwoWay}" SetMediaInPointCommand="{Binding SetMediaInPointCommand}" SetMediaOutPointCommand="{Binding SetMediaOutPointCommand}" SoftLoop="{Binding SoftLoop}" Visibility="{Binding MediaType, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static doMedia:MediaType.Audio}}" Duration="{Binding Duration, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

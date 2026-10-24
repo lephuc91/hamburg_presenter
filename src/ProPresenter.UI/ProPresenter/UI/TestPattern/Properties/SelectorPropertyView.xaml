@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.TestPattern.Properties.SelectorPropertyView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:properties="clr-namespace:ProPresenter.UI.TestPattern.Properties;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:LocalizedStringConverter x:Key="LocalizedStringConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name, Converter={StaticResource LocalizedStringConverter}}" />
+  </Grid>
+</UserControl>

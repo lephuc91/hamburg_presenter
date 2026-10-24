@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:proUIThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI">
+  <SolidColorBrush x:Key="CloudOnboarding.PrimaryBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.ContentPrimary}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.TitleBrush" Color="#FFEA8A2F" />
+  <SolidColorBrush x:Key="CloudOnboarding.SubtleBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.ContentSecondary}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.BodyBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.ContentPrimary}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.BottomStripeBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.Surface}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.BorderBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.Shadow}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.HoverBackgroundBrush" Color="#1AFFFFFF" />
+  <SolidColorBrush x:Key="CloudOnboarding.AccentBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.Secondary}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.PillBackground" Color="#FF2a2a2a" />
+  <SolidColorBrush x:Key="CloudOnboarding.CardBorderBrush" Color="#40FFFFFF" />
+  <SolidColorBrush x:Key="CloudOnboarding.CardBackgroundBrush" Color="#1AFFFFFF" />
+  <SolidColorBrush x:Key="CloudOnboarding.DividerBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.Shadow}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.PlanStrokeBrush" Color="#FFD67820" />
+  <SolidColorBrush x:Key="CloudOnboarding.PlanCardStripeBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.PrimaryDark}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.PlanCardBackgroundBrush" Color="#1AFFFFFF" />
+  <SolidColorBrush x:Key="CloudOnboarding.HyperlinkBrush" Color="{DynamicResource {x:Static proUIThemes:Colors.Secondary}}" />
+  <SolidColorBrush x:Key="CloudOnboarding.InputBackgroundBrush" Color="#3CFFFFFF" />
+  <Style x:Key="CloudOnboarding.TextBlockStyle" TargetType="{x:Type TextBlock}">
+    <Setter Property="Foreground" Value="{StaticResource CloudOnboarding.BodyBrush}" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="TextBlock.TextAlignment" Value="Center" />
+  </Style>
+</ResourceDictionary>

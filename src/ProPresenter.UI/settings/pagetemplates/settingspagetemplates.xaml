@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:audio="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Audio" xmlns:devices="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Devices" xmlns:devicesview="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Devices" xmlns:featureFlags="clr-namespace:ProPresenter.UI.Settings.PageTemplates.FeatureFlags" xmlns:featureFlagsVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.FeatureFlags" xmlns:general="clr-namespace:ProPresenter.UI.Settings.PageTemplates.General" xmlns:groups="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Groups" xmlns:groupsVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Groups" xmlns:importVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Import" xmlns:inputs="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Inputs" xmlns:inputsVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Inputs" xmlns:integrations="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Integrations" xmlns:integrationsVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Integrations" xmlns:labels="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Labels" xmlns:labelsVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Labels" xmlns:media="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Media" xmlns:mediaVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Media" xmlns:network="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Network" xmlns:pages="clr-namespace:ProPresenter.UI.Settings.PageTemplates" xmlns:pagesVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages" xmlns:pt="clr-namespace:ProPresenter.UI.Settings.PageTemplates" xmlns:registrationPages="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration" xmlns:registrationVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Registration" xmlns:screen="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Screen" xmlns:screensVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Screens" xmlns:syncVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Sync" xmlns:updatesVM="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Updates" xmlns:viewModels="clr-namespace:ProPresenter.UI.ViewModels">
+  <DataTemplate x:Key="{DataTemplateKey {x:Type pagesVM:IGeneralSettingsVM}}" DataType="{x:Type pagesVM:IGeneralSettingsVM}">
+    <general:GeneralSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type pagesVM:ICopyrightSettingsVM}}" DataType="{x:Type pagesVM:ICopyrightSettingsVM}">
+    <general:CopyrightReportingView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type registrationVM:IRegistrationMainPageVM}}" DataType="{x:Type registrationVM:IRegistrationMainPageVM}">
+    <registrationPages:MainPage />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type updatesVM:IUpdatesSettingsVM}}" DataType="{x:Type updatesVM:IUpdatesSettingsVM}">
+    <pt:UpdatesSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type screensVM:IScreenSettingsVM}}" DataType="{x:Type screensVM:IScreenSettingsVM}">
+    <screen:ScreenSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type inputsVM:IInputsSettingsVM}}" DataType="{x:Type inputsVM:IInputsSettingsVM}">
+    <inputs:InputsSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type pagesVM:INetworkSettingsVM}}" DataType="{x:Type pagesVM:INetworkSettingsVM}">
+    <network:NetworkSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type viewModels:INetworkLinkVM}}" DataType="{x:Type viewModels:INetworkLinkVM}">
+    <network:NetworkLinkView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type devices:IDevicesSettingsVM}}" DataType="{x:Type devices:IDevicesSettingsVM}">
+    <devicesview:DevicesSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type devices:IMidiDeviceSettingsVM}}" DataType="{x:Type devices:IMidiDeviceSettingsVM}">
+    <devicesview:MidiDeviceSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type mediaVM:IMediaSettingsVM}}" DataType="{x:Type mediaVM:IMediaSettingsVM}">
+    <media:MediaSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type mediaVM:IMediaSearchPathsSettingsVM}}" DataType="{x:Type mediaVM:IMediaSearchPathsSettingsVM}">
+    <media:MediaSearchPathsSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type inputsVM:INdiInputsSettingsVM}}" DataType="{x:Type inputsVM:INdiInputsSettingsVM}">
+    <inputs:NdiInputsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type importVM:IImportSettingsVM}}" DataType="{x:Type importVM:IImportSettingsVM}">
+    <pt:ImportSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type pagesVM:IAudioSettingsVM}}" DataType="{x:Type pagesVM:IAudioSettingsVM}">
+    <audio:AudioSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type integrationsVM:IIntegrationsSettingsVM}}" DataType="{x:Type integrationsVM:IIntegrationsSettingsVM}">
+    <integrations:IntegrationsSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type integrationsVM:IPlanningCenterSettingsVM}}" DataType="{x:Type integrationsVM:IPlanningCenterSettingsVM}">
+    <integrations:PlanningCenterSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type integrationsVM:IMultiTracksSettingsVM}}" DataType="{x:Type integrationsVM:IMultiTracksSettingsVM}">
+    <integrations:MultiTracksSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type integrationsVM:ISongSelectSettingsVM}}" DataType="{x:Type integrationsVM:ISongSelectSettingsVM}">
+    <integrations:SongSelectSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type integrationsVM:IResiSettingsVM}}" DataType="{x:Type integrationsVM:IResiSettingsVM}">
+    <integrations:ResiSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type groupsVM:IGroupsSettingsVM}}" DataType="{x:Type groupsVM:IGroupsSettingsVM}">
+    <groups:GroupsSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type labelsVM:ILabelsSettingsVM}}" DataType="{x:Type labelsVM:ILabelsSettingsVM}">
+    <labels:LabelsSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type syncVM:ISyncSettingsVM}}" DataType="{x:Type syncVM:ISyncSettingsVM}">
+    <pt:SyncSettingsView />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type featureFlagsVM:IFeatureFlagPageSettingsVM}}" DataType="{x:Type featureFlagsVM:IFeatureFlagPageSettingsVM}">
+    <featureFlags:FeatureFlagSettingsView />
+  </DataTemplate>
+</ResourceDictionary>

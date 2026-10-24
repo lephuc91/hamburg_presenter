@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Props.PropsGridOrList" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Props" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:presentationView="clr-namespace:ProPresenter.UI.PresentationView" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" Focusable="True" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding LISTITEM_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="VMProxy" Data="{Binding}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid VerticalAlignment="Stretch" Background="{Binding SOURCELIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ContentPresenter Name="HeaderContent" Grid.Row="0" Content="{Binding HeaderElement, RelativeSource={RelativeSource AncestorType={x:Type local:PropsGridOrList}}}" />
+    <Grid Row="1">
+      <ContentControl>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Style.Triggers>
+              <DataTrigger Value="{x:Static do:PanelViewType.Thumbnail}" Binding="{Binding ViewType, RelativeSource={RelativeSource AncestorType={x:Type local:PropsGridOrList}}}">
+                <Setter Property="Content" Value="{Binding GridElement, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PropsGridOrList}}}" />
+              </DataTrigger>
+              <DataTrigger Value="{x:Static do:PanelViewType.List}" Binding="{Binding ViewType, RelativeSource={RelativeSource AncestorType={x:Type local:PropsGridOrList}}}">
+                <Setter Property="Content" Value="{Binding ListElement, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PropsGridOrList}}}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentControl>
+    </Grid>
+    <Grid Name="FooterRow" Row="2" Margin="0,0,0,4" Visibility="{Binding FooterVisiblility, RelativeSource={RelativeSource AncestorType={x:Type local:PropsGridOrList}}}">
+      <presentationView:ViewerStatusBar x:Name="PresentationDockingPanel" Grid.Column="2" Margin="8,0,0,0" CollapseControlWidth="375" FillSliderWidth="70" IsListViewAvailable="True" IsThumbnailViewAvailable="True" IsViewOptionPopupAvailable="False" MaxRowCapacity="5" MinRowCapacity="2" SimplifiedTransitionsButtons="True" TransitionDisplayMode="Background" RowCapacity="{Binding RowCapacity, RelativeSource={RelativeSource AncestorType={x:Type local:PropsGridOrList}}}" SelectedViewType="{Binding ViewType, RelativeSource={RelativeSource AncestorType={x:Type local:PropsGridOrList}}}" TransitionControl="{Binding Source={StaticResource VMProxy}}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type presentationView:ViewerStatusBar}">
+            <Setter Property="Margin" Value="0" />
+            <Style.Triggers>
+              <DataTrigger Value="Collapsed" Binding="{Binding ElementName=FooterRow, Path=Visibility}">
+                <Setter Property="Margin" Value="8,0,0,0" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <commonControls:FilterBox Height="22" MaxWidth="150" Margin="4,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" PlaceholderText="{mex:Localized GLOBAL_FILTER_FIELD_placeholder}" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type local:PropsGridOrList}}}" />
+      </presentationView:ViewerStatusBar>
+    </Grid>
+  </Grid>
+</UserControl>

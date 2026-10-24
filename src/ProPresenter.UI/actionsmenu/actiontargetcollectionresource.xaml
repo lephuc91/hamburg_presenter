@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actionsDO="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:analytics="clr-namespace:ProPresenter.DO.Analytics;assembly=ProPresenter.DO" xmlns:captureAction="clr-namespace:ProPresenter.DO.Actions.Capture;assembly=ProPresenter.DO" xmlns:captureAnalytics="clr-namespace:ProPresenter.DO.Analytics.Events.Capture;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:communication="clr-namespace:ProPresenter.DO.Communication;assembly=ProPresenter.DO" xmlns:controller="clr-namespace:ProPresenter.Controller.Outputs;assembly=ProPresenter.Controller" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:outputConfiguration="clr-namespace:ProPresenter.DO.OutputConfiguration;assembly=ProPresenter.DO" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="AddEditActionMenuSourceStyles.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <ObjectDataProvider x:Key="MIDICommand" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:TypeExtension TypeName="communication:MIDICommand" />
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+  <ObjectDataProvider x:Key="CaptureType" MethodName="GetValues" ObjectType="{x:Type Enum}">
+    <ObjectDataProvider.MethodParameters>
+      <x:TypeExtension TypeName="captureAction:CaptureType" />
+    </ObjectDataProvider.MethodParameters>
+  </ObjectDataProvider>
+  <CompositeCollection x:Key="CaptureTypeCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource CaptureType}}" />
+    <Separator />
+    <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" CommandParameter="{x:Static captureAnalytics:CaptureShownSource.ActionContextMenu}" Command="{Binding ScreensMenu.CaptureSettings.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized RECORDING_BUTTON_CONTEXT_MENU_CAPTURE_SETTINGS_title}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="ClearGroups" Source="{Binding ClearGroups, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+  <CompositeCollection x:Key="ClearGroupCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource ClearGroups}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource ClearGroups}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <MenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" CommandParameter="{x:Static analytics:ClearGroupShownSource.ActionMenu}" Command="{Binding PresentationMenu.OpenClearGroups.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="AudienceLooks" Source="{Binding AudienceLooks, Source={di:DIMarkup {x:Type outputConfiguration:IOutputConfiguration}}}" />
+  <CompositeCollection x:Key="AudienceLookCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource AudienceLooks}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource AudienceLooks}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding ScreensMenu.EditLooks.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" />
+  </CompositeCollection>
+  <CompositeCollection x:Key="SlideDestinationCollection">
+    <actionsDO:SlideDestinationType>StageOnly</actionsDO:SlideDestinationType>
+    <actionsDO:SlideDestinationType>All</actionsDO:SlideDestinationType>
+  </CompositeCollection>
+  <CollectionViewSource x:Key="Timers" Source="{Binding Timers, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+  <CompositeCollection x:Key="TimerCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource Timers}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource Timers}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Timers.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_TIMER_OPEN_TIMERS_title}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="Messages" Source="{Binding Messages, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+  <CompositeCollection x:Key="MessagesCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource Messages}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource Messages}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Messages.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_MESSAGES_title}" />
+  </CompositeCollection>
+  <CompositeCollection x:Key="PropGroupCollection">
+    <CollectionContainer Collection="{Binding PropGroupCollection, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+    <Separator Visibility="{Binding PropGroupCollection.Count, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Props.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_PROPS_title}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="Devices" Source="{Binding Devices, Source={di:DIMarkup {x:Type controller:IOutputService}}}" />
+  <CompositeCollection x:Key="DeviceCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource Devices}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource Devices}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ProMenu.Devices.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_DEVICES_title}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="AudioInputs" Source="{Binding OutputRepository.AvailableAudioInputs, Source={di:DIMarkup {x:Type controller:IOutputService}}}" />
+  <CompositeCollection x:Key="AudioInputCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource AudioInputs}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource AudioInputs}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <MenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding ProMenu.Input.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized AUDIO_INPUT_ACTION_POPOVER_OPEN_INPUTS_MENU_ITEM_title}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="AvailableVideoInputs" Source="{Binding OutputRepository.AvailableLiveVideoInputs, Source={di:DIMarkup {x:Type controller:IOutputService}}}" />
+  <CompositeCollection x:Key="AvailableVideoInputCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource AvailableVideoInputs}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource AvailableVideoInputs}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <MenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding ProMenu.Input.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized GLOBAL_VIDEO_INPUT_SETUP_BUTTON_title}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="Macros" Source="{Binding Macros, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+  <CompositeCollection x:Key="MacroCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource Macros}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource Macros}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Macros.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_MACROS_title}" Visibility="{Binding Data.ShowOpenMacros, Source={StaticResource selfProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="MacroGroups" Source="{Binding MacroGroups, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+  <CompositeCollection x:Key="MacroGroupCollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource MacroGroups}}" />
+    <Separator Visibility="{Binding Count, Source={StaticResource MacroGroups}, Converter={StaticResource CountToVisibilityConverter}}" />
+    <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Macros.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_MACROS_title}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="MacrosNoShowMacroUI" Source="{Binding MacroCollection, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+  <CompositeCollection x:Key="MacrosNoShowMacroUICollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource MacrosNoShowMacroUICollection}}" />
+  </CompositeCollection>
+  <CollectionViewSource x:Key="MacroGroupsNoShowMacroUI" Source="{Binding Data.MacroGroups, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+  <CompositeCollection x:Key="MacroGroupsNoShowMacroUICollection">
+    <CollectionContainer Collection="{Binding Source={StaticResource MacroGroupsNoShowMacroUICollection}}" />
+  </CompositeCollection>
+</ResourceDictionary>

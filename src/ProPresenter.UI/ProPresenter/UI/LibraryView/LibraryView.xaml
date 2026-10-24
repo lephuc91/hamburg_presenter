@@ -1,0 +1,982 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.LibraryView.LibraryView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:chordUI="clr-namespace:ProPresenter.UI.Chords" xmlns:commands="clr-namespace:ProPresenter.UI.Commands" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonResources="clr-namespace:Pro.UI.Resources;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:cueVms="clr-namespace:ProPresenter.UI.ViewModels.Library.Cue" xmlns:cues="clr-namespace:ProPresenter.DO.Cues;assembly=ProPresenter.DO" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:floatingHeaders="clr-namespace:ProPresenter.UI.FloatingHeaders" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:librarian="clr-namespace:ProPresenter.DO.Librarian;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.LibraryView" xmlns:local2="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:playlist="clr-namespace:ProPresenter.DO.Playlists;assembly=ProPresenter.DO" xmlns:settings="clr-namespace:ProPresenter.DO.Settings;assembly=ProPresenter.DO" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:triggering="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:ui1="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="libraryView" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding LISTITEM_CONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ui1:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui1:SharedResourceDictionary Source="../SourceDetailListResources.xaml" />
+        <ui1:SharedResourceDictionary Source="../LibraryPlaylistResources.xaml" />
+        <ui1:SharedResourceDictionary Source="../CueIconResources.xaml" />
+        <ui1:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+      <local2:MediaCueTriggerLayerConverter x:Key="MediaCueTriggerLayerConverter" />
+      <local2:MediaCueValidToVisibilityConverter x:Key="InvertedMediaCueValidToVisibilityConverter" IsInverted="True" />
+      <ControlTemplate x:Key="DisabledScrollingTemplate">
+        <ItemsPresenter />
+      </ControlTemplate>
+      <CompositeCollection x:Key="LibraryPlaylistCollection">
+        <TextBlock Margin="0" Style="{StaticResource HeaderStyle}" Text="{mex:Localized LIBRARY_PLAYLIST_OUTLINE_HEADER_LIBRARY_title}" />
+        <CollectionContainer Collection="{x:Static do:DataVault.LibraryCollection}" />
+        <TextBlock Margin="0" Style="{StaticResource HeaderStyle}" Text="{mex:Localized LIBRARY_PLAYLIST_OUTLINE_HEADER_PLAYLIST_title}" />
+        <CollectionContainer Collection="{Binding Data.Playlists, Source={StaticResource proxy}, Converter={StaticResource FlattenPlaylistsConverter}}" />
+      </CompositeCollection>
+      <MenuItem x:Key="HideItemMenuItem" Command="{Binding Data.HideItemCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Visibility="{Binding Data.ActiveLibrary, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Null}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+            <Setter Property="Header" Value="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_HIDE_MULTIPLE_title}" />
+            <Style.Triggers>
+              <DataTrigger Value="1" Binding="{Binding Data.SelectedCues.Count, Source={StaticResource proxy}}">
+                <Setter Property="Header" Value="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_HIDE_title}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </MenuItem>
+      <MenuItem x:Key="AddToMenuItem" UsesItemContainerTemplate="True" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_ADD_TO_title}" Visibility="{Binding Data.ActivePlaylist.Type, ConverterParameter={x:Static playlist:PlaylistType.PCO}, Source={StaticResource proxy}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+        <MenuItem.ItemContainerTemplateSelector>
+          <ui1:InterfaceItemContainerTemplateSelector />
+        </MenuItem.ItemContainerTemplateSelector>
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+              <ui1:SharedResourceDictionary Source="../LibraryPlaylistResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Style.Triggers>
+                <Trigger Property="MenuItem.IsChecked" Value="True">
+                  <Setter Property="IsEnabled" Value="False" />
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type librarian:ILibrary}}" DataType="{x:Type librarian:ILibrary}">
+              <MenuItem Command="{Binding Data.AddToLibraryCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}">
+                <HeaderedItemsControl.Header>
+                  <StackPanel Margin="8,0,0,0" Orientation="Horizontal">
+                    <Image Width="18" Height="18" RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.Library}}" />
+                    <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                  </StackPanel>
+                </HeaderedItemsControl.Header>
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding />
+                    <Binding Path="Data.ActiveLibrary" Source="{StaticResource proxy}" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:GeneralPlaylist}}" DataType="{x:Type playlist:GeneralPlaylist}">
+              <MenuItem Command="{Binding Data.AddToPlaylistCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}">
+                <HeaderedItemsControl.Header>
+                  <StackPanel Orientation="Horizontal" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}">
+                    <ContentPresenter Content="{DynamicResource PlaylistIcon}" />
+                    <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                  </StackPanel>
+                </HeaderedItemsControl.Header>
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding />
+                    <Binding Path="Data.ActivePlaylist" Source="{StaticResource proxy}" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:PCOPlaylist}}" DataType="{x:Type playlist:PCOPlaylist}">
+              <MenuItem Command="{Binding Data.AddToPlaylistCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}">
+                <HeaderedItemsControl.Header>
+                  <StackPanel Orientation="Horizontal" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}">
+                    <ContentPresenter Content="{DynamicResource PlaylistIcon}" />
+                    <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                  </StackPanel>
+                </HeaderedItemsControl.Header>
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding />
+                    <Binding Path="Data.ActivePlaylist" Source="{StaticResource proxy}" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:GeneralGroupPlaylist}}" DataType="{x:Type playlist:GeneralGroupPlaylist}">
+              <MenuItem IsEnabled="False">
+                <HeaderedItemsControl.Header>
+                  <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                </HeaderedItemsControl.Header>
+              </MenuItem>
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type TextBlock}}" DataType="{x:Type TextBlock}">
+              <MenuItem FontWeight="Bold" IsEnabled="False" Header="{Binding Text}" />
+            </DataTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+            <Setter Property="ItemsSource" Value="{StaticResource LibraryPlaylistCollection}" />
+            <Style.Triggers>
+              <Trigger Property="MenuItem.IsChecked" Value="True">
+                <Setter Property="IsEnabled" Value="False" />
+              </Trigger>
+              <DataTrigger Value="True" Binding="{Binding Data.ShowAddToPlaylistsOnly, Source={StaticResource proxy}}">
+                <Setter Property="ItemsSource" Value="{Binding Data.Playlists, Source={StaticResource proxy}, Converter={StaticResource FlattenPlaylistsConverter}}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </MenuItem>
+      <ContextMenu x:Key="PlaylistHeaderMenu">
+        <MenuItem Header="{mex:Localized GLOBAL_RENAME_MENU_ITEM_title}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <EventSetter Event="Click" Handler="Rename_Click" />
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <MenuItem Command="{Binding Data.PlaylistTemplatesVM.SaveAsTemplateCommand, Source={StaticResource proxy}}" CommandParameter="{Binding Data.ActivePlaylist, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_CREATE_PLAYLIST_TEMPLATE_title}" Visibility="{Binding Data.ActivePlaylist.Type, ConverterParameter={x:Static playlist:PlaylistType.Group}, Converter={StaticResource InvertedValueToVisibilityConverter}, Source={StaticResource proxy}}" />
+        <Separator />
+        <MenuItem uiUtility:CommandTargets.Assign="{x:Static commands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding FileMenu.ExportPlaylist.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.ActivePlaylist, Source={StaticResource proxy}}" Header="{mex:Localized EXPORT_BUTTON_title}" />
+        <MenuItem uiUtility:CommandTargets.Assign="{x:Static commands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding FileMenu.Print.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.ActivePlaylist, Source={StaticResource proxy}}" Visibility="{Binding Data.ActivePlaylist.Type, ConverterParameter={x:Static playlist:PlaylistType.Group}, Converter={StaticResource InvertedValueToVisibilityConverter}, Source={StaticResource proxy}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.DuplicateActivePlaylistCommand, Source={StaticResource proxy}}" Header="{mex:Localized MAIN_MENU_EDIT_DUPLICATE_title}" />
+        <MenuItem Command="{Binding Data.DeleteActivePlaylistCommand, Source={StaticResource proxy}}" Header="{mex:Localized GLOBAL_DELETE_title}" />
+      </ContextMenu>
+      <ContextMenu x:Key="LibraryHeaderMenu">
+        <MenuItem Header="{mex:Localized GLOBAL_RENAME_MENU_ITEM_title}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <EventSetter Event="Click" Handler="Rename_Click" />
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <MenuItem Command="{Binding Data.DeleteActiveLibraryCommand, Source={StaticResource proxy}}" Header="{mex:Localized GLOBAL_DELETE_title}" />
+      </ContextMenu>
+      <Style x:Key="HeaderGridStyle" TargetType="{x:Type Grid}">
+        <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource PlaylistHeaderMenu}" />
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Data.ActivePlaylist, Source={StaticResource proxy}}" Value="{x:Null}">
+            <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource LibraryHeaderMenu}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="BehaviorMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.SetMediaTargetLayerCommand, Source={StaticResource proxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="Header" Value="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        <Setter Property="HeaderedItemsControl.HeaderStringFormat" Value="{}{0}" />
+        <Setter Property="MenuItem.IsChecked">
+          <Setter.Value>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource MediaCueTriggerLayerConverter}">
+              <Binding Path="Data.SelectedCue.Cue" Source="{StaticResource proxy}" />
+              <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+            </MultiBinding>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ui1:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Name="LibraryRow" Height="{Binding LibraryHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}">
+          <FrameworkContentElement.Style>
+            <Style TargetType="{x:Type RowDefinition}">
+              <Setter Property="MinHeight" Value="27" />
+              <Style.Triggers>
+                <DataTrigger Value="False" Binding="{Binding LibraryCollapsed, Source={x:Static settings:Layout.Settings}}">
+                  <Setter Property="MinHeight" Value="100" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkContentElement.Style>
+        </RowDefinition>
+        <RowDefinition Height="Auto" />
+        <RowDefinition MinHeight="200" Height="{Binding ItemsHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+      </Grid.RowDefinitions>
+      <Grid Row="0" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Visibility="{Binding LibraryCollapsed, Source={x:Static settings:Layout.Settings}, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+        <floatingHeaders:FlatFloatingHeaderControl ScrollBarMargin="0 22 0 0">
+          <commonControls:FloatingHeaderControl.HeaderTemplates>
+            <DataTemplate DataType="{x:Type ListBox}">
+              <Grid Height="27" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+                <TextBlock Style="{StaticResource HeaderStyle}" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}" Text="{mex:Localized LIBRARY_PLAYLIST_OUTLINE_HEADER_LIBRARY_title}" />
+              </Grid>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type local:PlaylistTreeView}">
+              <Grid Height="22" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+                <TextBlock Style="{StaticResource HeaderStyle}" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}" Text="{mex:Localized LIBRARY_PLAYLIST_OUTLINE_HEADER_PLAYLIST_title}" />
+              </Grid>
+            </DataTemplate>
+          </commonControls:FloatingHeaderControl.HeaderTemplates>
+          <local:LibraryListBox x:Name="LibraryListBox" NavigationCrested="LibraryListBox_NavigationCrested" Margin="16,0,0,0" BorderThickness="0" DeselectOnLostFocus="True" Template="{StaticResource DisabledScrollingTemplate}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteLibraryCommand}" ActiveItem="{Binding ActiveLibrary}" FocusVisualStyle="{x:Null}" ItemsSource="{Binding Libraries}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedListItems="{Binding SelectedLibraries}">
+            <ItemsControl.ItemContainerStyle>
+              <Style BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+                <Setter Property="FrameworkElement.ContextMenu">
+                  <Setter.Value>
+                    <ContextMenu>
+                      <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}">
+                        <FrameworkElement.Style>
+                          <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                              <DataTrigger Value="1" Binding="{Binding Data.SelectedLibraries.Count, Source={StaticResource proxy}}">
+                                <Setter Property="Visibility" Value="Visible" />
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </MenuItem>
+                      <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                    </ContextMenu>
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+              </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <Image Grid.Column="0" Width="20" Height="20" RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.Library}}" />
+                  <commonControls:EditableTextBlock Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Name}" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </local:LibraryListBox>
+          <local:PlaylistTreeView x:Name="PlaylistTreeView" NavigationCrested="PlaylistTreeView_NavigationCrested" BorderThickness="0" DeselectOnLostFocus="True" Style="{StaticResource PlaylistTreeViewStyle}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeletePlaylistCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicatePlaylistCommand}" ActiveItem="{Binding ActivePlaylist}" DropPlaylistFilesCommand="{Binding DropPlaylistFilesCommand}" DropPlaylistItemFilesCommand="{Binding DropFilesCommand}" DropProContentAssetCommand="{Binding DropProContentAssetCommand}" ItemsSource="{Binding Playlists}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedTreeItem="{Binding SelectedPlaylist}" SelectedTreeItems="{Binding SelectedPlaylists}">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ContextMenu x:Key="SinglePlaylistMenu">
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" CommandTarget="{Binding}" />
+                  <MenuItem Command="{Binding Data.PlaylistTemplatesVM.SaveAsTemplateCommand, Source={StaticResource proxy}}" CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Header="{mex:Localized LIBRARY_PLAYLIST_CREATE_PLAYLIST_TEMPLATE_title}" Visibility="{Binding Type, ConverterParameter={x:Static playlist:PlaylistType.Group}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                  <Separator />
+                  <commonControls:RoutedMenuItem Command="{Binding FileMenu.ExportPlaylist.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding}" Header="{mex:Localized EXPORT_BUTTON_title}" />
+                  <commonControls:RoutedMenuItem Command="{Binding FileMenu.Print.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Visibility="{Binding Type, ConverterParameter={x:Static playlist:PlaylistType.Group}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                  <Separator />
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                </ContextMenu>
+                <ContextMenu x:Key="MultiPlaylistMenu">
+                  <commonControls:RoutedMenuItem Command="{Binding FileMenu.ExportPlaylist.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding}" Header="{mex:Localized EXPORT_BUTTON_title}" />
+                  <commonControls:RoutedMenuItem Command="{Binding FileMenu.Print.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Visibility="{Binding Type, ConverterParameter={x:Static playlist:PlaylistType.Group}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                </ContextMenu>
+                <ContextMenu x:Key="PCOPlaylistMenu">
+                  <MenuItem Command="{Binding Data.PlaylistTemplatesVM.SaveAsTemplateCommand, Source={StaticResource proxy}}" CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Header="{mex:Localized LIBRARY_PLAYLIST_CREATE_PLAYLIST_TEMPLATE_title}" Visibility="{Binding Type, ConverterParameter={x:Static playlist:PlaylistType.Group}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                  <Separator />
+                  <commonControls:RoutedMenuItem Command="{Binding ProCommon.RefreshPCOPlaylist.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding}" />
+                  <commonControls:RoutedMenuItem Command="{Binding ProCommon.ConvertPCOPlaylist.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding}" />
+                  <Separator />
+                  <commonControls:RoutedMenuItem Command="{Binding FileMenu.ExportPlaylist.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding}" Header="{mex:Localized EXPORT_BUTTON_title}" />
+                  <commonControls:RoutedMenuItem Command="{Binding FileMenu.Print.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" />
+                  <Separator />
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+                  <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                </ContextMenu>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+            <ItemsControl.ItemContainerStyle>
+              <Style BasedOn="{StaticResource {x:Type commonControls:TreeViewItem}}" TargetType="{x:Type commonControls:TreeViewItem}">
+                <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource SinglePlaylistMenu}" />
+                <Style.Triggers>
+                  <DataTrigger Value="{x:Static playlist:PlaylistType.PCO}" Binding="{Binding Type}">
+                    <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource PCOPlaylistMenu}" />
+                  </DataTrigger>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="True" Binding="{Binding Data.MultiplePlaylistsSelected, Source={StaticResource proxy}}" />
+                      <Condition Value="False" Binding="{Binding Data.OnlyPCOPlaylistSelected, Source={StaticResource proxy}}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource MultiPlaylistMenu}" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </ItemsControl.ItemContainerStyle>
+          </local:PlaylistTreeView>
+        </floatingHeaders:FlatFloatingHeaderControl>
+      </Grid>
+      <GridSplitter Grid.Row="1" Height="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" HorizontalAlignment="Stretch" DragDelta="LibrarySplitter_DragDelta">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type GridSplitter}}" TargetType="{x:Type GridSplitter}">
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="False" Binding="{Binding IsDragging, RelativeSource={RelativeSource Self}}" />
+                  <Condition Value="True" Binding="{Binding LibraryCollapsed, Source={x:Static settings:Layout.Settings}}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </GridSplitter>
+      <Grid Row="2" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="27" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="27" />
+        </Grid.RowDefinitions>
+        <Grid Row="0" Style="{StaticResource HeaderGridStyle}" uiUtility:UIElementHelper.Palette="{Binding DETAILHEADER_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource HeaderStyle}" TextTrimming="CharacterEllipsis" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}" Text="{Binding ItemsCountText}" />
+          <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type StackPanel}">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                  <DataTrigger Value="PCO" Binding="{Binding ActivePlaylist.Type}">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <commonControls:BorderlessButton Margin="0,0,5,0" Command="{Binding RefreshPCOPlaylistCommand}" Visibility="{Binding PCOConsumer.IsPCOBusy, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+              <StackPanel Orientation="Horizontal">
+                <commonControls:ImageMask ImageSource="../Resources/Icons/Reset.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+                <TextBlock Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized LIBRARY_PLAYLIST_ITEMS_UPDATE_AVAILABLE_label}">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                      <Style.Triggers>
+                        <DataTrigger Value="True">
+                          <DataTrigger.Binding>
+                            <PriorityBinding>
+                              <Binding Path="ActivePlaylist.HasUpdates" />
+                            </PriorityBinding>
+                          </DataTrigger.Binding>
+                          <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </TextBlock>
+              </StackPanel>
+            </commonControls:BorderlessButton>
+            <commonControls:BorderlessButton Margin="0,0,5,0" Command="{Binding ProCommon.OpenPCOAttachmentManager.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" ToolTip="{mex:Localized PLANNING_CENTER_ITEMS_HEADER_ATTACHMENTS_tooltip}" Visibility="{Binding PCOConsumer.IsPCOBusy, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+              <Path Data="{StaticResource PCOAttachments}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+            </commonControls:BorderlessButton>
+            <commonControls:LoadingIndicator Grid.Column="1" Width="22" Height="22" Margin="0,0,5,0" DisplayMode="Spinner" Visibility="{Binding PCOConsumer.IsPCOBusy, Converter={StaticResource ValueToVisibilityConverter}}" />
+          </StackPanel>
+          <commonControls:BorderlessPathButton Grid.Column="2" Margin="0,0,8,0" HorizontalAlignment="Right" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" PathType="Plus">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessPathButton}}" TargetType="{x:Type commonControls:BorderlessPathButton}">
+                <Setter Property="Visibility" Value="Visible" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="False" Binding="{Binding Data.ActiveLibrary, Source={StaticResource proxy}, Converter={StaticResource IsNotNullToBoolConverter}}" />
+                      <Condition Value="False" Binding="{Binding Data.ActivePlaylist, Source={StaticResource proxy}, Converter={StaticResource IsNotNullToBoolConverter}}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Hidden" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Placement="Bottom">
+                <commonControls:RoutedMenuItem Command="{Binding FileMenu.NewPresentation.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_NEW_MENU_NEW_PRESENTATION_title}" Visibility="{Binding Data.ActiveLibrary, Source={StaticResource proxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}">
+                  <MenuItem.Icon>
+                    <Image Source="{StaticResource {x:Static themes:Icons.PresentationIcon}}" />
+                  </MenuItem.Icon>
+                </commonControls:RoutedMenuItem>
+                <MenuItem Command="{Binding Data.NewHeaderCommand, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_NEW_MENU_NEW_HEADER_title}" Visibility="{Binding Data.ActivePlaylist, Source={StaticResource proxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}">
+                  <MenuItem.Icon>
+                    <Image Source="../Resources/Icons/NewHeaderIcon.png" />
+                  </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding Data.NewPlaceholderCommand, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_NEW_MENU_NEW_PLACEHOLDER_title}" Visibility="{Binding Data.ActivePlaylist, Source={StaticResource proxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}">
+                  <MenuItem.Icon>
+                    <Image Source="{StaticResource {x:Static themes:Icons.PresentationIcon}}" />
+                  </MenuItem.Icon>
+                </MenuItem>
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </commonControls:BorderlessPathButton>
+        </Grid>
+        <local:CueListBox Grid.Row="1" HorizontalContentAlignment="Stretch" BorderThickness="0" DeselectOnLostFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" Style="{StaticResource {x:Type ListBox}}" VirtualizingPanel.ScrollUnit="Pixel" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" uiUtility:UIElementHelper.RegisterChangeOutputDestinationCommand="{Binding ChangeOutputDestinationCommand}" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyCuesCommand}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteCuesCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicateCuesCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteCuesCommand}" ActiveItem="{Binding ActiveCue}" DragDropCollection="{Binding DropTarget}" DropFilesCommand="{Binding DropFilesCommand}" DropProContentAssetCommand="{Binding DropProContentAssetCommand}" ItemsSource="{Binding CueCollectionView}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedListItem="{Binding SelectedCue}" SelectedListItems="{Binding SelectedCues}">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu>
+              <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <ui:CueTemplate ShowArrangementName="True">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type ui:CueTemplate}">
+                    <Style.Triggers>
+                      <DataTrigger Value="True" Binding="{Binding Data.ActiveLibrary, Source={StaticResource proxy}, Converter={StaticResource IsNotNullToBoolConverter}}">
+                        <Setter Property="ui:CueTemplate.ShowItemDetails" Value="False" />
+                      </DataTrigger>
+                      <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                          <Condition Binding="{Binding Data.ActiveLibrary, Source={StaticResource proxy}}" Value="{x:Null}" />
+                          <Condition Value="Document" Binding="{Binding Type}" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="ui:CueTemplate.CanRename" Value="False" />
+                      </MultiDataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </ui:CueTemplate>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <ContextMenu x:Key="PresentationContextMenu">
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <Style x:Key="MultipleSelectionToCollapseMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                      <Style.Triggers>
+                        <DataTrigger Value="1" Binding="{Binding Data.SelectedCues.Count, Source={StaticResource proxy}}">
+                          <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <MenuItem Command="{Binding Data.PCOUploadCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_UPLOAD_TO_PCO_title}" Visibility="{Binding Type, ConverterParameter={x:Static cues:CueType.PCO}, Converter={StaticResource ValueToVisibilityConverter}}" />
+                <MenuItem Command="{Binding Data.UnlinkItemCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_PLACEHOLDER_CONTEXT_MENU_UNLINK_title}" Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource ValueToVisibilityConverter}}" />
+                <StaticResourceExtension ResourceKey="HideItemMenuItem" />
+                <Separator Visibility="{Binding Data.ActivePlaylist, Source={StaticResource proxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+                <StaticResourceExtension ResourceKey="AddToMenuItem" />
+                <MenuItem ItemsSource="{x:Static do:DataVault.LibraryCollection}" UsesItemContainerTemplate="True" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_MOVE_TO_title}" Visibility="{Binding Data.ShowMoveTo, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}">
+                  <MenuItem.ItemContainerTemplateSelector>
+                    <ui1:InterfaceItemContainerTemplateSelector />
+                  </MenuItem.ItemContainerTemplateSelector>
+                  <FrameworkElement.Resources>
+                    <ResourceDictionary>
+                      <ResourceDictionary.MergedDictionaries>
+                        <ui1:SharedResourceDictionary Source="../LibraryPlaylistResources.xaml" />
+                      </ResourceDictionary.MergedDictionaries>
+                      <DataTemplate x:Key="{DataTemplateKey {x:Type librarian:ILibrary}}" DataType="{x:Type librarian:ILibrary}">
+                        <MenuItem Command="{Binding Data.MoveToLibraryCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}">
+                          <HeaderedItemsControl.Header>
+                            <StackPanel Margin="8,0,0,0" Orientation="Horizontal">
+                              <Image Width="18" Height="18" RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.Library}}" />
+                              <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                            </StackPanel>
+                          </HeaderedItemsControl.Header>
+                          <MenuItem.IsChecked>
+                            <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                              <Binding />
+                              <Binding Path="Data.ActiveLibrary" Source="{StaticResource proxy}" />
+                            </MultiBinding>
+                          </MenuItem.IsChecked>
+                        </MenuItem>
+                      </DataTemplate>
+                    </ResourceDictionary>
+                  </FrameworkElement.Resources>
+                  <ItemsControl.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Style.Triggers>
+                        <Trigger Property="MenuItem.IsChecked" Value="True">
+                          <Setter Property="IsEnabled" Value="False" />
+                        </Trigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ItemsControl.ItemContainerStyle>
+                </MenuItem>
+                <Separator />
+                <MenuItem Style="{StaticResource MultipleSelectionToCollapseMenuItemStyle}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_ARRANGEMENT_title}">
+                  <FrameworkElement.Resources>
+                    <ResourceDictionary>
+                      <commonUtility:BindingProxy x:Key="placementTarget" Data="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}" />
+                      <CollectionViewSource x:Key="Arrangements">
+                        <CollectionViewSource.Source>
+                          <PriorityBinding>
+                            <Binding Path="Data.DocumentAction.Presentation.Arrangements" Source="{StaticResource placementTarget}" />
+                          </PriorityBinding>
+                        </CollectionViewSource.Source>
+                      </CollectionViewSource>
+                    </ResourceDictionary>
+                  </FrameworkElement.Resources>
+                  <ItemsControl.ItemsSource>
+                    <CompositeCollection>
+                      <MenuItem Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_ARRANGEMENT_MASTER_title}">
+                        <MenuItem.CommandParameter>
+                          <PriorityBinding>
+                            <Binding Path="Data.DocumentAction.Presentation.DefaultArrangement" Source="{StaticResource placementTarget}" />
+                          </PriorityBinding>
+                        </MenuItem.CommandParameter>
+                        <MenuItem.IsChecked>
+                          <PriorityBinding>
+                            <Binding Mode="OneWay" Path="Data.DocumentAction.ActiveArrangement.IsMaster" Source="{StaticResource placementTarget}" />
+                          </PriorityBinding>
+                        </MenuItem.IsChecked>
+                      </MenuItem>
+                      <CollectionContainer Collection="{Binding Source={StaticResource Arrangements}}" />
+                    </CompositeCollection>
+                  </ItemsControl.ItemsSource>
+                  <ItemsControl.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Setter Property="MenuItem.Command" Value="{Binding Data.SelectArrangementCommand, Source={StaticResource proxy}}" />
+                      <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                      <Setter Property="Header" Value="{Binding Name}" />
+                      <Setter Property="MenuItem.IsChecked">
+                        <Setter.Value>
+                          <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                            <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                            <Binding Path="Data.DocumentAction.ActiveArrangement" Source="{StaticResource placementTarget}" />
+                          </MultiBinding>
+                        </Setter.Value>
+                      </Setter>
+                    </Style>
+                  </ItemsControl.ItemContainerStyle>
+                </MenuItem>
+                <MenuItem Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_CONTENT_DESTINATION_title}">
+                  <MenuItem CommandParameter="{x:Static do:OutputDestination.Presentation}" Command="{Binding Data.ChangeOutputDestinationCommand, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_CONTENT_DESTINATION_PRESENTATION_title}">
+                    <MenuItem.Icon>
+                      <commonControls:ThreeStateIcon IconSize="XSmall" IndeterminateStateSource="{StaticResource {x:Static themes:Icons.Line}}" StateOneSource="{StaticResource {x:Static themes:Icons.Check}}" State="{Binding Data.SelectedCuesDestination, Source={StaticResource proxy}, Converter={local:SelectedCueDestinationsToThreeStateBooleanValueConverter Destination=Presentation}}" />
+                    </MenuItem.Icon>
+                  </MenuItem>
+                  <MenuItem CommandParameter="{x:Static do:OutputDestination.Announcement}" Command="{Binding Data.ChangeOutputDestinationCommand, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_CONTENT_DESTINATION_ANNOUNCEMENTS_title}">
+                    <MenuItem.Icon>
+                      <commonControls:ThreeStateIcon IconSize="XSmall" IndeterminateStateSource="{StaticResource {x:Static themes:Icons.Line}}" StateOneSource="{StaticResource {x:Static themes:Icons.Check}}" State="{Binding Data.SelectedCuesDestination, Source={StaticResource proxy}, Converter={local:SelectedCueDestinationsToThreeStateBooleanValueConverter Destination=Announcement}}" />
+                    </MenuItem.Icon>
+                  </MenuItem>
+                </MenuItem>
+                <Separator />
+                <MenuItem Style="{StaticResource MultipleSelectionToCollapseMenuItemStyle}" Command="{Binding Data.EditSelectedPresentationFromContextMenuCommand, Source={StaticResource proxy}}" Header="{mex:Localized MAIN_MENU_EDIT_MENU_title}" IsEnabled="{Binding Data.IsPresentationAvailable, Mode=OneWay, Source={StaticResource proxy}}" />
+                <ui:SizeMenuItem Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_RESIZE_title}" Target="{Binding Data, Source={StaticResource proxy}}" />
+                <MenuItem CommandParameter="{x:Static commands:ShowSource.LibraryContextMenu}" Style="{StaticResource MultipleSelectionToCollapseMenuItemStyle}" Command="{Binding ViewMenu.ShowReflowEditor.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_REFLOW_title}" IsEnabled="{Binding Data.IsPresentationAvailable, Mode=OneWay, Source={StaticResource proxy}}" Click="ReflowMenuItemClick" />
+                <MenuItem Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_KEY_title}">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                      <Style.Triggers>
+                        <MultiDataTrigger>
+                          <MultiDataTrigger.Conditions>
+                            <Condition Value="1" Binding="{Binding Data.SelectedCues.Count, Source={StaticResource proxy}}" />
+                            <Condition Value="True" Binding="{Binding DocumentAction.Presentation.SupportsChords}" />
+                          </MultiDataTrigger.Conditions>
+                          <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                  <FrameworkElement.Resources>
+                    <ResourceDictionary>
+                      <commonUtility:BindingProxy x:Key="keyMenuItem" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType=MenuItem}}" />
+                    </ResourceDictionary>
+                  </FrameworkElement.Resources>
+                  <ItemsControl.ItemsSource>
+                    <chordUI:KeySelectionMenuSource SelectedKey="{Binding Data.DocumentAction.TargetKey, Source={StaticResource keyMenuItem}}" />
+                  </ItemsControl.ItemsSource>
+                </MenuItem>
+                <Separator />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Copy}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" Visibility="{Binding Data.ActiveLibrary, Source={StaticResource proxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+                <Separator />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.OpenCommand}" CommandParameter="{Binding}" Header="{mex:Localized GLOBAL_SHOW_IN_FINDER_MENU_ITEM_windows_title}" Visibility="{Binding Data.ActiveLibrary, Source={StaticResource proxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+                <MenuItem Command="{Binding Data.ShowInLibraryCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_SHOW_IN_LIBRARY_title}">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                      <Style.Triggers>
+                        <MultiDataTrigger>
+                          <MultiDataTrigger.Conditions>
+                            <Condition Value="True" Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" />
+                            <Condition Value="1" Binding="{Binding Data.SelectedCues.Count, Source={StaticResource proxy}}" />
+                          </MultiDataTrigger.Conditions>
+                          <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </MenuItem>
+                <commonControls:RoutedMenuItem Command="{Binding FileMenu.ExportPresentationBundle.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_EXPORT_BUNDLE_title}" />
+                <commonControls:RoutedMenuItem Command="{Binding FileMenu.ExportSlideImages.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_EXPORT_IMAGES_title}" />
+              </ContextMenu>
+              <ContextMenu x:Key="HeaderContextMenu">
+                <StaticResourceExtension ResourceKey="HideItemMenuItem" />
+                <Separator />
+                <StaticResourceExtension ResourceKey="AddToMenuItem" />
+                <Separator Visibility="{Binding Type, ConverterParameter={x:Static cues:CueType.PCO}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                <MenuItem>
+                  <HeaderedItemsControl.Header>
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" Text="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_CHANGE_COLOR_title}" />
+                      <commonControls:ColorPicker Width="50" Margin="15,0,0,0" ColorChangeFinishedCommand="{Binding Data.ColorChangeFinishedCommand, Source={StaticResource proxy}}" SelectedColor="{Binding HeaderAction.Color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                  </HeaderedItemsControl.Header>
+                </MenuItem>
+                <Separator />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Copy}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" Visibility="{Binding Type, ConverterParameter={x:Static cues:CueType.PCO}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" Visibility="{Binding Type, ConverterParameter={x:Static cues:CueType.PCO}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                      <Style.Triggers>
+                        <DataTrigger Value="1" Binding="{Binding Data.SelectedCues.Count, Source={StaticResource proxy}}">
+                          <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Value="{x:Static cues:CueType.PCO}" Binding="{Binding Type}">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </MenuItem>
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" Visibility="{Binding Type, ConverterParameter={x:Static cues:CueType.PCO}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+              </ContextMenu>
+              <ContextMenu x:Key="MediaContextMenu">
+                <MenuItem Command="{Binding Data.PCOUploadCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_CONTEXT_MENU_UPLOAD_TO_PCO_title}" Visibility="{Binding Type, ConverterParameter={x:Static cues:CueType.PCO}, Converter={StaticResource ValueToVisibilityConverter}}" />
+                <MenuItem Command="{Binding Data.UnlinkItemCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_PLACEHOLDER_CONTEXT_MENU_UNLINK_title}" Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource ValueToVisibilityConverter}}" />
+                <StaticResourceExtension ResourceKey="HideItemMenuItem" />
+                <Separator />
+                <StaticResourceExtension ResourceKey="AddToMenuItem" />
+                <Separator Visibility="{Binding Type, ConverterParameter={x:Static cues:CueType.PCO}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                <commonControls:RoutedMenuItem Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.SelectedMedia, Source={StaticResource proxy}, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" />
+                <MenuItem Header="{mex:Localized MEDIA_BIN_CONTEXT_MENU_BEHAVIOR_title}">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                      <Style.Triggers>
+                        <DataTrigger Value="1" Binding="{Binding Data.SelectedCues.Count, Source={StaticResource proxy}}">
+                          <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                  <MenuItem DataContext="{x:Static media:TriggerLayer.Background}" Style="{StaticResource BehaviorMenuItemStyle}" />
+                  <MenuItem DataContext="{x:Static media:TriggerLayer.Foreground}" Style="{StaticResource BehaviorMenuItemStyle}" />
+                </MenuItem>
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.OpenCommand}" CommandParameter="{Binding}" Header="{mex:Localized GLOBAL_SHOW_IN_FINDER_MENU_ITEM_windows_title}" />
+                <Separator />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Copy}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                <MenuItem Command="{Binding Data.RelinkCommand, Source={StaticResource proxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_LINK_MEDIA_win_title}" Visibility="{Binding Data.SelectedCue, Source={StaticResource proxy}, Converter={StaticResource InvertedMediaCueValidToVisibilityConverter}}" />
+              </ContextMenu>
+              <ContextMenu x:Key="UnlinkedPlaceholderMenu">
+                <StaticResourceExtension ResourceKey="HideItemMenuItem" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" />
+                <Separator />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Copy}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+              </ContextMenu>
+              <ContextMenu x:Key="UnlinkedPCOMenu">
+                <StaticResourceExtension ResourceKey="HideItemMenuItem" />
+              </ContextMenu>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <ItemsControl.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+              <Setter Property="FrameworkElement.ContextMenu">
+                <Setter.Value>
+                  <ContextMenu>
+                    <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+                  </ContextMenu>
+                </Setter.Value>
+              </Setter>
+              <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding DETAILLISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Self}}" />
+                    <Condition Value="PCO" Binding="{Binding Type}" />
+                    <Condition Value="Header" Binding="{Binding PCOItemType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Background" Value="{Binding HeaderAction.Color, Converter={StaticResource ColorToBrushConverter}}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Self}}" />
+                    <Condition Value="Header" Binding="{Binding Type}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Background" Value="{Binding HeaderAction.Color, Converter={StaticResource ColorToBrushConverter}}" />
+                </MultiDataTrigger>
+                <DataTrigger Value="Document" Binding="{Binding Type}">
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource PresentationContextMenu}" />
+                </DataTrigger>
+                <DataTrigger Value="Header" Binding="{Binding Type}">
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource HeaderContextMenu}" />
+                </DataTrigger>
+                <DataTrigger Value="Media" Binding="{Binding Type}">
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource MediaContextMenu}" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Placeholder" Binding="{Binding Type}" />
+                    <Condition Value="Unlinked" Binding="{Binding PlaceholderAction.State}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource UnlinkedPlaceholderMenu}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Placeholder" Binding="{Binding Type}" />
+                    <Condition Value="DocumentLinked" Binding="{Binding PlaceholderAction.State}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource PresentationContextMenu}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Placeholder" Binding="{Binding Type}" />
+                    <Condition Value="MediaLinked" Binding="{Binding PlaceholderAction.State}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource MediaContextMenu}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="PCO" Binding="{Binding Type}" />
+                    <Condition Value="DocumentLinked" Binding="{Binding PCOAction.LinkedObjectType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource PresentationContextMenu}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="PCO" Binding="{Binding Type}" />
+                    <Condition Value="Unlinked" Binding="{Binding PCOAction.LinkedObjectType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource UnlinkedPCOMenu}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="PCO" Binding="{Binding Type}" />
+                    <Condition Value="Header" Binding="{Binding PCOItemType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource HeaderContextMenu}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="PCO" Binding="{Binding Type}" />
+                    <Condition Value="MediaLinked" Binding="{Binding PCOAction.LinkedObjectType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource MediaContextMenu}" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </local:CueListBox>
+        <commonControls:BorderlessButton Grid.Row="2" HorizontalAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Resources="{commonConverters:FormattedLocalizedStringConverter Key=FormattedLocalizedStringConverter}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+              <Setter Property="Content" Value="{Binding HiddenCueCollectionView.Count, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=LIBRARY_PLAYLIST_ITEMS_HIDDEN_ITEMS_BUTTON_PLURAL_title}" />
+              <Setter Property="Visibility" Value="Visible" />
+              <Style.Triggers>
+                <DataTrigger Value="0" Binding="{Binding HiddenCueCollectionView.Count}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Value="1" Binding="{Binding HiddenCueCollectionView.Count}">
+                  <Setter Property="Content" Value="{Binding HiddenCueCollectionView.Count, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=LIBRARY_PLAYLIST_ITEMS_HIDDEN_ITEMS_BUTTON_title}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu>
+              <MenuItem UsesItemContainerTemplate="True" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_HIDDEN_ITEMS_BUTTON_CONTEXTUAL_MENU_UNHIDE_ITEM_title}" ItemsSource="{Binding Data.HiddenCueCollectionView, Source={StaticResource proxy}}">
+                <MenuItem.ItemContainerTemplateSelector>
+                  <ui1:InterfaceItemContainerTemplateSelector />
+                </MenuItem.ItemContainerTemplateSelector>
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <DataTemplate x:Key="{DataTemplateKey {x:Type cueVms:IProPresenterCueVM}}" DataType="{x:Type cueVms:IProPresenterCueVM}">
+                      <MenuItem Command="{Binding Data.ShowItemCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                        <MenuItem.Icon>
+                          <Image Style="{StaticResource CueIconStyle}" />
+                        </MenuItem.Icon>
+                      </MenuItem>
+                    </DataTemplate>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+              </MenuItem>
+              <MenuItem Command="{Binding Data.UnhideAllItemsCommand, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_ITEMS_HIDDEN_ITEMS_BUTTON_CONTEXTUAL_MENU_UNHIDE_ALL_ITEMS_title}" />
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </commonControls:BorderlessButton>
+        <commonControls:FilterBox Grid.Row="3" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" PlaceholderText="{mex:Localized GLOBAL_FILTER_FIELD_placeholder}" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
+      </Grid>
+    </Grid>
+    <Grid Row="1" Height="22" VerticalAlignment="Top" Background="#00FFFFFF" PreviewMouseDown="Grid_PreviewMouseDown">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource HeaderGridStyle}" TargetType="{x:Type Grid}">
+          <Style.Triggers>
+            <DataTrigger Value="False" Binding="{Binding LibraryCollapsed, Source={x:Static settings:Layout.Settings}}">
+              <Setter Property="FrameworkElement.ContextMenu" Value="{x:Null}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Grid Column="0" Margin="8,0,0,0" HorizontalAlignment="Left" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Background="#00FFFFFF" Visibility="{Binding LibraryCollapsed, Source={x:Static settings:Layout.Settings}, Converter={StaticResource ValueToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="16" />
+          <ColumnDefinition Width="10*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <FrameworkElement.ContextMenu>
+          <ContextMenu ItemsSource="{StaticResource LibraryPlaylistCollection}" Placement="Bottom" UsesItemContainerTemplate="True" Opened="ContextMenu_Opened">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                  <ui1:SharedResourceDictionary Source="../LibraryPlaylistResources.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <Style x:Key="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Style.Triggers>
+                    <Trigger Property="MenuItem.IsChecked" Value="True">
+                      <Setter Property="IsEnabled" Value="False" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+                <DataTemplate x:Key="{DataTemplateKey {x:Type librarian:ILibrary}}" DataType="{x:Type librarian:ILibrary}">
+                  <MenuItem Command="{Binding Data.SelectLibraryCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}">
+                    <HeaderedItemsControl.Header>
+                      <StackPanel Margin="8,0,0,0" Orientation="Horizontal">
+                        <Image Width="18" Height="18" RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.Library}}" />
+                        <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                      </StackPanel>
+                    </HeaderedItemsControl.Header>
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding />
+                        <Binding Path="Data.ActiveLibrary" Source="{StaticResource proxy}" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                  </MenuItem>
+                </DataTemplate>
+                <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:GeneralPlaylist}}" DataType="{x:Type playlist:GeneralPlaylist}">
+                  <MenuItem Command="{Binding Data.SelectPlaylistCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}">
+                    <HeaderedItemsControl.Header>
+                      <StackPanel Orientation="Horizontal" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}">
+                        <ContentPresenter Content="{DynamicResource PlaylistIcon}" />
+                        <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                      </StackPanel>
+                    </HeaderedItemsControl.Header>
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding />
+                        <Binding Path="Data.ActivePlaylist" Source="{StaticResource proxy}" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                  </MenuItem>
+                </DataTemplate>
+                <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:PCOPlaylist}}" DataType="{x:Type playlist:PCOPlaylist}">
+                  <MenuItem Command="{Binding Data.SelectPlaylistCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}">
+                    <HeaderedItemsControl.Header>
+                      <StackPanel Orientation="Horizontal" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}">
+                        <ContentPresenter Content="{DynamicResource PlaylistIcon}" />
+                        <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                      </StackPanel>
+                    </HeaderedItemsControl.Header>
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding />
+                        <Binding Path="Data.ActivePlaylist" Source="{StaticResource proxy}" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                  </MenuItem>
+                </DataTemplate>
+                <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:GeneralGroupPlaylist}}" DataType="{x:Type playlist:GeneralGroupPlaylist}">
+                  <MenuItem IsEnabled="False">
+                    <HeaderedItemsControl.Header>
+                      <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Name}" />
+                    </HeaderedItemsControl.Header>
+                  </MenuItem>
+                </DataTemplate>
+                <DataTemplate x:Key="{DataTemplateKey {x:Type TextBlock}}" DataType="{x:Type TextBlock}">
+                  <MenuItem FontWeight="Bold" IsEnabled="False" Header="{Binding Text}" />
+                </DataTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+            <MenuBase.ItemContainerTemplateSelector>
+              <ui1:InterfaceItemContainerTemplateSelector />
+            </MenuBase.ItemContainerTemplateSelector>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+        <commonControls:Icon Grid.Column="0" Source="{Binding ActiveItemType, Converter={commonConverters:SelectedLibraryIconConverter}}" />
+        <commonControls:EditableTextBlock Name="ActiveItemTb" Grid.Column="1" VerticalAlignment="Center" ClickToEdit="False" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}" Text="{Binding ActiveItemName, Mode=TwoWay}" />
+        <commonControls:PathControl Grid.Column="2" Width="12" Height="12" Margin="8,0,0,0" HorizontalAlignment="Left" PathType="DownArrow" Fill="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Stroke="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" />
+      </Grid>
+      <Grid Column="1" Margin="0,0,8,0" HorizontalAlignment="Right">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <commonControls:BorderlessPathButton Grid.Column="0" Margin="0,0,8,0" HorizontalAlignment="Right" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Focusable="False" PathType="Plus">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Focusable="False" Placement="Bottom">
+              <MenuItem Command="{Binding Data.NewLibraryCommand, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_OUTLINE_NEW_MENU_NEW_LIBRARY_title}" Click="OnNewLibraryClick">
+                <MenuItem.Icon>
+                  <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.Library}}" />
+                </MenuItem.Icon>
+              </MenuItem>
+              <commonControls:RoutedMenuItem Command="{Binding FileMenu.NewPresentation.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized LIBRARY_PLAYLIST_OUTLINE_NEW_MENU_NEW_PRESENTATION_title}" Click="OnNewPresentationClick">
+                <MenuItem.Icon>
+                  <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.PresentationIcon}}" />
+                </MenuItem.Icon>
+              </commonControls:RoutedMenuItem>
+              <Separator />
+              <MenuItem Command="{Binding Data.NewPlaylistCommand, Source={StaticResource proxy}}" Header="{mex:Localized PLAYLIST_GLOBAL_ADD_PLAYLIST_MENU_ITEM_title}" Click="OnNewGeneralPlaylistClick">
+                <MenuItem.Icon>
+                  <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.LibraryPlaylist}}" />
+                </MenuItem.Icon>
+              </MenuItem>
+              <MenuItem UsesItemContainerTemplate="True" Header="{mex:Localized LIBRARY_PLAYLIST_CREATE_PLAYLIST_FROM_TEMPLATE_title}" Click="OnNewPlaylistFromTemplateClick">
+                <MenuItem.Icon>
+                  <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.LibraryPlaylist}}" />
+                </MenuItem.Icon>
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlist:GeneralPlaylist}}">
+                      <MenuItem Command="{Binding Data.AddPlaylistFromTemplateCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                        <MenuItem.Icon>
+                          <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.LibraryPlaylist}}" />
+                        </MenuItem.Icon>
+                      </MenuItem>
+                    </ItemContainerTemplate>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <ItemsControl.ItemsSource>
+                  <CompositeCollection>
+                    <CollectionContainer Collection="{Binding Data.PlaylistTemplatesVM.Templates, Source={StaticResource proxy}}" />
+                    <Separator />
+                    <MenuItem Command="{Binding Data.PlaylistTemplatesVM.EditTemplatesCommand, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_EDIT_PLAYLIST_TEMPLATES_title}" />
+                  </CompositeCollection>
+                </ItemsControl.ItemsSource>
+              </MenuItem>
+              <MenuItem Command="{Binding Data.NewGroupFolderCommand, Source={StaticResource proxy}}" Header="{mex:Localized LIBRARY_PLAYLIST_OUTLINE_NEW_MENU_NEW_PLAYLIST_FOLDER_title}" Click="OnNewGroupPlaylistClick">
+                <MenuItem.Icon>
+                  <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.PlaylistFolder}}" />
+                </MenuItem.Icon>
+              </MenuItem>
+              <Separator />
+              <commonControls:RoutedMenuItem Command="{Binding ProCommon.NewPCOPlaylist.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Visibility="{Binding ShowPCOPlaylistAddMenu, Converter={StaticResource ValueToVisibilityConverter}}" Click="OnNewPCOPlaylistClick">
+                <MenuItem.Icon>
+                  <Image RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.PCOPlaylist}}" />
+                </MenuItem.Icon>
+              </commonControls:RoutedMenuItem>
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </commonControls:BorderlessPathButton>
+        <commonControls:ExpanderToggleButton Grid.Column="1" HorizontalAlignment="Right" CollapsedPathType="VDownArrow" ExpandedPathType="VUpArrow" ShouldFill="False" IsChecked="{Binding LibraryCollapsed, Source={x:Static settings:Layout.Settings}, Mode=TwoWay, Converter={StaticResource InvertedBooleanConverter}}" />
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

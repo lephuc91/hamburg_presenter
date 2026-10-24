@@ -1,0 +1,60 @@
+{
+    "description": "Random strobe.",
+    "name": "Strobe",
+    "numPasses": 1,
+    "shaderFile": "Strobe",
+    "type": 0,
+    "uuid": "DA373B28-6AD6-499D-8AD4-11E2ADC73475",
+    "variables": [
+        {
+            "name": "frequency",
+            "label": "Frequency",
+            "description": "Frequency of strobe",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "strobeLength",
+            "label": "Length",
+            "description": "Time of strobe",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.05, 0.5, 0.5, 0.5],
+            "value": [0.05, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "strobeBlend",
+            "label": "Blend",
+            "description": "Time of strobe",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 0.5, 0.5, 0.5],
+            "value": [1, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "randomness",
+            "label": "Randomness",
+            "description": "Time of strobe",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "strobeColor",
+            "label": "Color",
+            "description": "color strobe",
+            "type": 2,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.KeyPicker" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" x:Name="self" xmlns:ui="clr-namespace:ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel Orientation="Horizontal">
+    <ComboBox Width="75" Margin="0,0,8,0" ItemsSource="{Binding ElementName=self, Path=Notes}" SelectedItem="{Binding ElementName=self, Path=SelectedKey, Mode=TwoWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+    <ComboBox Width="75" ItemsSource="{Binding ElementName=self, Path=Scales}" SelectedItem="{Binding ElementName=self, Path=SelectedScale, Mode=TwoWay}" Visibility="{Binding ElementName=self, Path=ShowMajorMinorSelector, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+  </StackPanel>
+</UserControl>

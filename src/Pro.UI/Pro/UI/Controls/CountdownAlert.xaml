@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.CountdownAlert" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="self" Padding="0,0,15,0" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI">
+  <StackPanel>
+    <TextBlock Margin="0,0,0,5" HorizontalAlignment="Center" FontWeight="Bold" TextWrapping="WrapWithOverflow" Text="{Binding Message, ElementName=self}" />
+    <TextBlock Margin="0,0,0,5" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Text="{Binding Subtext, ElementName=self}" />
+    <TextBlock HorizontalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="{Binding CountdownForeground, ElementName=self}" Text="{Binding StartingSeconds, ElementName=self}" />
+  </StackPanel>
+</UserControl>

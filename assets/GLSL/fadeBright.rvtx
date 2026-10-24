@@ -1,0 +1,11 @@
+{
+    "category": "Dissolves",
+    "description": "Fade Bright",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Fade Bright",
+    "numPasses": 1,
+    "shaderFile": "fadeBright",
+    "type": 1,
+    "uuid": "802181F9-E290-4FA9-A9ED-06CAA2306A12"
+}

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:banners="clr-namespace:ProPresenter.UI.Registration.Banners;assembly=ProPresenter.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI;assembly=ProPresenter.UI" xmlns:settings="clr-namespace:ProPresenter.DO.Settings;assembly=ProPresenter.DO" xmlns:theming="clr-namespace:ProPresenter.UI.Theming;assembly=ProPresenter.UI" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands;assembly=ProPresenter.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Title="ProPresenter" MinWidth="{x:Static settings:Layout.MainWindowMinWidth}" MinHeight="{x:Static settings:Layout.MainWindowMinHeight}" uiUtility:CommandTargets.Register="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:WindowHelper.CanOwnWindows="True" Focusable="True" Style="{StaticResource {x:Type windowing:ChromedWindow}}" UseLayoutRounding="True" WindowStartupLocation="CenterScreen" WindowState="Maximized" xmlns:propresenter="clr-namespace:ProPresenter;assembly=ProPresenter" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" IsPositionSaved="{Binding IsMainPositionSaved, Source={x:Static settings:Layout.Settings}}" LastWindowRect="{Binding MainWindowRect, Source={x:Static settings:Layout.Settings}}" LastWindowState="{Binding MainWindowState, Source={x:Static settings:Layout.Settings}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="mainWindowProxy" Data="{Binding}" />
+      <commonConverters:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <windowing:ChromedWindow.LeftContent>
+    <local:MenuLayout DataContext="{Binding Data.MenuLayoutVM, Source={StaticResource mainWindowProxy}}" MakeSelectedLookLiveCommand="{Binding Data.AudienceLookVM.MakeSelectedLookLiveCommand, Source={StaticResource mainWindowProxy}}" ScreenLayoutMap="{Binding Data.StageVM.ScreenLayoutMap, Source={StaticResource mainWindowProxy}}" SetStageCueCommand="{Binding Data.StageVM.ChangeLayoutCommand, Source={StaticResource mainWindowProxy}}" ShowHoW="{Binding Data.ShowHouseOfWorshipIntegration, Source={StaticResource mainWindowProxy}}" />
+  </windowing:ChromedWindow.LeftContent>
+  <windowing:ChromedWindow.RightContent>
+    <banners:Banners DataContext="{Binding Data.BannersVM, Source={StaticResource mainWindowProxy}}" />
+  </windowing:ChromedWindow.RightContent>
+</windowing:ChromedWindow>

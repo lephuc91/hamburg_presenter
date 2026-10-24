@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Links.AutoAdvance" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:linksDO="clr-namespace:ProPresenter.DO.Slide.Links;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Links" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ObjectDataProvider x:Key="AutoAdvanceSource" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type linksDO:SourceType}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*" />
+      <ColumnDefinition Width="3*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Margin="0,0,7,7" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_AUTO_ADVANCE_DESTINATION_label}" />
+    <ComboBox Grid.Column="1" Height="22" Margin="0,0,0,7" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource AutoAdvanceSource}}" SelectedItem="{Binding AutoAdvanceSource}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+    <TextBlock Grid.Row="1" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TIMER_FORMAT_label}" />
+    <local:TimerFormatSelector Grid.Row="1" Grid.Column="1" AvailableHourFormats="{Binding TimerFormatData.AvailableHourFormats}" AvailableMillisecondFormats="{Binding TimerFormatData.AvailableMillisecondFormats}" AvailableMinuteFormats="{Binding TimerFormatData.AvailableMinuteFormats}" AvailableSecondFormats="{Binding TimerFormatData.AvailableSecondFormats}" SecondsEnabled="{Binding TimerFormatData.SecondsAvailable}" SelectedHourFormat="{Binding SelectedHourFormat, Mode=TwoWay}" SelectedMillisecondFormat="{Binding SelectedMillisecondFormat, Mode=TwoWay}" SelectedMinuteFormat="{Binding SelectedMinuteFormat, Mode=TwoWay}" SelectedSecondFormat="{Binding SelectedSecondFormat, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

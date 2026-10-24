@@ -1,0 +1,50 @@
+{
+    "description": "Filters based on color.",
+    "name": "Adjust Color",
+    "numPasses": 1,
+    "shaderFile": "AdjustColor",
+    "type": 0,
+    "uuid": "D4C199A9-64D7-4CCB-8C26-443E7A9C5C03",
+    "variables": [
+        {
+            "name": "hue",
+            "label": "Hue",
+            "description": "Adjust hue",
+            "type": 1,
+            "min": [-3.141592653589793, -3.141592653589793, -3.141592653589793, 0],
+            "max": [3.141592653589793, 3.141592653589793, 3.141592653589793, 1],
+            "defValue": [0, 0, 0, 1],
+            "value": [0, 0, 0, 1]
+        },
+        {
+            "name": "saturation",
+            "label": "Saturation",
+            "description": "Adjust saturation",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        },
+        {
+            "name": "brightness",
+            "label": "Brightness",
+            "description": "Adjust brightness",
+            "type": 1,
+            "min": [-1, -1, -1, -1],
+            "max": [1, 1, 1, 1],
+            "defValue": [0, 0, 0, 1],
+            "value": [0, 0, 0, 1]
+        },
+        {
+            "name": "contrast",
+            "label": "Contrast",
+            "description": "Adjust contrast",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

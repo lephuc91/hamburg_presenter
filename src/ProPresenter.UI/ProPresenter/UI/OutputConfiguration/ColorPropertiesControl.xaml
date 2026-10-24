@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.OutputConfiguration.ColorPropertiesControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="thisColorPropertyControl" xmlns:outputconfiguration="clr-namespace:ProPresenter.UI.OutputConfiguration;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsCollapsing="False" />
+      <Style x:Key="{x:Type commonControls:FillSlider}" BasedOn="{StaticResource {x:Type commonControls:FillSlider}}" TargetType="{x:Type commonControls:FillSlider}">
+        <Style.Setters>
+          <Setter Property="VerticalAlignment" Value="Center" />
+          <Setter Property="Margin" Value="5" />
+          <Setter Property="Slider.IsMoveToPointEnabled" Value="True" />
+          <Setter Property="Slider.IsSnapToTickEnabled" Value="True" />
+          <Setter Property="Slider.TickFrequency" Value="0.1" />
+        </Style.Setters>
+      </Style>
+      <Style x:Key="{x:Type commonControls:DoubleUpDown}" BasedOn="{StaticResource {x:Type commonControls:DoubleUpDown}}" TargetType="{x:Type commonControls:DoubleUpDown}">
+        <Style.Setters>
+          <Setter Property="Height" Value="22" />
+          <Setter Property="Width" Value="60" />
+          <Setter Property="VerticalAlignment" Value="Center" />
+          <Setter Property="NumericUpDown.FormatString" Value="F1" />
+          <Setter Property="NumericUpDown.Increment" Value="0.1" />
+        </Style.Setters>
+      </Style>
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Style.Setters>
+          <Setter Property="VerticalAlignment" Value="Center" />
+          <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style.Setters>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="10,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+      <RowDefinition />
+      <RowDefinition />
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" Text="{mex:Localized SCREEN_CONFIGURATION_COLOR_TAB_RED_label}" />
+    <commonControls:FillSlider Name="RedValueSlider" Grid.Row="0" Grid.Column="1" Maximum="1" Minimum="-1" Value="{Binding ElementName=thisColorPropertyControl, Path=ColorAdjustmentOptions.RedLevel}" />
+    <commonControls:DoubleUpDown Grid.Row="0" Grid.Column="2" Maximum="{Binding ElementName=RedValueSlider, Path=Maximum}" Minimum="{Binding ElementName=RedValueSlider, Path=Minimum}" Value="{Binding ElementName=RedValueSlider, Path=Value}" />
+    <TextBlock Grid.Row="1" Grid.Column="0" Text="{mex:Localized SCREEN_CONFIGURATION_COLOR_TAB_GREEN_label}" />
+    <commonControls:FillSlider Name="GreenValueSlider" Grid.Row="1" Grid.Column="1" Maximum="1" Minimum="-1" Value="{Binding ElementName=thisColorPropertyControl, Path=ColorAdjustmentOptions.GreenLevel}" />
+    <commonControls:DoubleUpDown Grid.Row="1" Grid.Column="2" Maximum="{Binding ElementName=GreenValueSlider, Path=Maximum}" Minimum="{Binding ElementName=GreenValueSlider, Path=Minimum}" Value="{Binding ElementName=GreenValueSlider, Path=Value}" />
+    <TextBlock Grid.Row="2" Grid.Column="0" Text="{mex:Localized SCREEN_CONFIGURATION_COLOR_TAB_BLUE_label}" />
+    <commonControls:FillSlider Name="BlueValueSlider" Grid.Row="2" Grid.Column="1" Maximum="1" Minimum="-1" Value="{Binding ElementName=thisColorPropertyControl, Path=ColorAdjustmentOptions.BlueLevel}" />
+    <commonControls:DoubleUpDown Grid.Row="2" Grid.Column="2" Maximum="{Binding ElementName=BlueValueSlider, Path=Maximum}" Minimum="{Binding ElementName=BlueValueSlider, Path=Minimum}" Value="{Binding ElementName=BlueValueSlider, Path=Value}" />
+    <TextBlock Grid.Row="3" Grid.Column="0" Text="{mex:Localized SCREEN_CONFIGURATION_COLOR_TAB_GAMMA_label}" />
+    <commonControls:FillSlider Name="GammaValueSlider" Grid.Row="3" Grid.Column="1" Maximum="1" Minimum="-1" Value="{Binding ElementName=thisColorPropertyControl, Path=ColorAdjustmentOptions.Gamma}" />
+    <commonControls:DoubleUpDown Grid.Row="3" Grid.Column="2" Maximum="{Binding ElementName=GammaValueSlider, Path=Maximum}" Minimum="{Binding ElementName=GammaValueSlider, Path=Minimum}" Value="{Binding ElementName=GammaValueSlider, Path=Value}" />
+    <TextBlock Grid.Row="4" Grid.Column="0" Text="{mex:Localized SCREEN_CONFIGURATION_COLOR_TAB_BLACK_label}" />
+    <commonControls:FillSlider Name="BlackValueSlider" Grid.Row="4" Grid.Column="1" Maximum="1" Minimum="-1" Value="{Binding ElementName=thisColorPropertyControl, Path=ColorAdjustmentOptions.BlackLevel}" />
+    <commonControls:DoubleUpDown Grid.Row="4" Grid.Column="2" Maximum="{Binding ElementName=BlackValueSlider, Path=Maximum}" Minimum="{Binding ElementName=BlackValueSlider, Path=Minimum}" Value="{Binding ElementName=BlackValueSlider, Path=Value}" />
+    <TextBlock Grid.Row="5" Grid.Column="0" Text="{mex:Localized SCREEN_CONFIGURATION_COLOR_TAB_BRIGHTNESS_label}" Visibility="{Binding CanSetHdrMaxNitsOffset, ElementName=thisColorPropertyControl, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <commonControls:FillSlider Name="HdrMaxNitsOffsetValueSlider" Grid.Row="5" Grid.Column="1" IsSnapToTickEnabled="True" Maximum="1000" Minimum="0.1" Visibility="{Binding CanSetHdrMaxNitsOffset, ElementName=thisColorPropertyControl, Converter={StaticResource ValueToVisibilityConverter}}" Value="{Binding ElementName=thisColorPropertyControl, Path=HardwareRectangle.OutputDevice.HdrMaxNitsOffset}" />
+    <commonControls:DoubleUpDown Grid.Row="5" Grid.Column="2" Width="60" Height="22" VerticalAlignment="Center" FormatString="{}{0:0.#}%" Increment="0.1" Maximum="{Binding ElementName=HdrMaxNitsOffsetValueSlider, Path=Maximum}" Minimum="{Binding ElementName=HdrMaxNitsOffsetValueSlider, Path=Minimum}" Visibility="{Binding CanSetHdrMaxNitsOffset, ElementName=thisColorPropertyControl, Converter={StaticResource ValueToVisibilityConverter}}" Value="{Binding ElementName=HdrMaxNitsOffsetValueSlider, Path=Value}" />
+    <commonControls:HelpButton Grid.Row="5" Grid.Column="3" Width="20" Height="20" Margin="6,0,0,3" HorizontalAlignment="Left" HelpResource="/pro/resource/HDR-brightness-calibration" Visibility="{Binding CanSetHdrMaxNitsOffset, ElementName=thisColorPropertyControl, Converter={StaticResource ValueToVisibilityConverter}}" />
+  </Grid>
+</UserControl>

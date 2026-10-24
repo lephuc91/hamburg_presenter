@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Props.PropGroupHeader" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Props="clr-namespace:ProPresenter.UI.Props" xmlns:UIcontrols="clr-namespace:ProPresenter.UI.Controls" xmlns:common="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui1="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" Focusable="True">
+  <FrameworkElement.Resources>
+    <ui1:SharedResourceDictionary x:Key="PathsResources">
+      <ResourceDictionary.MergedDictionaries>
+        <ui1:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <common:BindingProxy x:Key="BindingProxy" Data="{Binding}" />
+      <commonConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </ui1:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Name="HeaderRow">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <controls:BorderlessToggleButton Name="DropdownButton" Grid.Column="0" Margin="5" HorizontalAlignment="Left" IsChecked="{Binding IsCollectionPopupOpen, Mode=TwoWay}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type controls:BorderlessToggleButton}}" TargetType="{x:Type controls:BorderlessToggleButton}">
+          <Style.Triggers>
+            <Trigger Property="ToggleButton.IsChecked" Value="True">
+              <Setter Property="Foreground">
+                <Setter.Value>
+                  <PriorityBinding>
+                    <Binding Path="(uiUtility:UIElementHelper.Palette).Standard.Content" RelativeSource="{RelativeSource Self}" />
+                  </PriorityBinding>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+              <Setter Property="Foreground">
+                <Setter.Value>
+                  <PriorityBinding>
+                    <Binding Path="(uiUtility:UIElementHelper.Palette).Hover.Content" RelativeSource="{RelativeSource Self}" />
+                  </PriorityBinding>
+                </Setter.Value>
+              </Setter>
+            </Trigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <StackPanel Name="CollectionPanel" Orientation="Horizontal">
+        <TextBlock MinWidth="20" Margin="5" FontWeight="Bold" Text="{Binding ActiveGroup.Name}" />
+        <StackPanel Name="IconButton" Margin="2,0" VerticalAlignment="Center">
+          <controls:PathControl Width="8" Height="8" Fill="#00FFFFFF" PathType="VUpArrow" Stroke="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+          <controls:PathControl Width="8" Height="8" Fill="#00FFFFFF" PathType="VDownArrow" Stroke="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        </StackPanel>
+      </StackPanel>
+    </controls:BorderlessToggleButton>
+    <StackPanel Grid.Column="1" Margin="0,0,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding ActiveGroup.IsReadyToEdit, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <controls:BorderlessToggleButton VerticalAlignment="Center" IsChecked="{Binding ActiveGroup.SingleMode}" ToolTip="{markupExtensions:Localized PROP_SINGLE_PROP_MODE_BUTTON_tooltip}">
+        <controls:ImageMask ImageSource="{StaticResource {x:Static themes:Icons.PropsSinglePropMode}}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=controls:BorderlessToggleButton}}" />
+      </controls:BorderlessToggleButton>
+      <Separator Name="divider" Height="25" Margin="10,0,10,0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+      <controls:BorderlessButton Width="20" Height="20" Margin="0,0,8,0" VerticalAlignment="Center" Command="{Binding ActiveGroup.EditPropsCommand}" ToolTip="{markupExtensions:Localized PROP_CONTROL_DECK_OPEN_EDITOR_BUTTON_tooltip}">
+        <controls:ImageMask ImageSource="{StaticResource {x:Static themes:Icons.Editor}}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=controls:BorderlessButton}}" />
+      </controls:BorderlessButton>
+      <controls:BorderlessPathButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True" PathType="Plus" Command="{Binding ActiveGroup.AddPropCommand}" ToolTip="{markupExtensions:Localized PROPS_ADD_BUTTON_tooltip}" />
+    </StackPanel>
+    <Separator Grid.Row="1" Grid.ColumnSpan="2" />
+    <controls:AnchoredPopup Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AllowsTransparency="True" HorizontalOffset="-10" Placement="Bottom" VerticalOffset="0" IsOpen="{Binding Path=IsCollectionPopupOpen}" PlacementTarget="{Binding ElementName=CollectionPanel}" StaysOpen="{Binding ElementName=GroupPicker, Path=IsDragging}">
+      <Props:PropGroupPicker x:Name="GroupPicker" DataContext="{Binding Path=Data, Source={StaticResource BindingProxy}}" />
+    </controls:AnchoredPopup>
+  </Grid>
+</UserControl>

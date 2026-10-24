@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Bibles.BiblesViewerSettings" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:bibleDO="clr-namespace:ProPresenter.DO.Bibles;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:floatingHeaders="clr-namespace:ProPresenter.UI.FloatingHeaders" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:templates="clr-namespace:ProPresenter.UI.Templates" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="bibleSettings" Width="600" Height="400" xmlns:bibles="clr-namespace:ProPresenter.UI.Bibles">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../LibraryPlaylistResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="dataContext" Data="{Binding}" />
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+      <Style x:Key="InstallButtonStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="24" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="Padding" Value="10,0" />
+      </Style>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderThickness="1" Background="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding POPUPBORDER, Source={x:Static theming:AppTheme.Active}}">
+    <TabControl TabStripPlacement="Left" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+      <TabItem>
+        <HeaderedContentControl.Header>
+          <StackPanel Margin="0,5" Orientation="Horizontal">
+            <Image Source="/ProPresenter.UI;component/Resources/Icons/InformationCenterIcon_32x32.png" StretchDirection="DownOnly" />
+            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_TAB_title}" />
+          </StackPanel>
+        </HeaderedContentControl.Header>
+        <Border BorderThickness="1,0,0,0" BorderBrush="{Binding POPUPBORDER, Source={x:Static theming:AppTheme.Active}}">
+          <StackPanel>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <StackPanel Grid.Row="0" Grid.Column="0" Margin="10">
+                <CheckBox Margin="0,0,0,5" Content="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_SHOW_VERSE_NUMBERS_title}" IsChecked="{Binding ShowVerseNumbers}" ToolTip="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_SHOW_VERSE_NUMBERS_tooltip}" />
+                <CheckBox Name="BreakOnNewVerse" Margin="0,0,0,5" Content="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_BREAK_ON_NEW_VERSE_title}" IsChecked="{Binding BreakOnNewVerse}" ToolTip="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_BREAK_ON_NEW_VERSE_tooltip}">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+                      <Setter Property="IsEnabled" Value="False" />
+                      <Style.Triggers>
+                        <DataTrigger Value="0" Binding="{Binding Translations.Count}">
+                          <Setter Property="IsEnabled" Value="True" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </CheckBox>
+                <CheckBox Margin="0,0,0,5" Content="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_DISPLAY_TRANSLATION_title}" IsChecked="{Binding DisplayTranslation}" ToolTip="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_DISPLAY_TRANSLATION_tooltip}" />
+                <CheckBox Content="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_PRESERVE_FONT_COLOR_title}" IsChecked="{Binding PreserveFontColor}" ToolTip="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_PRESERVE_FONT_COLOR_tooltip}" />
+              </StackPanel>
+              <StackPanel Grid.Row="0" Grid.Column="1" Margin="10">
+                <RadioButton Margin="0,0,0,5" Content="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_VERSE_REFERENCE_title}" IsChecked="{Binding ReferenceType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static bibleDO:ReferenceType.VerseRefs}}" IsEnabled="{Binding BreakOnNewVerse}" ToolTip="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_VERSE_REFERENCE_tooltip}" />
+                <RadioButton Margin="0,0,0,5" Content="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_PASSAGE_EACH_title}" IsChecked="{Binding ReferenceType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static bibleDO:ReferenceType.PassageEach}}" ToolTip="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_PASSAGE_EACH_tooltip}" />
+                <RadioButton Margin="0,0,0,5" Content="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_PASSAGE_LAST_title}" IsChecked="{Binding ReferenceType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static bibleDO:ReferenceType.PassageLast}}" ToolTip="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_PASSAGE_LAST_tooltip}" />
+                <RadioButton Content="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_NO_REFERENCE_title}" IsChecked="{Binding ReferenceType, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static bibleDO:ReferenceType.NoReference}}" ToolTip="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_NO_REFERENCE_tooltip}" />
+              </StackPanel>
+            </Grid>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_TEMPLATE_label}" />
+              <templates:TemplateButton Grid.Row="0" Grid.Column="1" Margin="7" HorizontalAlignment="Left" VerticalAlignment="Center" ContextGroup="Bible" ShowOptions="False" DefaultTemplate="{Binding DefaultBibleTheme[0], Source={x:Static do:DataVault.Themes}}" DefaultTemplateHeader="{mex:Localized GLOBAL_DEFAULT}" IsThemeUIOpen="{Binding ElementName=bibleSettings, Path=IsThemeUIOpen, Mode=TwoWay}" SelectTemplateCommand="{Binding SelectTemplateCommand}" SelectedTemplate="{Binding WorkingPresentation.ActiveTemplate}" TemplateSlideTooltipText="{mex:Localized THEMES_POPOVER_SELECT_THEME_SLIDE_tooltip}" />
+              <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized BIBLE_SETTINGS_SLIDE_OPTIONS_IMPORT_LIBRARY_label}" />
+              <commonControls:DropDownButton Grid.Row="1" Grid.Column="1" Height="22" MinWidth="100" Margin="7" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" CustomContent="{Binding SelectedImportLibrary.Name}">
+                <commonControls:DropDownButton.CustomContextMenu>
+                  <ContextMenu ItemsSource="{x:Static do:DataVault.LibraryCollection}" Placement="Bottom" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+                    <ItemsControl.ItemContainerStyle>
+                      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                        <Setter Property="MenuItem.Command" Value="{Binding Data.SelectLibraryCommand, Source={StaticResource dataContext}}" />
+                        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                        <Setter Property="Header" Value="{Binding Name}" />
+                        <Setter Property="MenuItem.IsChecked">
+                          <Setter.Value>
+                            <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}" Mode="OneWay">
+                              <Binding />
+                              <Binding Path="Data.SelectedImportLibrary" Source="{StaticResource dataContext}" />
+                            </MultiBinding>
+                          </Setter.Value>
+                        </Setter>
+                      </Style>
+                    </ItemsControl.ItemContainerStyle>
+                  </ContextMenu>
+                </commonControls:DropDownButton.CustomContextMenu>
+              </commonControls:DropDownButton>
+            </Grid>
+          </StackPanel>
+        </Border>
+      </TabItem>
+      <TabItem>
+        <HeaderedContentControl.Header>
+          <StackPanel Margin="0,5" Orientation="Horizontal">
+            <Image Width="30" Height="30" Source="/ProPresenter.UI;component/Resources/Icons/Toolbar/toolbarBible@2x.png" />
+            <TextBlock Margin="5,0,44,0" VerticalAlignment="Center" Text="{mex:Localized BIBLE_SETTINGS_BIBLES_TAB_title}" />
+          </StackPanel>
+        </HeaderedContentControl.Header>
+        <Border BorderThickness="1,0,0,0" BorderBrush="{Binding POPUPBORDER, Source={x:Static theming:AppTheme.Active}}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TabControl Name="BiblesTab" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+              <TabItem MinWidth="100" Header="{mex:Localized BIBLE_SETTINGS_BIBLES_PURCHASED_TAB_title}">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <StackPanel>
+                          <TextBlock Margin="0,20,0,10" TextAlignment="Center" Text="{mex:Localized BIBLE_SETTINGS_BIBLES_ACCOUNT_SETTINGS_label}" />
+                          <Button Height="22" Margin="0,10,0,0" Padding="20,0" HorizontalAlignment="Center" VerticalAlignment="Top" Command="{Binding ShowRegistrationCommand}" Content="{mex:Localized BIBLE_SETTINGS_BIBLES_ACCOUNT_SETTINGS_BUTTON_title}" />
+                        </StackPanel>
+                      </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                      <DataTrigger Value="True" Binding="{Binding IsRegistered}">
+                        <Setter Property="Content">
+                          <Setter.Value>
+                            <floatingHeaders:AvailableBiblesFloatingHeaderControl Margin="0,-2,0,0" Items="{Binding AvailablePurchasedBibles}">
+                              <commonControls:FloatingHeaderControl.HeaderTemplates>
+                                <DataTemplate DataType="system:String">
+                                  <Border BorderThickness="0,1" Background="{Binding SUBHEADER, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+                                    <TextBlock Margin="10,0,0,0" FontWeight="Bold" TextTrimming="CharacterEllipsis" Text="{Binding Key, Mode=OneWay}" />
+                                  </Border>
+                                </DataTemplate>
+                              </commonControls:FloatingHeaderControl.HeaderTemplates>
+                              <commonControls:FloatingHeaderControl.ItemTemplates>
+                                <DataTemplate>
+                                  <ItemsControl BorderThickness="0" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" ItemsSource="{Binding}">
+                                    <ItemsControl.ItemTemplate>
+                                      <DataTemplate>
+                                        <Grid>
+                                          <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                          </Grid.RowDefinitions>
+                                          <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                          </Grid.ColumnDefinitions>
+                                          <TextBlock Grid.Row="1" Grid.Column="0" Margin="10">
+                                            <FrameworkElement.Style>
+                                              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Text" Value="{mex:Localized BIBLE_SETTINGS_BIBLES_NOT_INSTALLED_label}" />
+                                                <Style.Triggers>
+                                                  <DataTrigger Value="True" Binding="{Binding IsInUse}">
+                                                    <Setter Property="Text" Value="{Binding ActiveMachineName, Mode=OneWay, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=BIBLE_SETTINGS_BIBLES_IN_USE_BY_label}" />
+                                                  </DataTrigger>
+                                                  <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                      <Condition Value="Visible" Binding="{Binding Visibility, ElementName=RemoveButton}" />
+                                                      <Condition Value="True" Binding="{Binding IsActive}" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                      <Setter Property="Text" Value="{mex:Localized BIBLE_SETTINGS_BIBLES_INSTALLED_label}" />
+                                                    </MultiDataTrigger.Setters>
+                                                  </MultiDataTrigger>
+                                                </Style.Triggers>
+                                              </Style>
+                                            </FrameworkElement.Style>
+                                          </TextBlock>
+                                          <commonControls:LoadingIndicator Grid.RowSpan="2" Grid.Column="1" Width="24" Height="24" DisplayMode="Spinner" Visibility="{Binding IsInstalling, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                          <Button Grid.RowSpan="2" Grid.Column="2" Command="{Binding Data.InstallPurchasedBibleCommand, Source={StaticResource dataContext}}" CommandParameter="{Binding}" Content="{mex:Localized BIBLE_SETTINGS_BIBLES_INSTALL_BUTTON_title}" IsEnabled="{Binding IsInUse, Converter={StaticResource InvertedBooleanConverter}}">
+                                            <FrameworkElement.Style>
+                                              <Style BasedOn="{StaticResource InstallButtonStyle}" TargetType="{x:Type Button}">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                  <DataTrigger Value="Visible" Binding="{Binding Visibility, ElementName=RemoveButton}">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                  </DataTrigger>
+                                                </Style.Triggers>
+                                              </Style>
+                                            </FrameworkElement.Style>
+                                          </Button>
+                                          <Button Name="RemoveButton" Grid.RowSpan="2" Grid.Column="2" Command="{Binding Data.UninstallPurchasedBibleCommand, Source={StaticResource dataContext}}" CommandParameter="{Binding}" Content="{mex:Localized GLOBAL_REMOVE_title}">
+                                            <FrameworkElement.Style>
+                                              <Style BasedOn="{StaticResource InstallButtonStyle}" TargetType="{x:Type Button}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                  <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                      <Condition Value="True" Binding="{Binding IsActive}" />
+                                                      <Condition Value="True" Binding="{Binding IsInstalled}" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                      <Setter Property="Visibility" Value="Visible" />
+                                                    </MultiDataTrigger.Setters>
+                                                  </MultiDataTrigger>
+                                                </Style.Triggers>
+                                              </Style>
+                                            </FrameworkElement.Style>
+                                          </Button>
+                                        </Grid>
+                                      </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                  </ItemsControl>
+                                </DataTemplate>
+                              </commonControls:FloatingHeaderControl.ItemTemplates>
+                            </floatingHeaders:AvailableBiblesFloatingHeaderControl>
+                          </Setter.Value>
+                        </Setter>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TabItem>
+              <TabItem MinWidth="100" Header="{mex:Localized BIBLE_SETTINGS_BIBLES_FREE_TAB_title}">
+                <floatingHeaders:AvailableBiblesFloatingHeaderControl Margin="0,-2,0,0" Items="{Binding AvailableFreeBibles}">
+                  <commonControls:FloatingHeaderControl.HeaderTemplates>
+                    <DataTemplate DataType="system:String">
+                      <Border BorderThickness="0,1" Background="{Binding SUBHEADER, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+                        <TextBlock Margin="10,0,0,0" FontWeight="Bold" TextTrimming="CharacterEllipsis" Text="{Binding Key, Mode=OneWay}" />
+                      </Border>
+                    </DataTemplate>
+                  </commonControls:FloatingHeaderControl.HeaderTemplates>
+                  <commonControls:FloatingHeaderControl.ItemTemplates>
+                    <DataTemplate>
+                      <ItemsControl HorizontalContentAlignment="Stretch" BorderThickness="0" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" ItemsSource="{Binding}">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <Grid>
+                              <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                              </Grid.RowDefinitions>
+                              <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                              </Grid.ColumnDefinitions>
+                              <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10">
+                                <Run FontWeight="Bold" Text="{Binding Name, Mode=OneWay}" /> <Run FontWeight="Bold" Text="{Binding DisplayAbbreviation, Mode=OneWay, StringFormat=({0})}" /></TextBlock>
+                              <TextBlock Grid.Row="1" Grid.Column="0" Margin="10">
+                                <FrameworkElement.Style>
+                                  <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Text" Value="{mex:Localized BIBLE_SETTINGS_BIBLES_NOT_INSTALLED_label}" />
+                                    <Style.Triggers>
+                                      <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                          <Condition Value="True" Binding="{Binding IsActive}" />
+                                          <Condition Value="True" Binding="{Binding IsInstalled}" />
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                          <Setter Property="Text" Value="{mex:Localized BIBLE_SETTINGS_BIBLES_INSTALLED_label}" />
+                                        </MultiDataTrigger.Setters>
+                                      </MultiDataTrigger>
+                                    </Style.Triggers>
+                                  </Style>
+                                </FrameworkElement.Style>
+                              </TextBlock>
+                              <commonControls:LoadingIndicator Grid.RowSpan="2" Grid.Column="1" Width="24" Height="22" DisplayMode="Spinner" Visibility="{Binding IsInstalling, Converter={StaticResource ValueToVisibilityConverter}}" />
+                              <Button Grid.RowSpan="2" Grid.Column="2" Command="{Binding Data.InstallFreeBibleCommand, Source={StaticResource dataContext}}" CommandParameter="{Binding}" Content="{mex:Localized BIBLE_SETTINGS_BIBLES_INSTALL_BUTTON_title}">
+                                <FrameworkElement.Style>
+                                  <Style BasedOn="{StaticResource InstallButtonStyle}" TargetType="{x:Type Button}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                      <DataTrigger Value="Visible" Binding="{Binding Visibility, ElementName=RemoveButton}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                      </DataTrigger>
+                                    </Style.Triggers>
+                                  </Style>
+                                </FrameworkElement.Style>
+                              </Button>
+                              <Button Name="RemoveButton" Grid.RowSpan="2" Grid.Column="2" Command="{Binding Data.UninstallFreeBibleCommand, Source={StaticResource dataContext}}" CommandParameter="{Binding}" Content="{mex:Localized GLOBAL_REMOVE_title}">
+                                <FrameworkElement.Style>
+                                  <Style BasedOn="{StaticResource InstallButtonStyle}" TargetType="{x:Type Button}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                      <DataTrigger Value="True" Binding="{Binding IsInstalled}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                      </DataTrigger>
+                                    </Style.Triggers>
+                                  </Style>
+                                </FrameworkElement.Style>
+                              </Button>
+                            </Grid>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </DataTemplate>
+                  </commonControls:FloatingHeaderControl.ItemTemplates>
+                </floatingHeaders:AvailableBiblesFloatingHeaderControl>
+              </TabItem>
+            </TabControl>
+            <commonControls:LoadingIndicator Grid.Row="1" Height="14" VerticalAlignment="Bottom" DisplayMode="Bar" Visibility="{Binding IsRefreshingBibles, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <Button Grid.Row="2" Height="22" Margin="0,10" Padding="5,0" HorizontalAlignment="Center" VerticalAlignment="Top" Command="{Binding GetBiblesCommand}" Content="{mex:Localized BIBLE_SETTINGS_BIBLES_GET_BIBLES_title}" Visibility="{Binding IsRegistered, Converter={StaticResource ValueToVisibilityConverter}}" />
+          </Grid>
+        </Border>
+      </TabItem>
+    </TabControl>
+  </Border>
+</UserControl>

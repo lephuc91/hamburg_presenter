@@ -1,0 +1,17 @@
+using Pro.Localization;
+
+namespace ProPresenter.DO.Media;
+
+public enum ForegroundMediaAudioBehavior
+{
+	[LocalizedString("ADVANCED_PREFERENCES_FOREGROUND_MEDIA_AUDIO_BEHAVIOR_DO_NOTHING_title")]
+	DoNothing,
+	[LocalizedString("ADVANCED_PREFERENCES_FOREGROUND_MEDIA_AUDIO_BEHAVIOR_CLEAR_ALWAYS_title")]
+	ClearAlways,
+	[LocalizedString("ADVANCED_PREFERENCES_FOREGROUND_MEDIA_AUDIO_BEHAVIOR_CLEAR_IF_AUDIO_title")]
+	ClearIfAudio,
+	[LocalizedString("ADVANCED_PREFERENCES_FOREGROUND_MEDIA_AUDIO_BEHAVIOR_PAUSE_ALWAYS_title")]
+	PauseAlways,
+	[LocalizedString("ADVANCED_PREFERENCES_FOREGROUND_MEDIA_AUDIO_BEHAVIOR_PAUSE_IF_AUDIO_title")]
+	PauseIfAudio
+}

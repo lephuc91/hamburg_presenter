@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Bibles.BiblesViewerHeader" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:bibles="clr-namespace:ProPresenter.DO.Bibles;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:local="clr-namespace:ProPresenter.UI.Bibles" xmlns:localConverters="clr-namespace:ProPresenter.UI.Bibles.Converters" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="bibleViewerHeader" uiUtility:UIElementHelper.Palette="{Binding DETAILHEADER_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding SUBHEADERCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="bibleVMProxy" Data="{Binding}" />
+      <converters:VerseToVerseNumberOrRangeConverter x:Key="VerseToVerseNumberOrRangeConverter" />
+      <localConverters:IsTargetSearchBibleConverter x:Key="IsTargetSearchBibleConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <local:BiblesViewerSettings x:Key="BibleSettings" DataContext="{Binding Data, Source={StaticResource bibleVMProxy}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid SizeChanged="MainGrid_SizeChanged">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Name="ProgressColumn" Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Margin="15,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="{mex:Localized BIBLE_HEADER_NO_BIBLE_INSTALLED_label}" Visibility="{Binding AnyBibleLoaded, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+    <Grid Column="0" MaxWidth="250" Margin="0,0,10,0" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{Binding AnyBibleLoaded, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:PlaceholderTextBox Name="ReferenceTextBox" Grid.Column="0" Height="22" Margin="10,5,0,5" VerticalContentAlignment="Center" FocusOnVisible="True" IsTextBindingExplicit="True" PlaceholderText="{mex:Localized BIBLE_HEADER_SCRIPTURE_LOOKUP_placeholder}" Text="{Binding ReferenceText, ElementName=bibleViewerHeader}" KeyDown="ReferenceText_KeyDown" PreviewKeyDown="ReferenceTextBox_PreviewKeyDown" />
+      <Menu Grid.Column="1" Height="22" BorderThickness="0,1,1,1" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" DataContext="{Binding ActiveBible}">
+        <MenuItem Height="22" Margin="-1,0" VerticalAlignment="Center" UsesItemContainerTemplate="True" ItemsSource="{Binding Books}">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type bibles:Book}}">
+                <MenuItem UsesItemContainerTemplate="True" ItemsSource="{Binding Chapters}" PreviewMouseLeftButtonDown="Book_PreviewClick">
+                  <HeaderedItemsControl.Header>
+                    <TextBlock DataContext="{Binding}" Text="{Binding Name}" />
+                  </HeaderedItemsControl.Header>
+                  <FrameworkElement.Resources>
+                    <ResourceDictionary>
+                      <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type bibles:Chapter}}">
+                        <MenuItem UsesItemContainerTemplate="True" ItemsSource="{Binding Verses}" PreviewMouseLeftButtonDown="Chapter_PreviewClick">
+                          <HeaderedItemsControl.Header>
+                            <TextBlock DataContext="{Binding}" Text="{Binding Number}" />
+                          </HeaderedItemsControl.Header>
+                          <FrameworkElement.Resources>
+                            <ResourceDictionary>
+                              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type bibles:Verse}}">
+                                <MenuItem PreviewMouseLeftButtonDown="Verse_PreviewClick">
+                                  <HeaderedItemsControl.Header>
+                                    <TextBlock DataContext="{Binding}" Text="{Binding Converter={StaticResource VerseToVerseNumberOrRangeConverter}}" />
+                                  </HeaderedItemsControl.Header>
+                                </MenuItem>
+                              </ItemContainerTemplate>
+                            </ResourceDictionary>
+                          </FrameworkElement.Resources>
+                        </MenuItem>
+                      </ItemContainerTemplate>
+                    </ResourceDictionary>
+                  </FrameworkElement.Resources>
+                </MenuItem>
+              </ItemContainerTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <HeaderedItemsControl.Header>
+            <commonControls:PathControl Width="8" VerticalAlignment="Stretch" PathType="DownArrow" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+      </Menu>
+    </Grid>
+    <commonControls:SearchBox Name="SearchTextBox" Grid.Column="1" Height="22" MaxWidth="250" Margin="0,0,10,0" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" PlaceholderText="{mex:Localized BIBLE_HEADER_SEARCH_placeholder}" Visibility="{Binding AnyBibleLoaded, Converter={StaticResource ValueToVisibilityConverter}}" PreviewKeyDown="SearchTextBox_PreviewKeyDown">
+      <commonControls:PlaceholderTextBox.CustomContextMenu>
+        <ContextMenu ItemsSource="{Binding Data.SearchableBibles, Source={StaticResource bibleVMProxy}}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <ContentControl>
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Name}" />
+              </ContentControl>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <ItemsControl.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Command" Value="{Binding Data.SetTargetSearchBibleCommand, Source={StaticResource bibleVMProxy}}" />
+              <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+              <Setter Property="MenuItem.IsChecked">
+                <Setter.Value>
+                  <MultiBinding Converter="{StaticResource IsTargetSearchBibleConverter}">
+                    <Binding Path="." />
+                    <Binding Path="Data.SearchTargetBible" Source="{StaticResource bibleVMProxy}" />
+                  </MultiBinding>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </ContextMenu>
+      </commonControls:PlaceholderTextBox.CustomContextMenu>
+    </commonControls:SearchBox>
+    <commonControls:ProgressControl Name="ProgressControl" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" CancelCommand="{Binding CancelGenerateSlidesCommand}" Progress="{Binding SlidesProgress, Mode=OneWay}" Visibility="{Binding IsGeneratingSlides, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <TextBlock Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized BIBLE_SLIDE_GENERATION_CANCELLED_title}" Visibility="{Binding IsSlidesCancelled, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <ToggleButton Name="OptionsButton" Grid.Column="3" Height="22" Margin="0,0,10,0" Padding="10,0" HorizontalAlignment="Right" uiUtility:ContextMenuHelper.CenterMenu="True" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Content="{mex:Localized BIBLE_HEADER_OPTIONS_BUTTON_title}" />
+    <commonControls:AnchoredPopup Name="SearchResultsPopup" AllowDrop="True" Placement="Bottom" StaysOpen="False" PlacementTarget="{Binding ElementName=SearchTextBox}">
+      <local:BibleKeywordSearchResult DataContext="{Binding Data, Source={StaticResource bibleVMProxy}}" />
+    </commonControls:AnchoredPopup>
+    <commonControls:AnchoredPopup AllowDrop="True" Child="{StaticResource BibleSettings}" Placement="Bottom" IsOpen="{Binding IsChecked, ElementName=OptionsButton}" PlacementTarget="{Binding ElementName=OptionsButton}" StaysOpen="{Binding IsThemeUIOpen, Source={StaticResource BibleSettings}}" />
+  </Grid>
+</UserControl>

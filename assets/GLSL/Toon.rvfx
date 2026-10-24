@@ -1,0 +1,30 @@
+{
+    "description": "Posterizes image yielding a cartoon effect.",
+    "name": "Toon",
+    "numPasses": 1,
+    "shaderFile": "Toon",
+    "type": 0,
+    "uuid": "3A7A9FFF-F027-4EFD-94CC-429A491485C7",
+    "variables": [
+        {
+            "name": "colorLevels",
+            "label": "Number of colors",
+            "description": "Number of rows",
+            "type": 0,
+            "min": [1, 1, 1, 1],
+            "max": [16, 16, 16, 16],
+            "defValue": [8, 8, 8, 8],
+            "value": [8, 8, 8, 8]
+        },
+        {
+            "name": "saturation",
+            "label": "Saturation",
+            "description": "amount to blend by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

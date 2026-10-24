@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideTrigger.SlideTriggerControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="self" Width="150" Height="150" xmlns:slidetrigger="clr-namespace:ProPresenter.UI.SlideTrigger" Foreground="{Binding LIGHTCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <Border CornerRadius="20" Background="{Binding BorderBackground, ElementName=self}">
+    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="64" Text="{Binding Text, ElementName=self}" />
+  </Border>
+</UserControl>

@@ -1,0 +1,30 @@
+{
+    "description": "Blurs the edges.",
+    "name": "Edge Outline",
+    "numPasses": 1,
+    "shaderFile": "EdgeOutline",
+    "type": 0,
+    "uuid": "86BA6E3E-358F-4DA2-93C4-6A2C0EC831DA",
+    "variables": [
+        {
+            "name": "outlineAmount",
+            "label": "Intensity",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "colorLevel",
+            "label": "Color",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

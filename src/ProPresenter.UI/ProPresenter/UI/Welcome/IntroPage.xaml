@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Welcome.IntroPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Welcome" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <DataTemplate x:Key="ImageTemplate">
+        <Image RenderOptions.BitmapScalingMode="Fant" Stretch="Uniform" Width="{Binding ActualWidth, ElementName=scrollViewer}" Height="{Binding ActualHeight, ElementName=scrollViewer}" Source="{Binding Source}" />
+      </DataTemplate>
+      <DataTemplate x:Key="VideoTemplate">
+        <MediaElement Name="myMediaElement" Width="{Binding ActualWidth, ElementName=scrollViewer}" Height="{Binding ActualHeight, ElementName=scrollViewer}">
+          <FrameworkElement.Triggers>
+            <EventTrigger RoutedEvent="MediaElement.Loaded">
+              <EventTrigger.Actions>
+                <BeginStoryboard>
+                  <Storyboard>
+                    <MediaTimeline Storyboard.TargetName="myMediaElement" Source="{Binding Source}" />
+                  </Storyboard>
+                </BeginStoryboard>
+              </EventTrigger.Actions>
+            </EventTrigger>
+          </FrameworkElement.Triggers>
+        </MediaElement>
+      </DataTemplate>
+      <local:IntroPageSlideDataTemplateSelector x:Key="IntroPageSlideDataTemplateSelector" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ScrollViewer Name="scrollViewer" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+      <ItemsControl Focusable="False" IsHitTestVisible="False" IsTabStop="False" ItemTemplateSelector="{StaticResource IntroPageSlideDataTemplateSelector}" ItemsSource="{Binding SlideshowContent}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <VirtualizingStackPanel Orientation="Horizontal" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+    </ScrollViewer>
+    <commonControls:BubbleProgressControl Grid.Row="1" HorizontalAlignment="Center" BubbleSize="8" BubbleSpacing="10" ClickToValue="True" IsCumulative="False" ActiveFill="{Binding (uiUtility:UIElementHelper.Palette).Standard.Fill, RelativeSource={RelativeSource Self}}" CurrentValue="{Binding CurrentPage, Mode=TwoWay}" DefaultFill="{Binding (uiUtility:UIElementHelper.Palette).Disabled.Fill, RelativeSource={RelativeSource Self}}" Maximum="{Binding PageCount}" Visibility="{Binding ShowBubble, Converter={StaticResource ValueToVisibilityConverter}}" />
+  </Grid>
+  <!--Unknown connection ID: 1-->
+</UserControl>

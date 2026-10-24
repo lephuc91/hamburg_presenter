@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Calendar.CalendarActionSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actionsDO="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:actionsMenu="clr-namespace:ProPresenter.UI.ActionsMenu" xmlns:captureAction="clr-namespace:ProPresenter.DO.Actions.Capture;assembly=ProPresenter.DO" xmlns:captureActionDialog="clr-namespace:ProPresenter.UI.ActionPalette.ActionDialogs.Capture" xmlns:captureAnalytics="clr-namespace:ProPresenter.DO.Analytics.Events.Capture;assembly=ProPresenter.DO" xmlns:captureDO="clr-namespace:ProPresenter.DO.Capture;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Calendar" xmlns:macroGroups="clr-namespace:ProPresenter.DO.MacroGroups;assembly=ProPresenter.DO" xmlns:macros="clr-namespace:ProPresenter.DO.Macros;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:pcoCue="clr-namespace:ProPresenter.DO.Cues.PCO;assembly=ProPresenter.DO" xmlns:playlistActionsDO="clr-namespace:ProPresenter.DO.Actions.Playlist;assembly=ProPresenter.DO" xmlns:playlists="clr-namespace:ProPresenter.DO.Playlists;assembly=ProPresenter.DO" xmlns:proCue="clr-namespace:ProPresenter.DO.Cues;assembly=ProPresenter.DO" xmlns:proUIThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="calendarActionSelector">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CueIconResources.xaml" />
+        <ResourceDictionary Source="../ActionPalette/ActionPaletteItemStyle.xaml" />
+        <ResourceDictionary Source="../ActionsMenu/AddEditActionMenuSourceStyles.xaml" />
+        <ResourceDictionary Source="../Thumbnails/ScrimTemplates.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="calendarVMProxy" Data="{Binding}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <actionsMenu:ActionDataIsCheckedConverter x:Key="ActionDataIsCheckedConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+      <commonConverters:IsNotNullToVisibilityConverter x:Key="IsNotNullToVisibilityConverter" />
+      <commonConverters:TypeOfConverter x:Key="TypeOfConverter" />
+      <converters:MacroGroupCheckedConverter x:Key="MacroGroupCheckedConverter" />
+      <ObjectDataProvider x:Key="CaptureType" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="captureAction:CaptureType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <Style x:Key="PlaylistStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.IsChecked">
+          <Setter.Value>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource ActionDataIsCheckedConverter}">
+              <Binding Path="Data.EventAction" Source="{StaticResource calendarVMProxy}" />
+              <Binding />
+            </MultiBinding>
+          </Setter.Value>
+        </Setter>
+        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="Playlist_PreviewClick" />
+      </Style>
+      <Style x:Key="PlaylistItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.IsChecked">
+          <Setter.Value>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource ActionDataIsCheckedConverter}">
+              <Binding Path="Data.EventAction" Source="{StaticResource calendarVMProxy}" />
+              <Binding />
+            </MultiBinding>
+          </Setter.Value>
+        </Setter>
+        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PlaylistItem_PreviewClick" />
+      </Style>
+      <ContextMenu x:Key="TargetMenu" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <MenuItem Command="{Binding Data.RemoveTargetCommand, Source={StaticResource calendarVMProxy}}" Header="{mex:Localized CALENDAR_VIEW_EVENT_ACTION_NONE_title}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.IsChecked" Value="False" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Data.EventAction, Source={StaticResource calendarVMProxy}}" Value="{x:Null}">
+                      <Setter Property="MenuItem.IsChecked" Value="True" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </MenuItem>
+            <Separator />
+            <MenuItem UsesItemContainerTemplate="True" Header="{mex:Localized SYNC_PREFERENCES_SYNC_OPTION_PLAYLISTS_title}" ItemsSource="{Binding Data.Playlists, Source={StaticResource calendarVMProxy}}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.IsChecked" Value="False" />
+                  <Style.Triggers>
+                    <DataTrigger Value="{x:Type playlistActionsDO:LibraryPlaylistAction}" Binding="{Binding Data.EventAction, Source={StaticResource calendarVMProxy}, Converter={StaticResource TypeOfConverter}}">
+                      <Setter Property="MenuItem.IsChecked" Value="True" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </MenuItem>
+            <MenuItem UsesItemContainerTemplate="True" Header="{mex:Localized MACROS_TAB_tooltip}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.IsChecked" Value="False" />
+                  <Setter Property="ItemsSource" Value="{Binding Data.MacroGroups, Source={StaticResource calendarVMProxy}}" />
+                  <Style.Triggers>
+                    <DataTrigger Value="{x:Type actionsDO:MacroAction}" Binding="{Binding Data.EventAction, Source={StaticResource calendarVMProxy}, Converter={StaticResource TypeOfConverter}}">
+                      <Setter Property="MenuItem.IsChecked" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger Value="0" Binding="{Binding Data.MacroGroups.Count, Source={StaticResource calendarVMProxy}}">
+                      <Setter Property="ItemsSource">
+                        <Setter.Value>
+                          <CompositeCollection>
+                            <MenuItem IsEnabled="False" Header="{mex:Localized CALENDAR_VIEW_NO_MACROS_title}" />
+                          </CompositeCollection>
+                        </Setter.Value>
+                      </Setter>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </MenuItem>
+            <MenuItem UsesItemContainerTemplate="True" Header="{mex:Localized CALENDAR_VIEW_CAPTURE_EVENT_title}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.IsChecked" Value="False" />
+                  <Style.Triggers>
+                    <DataTrigger Value="{x:Type actionsDO:CaptureAction}" Binding="{Binding Data.EventAction, Source={StaticResource calendarVMProxy}, Converter={StaticResource TypeOfConverter}}">
+                      <Setter Property="MenuItem.IsChecked" Value="True" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <ItemsControl.ItemsSource>
+                <CompositeCollection>
+                  <CollectionContainer Collection="{Binding Source={StaticResource CaptureType}}" />
+                  <Separator />
+                  <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" CommandParameter="{x:Static captureAnalytics:CaptureShownSource.Calendar}" Command="{Binding ScreensMenu.CaptureSettings.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized RECORDING_BUTTON_CONTEXT_MENU_CAPTURE_SETTINGS_title}" />
+                </CompositeCollection>
+              </ItemsControl.ItemsSource>
+            </MenuItem>
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:GeneralPlaylist}}">
+              <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" UsesItemContainerTemplate="True" Style="{StaticResource PlaylistStyle}" Header="{Binding Name}" ItemsSource="{Binding}">
+                <MenuItem.Icon>
+                  <Image Source="{StaticResource {x:Static proUIThemes:Icons.LibraryPlaylist}}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:PCOPlaylist}}">
+              <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" UsesItemContainerTemplate="True" Style="{StaticResource PlaylistStyle}" Header="{Binding Name}" ItemsSource="{Binding}">
+                <MenuItem.Icon>
+                  <Image Source="{StaticResource {x:Static proUIThemes:Icons.PCOPlaylist}}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:GeneralGroupPlaylist}}">
+              <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding Children}">
+                <MenuItem.Icon>
+                  <Image Source="{StaticResource {x:Static proUIThemes:Icons.PlaylistFolder}}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type proCue:DocumentCue}}">
+              <MenuItem Style="{StaticResource PlaylistItemStyle}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <Image Style="{StaticResource CueIconStyle}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type proCue:HeaderCue}}">
+              <MenuItem Style="{StaticResource PlaylistItemStyle}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <Image Style="{StaticResource CueIconStyle}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type proCue:MediaCue}}">
+              <MenuItem Style="{StaticResource PlaylistItemStyle}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <Image Style="{StaticResource CueIconStyle}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type pcoCue:PCOSongCue}}">
+              <MenuItem Style="{StaticResource PlaylistItemStyle}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <Image Style="{StaticResource CueIconStyle}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type pcoCue:PCOPlanCue}}">
+              <MenuItem Style="{StaticResource PlaylistItemStyle}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <Image Style="{StaticResource CueIconStyle}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type pcoCue:PCOMediaCue}}">
+              <MenuItem Style="{StaticResource PlaylistItemStyle}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <Image Style="{StaticResource CueIconStyle}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type pcoCue:PCOHeaderCue}}">
+              <MenuItem Style="{StaticResource PlaylistItemStyle}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <Image Style="{StaticResource CueIconStyle}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type macros:ProPresenterMacro}}">
+              <MenuItem Command="{Binding Data.SelectTargetMacroCommand, Source={StaticResource calendarVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource ActionDataIsCheckedConverter}">
+                    <Binding Path="Data.EventAction" Source="{StaticResource calendarVMProxy}" />
+                    <Binding />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type macroGroups:MacroGroup}}">
+              <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}">
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MacroGroupCheckedConverter}">
+                    <Binding />
+                    <Binding Path="Data.EventAction" Source="{StaticResource calendarVMProxy}" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                    <Setter Property="ItemsSource" Value="{Binding}" />
+                    <Style.Triggers>
+                      <DataTrigger Value="0" Binding="{Binding Count}">
+                        <Setter Property="ItemsSource">
+                          <Setter.Value>
+                            <CompositeCollection>
+                              <MenuItem IsEnabled="False" Header="{mex:Localized CALENDAR_VIEW_NO_MACROS_title}" />
+                            </CompositeCollection>
+                          </Setter.Value>
+                        </Setter>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type proCue:PlaceholderCue}}">
+              <MenuItem Style="{StaticResource PlaylistItemStyle}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <Image Style="{StaticResource CueIconStyle}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type captureAction:CaptureType}}">
+              <MenuItem UsesItemContainerTemplate="True" Command="{Binding Data.SelectCaptureTypeCommand, Source={StaticResource calendarVMProxy}}" CommandParameter="{Binding}" Header="{Binding Converter={StaticResource EnumToContentConverter}}">
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource ActionDataIsCheckedConverter}">
+                    <MultiBinding.Bindings>
+                      <Binding Path="Data.EventAction" Source="{StaticResource calendarVMProxy}" />
+                      <Binding />
+                    </MultiBinding.Bindings>
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type captureDO:CapturePreset}}">
+                      <MenuItem Command="{Binding Data.SelectCapturePresetCommand, Source={StaticResource calendarVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                        <MenuItem.IsChecked>
+                          <MultiBinding Mode="OneWay" Converter="{StaticResource ActionDataIsCheckedConverter}">
+                            <MultiBinding.Bindings>
+                              <Binding Path="Data.EventAction" Source="{StaticResource calendarVMProxy}" />
+                              <Binding />
+                            </MultiBinding.Bindings>
+                          </MultiBinding>
+                        </MenuItem.IsChecked>
+                      </MenuItem>
+                    </ItemContainerTemplate>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                    <Setter Property="ItemsSource">
+                      <Setter.Value>
+                        <CompositeCollection>
+                          <MenuItem Command="{Binding Data.SelectCapturePresetCommand, Source={StaticResource calendarVMProxy}}" CommandParameter="{x:Null}" Header="{mex:Localized CAPTURE_ACTION_CAPTURE_START_ACTIVE_SETTINGS_title}" />
+                          <Separator />
+                          <CollectionContainer Collection="{Binding Data.CapturePresets, Source={StaticResource calendarVMProxy}}" />
+                          <MenuItem IsEnabled="False" Visibility="{Binding Data.CapturePresets.Count, Source={StaticResource calendarVMProxy}, Converter={StaticResource InvertedCountToVisibilityConverter}}">
+                            <HeaderedItemsControl.HeaderTemplate>
+                              <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontStyle="Italic" Text="{mex:Localized CAPTURE_ACTION_NO_PRESETS_title}" />
+                              </DataTemplate>
+                            </HeaderedItemsControl.HeaderTemplate>
+                          </MenuItem>
+                        </CompositeCollection>
+                      </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                      <DataTrigger Value="Stop" Binding="{Binding}">
+                        <Setter Property="ItemsSource" Value="{x:Null}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ContextMenu>
+      <local:LibraryPlaylistActionToThumbnailConverter x:Key="LibraryPlaylistActionToThumbnailConverter" PlaylistThumbnail="{StaticResource {x:Static proUIThemes:Icons.LibraryPlaylist}}" PresentationThumbnail="{StaticResource {x:Static proUIThemes:Icons.PresentationIcon}}" CalendarService="{di:DIMarkup {x:Type local:ICalendarService}}" />
+      <DataTemplate x:Key="{DataTemplateKey {x:Type playlistActionsDO:LibraryPlaylistAction}}" DataType="{x:Type playlistActionsDO:LibraryPlaylistAction}">
+        <Grid ToolTip="{Binding Name}">
+          <Image Source="{Binding Converter={StaticResource LibraryPlaylistActionToThumbnailConverter}}" />
+        </Grid>
+      </DataTemplate>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <commonControls:DropDownButton Grid.Row="0" Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" CustomContextMenu="{StaticResource TargetMenu}">
+      <commonControls:DropDownButton.CustomContent>
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Center">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid Column="0">
+            <Image Width="16" Height="16" Source="../Resources/Icons/WarningIcon.png" Visibility="{Binding Data.EventAction.IsValid, Source={StaticResource calendarVMProxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, FallbackValue=Collapsed}" />
+            <ContentControl Width="16" Height="16" Content="{Binding Data.EventAction, Source={StaticResource calendarVMProxy}}" ToolTip="{Binding Data.EventAction.Name, Source={StaticResource calendarVMProxy}}" Visibility="{Binding Data.EventAction.IsValid, Source={StaticResource calendarVMProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+          </Grid>
+          <TextBlock Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text" Value="{Binding Data.EventActionName, Source={StaticResource calendarVMProxy}}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding Data.EventAction, Source={StaticResource calendarVMProxy}}" Value="{x:Null}">
+                    <Setter Property="Text" Value="{mex:Localized CALENDAR_VIEW_EVENT_ACTION_NONE_title}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+        </Grid>
+      </commonControls:DropDownButton.CustomContent>
+    </commonControls:DropDownButton>
+    <captureActionDialog:CaptureActionOption Grid.Row="1" Margin="0,8,0,0" Action="{Binding Data.EventAction, Source={StaticResource calendarVMProxy}}" Presets="{Binding Data.CapturePresets, Source={StaticResource calendarVMProxy}}" SelectPresetCommand="{Binding Data.SelectCapturePresetCommand, Source={StaticResource calendarVMProxy}}" />
+  </Grid>
+</UserControl>

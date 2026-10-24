@@ -1,0 +1,8 @@
+namespace Pro.Common.Win32;
+
+public enum MONITOR : uint
+{
+	DEFAULTTONULL,
+	DEFAULTTOPRIMARY,
+	DEFAULTTONEAREST
+}

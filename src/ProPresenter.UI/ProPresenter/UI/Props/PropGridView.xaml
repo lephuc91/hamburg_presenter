@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Props.PropGridView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:local="clr-namespace:ProPresenter.UI.Props" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" x:Name="propsGroupGridView" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding LISTITEM_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="PropGroupsItemsMenuResource.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <utility:BindingProxy x:Key="propsVMProxy" Data="{Binding}" />
+      <utility:BindingProxy x:Key="thisProxy" Data="{Binding ElementName=propsGroupGridView}" />
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <converters:PropAddCommandVisibilityMultiConverter x:Key="PropAddCommandVisibilityMultiConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <local:PropGridFloatingHeaderControl Panel="{Binding ElementName=propsGrid}">
+      <local:PropGroupGrid x:Name="propsGrid" Margin="5" AllowDrop="True" ContextMenu="{StaticResource PropsControlContextMenu}" xmlns:thumbnails="clr-namespace:ProPresenter.UI.Thumbnails" InView="True" MinItemWidth="10" SelectItemsOnSelfDrop="False" ThumbnailContextMenu="{StaticResource CollectionContextMenu}" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyCommand}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding CutCommand}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicateCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteCommand}" ActiveItems="{Binding ActiveCues}" DataContext="{Binding Data, Source={StaticResource propsVMProxy}}" DragDropItemsSource="{Binding DragDropSource}" DropActionCommand="{Binding DropActionCommand}" FocusVisualStyle="{x:Null}" Items="{Binding PropCues}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" RowCapacity="{Binding Data.RowCapacity, Source={StaticResource thisProxy}}" SelectedItem="{Binding SelectedCue, Mode=TwoWay}" SelectedItems="{Binding SelectedCues}" />
+    </local:PropGridFloatingHeaderControl>
+    <controls:ImageTextButton ButtonBackground="#80707070" ButtonHeight="80" ButtonWidth="80" ImageSource="{StaticResource {x:Static themes:Icons.EmptyAdd}}" Command="{Binding Parent.ActiveGroup.AddPropCommand}" Text="{markupExtensions:Localized PROPS_WINDOW_ADD_PROP_label}" ToolTip="{markupExtensions:Localized PROPS_ADD_BUTTON_tooltip}">
+      <UIElement.Visibility>
+        <MultiBinding Converter="{StaticResource PropAddCommandVisibilityMultiConverter}">
+          <Binding Path="DragDropSource.Count" />
+          <Binding Path="FilterText" />
+        </MultiBinding>
+      </UIElement.Visibility>
+    </controls:ImageTextButton>
+  </Grid>
+</UserControl>

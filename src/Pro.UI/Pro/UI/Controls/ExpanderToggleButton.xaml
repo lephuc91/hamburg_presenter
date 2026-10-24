@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<local:BorderlessToggleButton x:Class="Pro.UI.Controls.ExpanderToggleButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Pro.UI.Controls" x:Name="expanderToggleButton" Height="16" MinWidth="16" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Focusable="False">
+  <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
+    <ContentPresenter Content="{Binding LeftContent, ElementName=expanderToggleButton}" />
+    <local:PathControl VerticalAlignment="Stretch" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, ElementName=expanderToggleButton}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type local:PathControl}">
+          <Setter Property="local:PathControl.Fill" Value="{Binding Foreground, ElementName=expanderToggleButton}" />
+          <Setter Property="local:PathControl.PathType" Value="{Binding CollapsedPathType, ElementName=expanderToggleButton}" />
+          <Style.Triggers>
+            <DataTrigger Value="True" Binding="{Binding IsChecked, ElementName=expanderToggleButton}">
+              <Setter Property="local:PathControl.PathType" Value="{Binding ExpandedPathType, ElementName=expanderToggleButton}" />
+            </DataTrigger>
+            <DataTrigger Value="False" Binding="{Binding ShouldFill, ElementName=expanderToggleButton}">
+              <Setter Property="local:PathControl.Fill" Value="#00FFFFFF" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:PathControl>
+  </StackPanel>
+</local:BorderlessToggleButton>

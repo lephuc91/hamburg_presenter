@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.LinkedTextTypeSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:links="clr-namespace:ProPresenter.DO.Slide.Links;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:util="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self">
+  <FrameworkElement.Resources>
+    <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+    <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+    <local:TextLinkTypeToEnableConverter x:Key="TextLinkTypeToEnableConverter" />
+    <commonUtility:BindingProxy x:Key="selfProxy" Data="{Binding ElementName=self}" />
+    <Style x:Key="ParentOnlyStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+      <Setter Property="HeaderTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="ItemContainerStyle">
+        <Setter.Value>
+          <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}" />
+        </Setter.Value>
+      </Setter>
+      <Setter Property="ItemContainerStyleSelector" Value="{x:Null}" />
+      <Setter Property="MenuItem.IsChecked">
+        <Setter.Value>
+          <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+            <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+            <Binding Mode="OneWay" Path="Data.LinkedTextType" Source="{StaticResource selfProxy}" />
+          </MultiBinding>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="IsEnabled">
+        <Setter.Value>
+          <MultiBinding Converter="{StaticResource TextLinkTypeToEnableConverter}" Mode="OneWay">
+            <Binding Mode="OneWay" Path="Data.AvailableLinkedTextTypes" Source="{StaticResource selfProxy}" />
+            <Binding Mode="OneWay" Path="Data.AvailableElementsCollection" Source="{StaticResource selfProxy}" />
+            <Binding />
+          </MultiBinding>
+        </Setter.Value>
+      </Setter>
+      <EventSetter Event="Click" Handler="MenuItem_Click" />
+    </Style>
+    <Style x:Key="TimerStyle" BasedOn="{StaticResource ParentOnlyStyle}" TargetType="{x:Type MenuItem}">
+      <Setter Property="ItemContainerStyle">
+        <Setter.Value>
+          <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+            <Setter Property="MenuItem.IsChecked">
+              <Setter.Value>
+                <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                  <Binding Mode="OneWay" Path="DataContext.ID" RelativeSource="{RelativeSource Self}" />
+                  <Binding Mode="OneWay" Path="Data.SelectedTimerTextLink.TimerData.ID" Source="{StaticResource selfProxy}" />
+                </MultiBinding>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="ItemTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="ItemsSource" Value="{Binding Data.AvailableTimerCollection, Source={StaticResource selfProxy}}" />
+    </Style>
+    <Style x:Key="ElementStyle" BasedOn="{StaticResource ParentOnlyStyle}" TargetType="{x:Type MenuItem}">
+      <Setter Property="ItemContainerStyle">
+        <Setter.Value>
+          <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+            <Setter Property="MenuItem.IsChecked">
+              <Setter.Value>
+                <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                  <Binding Mode="OneWay" Path="DataContext.ID" RelativeSource="{RelativeSource Self}" />
+                  <Binding Mode="OneWay" Path="Data.SelectedElementTextLink.Element.ID" Source="{StaticResource selfProxy}" />
+                </MultiBinding>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="ItemTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="ItemsSource" Value="{Binding Data.AvailableElementsCollection, Source={StaticResource selfProxy}}" />
+    </Style>
+  </FrameworkElement.Resources>
+  <Button Name="LinkedTextTypeSelectorButton" MinHeight="24" util:ContextMenuHelper.OpenOnLeftClick="True">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      </Style>
+    </FrameworkElement.Style>
+    <FrameworkElement.ContextMenu>
+      <ContextMenu Name="LinkedTextTypeSelectorContextMenu" Placement="Bottom" MinWidth="{Binding Path=PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding Data.AvailableLinkedTextTypes, Source={StaticResource selfProxy}}" />
+    </FrameworkElement.ContextMenu>
+    <Grid>
+      <TextBlock Margin="5,0,15,0" TextTrimming="CharacterEllipsis" Visibility="{Binding LinkedTextType, ElementName=self, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static links:LinkedTextType.None}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Text" Value="{Binding LinkedTextType, ElementName=self, Converter={StaticResource EnumToContentConverter}}" />
+            <Style.Triggers>
+              <DataTrigger Value="Timer" Binding="{Binding LinkedTextType, ElementName=self}">
+                <Setter Property="Text" Value="{Binding SelectedTextLinkTimerName, ElementName=self}" />
+              </DataTrigger>
+              <DataTrigger Value="Element" Binding="{Binding LinkedTextType, ElementName=self}">
+                <Setter Property="Text" Value="{Binding SelectedTextLinkElementName, ElementName=self}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+      <TextBlock Margin="5,0,5,0" Style="{StaticResource {x:Type TextBlock}}" Text="{mex:Localized GLOBAL_NONE}" Visibility="{Binding LinkedTextType, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static links:LinkedTextType.None}}" />
+      <commonControls:PathControl Width="8" Height="8" Margin="0,0,3,0" HorizontalAlignment="Right" VerticalAlignment="Center" PathType="DownArrow" Fill="{Binding Foreground, ElementName=LinkedTextTypeSelectorButton}" Stroke="{Binding Foreground, ElementName=LinkedTextTypeSelectorButton}" />
+    </Grid>
+  </Button>
+</UserControl>

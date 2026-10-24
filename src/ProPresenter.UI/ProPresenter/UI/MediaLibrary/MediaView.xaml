@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.MediaLibrary.MediaView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonResources="clr-namespace:Pro.UI.Resources;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:floatingHeaders="clr-namespace:ProPresenter.UI.FloatingHeaders" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proContentUI="clr-namespace:ProPresenter.UI.ProContent" xmlns:settings="clr-namespace:ProPresenter.DO.Settings;assembly=ProPresenter.DO" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="mediaBin" GotFocus="MediaView_GotFocus">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../SourceDetailListResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="mediaLibraryVMProxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:IsNotNullToVisibilityConverter x:Key="IsNotNullToVisibilityConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="27" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Name="LeftColumn" Width="{Binding MediaLeftWidth, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}">
+        <FrameworkContentElement.Style>
+          <Style TargetType="{x:Type ColumnDefinition}">
+            <Setter Property="MaxWidth" Value="0" />
+            <Setter Property="MinWidth" Value="0" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding MediaPlaylistsCollapsed, Source={x:Static settings:Layout.Settings}}">
+                <Setter Property="MaxWidth" xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib" Value="{x:Static system1:Double.PositiveInfinity}" />
+                <Setter Property="MinWidth" Value="160" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkContentElement.Style>
+      </ColumnDefinition>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition MinWidth="595" Width="{Binding MediaRightWidth, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+    </Grid.ColumnDefinitions>
+    <Grid Row="0" RowSpan="2" Column="0" uiUtility:UIElementHelper.Palette="{Binding PRESENTATION_PALETTE, Source={x:Static theming:AppTheme.Active}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="27" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid Row="0" uiUtility:UIElementHelper.Palette="{Binding MAINHEADER_PALETTE, Source={x:Static theming:AppTheme.Active}}">
+        <TextBlock Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{mex:Localized MEDIA_BIN_OUTLINE_label}" />
+      </Grid>
+      <floatingHeaders:FlatFloatingHeaderControl Grid.Row="1">
+        <commonControls:FloatingHeaderControl.HeaderTemplates>
+          <DataTemplate DataType="{x:Type proContentUI:ProContentOutlineView}">
+            <proContentUI:ProContentOutlineViewHeader Margin="8,0" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" />
+          </DataTemplate>
+          <DataTemplate DataType="{x:Type Separator}" />
+          <DataTemplate DataType="{x:Type local:MediaPlaylistOutlineView}">
+            <local:MediaPlaylistOutlineViewHeader Margin="8,0" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" />
+          </DataTemplate>
+        </commonControls:FloatingHeaderControl.HeaderTemplates>
+        <proContentUI:ProContentOutlineView Margin="8,0" />
+        <Separator Height="6" Background="#00FFFFFF" Foreground="#00FFFFFF" />
+        <local:MediaPlaylistOutlineView Margin="8,0" />
+      </floatingHeaders:FlatFloatingHeaderControl>
+    </Grid>
+    <GridSplitter Grid.RowSpan="2" Grid.Column="1" Width="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" DragDelta="MediaColumnSplitter_DragDelta">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type GridSplitter}}" TargetType="{x:Type GridSplitter}">
+          <Style.Triggers>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Value="False" Binding="{Binding IsDragging, RelativeSource={RelativeSource Self}}" />
+                <Condition Value="True" Binding="{Binding MediaPlaylistsCollapsed, Source={x:Static settings:Layout.Settings}}" />
+              </MultiDataTrigger.Conditions>
+              <Setter Property="Visibility" Value="Collapsed" />
+            </MultiDataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </GridSplitter>
+    <Grid Row="0" RowSpan="2" Column="2">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="32" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid Row="0" Background="{Binding HEADER, Source={x:Static theming:AppTheme.Active}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <local:MediaBinHeaderNavigator Grid.Column="0" DataContext="{Binding HeaderNavigatorVM}" />
+        <Grid Column="1" Margin="0,0,12,0" HorizontalAlignment="Right" VerticalAlignment="Center" DataContext="{Binding ProContentVM}" Visibility="{Binding SelectedRootElement, Converter={StaticResource IsNotNullToVisibilityConverter}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <commonControls:LoadingIndicator Grid.Column="0" Width="24" Height="24" VerticalAlignment="Center" DisplayMode="Spinner" Visibility="{Binding IsLoadingData, Converter={StaticResource ValueToVisibilityConverter}}" />
+          <commonControls:BorderlessButton Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding ToggleLoginLogoutCommand}" Visibility="{Binding IsLoggedIn, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+            <Border Width="72" Height="20" CornerRadius="8">
+              <Border.Background>
+                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1, 0.5">
+                  <GradientStop Offset="0" Color="#6D96FF" />
+                  <GradientStop Offset="1" Color="#A54CFF" />
+                </LinearGradientBrush>
+              </Border.Background>
+              <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" Text="{mex:Localized PRO_CONTENT_MEDIA_BIN_SIGN_IN_BUTTON_text}" />
+            </Border>
+          </commonControls:BorderlessButton>
+        </Grid>
+      </Grid>
+      <proContentUI:ProContentView Grid.Row="1" DataContext="{Binding ProContentVM}" Visibility="{Binding SelectedRootElement, Converter={StaticResource IsNotNullToVisibilityConverter}}" />
+      <local:MediaPlaylistView Grid.Row="1" DataContext="{Binding}" GotFocusCommand="{Binding ElementName=mediaBin, Path=GotFocusCommand}" OutputController="{Binding ElementName=mediaBin, Path=OutputController}" SetMediaTransitionCommand="{Binding ElementName=mediaBin, Path=SetMediaTransitionCommand}" SortMediaItemsCommand="{Binding ElementName=mediaBin, Path=SortMediaItemsCommand}" Visibility="{Binding PlaylistVM.ActivePlaylist, Converter={StaticResource IsNotNullToVisibilityConverter}}" />
+      <Grid Row="2" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Hidden" />
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Binding="{Binding PlaylistVM.ActivePlaylist}" Value="{x:Null}" />
+                  <Condition Binding="{Binding ProContentVM.SelectedRootElement}" Value="{x:Null}" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger.Setters>
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <controls:ImageTextButton uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" ImageSource="{StaticResource {x:Static uiThemes:Icons.EmptyImport}}" Command="{Binding FileMenu.ImportMedia.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Text="{mex:Localized MEDIA_WINDOW_IMPORT_MEDIA_label}" />
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Timer.TimerActionContent" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actions="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:timerDO="clr-namespace:ProPresenter.DO.Timer;assembly=ProPresenter.DO" xmlns:timerui="clr-namespace:ProPresenter.UI.Timer" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="timerActionContent" Foreground="{Binding POPUPCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="timerActionContentProxy" Data="{Binding ElementName=timerActionContent}" />
+      <ObjectDataProvider x:Key="TimeFormatEnum" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="timerDO:TimeFormat" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="TimerTypeEnum" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="timerDO:TimerType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:EnumToContentConverter x:Key="TimerEnumToContentConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <Style x:Key="TimeSliceTextBoxStyle" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type commonControls:TimeSliceTextBox}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="commonControls:TimeSliceTextBox.ShowMilliseconds" Value="False" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+      </Style>
+      <ContextMenu x:Key="TimersMenu" Placement="Bottom" UsesItemContainerTemplate="True" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type timerDO:TimerData}}">
+              <MenuItem uiUtility:CommandHelper.CommandParameter="{Binding}" Command="{Binding Data.SelectTimerCommand, Source={StaticResource timerActionContentProxy}}" Header="{Binding Name}">
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="Data.TimerAction.TimerID" Source="{StaticResource timerActionContentProxy}" />
+                    <Binding Path="ID" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <MenuItem Command="{Binding Data.SelectTimerCommand, Source={StaticResource timerActionContentProxy}}" CommandParameter="{x:Null}" Header="{mex:Localized GLOBAL_NO_SELECTION}" Visibility="{Binding Data.CanDeSelectTimer, Source={StaticResource timerActionContentProxy}, Converter={StaticResource ValueToVisibilityConverter}}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.IsChecked" Value="False" />
+                  <Style.Triggers>
+                    <DataTrigger xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib" Value="{x:Static system1:Guid.Empty}" Binding="{Binding Data.TimerAction.TimerID, Source={StaticResource timerActionContentProxy}}">
+                      <Setter Property="MenuItem.IsChecked" Value="True" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </MenuItem>
+            <Separator Visibility="{Binding Data.CanDeSelectTimer, Source={StaticResource timerActionContentProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <CollectionContainer Collection="{Binding Data.Timers, Source={StaticResource timerActionContentProxy}}" />
+            <Separator />
+            <MenuItem HorizontalAlignment="Stretch" VerticalAlignment="Center" uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Timers.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized ACTION_PALETTE_TIMER_OPEN_TIMERS_title}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <commonControls:DropDownButton Height="22" Margin="0,5" CustomContextMenu="{StaticResource TimersMenu}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type commonControls:DropDownButton}">
+            <Setter Property="commonControls:DropDownButton.CustomContent" Value="{Binding TimerAction.TimerName, ElementName=timerActionContent}" />
+            <Style.Triggers>
+              <DataTrigger Value="{x:Static Guid.Empty}" Binding="{Binding TimerAction.TimerID, ElementName=timerActionContent}">
+                <Setter Property="commonControls:DropDownButton.CustomContent" Value="{mex:Localized GLOBAL_NO_SELECTION}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:DropDownButton>
+      <Grid Row="1" Visibility="{Binding ElementName=timerActionContent, Path=TimerAction.TimerID, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static Guid.Empty}}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ComboBox Name="ActionsComboBox" Grid.Row="0" Height="22" Margin="0,5" SelectedItem="{Binding TimerAction.TimerActionType, Mode=TwoWay, ElementName=timerActionContent}">
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <actions:TimerActionType>Start</actions:TimerActionType>
+              <actions:TimerActionType>Stop</actions:TimerActionType>
+              <actions:TimerActionType>Reset</actions:TimerActionType>
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+        <CheckBox Name="setConfig" Grid.Row="1" Margin="0,5,0,0" Content="{mex:Localized ACTION_PALETTE_TIMER_SET_CONFIGURATION_title}" IsChecked="{Binding TimerAction.SetConfiguration, Mode=TwoWay, ElementName=timerActionContent}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Value="Start" Binding="{Binding TimerAction.TimerActionType, ElementName=timerActionContent}">
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Value="Stop" Binding="{Binding TimerAction.TimerActionType, ElementName=timerActionContent}">
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </CheckBox>
+        <Border Grid.Row="2" Margin="0,5,0,0" BorderThickness="1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding IsChecked, Converter={StaticResource ValueToVisibilityConverter}, ElementName=setConfig}">
+          <Grid Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ComboBox Grid.ColumnSpan="2" Height="22" Margin="0,0,0,5" ItemsSource="{Binding Source={StaticResource TimerTypeEnum}}" SelectedItem="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}" SelectionChanged="TimerType_SelectionChanged">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Converter={StaticResource TimerEnumToContentConverter}}" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ComboBox>
+            <Grid Row="1" RowSpan="2" Margin="0,0,5,0">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <commonControls:TimeSliceTextBox>
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource TimeSliceTextBoxStyle}" TargetType="{x:Type commonControls:TimeSliceTextBox}">
+                    <Style.Triggers>
+                      <DataTrigger Value="Countdown" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="commonControls:TimeSliceTextBox.TimeValue" Value="{Binding TimerAction.Configuration.StartTime, Mode=TwoWay, ElementName=timerActionContent}" />
+                      </DataTrigger>
+                      <DataTrigger Value="CountdownToTime" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="commonControls:TimeSliceTextBox.TimeValue" Value="{Binding TimerAction.Configuration.EndTime, Mode=TwoWay, ElementName=timerActionContent}" />
+                      </DataTrigger>
+                      <DataTrigger Value="ElapsedTime" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="commonControls:TimeSliceTextBox.TimeValue" Value="{Binding TimerAction.Configuration.StartTime, Mode=TwoWay, ElementName=timerActionContent}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </commonControls:TimeSliceTextBox>
+              <TextBlock Grid.Row="1" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                      <DataTrigger Value="Countdown" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="Text" Value="{mex:Localized ACTION_PALETTE_TIMER_CONFIGURATION_DURATION_title}" />
+                      </DataTrigger>
+                      <DataTrigger Value="CountdownToTime" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="Text" Value="{mex:Localized ACTION_PALETTE_TIMER_CONFIGURATION_TIME_title}" />
+                      </DataTrigger>
+                      <DataTrigger Value="ElapsedTime" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="Text" Value="{mex:Localized ACTION_PALETTE_TIMER_CONFIGURATION_START_title}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+            </Grid>
+            <Grid Row="1" RowSpan="2" Column="1" Visibility="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static timerDO:TimerType.ElapsedTime}, ElementName=timerActionContent}">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <timerui:ElapseTimeEndTextBox Height="22" EndTime="{Binding TimerAction.Configuration.EndTime, Mode=TwoWay, ElementName=timerActionContent}">
+                <timerui:ElapseTimeEndTextBox.HasEndTime>
+                  <PriorityBinding>
+                    <Binding ElementName="timerActionContent" Mode="TwoWay" Path="TimerAction.Configuration.HasEndTime" />
+                  </PriorityBinding>
+                </timerui:ElapseTimeEndTextBox.HasEndTime>
+              </timerui:ElapseTimeEndTextBox>
+              <TextBlock Grid.Row="1" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                      <DataTrigger Value="ElapsedTime" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="Text" Value="{mex:Localized ACTION_PALETTE_TIMER_CONFIGURATION_END_title}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+            </Grid>
+            <Grid Row="1" RowSpan="2" Column="1" Visibility="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static timerDO:TimerType.CountdownToTime}, ElementName=timerActionContent}">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <ComboBox Grid.Column="1" Height="22" HorizontalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource TimeFormatEnum}}">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+                    <Setter Property="Selector.SelectedItem" Value="{x:Null}" />
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                      <DataTrigger Value="CountdownToTime" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="Selector.SelectedItem">
+                          <Setter.Value>
+                            <PriorityBinding>
+                              <Binding ElementName="timerActionContent" Mode="TwoWay" Path="TimerAction.Configuration.TimeFormat" />
+                            </PriorityBinding>
+                          </Setter.Value>
+                        </Setter>
+                        <Setter Property="Visibility" Value="Visible" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource TimerEnumToContentConverter}}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ComboBox>
+              <TextBlock Grid.Row="1" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                      <DataTrigger Value="CountdownToTime" Binding="{Binding TimerAction.Configuration.TimerType, Mode=OneWay, ElementName=timerActionContent}">
+                        <Setter Property="Text" Value="{mex:Localized ACTION_PALETTE_TIMER_CONFIGURATION_FORMAT_title}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+            </Grid>
+            <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{mex:Localized ACTION_PALETTE_TIMER_CONFIGURATION_OVERRUN_title}" IsChecked="{Binding TimerAction.Configuration.IsOverRunAllowed, Mode=TwoWay, ElementName=timerActionContent}" />
+          </Grid>
+        </Border>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ReflowEditor.ReflowText" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="Self" xmlns:refloweditor="clr-namespace:ProPresenter.UI.ReflowEditor">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid DataContext="{Binding VM, ElementName=Self}">
+    <Grid.RowDefinitions>
+      <RowDefinition Name="ReflowHeaderRow" Height="22" />
+      <RowDefinition Name="ReflowTextRow" Height="Auto" MinHeight="22" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" uiUtility:UIElementHelper.Palette="{Binding PRESENTATION_PALETTE, Source={x:Static theming:AppTheme.Active}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{Binding Slide.Index, StringFormat={}{0:0'.'}}" />
+      <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{Binding Slide.Source.SlideAction.Label.Text}" />
+      <commonControls:BorderlessPathButton Grid.Column="1" Margin="0,0,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" ContextMenuService.Placement="Bottom" PathHeight="12" PathType="DownArrow" PathWidth="12" ContextMenu="{Binding SlideTextContextMenu, ElementName=Self}" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" PreviewMouseDown="UIElement_OnPreviewMouseDown" />
+    </Grid>
+    <Border Grid.Row="1" ClipToBounds="True" Background="{Binding REFLOWBACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+      <commonControls:FormattedTextBox Name="FormattedTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoSizeHeight="True" RenderTextShadow="False" SpellCheckEnable="True" ActiveRunSettings="{Binding ActiveRunSettings, Mode=OneWayToSource}" CreateDefaultTextBoxCommand="{Binding CreateDefaultTextBoxCommand}" Document="{Binding Text, UpdateSourceTrigger=PropertyChanged}" FillBrushOverride="{Binding REFLOWTEXT, Source={x:Static theming:AppTheme.Active}}" IgnoreMargins="{Binding IgnoreMargins, ElementName=Self}" SelectionRanges="{Binding SelectionRanges, Mode=OneWayToSource}" StrikeBrushOverride="{Binding REFLOWTEXT, Source={x:Static theming:AppTheme.Active}}" UnderlineBrushOverride="{Binding REFLOWTEXT, Source={x:Static theming:AppTheme.Active}}" ZoomLevel="{Binding ZoomLevel, ElementName=Self}" CaretPositionChanged="OnCaretPositionChanged" LostFocus="FormattedTextBox_LostFocus" PreviewKeyDown="FormattedTextBox_PreviewKeyDown" PreviewMouseDown="UIElement_OnPreviewMouseDown" />
+    </Border>
+  </Grid>
+</UserControl>

@@ -1,0 +1,8 @@
+{
+    "description": "Applies a color negative filter.",
+    "name": "Color Invert",
+    "numPasses": 1,
+    "shaderFile": "ColorInvert",
+    "type": 0,
+    "uuid": "EDF55F11-1A1E-4BF3-9718-FA2D3731626D"
+}

@@ -1,0 +1,9 @@
+namespace Pro.Common.Win32;
+
+public enum MA
+{
+	ACTIVATE = 1,
+	ACTIVATEANDEAT,
+	NOACTIVATE,
+	NOACTIVATEANDEAT
+}

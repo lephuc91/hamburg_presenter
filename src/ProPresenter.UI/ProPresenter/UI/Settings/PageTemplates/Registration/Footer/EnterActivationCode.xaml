@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.Footer.EnterActivationCode" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.Footer" xmlns:markdown="clr-namespace:Pro.UI.Controls.Markdown;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" Width="260" Height="140" Background="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="thisBindingProxy" Data="{Binding RelativeSource={RelativeSource Self}}" />
+      <Style x:Key="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="uiUtility:UIElementHelper.CornerRadius" Value="4" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid uiUtility:UIElementHelper.FocusedElement="{Binding ElementName=ActivationCodeTextBlock}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Margin="0,25,0,0" HorizontalAlignment="Center" FontWeight="Bold" Text="{mex:Localized SETTINGS_ACCOUNT_ENTER_CONFIRMATION_CODE_WINDOW_title}" />
+    <Grid Row="1" Margin="25,10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBox Name="ActivationCodeTextBlock" Height="22" Margin="0,0,10,0" Text="{Binding ConfirmationCode, UpdateSourceTrigger=PropertyChanged}" />
+      <commonControls:HelpButton Name="HelpButton" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" HelpCommand="{Binding ToggleHelpPopUpCommand, RelativeSource={RelativeSource AncestorType={x:Type local:EnterActivationCode}}}" />
+    </Grid>
+    <Grid Row="3" Margin="25,0,25,20">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Button Margin="0,0,7.5,0" HorizontalAlignment="Stretch" Command="{Binding CancelCommand}" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" />
+      <Button Grid.Column="1" Margin="0" HorizontalAlignment="Stretch" IsDefault="True" Command="{Binding SubmitCommand}" Content="{mex:Localized SETTINGS_ACCOUNT_CONFIRMATION_CODE_SUBMIT_title}" />
+    </Grid>
+    <commonControls:AnchoredPopup StaysOpen="True" PlacementTarget="{Binding ElementName=HelpButton}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type commonControls:AnchoredPopup}}" TargetType="{x:Type commonControls:AnchoredPopup}">
+          <Setter Property="commonControls:AnchoredPopup.IsOpen" Value="False" />
+          <Style.Triggers>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Value="True" Binding="{Binding IsHelpPopUpShown, RelativeSource={RelativeSource AncestorType={x:Type local:EnterActivationCode}}}" />
+                <Condition Value="True" Binding="{Binding IsVisible}" />
+              </MultiDataTrigger.Conditions>
+              <MultiDataTrigger.Setters>
+                <Setter Property="commonControls:AnchoredPopup.IsOpen" Value="True" />
+              </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <markdown:MarkdownTextBlock Width="230" Padding="10" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" HyperlinkCommandsProvider="{Binding Source={StaticResource thisBindingProxy}}" Markdown="{mex:Localized SETTINGS_ACCOUNT_CONFIRMATION_CODE_HELP_labelhttps://www.accounts.renewedvision.com}" />
+    </commonControls:AnchoredPopup>
+  </Grid>
+</UserControl>

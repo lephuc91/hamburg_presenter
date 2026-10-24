@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary x:Class="Pro.UI.SharedResourceDictionary" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:themes="clr-namespace:Pro.UI.Themes" xmlns:ui="clr-namespace:Pro.UI">
+  <ResourceDictionary.MergedDictionaries>
+    <ui:SharedResourceDictionary Source="/Pro.UI;component/Themes/Colors.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <SolidColorBrush x:Key="CommonBrush_LightContent" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.BadgeActive}" Color="#157EFB" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.BadgeInactive}" Color="#8F8F8F " />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.Transparent}" Color="Transparent" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.Mask}" Color="White" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.WindowBackground}" Color="{StaticResource {x:Static themes:Colors.PrimaryDark}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.WindowBorder}" Color="{StaticResource {x:Static themes:Colors.PrimaryLight}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.CheckerboardPrimary}" Color="{StaticResource {x:Static themes:Colors.CheckerboardPrimary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.CheckerboardSecondary}" Color="{StaticResource {x:Static themes:Colors.CheckerboardSecondary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.CheckerboardLightPrimary}" Color="{StaticResource {x:Static themes:Colors.CheckerboardLightPrimary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.CheckerboardLightSecondary}" Color="{StaticResource {x:Static themes:Colors.CheckerboardLightSecondary}}" />
+  <DrawingBrush x:Key="{x:Static themes:Brushes.Checkerboard}" TileMode="Tile" Viewport="0,0,8,8" ViewportUnits="Absolute">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <GeometryDrawing Geometry="M0,0 L2,0 L2,2 L0,2" Brush="{StaticResource {x:Static themes:Brushes.CheckerboardLightPrimary}}" />
+        <GeometryDrawing Geometry="M0,1 L2,1 L2,2 L1,2 L1,0 L0,0" Brush="{StaticResource {x:Static themes:Brushes.CheckerboardLightSecondary}}" />
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+  <LinearGradientBrush x:Key="{x:Static themes:Brushes.SpecialTextFill}" MappingMode="Absolute" SpreadMethod="Repeat" StartPoint="0,0" EndPoint="30,30">
+    <GradientStop Offset="0" Color="{StaticResource {x:Static themes:Colors.SpecialTextFillSecondary}}" />
+    <GradientStop Offset="0.75" Color="{StaticResource {x:Static themes:Colors.SpecialTextFillSecondary}}" />
+    <GradientStop Offset="0.75" Color="{StaticResource {x:Static themes:Colors.SpecialTextFillPrimary}}" />
+    <GradientStop Offset="1" Color="{StaticResource {x:Static themes:Colors.SpecialTextFillPrimary}}" />
+    <Brush.Transform>
+      <RotateTransform Angle="-90" />
+    </Brush.Transform>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="{x:Static themes:Brushes.ScaleAndBlurPlaceholderFill}" MappingMode="Absolute" SpreadMethod="Repeat" StartPoint="0,0" EndPoint="15,15">
+    <GradientStop Offset="0" Color="Black" />
+    <GradientStop Offset="0.75" Color="Black" />
+    <GradientStop Offset="0.75" Color="#838425" />
+    <GradientStop Offset="1" Color="#838425" />
+    <Brush.Transform>
+      <RotateTransform Angle="-90" />
+    </Brush.Transform>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="{x:Static themes:Brushes.LargeScaleAndBlurPlaceholderFill}" MappingMode="Absolute" SpreadMethod="Repeat" StartPoint="0,0" EndPoint="30,30">
+    <GradientStop Offset="0" Color="Black" />
+    <GradientStop Offset="0.75" Color="Black" />
+    <GradientStop Offset="0.75" Color="#838425" />
+    <GradientStop Offset="1" Color="#838425" />
+    <Brush.Transform>
+      <RotateTransform Angle="-90" />
+    </Brush.Transform>
+  </LinearGradientBrush>
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.DropShadow}" Color="{StaticResource {x:Static themes:Colors.Shadow}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlBackground}" Color="{StaticResource {x:Static themes:Colors.PrimaryDark}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlAltBorder}" Color="{StaticResource {x:Static themes:Colors.Primary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlBorder}" Color="{StaticResource {x:Static themes:Colors.PrimaryLight}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlForeground}" Color="{StaticResource {x:Static themes:Colors.ContentPrimary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlForegroundSubdued}" Color="{StaticResource {x:Static themes:Colors.ContentSecondary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlDisabledForeground}" Opacity="0.4" Color="{StaticResource {x:Static themes:Colors.Primary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlMouseOver}" Opacity="0.7" Color="{StaticResource {x:Static themes:Colors.PrimaryLight}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlChecked}" Opacity="0.3" Color="{StaticResource {x:Static themes:Colors.PrimaryLight}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlDivider}" Opacity="0.3" Color="{StaticResource {x:Static themes:Colors.PrimaryLight}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ControlOverlay}" Opacity="0.2" Color="{StaticResource {x:Static themes:Colors.Overlay}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PopupBorder}" Opacity="0.3" Color="{StaticResource {x:Static themes:Colors.PrimaryLight}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PopupBackground}" Color="{StaticResource {x:Static themes:Colors.Primary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PopupForeground}" Color="{StaticResource {x:Static themes:Colors.ContentPrimary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderTrackBackground}" Opacity="0.66" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderFill}" Color="{StaticResource {x:Static themes:Colors.Secondary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderThumbBackground}" Opacity="0.4" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderThumbBorder}" Opacity="0.7" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderThumbHoverBackground}" Opacity="0.5" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderThumbHoverBorder}" Opacity="0.8" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderThumbPressedBackground}" Opacity="0.1" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderThumbPressedBorder}" Opacity="0.8" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderThumbDisabledBackground}" Opacity="0.85" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.SliderThumbDisabledBorder}" Opacity="0.4" Color="{StaticResource {x:Static themes:Colors.LightContent}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ToolTipBackground}" Opacity="0.7" Color="{StaticResource {x:Static themes:Colors.PrimaryDark}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ToolTipBorder}" Opacity="0.3" Color="{StaticResource {x:Static themes:Colors.Primary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.StateActive}" Color="{StaticResource {x:Static themes:Colors.StateActive}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.StateCaution}" Color="{StaticResource {x:Static themes:Colors.StateCaution}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.StateError}" Color="{StaticResource {x:Static themes:Colors.StateError}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineAudioMediaItem}" Color="#94CDA2" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineVisualMediaItem}" Color="#DA91DF" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineDefaultGroupItem}" Color="{StaticResource {x:Static themes:Colors.PrimaryLight}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineMediaRow}" Color="#463749" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineActionRow}" Color="#131215" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineAudioRow}" Color="#4094CD9E" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineCuesRow}" Color="#4098A9F2" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineTickMark}" Color="#7F7F7F" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelinePlayheadMarker}" Color="White" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.TimelineSectionBorder}" Color="{StaticResource {x:Static themes:Colors.Primary}}" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.ThumbnailUngroupedBrush}" Color="#707070" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberTrimmedBackground}" Color="#121212" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberEmptyBackground}" Color="#3E3E3E" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberDurationFill}" Color="#3E3E3E" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberElapsedFill}" Color="#BABABA" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberLoopedFill}" Color="#212121" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberPlayheadFill}" Color="#E5E5E5" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberInPointFill}" Color="#999999" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberOutPointFill}" Color="#999999" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.PlaybackScrubberLoopTick}" Color="#7F7F7F" />
+  <SolidColorBrush x:Key="{x:Static themes:Brushes.DefaultElementStroke}" Color="#7F7F7F" />
+  <DrawingBrush x:Key="{x:Static themes:Brushes.DottedLine}" Opacity="0.3" TileMode="Tile" Viewport="0,0,4,4" ViewportUnits="Absolute">
+    <DrawingBrush.Drawing>
+      <DrawingGroup>
+        <GeometryDrawing Brush="{StaticResource CommonBrush_LightContent}">
+          <GeometryDrawing.Geometry>
+            <GeometryGroup>
+              <RectangleGeometry Rect="0,0,50,50" />
+              <RectangleGeometry Rect="50,50,50,50" />
+            </GeometryGroup>
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+      </DrawingGroup>
+    </DrawingBrush.Drawing>
+  </DrawingBrush>
+  <LinearGradientBrush x:Key="{x:Static themes:Brushes.PendingMediaBackgroundGradient}" StartPoint="0 0" EndPoint="0.5 1.0">
+    <GradientStop Offset="0" Color="#2F2F2F" />
+    <GradientStop Offset="1" Color="#1E1E1E" />
+  </LinearGradientBrush>
+</ResourceDictionary>

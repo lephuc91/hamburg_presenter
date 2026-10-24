@@ -1,0 +1,10 @@
+{
+    "category": "Movements",
+    "description": "Flip",
+    "duration": 0.6,
+    "name": "Flip",
+    "numPasses": 1,
+    "shaderFile": "flip",
+    "type": 1,
+    "uuid": "82DE5438-1851-4011-929C-D59A292D9C79"
+}

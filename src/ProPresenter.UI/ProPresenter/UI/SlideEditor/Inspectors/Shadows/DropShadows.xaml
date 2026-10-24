@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Shadows.DropShadows" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:shadows="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Shadows;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="{x:Type commonControls:DoubleUpDown}" BasedOn="{StaticResource {x:Type commonControls:DoubleUpDown}}" TargetType="{x:Type commonControls:DoubleUpDown}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="60" />
+      </Style>
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="9" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:DoubleUpDown Grid.Row="0" Grid.Column="0" Margin="0,0,0,0" FormatString="F0" Maximum="100" Minimum="0" Value="{Binding Shadow.BlurRadius, Mode=TwoWay}" />
+      <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,5" HorizontalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_BLUR_label}" />
+      <commonControls:DoubleUpDown Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" FormatString="P0" Increment=".05" Maximum="1" Minimum="0" Value="{Binding Shadow.Opacity, Mode=TwoWay}" />
+      <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" HorizontalAlignment="Right" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_OPACITY_label}" />
+      <commonControls:ColorPicker Grid.Row="0" Grid.Column="2" Width="60" Height="22" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" SelectedColor="{Binding Shadow.Color, Mode=TwoWay}" />
+    </Grid>
+    <Grid Row="1" HorizontalAlignment="Right">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:RotatorUpDownPicker Grid.Row="0" Grid.Column="0" Height="22" Angle="{Binding Shadow.Angle, Mode=TwoWay}" />
+      <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_ANGLE_label}" />
+      <commonControls:DoubleUpDown Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" FormatString="F0" Maximum="100" Minimum="0" Value="{Binding Shadow.Offset, Mode=TwoWay}" />
+      <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_OFFSET_label}" />
+    </Grid>
+  </Grid>
+</UserControl>

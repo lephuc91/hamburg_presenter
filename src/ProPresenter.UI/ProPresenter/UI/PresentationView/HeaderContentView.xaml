@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.HeaderContentView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:chordUI="clr-namespace:ProPresenter.UI.Chords" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.PresentationView" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:presentation="clr-namespace:ProPresenter.DO.Presentation;assembly=ProPresenter.DO" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transitions="clr-namespace:ProPresenter.UI.Transitions" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:ui1="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self">
+  <FrameworkElement.Resources>
+    <ui1:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui1:SharedResourceDictionary Source="../CueIconResources.xaml" />
+        <ui1:SharedResourceDictionary Source="../SizeSelector/SizeSelectorResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="dataContext" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" FalseValue="{x:Static presentation:PresentationHeaderViewType.None}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:TimeSliceToStringConverter x:Key="TimeSliceToStringConverter" />
+      <local:IsCustomDurationConverter x:Key="IsCustomDurationConverter" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </ui1:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+      <commonControls:BorderlessButton Name="warningSignButton" Margin="3,0,0,0" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Visibility="{Binding HasAnyIssues, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Border Height="14">
+          <Image Source="../Resources/Icons/WarningIcon.png" StretchDirection="DownOnly">
+            <FrameworkElement.ToolTip>
+              <MultiBinding Converter="{di:DIMarkup {x:Type commonConverters:WarningTooltipConverter}}">
+                <Binding Converter="{StaticResource InvertedBooleanConverter}" Path="SizeIsConfigured" />
+                <Binding Path="HasMissingFonts" />
+              </MultiBinding>
+            </FrameworkElement.ToolTip>
+          </Image>
+        </Border>
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Name="warningContextMenu" Placement="Bottom" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}" Opened="WarningContextMenu_Opened" />
+        </FrameworkElement.ContextMenu>
+      </commonControls:BorderlessButton>
+      <Image Margin="3,0,2,0" DataContext="{Binding DocumentCue}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource CueIconStyle}" TargetType="{x:Type Image}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding ShowIcon, ElementName=self}" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger.Setters>
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Image>
+      <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{Binding HEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{Binding DocumentAction.Presentation.Name}" />
+      <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{Binding HEADERCONTENT, Source={x:Static theming:AppTheme.Active}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding DocumentAction.ActiveArrangement.IsMaster}">
+                <Setter Property="Text" Value="{Binding DocumentAction.ActiveArrangement.Name, StringFormat= - [ {0} ]}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+      <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{Binding CONTENTHELPER, Source={x:Static theming:AppTheme.Active}}" Text="{Binding DocumentAction.DocumentLoopTime, Converter={StaticResource TimeSliceToStringConverter}}" />
+    </StackPanel>
+    <StackPanel Grid.Column="1" Margin="0,0,8,0" HorizontalAlignment="Right" Orientation="Horizontal">
+      <ContentPresenter ContentTemplate="{Binding AdditionalContent, ElementName=self}" />
+      <Separator Margin="6,5" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding AdditionalContent, Converter={StaticResource InvertedValueToVisibilityConverter}, ElementName=self, ConverterParameter={x:Null}}" />
+      <commonControls:BorderlessButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True" IsEnabled="{Binding DocumentAction.Presentation.IsAvailable}" Visibility="{Binding DocumentAction.Presentation.SupportsChords, Converter={StaticResource ValueToVisibilityConverter}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <commonUtility:BindingProxy x:Key="keyButton" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <StackPanel Orientation="Horizontal">
+          <Path Data="M8.91,9.43 C9.18,9.43 9.41,9.65 9.41,9.92 C9.41,10.2 9.19,10.42 8.91,10.42 C8.91,10.42 8.91,10.42 8.91,10.42 C8.91,10.42 2.37,10.42 2.37,10.42 C2.08,10.42 1.87,10.2 1.87,9.92 C1.87,9.65 2.09,9.43 2.37,9.43 C2.37,9.43 2.37,9.43 2.37,9.43 C2.37,9.43 8.91,9.43 8.91,9.43 M8.91,6.82 C9.18,6.82 9.41,7.03 9.41,7.31 C9.41,7.58 9.19,7.81 8.91,7.81 C8.91,7.81 8.91,7.81 8.91,7.81 C8.91,7.81 2.37,7.81 2.37,7.81 C2.08,7.81 1.87,7.58 1.87,7.31 C1.87,7.03 2.09,6.82 2.37,6.82 C2.37,6.82 2.37,6.82 2.37,6.82 C2.37,6.82 8.91,6.82 8.91,6.82 M8.91,4.21 C9.18,4.21 9.41,4.43 9.41,4.71 C9.41,4.98 9.18,5.2 8.91,5.2 C8.91,5.2 8.91,5.2 8.91,5.2 C8.91,5.2 2.37,5.2 2.37,5.2 C2.09,5.2 1.87,4.98 1.87,4.71 C1.87,4.43 2.09,4.21 2.37,4.21 C2.37,4.21 2.37,4.21 2.37,4.21 C2.37,4.21 8.91,4.21 8.91,4.21 M10.95,16.24 C12.02,16.24 13.63,15.45 13.63,13.32 C13.63,13.32 13.63,6.62 13.63,6.62 C13.63,6.23 13.71,6.15 14.05,6.08 C14.05,6.08 17.4,5.34 17.4,5.34 C17.65,5.29 17.8,5.1 17.8,4.86 C17.8,4.86 17.8,2.11 17.8,2.11 C17.8,1.72 17.49,1.47 17.11,1.54 C17.11,1.54 13.35,2.36 13.35,2.36 C12.88,2.46 12.62,2.72 12.62,3.13 C12.62,3.13 12.64,11.28 12.64,11.28 C12.67,11.63 12.51,11.87 12.18,11.93 C12.18,11.93 11.02,12.18 11.02,12.18 C9.55,12.48 8.87,13.23 8.87,14.34 C8.87,15.46 9.73,16.24 10.95,16.24" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+          <TextBlock Text="{Binding DocumentAction.TargetKey}" />
+        </StackPanel>
+        <FrameworkElement.ContextMenu>
+          <ContextMenu>
+            <ItemsControl.ItemsSource>
+              <chordUI:KeySelectionMenuSource SelectedKey="{Binding Data.DocumentAction.TargetKey, Source={StaticResource keyButton}}" />
+            </ItemsControl.ItemsSource>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+      </commonControls:BorderlessButton>
+      <Separator Margin="6,5" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding DocumentAction.Presentation.SupportsChords, Converter={StaticResource ValueToVisibilityConverter}}" />
+      <commonControls:BorderlessButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True" IsEnabled="{Binding DocumentAction.Presentation.IsAvailable}" ToolTip="{mex:Localized PRESENTATION_HEADER_SLIDE_SHOW_tooltip}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+            <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SLIDESHOWBUTTON_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding DocumentAction.Presentation.SlideShowEnabled}">
+                <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding BORDERLESSBUTTON_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Margin="0,0,2,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text" Value="{Binding DocumentAction.Presentation.SlideShowDuration, StringFormat={}{0}s}" />
+                <Style.Triggers>
+                  <DataTrigger Value="False" Binding="{Binding DocumentAction.Presentation.SlideShowEnabled}">
+                    <Setter Property="Text" Value="" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+          <commonControls:ImageMask ImageSource="../Resources/Icons/Header/SlideShow.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+        </StackPanel>
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type system:Double}}">
+                  <MenuItem Command="{Binding Data.SetSlideShowCommand, Source={StaticResource dataContext}}" CommandParameter="{Binding}" Header="{Binding}">
+                    <HeaderedItemsControl.HeaderTemplate>
+                      <DataTemplate>
+                        <TextBlock Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding}" />
+                      </DataTemplate>
+                    </HeaderedItemsControl.HeaderTemplate>
+                    <FrameworkElement.Style>
+                      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                        <Style.Triggers>
+                          <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                              <Condition Value="True" Binding="{Binding Data.DocumentAction.Presentation.SlideShowEnabled, Source={StaticResource dataContext}}" />
+                              <Condition Value="True">
+                                <Condition.Binding>
+                                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                                    <Binding />
+                                    <Binding Path="Data.DocumentAction.Presentation.SlideShowDuration" Source="{StaticResource dataContext}" />
+                                  </MultiBinding>
+                                </Condition.Binding>
+                              </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="MenuItem.IsChecked" Value="True" />
+                          </MultiDataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </MenuItem>
+                </ItemContainerTemplate>
+                <CollectionViewSource x:Key="slideshowdurations" Source="{Binding Data.SlideShowDurations, Source={StaticResource dataContext}}" />
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+            <ItemsControl.ItemsSource>
+              <CompositeCollection>
+                <MenuItem Command="{Binding Data.RemoveSlideShowCommand, Source={StaticResource dataContext}}" CommandParameter="{Binding Data.DocumentAction, Source={StaticResource dataContext}}" Header="{mex:Localized GLOBAL_NONE}" IsChecked="{Binding Data.DocumentAction.Presentation.SlideShowEnabled, Source={StaticResource dataContext}, Converter={StaticResource InvertedBooleanConverter}}" />
+                <Separator />
+                <CollectionContainer Collection="{Binding Source={StaticResource slideshowdurations}}" />
+                <MenuItem Command="{Binding Data.SetCustomSlideShowCommand, Source={StaticResource dataContext}}" CommandParameter="{Binding Data.DocumentAction, Source={StaticResource dataContext}}" Header="{mex:Localized PRESENTATION_HEADER_SLIDE_SHOW_MENU_CUSTOM_title}">
+                  <MenuItem.IsChecked>
+                    <MultiBinding Converter="{StaticResource IsCustomDurationConverter}" Mode="OneWay">
+                      <Binding Path="Data.DocumentAction.Presentation.SlideShowDuration" Source="{StaticResource dataContext}" />
+                      <Binding Path="Data.SlideShowDurations" Source="{StaticResource dataContext}" />
+                    </MultiBinding>
+                  </MenuItem.IsChecked>
+                </MenuItem>
+              </CompositeCollection>
+            </ItemsControl.ItemsSource>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+      </commonControls:BorderlessButton>
+      <Separator Margin="6,5" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+      <commonControls:BorderlessToggleButton IsChecked="{Binding ActiveHeaderView, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static presentation:PresentationHeaderViewType.Notes}}" IsEnabled="{Binding DocumentAction.Presentation.IsAvailable}" ToolTip="{mex:Localized PRESENTATION_HEADER_NOTES_tooltip}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/Header/presentationHeaderNotes.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessToggleButton}}" />
+      </commonControls:BorderlessToggleButton>
+      <commonControls:BorderlessToggleButton Margin="8,0" IsChecked="{Binding ActiveHeaderView, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static presentation:PresentationHeaderViewType.Arrangements}}" IsEnabled="{Binding DocumentAction.Presentation.IsAvailable}" ToolTip="{mex:Localized PRESENTATION_HEADER_ARRANGEMENTS_tooltip}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/Header/presentationHeaderArrangement.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessToggleButton}}" />
+      </commonControls:BorderlessToggleButton>
+      <commonControls:BorderlessToggleButton IsChecked="{Binding ActiveHeaderView, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static presentation:PresentationHeaderViewType.Timeline}}" IsEnabled="{Binding DocumentAction.Presentation.IsAvailable}" ToolTip="{mex:Localized PRESENTATION_HEADER_TIMELINE_tooltip}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/Header/presentationHeaderTimeline.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessToggleButton}}" />
+      </commonControls:BorderlessToggleButton>
+      <Separator Margin="6,5" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+      <commonControls:BorderlessButton Height="20" Margin="0,0,8,0" VerticalAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" IsEnabled="{Binding DocumentAction.Presentation.IsAvailable}" ToolTip="{mex:Localized PRESENTATION_HEADER_DESTINATION_tooltip}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+            <Setter Property="Content">
+              <Setter.Value>
+                <commonControls:ImageMask ImageSource="../Resources/Icons/Header/headerTarget_noTarget.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+              </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+              <DataTrigger Value="Announcement" Binding="{Binding Data.DocumentAction.Destination, Source={StaticResource dataContext}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <Image Source="../Resources/Icons/Header/headerTarget_targetAnnouncement.png" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Placement="Bottom">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <DataTemplate x:Key="{DataTemplateKey {x:Type do:OutputDestination}}" DataType="{x:Type do:OutputDestination}">
+                  <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+                </DataTemplate>
+                <Style x:Key="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.Command" Value="{Binding Data.ChangeOutputDestinationCommand, Source={StaticResource dataContext}}" />
+                  <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                  <Setter Property="MenuItem.IsChecked">
+                    <Setter.Value>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding />
+                        <Binding Path="Data.DocumentAction.Destination" Source="{StaticResource dataContext}" />
+                      </MultiBinding>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+            <ItemsControl.ItemsSource>
+              <CompositeCollection>
+                <do:OutputDestination>Presentation</do:OutputDestination>
+                <do:OutputDestination>Announcement</do:OutputDestination>
+                <Separator />
+                <commonControls:RoutedMenuItem Command="{Binding ScreensMenu.EditLooks.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" />
+              </CompositeCollection>
+            </ItemsControl.ItemsSource>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+      </commonControls:BorderlessButton>
+      <transitions:ButtonSelector IsGlobalAllowed="True" SelectorButtonContentType="Short" IsEnabled="{Binding DocumentAction.Presentation.IsAvailable}" OutputController="{Binding OutputController}" SelectedTransition="{Binding DocumentAction.Presentation.SelectedTransition}" ToolTip="{mex:Localized PRESENTATION_HEADER_TRANSITION_tooltip}" TransitionHandler="{Binding TransitionHandler}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

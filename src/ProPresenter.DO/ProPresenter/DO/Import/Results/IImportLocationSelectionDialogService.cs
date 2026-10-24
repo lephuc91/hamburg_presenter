@@ -1,0 +1,8 @@
+namespace ProPresenter.DO.Import.Results;
+
+public interface IImportLocationSelectionDialogService
+{
+	ILibraryAndPlaylistDestinationSelection ShowImportLocationSelectionDialog(IImportProcess importProcess);
+
+	IPowerpointDestinationSelection ShowImportPowerpointSelectionDialog(IImportProcess importProcess);
+}

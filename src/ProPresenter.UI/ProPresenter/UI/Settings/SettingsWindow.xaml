@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Settings.SettingsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:propresenterUI="clr-namespace:ProPresenter.UI" xmlns:settingsVM="clr-namespace:ProPresenter.UI.ViewModels.Settings" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="settingsWindow" Width="740" Height="680" MinWidth="740" MinHeight="680" uiUtility:WindowHelper.CanOwnWindows="True" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.SendKeyEventsToMainWindow="True" uiUtility:WindowHelper.UseGlobalStyle="True" CanClose="True" CanMaximize="False" CanMinimize="True" RenderOptions.BitmapScalingMode="Fant" ResizeDirection="Vertical" ResizeMode="CanResizeWithGrip" ShowTitle="False" Style="{StaticResource {x:Type windowing:ChromedWindow}}" UseLayoutRounding="True" WindowStartupLocation="CenterOwner" Title="{mex:Localized SETTINGS_WINDOW_WINDOWS_title}" uiUtility:WindowHelper.HideOnClose="{Binding HideOnClose, RelativeSource={RelativeSource Self}}" Background="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}" ControlButtonPalette="{Binding CUEINSPECTOR_CONTROLBUTTON_PALETTE, Source={x:Static theming:AppTheme.Active}}" DataContext="{di:DIMarkup {x:Type settingsVM:ISettingsVM}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../SourceDetailListResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <ui:InterfaceDataTemplateSelector x:Key="PageTemplateSelector">
+        <ui:InterfaceDataTemplateSelector.TemplateDictionary>
+          <ResourceDictionary Source="PageTemplates/SettingsPageTemplates.xaml" />
+        </ui:InterfaceDataTemplateSelector.TemplateDictionary>
+      </ui:InterfaceDataTemplateSelector>
+      <ui:InterfaceDataTemplateSelector x:Key="ListItemTeplateSelector">
+        <ui:InterfaceDataTemplateSelector.TemplateDictionary>
+          <ResourceDictionary Source="ListItemTemplates/SettingsItemTemplates.xaml" />
+        </ui:InterfaceDataTemplateSelector.TemplateDictionary>
+      </ui:InterfaceDataTemplateSelector>
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+      <commonConverters:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:GroupedControl}" TargetType="{x:Type commonControls:GroupedControl}">
+        <Setter Property="commonControls:GroupedControl.GroupBackground" Value="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="commonControls:GroupedControl.SeparatorBackground" Value="{Binding BUTTON_DISABLED_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:ToggleSwitch}" BasedOn="{StaticResource {x:Type commonControls:ToggleSwitch}}" TargetType="{x:Type commonControls:ToggleSwitch}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <Style x:Key="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="uiUtility:UIElementHelper.CornerRadius" Value="4" />
+      </Style>
+      <Style x:Key="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="uiUtility:UIElementHelper.CornerRadius" Value="4" />
+      </Style>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <Style x:Key="SettingsListBoxItemContainerStyle" BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+        <Setter Property="commonControls:ListBoxItem.FocusOnContextMenuClose" Value="False" />
+        <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="200" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <local:SettingsListBox Grid.Column="0" HorizontalAlignment="Stretch" BorderThickness="0" DeselectOnLostFocus="True" ItemContainerStyle="{StaticResource SettingsListBoxItemContainerStyle}" ItemTemplateSelector="{StaticResource ListItemTeplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" ActiveItem="{Binding ActiveItem}" ItemsSource="{Binding Items}" SelectedListItem="{Binding SelectedItem, Mode=TwoWay}" Visibility="{Binding SearchVM.IsSearching, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+    <Grid Column="0" Background="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding SearchVM.IsSearching, Converter={StaticResource ValueToVisibilityConverter}}">
+      <local:SettingsSearchResultListBox HorizontalAlignment="Stretch" BorderThickness="0" DeselectOnLostFocus="True" ItemContainerStyle="{StaticResource SettingsListBoxItemContainerStyle}" ItemTemplateSelector="{StaticResource ListItemTeplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" ActiveItem="{Binding ActiveItem, Mode=TwoWay}" DataContext="{Binding SearchVM}" ItemsSource="{Binding SearchResults}" SelectedListItem="{Binding SelectedItem, Mode=TwoWay}" Visibility="{Binding SearchResults.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+      <TextBlock Margin="0,50,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextTrimming="None" TextWrapping="WrapWithOverflow" Text="{Binding SearchVM.SearchText, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=SETTINGS_SEARCH_RESULTS_EMPTY_message}" Visibility="{Binding SearchVM.SearchResults.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}" />
+    </Grid>
+    <commonControls:NonLeakingTemplateSelectingContentControl Grid.Column="1" ContentTemplateSelector="{StaticResource PageTemplateSelector}" Content="{Binding ActivePage}" />
+  </Grid>
+  <windowing:ChromedWindow.LeftContent>
+    <Grid Background="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="200" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <commonControls:SearchBox Height="22" Margin="5,10,5,10" HorizontalAlignment="Stretch" VerticalAlignment="Center" PlaceholderText="{mex:Localized SETTINGS_SEARCH_PLACEHOLDER_title}" Text="{Binding SearchVM.SearchText, Mode=TwoWay}" />
+      <Border Grid.Column="1" Background="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}">
+        <local:SettingsHeaderNavigation Margin="0,15,0,0" DataContext="{Binding NavigationVM}" />
+      </Border>
+    </Grid>
+  </windowing:ChromedWindow.LeftContent>
+  <windowing:ChromedWindow.RightContent>
+    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}" />
+  </windowing:ChromedWindow.RightContent>
+</windowing:ChromedWindow>

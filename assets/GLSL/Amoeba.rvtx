@@ -1,0 +1,23 @@
+{
+    "category": "Wipes",
+    "description": "Amoeba",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Amoeba",
+    "numPasses": 1,
+    "shaderFile": "Amoeba",
+    "type": 1,
+    "uuid": "B5E9AD29-DCEC-4AD2-A78D-3C49A101E1D2",
+    "variables": [
+        {
+            "name": "scale",
+            "label": "Scale",
+            "description": "Size of the spread",
+            "type": 1,
+            "min": [10, 0, 0, 0],
+            "max": [100, 20, 20, 20],
+            "defValue": [40, 10, 10, 10],
+            "value": [40, 10, 10, 10]
+        }
+    ]
+}

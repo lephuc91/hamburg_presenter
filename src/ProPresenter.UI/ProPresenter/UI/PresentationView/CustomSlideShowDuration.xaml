@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.CustomSlideShowDuration" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="customDuration" xmlns:presentationview="clr-namespace:ProPresenter.UI.PresentationView;assembly=ProPresenter.UI">
+  <Grid FocusManager.FocusedElement="{Binding ElementName=tbDuration}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_HEADER_SLIDE_SHOW_CUSTOM_label}" />
+    <commonControls:DoubleUpDown Name="tbDuration" Grid.Column="1" Width="40" Height="22" AutoSelectBehavior="OnFocus" Maximum="86400" Minimum="0" ShowButtonSpinner="False" Value="{Binding CustomDuration, ElementName=customDuration, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

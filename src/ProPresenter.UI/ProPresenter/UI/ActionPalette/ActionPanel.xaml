@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ActionPalette.ActionPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actions="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" xmlns:actionsDO="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.ActionPalette" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="self">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../ActionPalette/ActionPaletteItemStyle.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <Style x:Key="TitleStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,5" />
+      </Style>
+      <Style x:Key="{x:Type ItemsControl}" TargetType="{x:Type ItemsControl}">
+        <Setter Property="ItemTemplate">
+          <Setter.Value>
+            <DataTemplate>
+              <local:ActionPaletteItem />
+            </DataTemplate>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+          <Setter.Value>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel>
+    <TextBlock Style="{StaticResource TitleStyle}" Text="{mex:Localized ACTION_PALETTE_CLEAR_HEADER_title}" />
+    <ItemsControl>
+      <actions:ActionType>ClearGroup</actions:ActionType>
+      <actionsDO:ClearType>Audio</actionsDO:ClearType>
+      <actionsDO:ClearType>Background</actionsDO:ClearType>
+      <actionsDO:ClearType>LiveVideo</actionsDO:ClearType>
+      <actionsDO:ClearType>Props</actionsDO:ClearType>
+      <actionsDO:ClearType>Messages</actionsDO:ClearType>
+      <actionsDO:ClearType>Announcement</actionsDO:ClearType>
+      <actionsDO:ClearType>Slide</actionsDO:ClearType>
+    </ItemsControl>
+    <TextBlock Style="{StaticResource TitleStyle}" Text="{mex:Localized ACTION_PALETTE_MEDIA_HEADER_title}" />
+    <ItemsControl>
+      <media:MediaType>Image</media:MediaType>
+      <media:MediaType>Audio</media:MediaType>
+      <actions:ActionType>VisualPlaylist</actions:ActionType>
+      <actions:ActionType>AudioPlaylist</actions:ActionType>
+      <media:MediaType>LiveVideo</media:MediaType>
+      <actions:ActionType>AudioInput</actions:ActionType>
+    </ItemsControl>
+    <TextBlock Style="{StaticResource TitleStyle}" Text="{mex:Localized ACTION_PALETTE_INTERACTIVE_HEADER_title}" />
+    <ItemsControl>
+      <actions:ActionType>StageLayout</actions:ActionType>
+      <actions:ActionType>SlideDestination</actions:ActionType>
+      <actions:ActionType>Timer</actions:ActionType>
+      <actions:ActionType>Prop</actions:ActionType>
+      <actions:ActionType>AudienceLook</actions:ActionType>
+      <actions:ActionType>Message</actions:ActionType>
+      <actions:ActionType>Macro</actions:ActionType>
+      <actions:ActionType>Capture</actions:ActionType>
+    </ItemsControl>
+    <TextBlock Style="{StaticResource TitleStyle}" Text="{mex:Localized ACTION_PALETTE_ADVANCED_HEADER_title}" Visibility="{Binding ElementName=self, Path=Devices.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+    <ItemsControl Visibility="{Binding ElementName=self, Path=Devices.Count, Converter={StaticResource CountToVisibilityConverter}}">
+      <actions:ActionType>Communication</actions:ActionType>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

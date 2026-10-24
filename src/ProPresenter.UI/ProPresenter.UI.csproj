@@ -1,0 +1,1294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>ProPresenter.UI</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <UseWPF>True</UseWPF>
+    <TargetFramework>netcoreapp9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="resources\icons\search\lyrics.png" />
+    <None Remove="resources\icons\v.svg" />
+    <None Remove="resources\icons\q.svg" />
+    <None Remove="resources\icons\p.svg" />
+    <None Remove="resources\icons\s.svg" />
+    <None Remove="resources\icons\r.svg" />
+    <None Remove="resources\icons\preferences\preferencesadvanced-2x.png" />
+    <None Remove="resources\icons\y.svg" />
+    <None Remove="resources\icons\x.svg" />
+    <None Remove="resources\icons\z.svg" />
+    <None Remove="resources\icons\pc.png" />
+    <None Remove="resources\icons\cloudonboarding\cloudonboardinglocalworkspaces.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapepolygon-2x.png" />
+    <None Remove="resources\icons\actions\actionmessage.png" />
+    <None Remove="resources\icons\preferences\preferencesadvanced-3x.png" />
+    <None Remove="resources\icons\header\add.png" />
+    <None Remove="resources\icons\actions\clearvideoinput.png" />
+    <None Remove="resources\icons\actions\clearaudio.png" />
+    <None Remove="resources\icons\gridbutton.png" />
+    <None Remove="resources\icons\slideelements\slideelementimage-2x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeleft-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementimage-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementweb.png" />
+    <None Remove="resources\icons\slideelements\slideelementtext-2x.png" />
+    <None Remove="resources\icons\actions\actionmedia.png" />
+    <None Remove="resources\icons\header\headertarget_notarget.png" />
+    <None Remove="resources\icons\inspector-20assets\shape\lock\lock-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarplanningcenter.png" />
+    <None Remove="resources\icons\preferences\preferencesdevices.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeevenly-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementtext-3x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonvideoinput-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\shape\lock\lock-3x.png" />
+    <None Remove="resources\icons\saveicon.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_0.png" />
+    <None Remove="resources\icons\transitions\favoriteoff-3x.png" />
+    <None Remove="resources\icons\preferences\preferencesaudio-2x.png" />
+    <None Remove="resources\icons\transitions\grassytransitionimage.jpg" />
+    <None Remove="resources\icons\arrows\arrowdownleft.png" />
+    <None Remove="resources\icons\transitions\favoriteoff-2x.png" />
+    <None Remove="resources\icons\informationcentericon_32x32.png" />
+    <None Remove="resources\icons\webplaylisticon.png" />
+    <None Remove="resources\icons\preferences\preferencesaudio-3x.png" />
+    <None Remove="resources\icons\exclamation.svg" />
+    <None Remove="resources\icons\transportcontrols\gotoend_30-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementticker-3x.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_0.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonmessages-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementticker-2x.png" />
+    <None Remove="resources\icons\transportcontrols\stepbackward-2x.png" />
+    <None Remove="resources\icons\megaphone.svg" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorsoftloop-2x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonmessages-2x.png" />
+    <None Remove="resources\icons\preferences\input\clearthumbnail.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorsoftloop-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\text\baseline\subscript.png" />
+    <None Remove="resources\icons\telestratorpenicon.png" />
+    <None Remove="resources\icons\actions\actionmediaplaylist.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonprops-3x.png" />
+    <None Remove="resources\icons\calendar_showrecurrences.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_0-2x.png" />
+    <None Remove="resources\icons\inspector-20assets\flip\flipvertical-2x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonvideoinput-2x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonpresentationforeground.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonprops-2x.png" />
+    <None Remove="resources\icons\actions\actionpresentation.png" />
+    <None Remove="resources\icons\inspector-20assets\flip\flipvertical-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbareditor-3x.png" />
+    <None Remove="resources\icons\pco\pcomediaitem.png" />
+    <None Remove="resources\icons\inspector-20assets\build\transition-20placeholder-20icons\multipleselection.png" />
+    <None Remove="resources\icons\warningicon.png" />
+    <None Remove="resources\icons\0-20default.svg" />
+    <None Remove="resources\icons\maskicon.png" />
+    <None Remove="resources\icons\paperclip.svg" />
+    <None Remove="resources\icons\toolbar\toolbareditor-2x.png" />
+    <None Remove="resources\icons\add_folder.png" />
+    <None Remove="resources\icons\dollaricon.png" />
+    <None Remove="resources\icons\inspector-20assets\shape\lock\unlock.png" />
+    <None Remove="resources\icons\toolbar\toolbartextstyle.png" />
+    <None Remove="resources\icons\actions\actioncommunications.png" />
+    <None Remove="resources\icons\midiicon.png" />
+    <None Remove="resources\icons\footer\easy.png" />
+    <None Remove="resources\icons\transitions\trash-3x.png" />
+    <None Remove="resources\icons\telestratoreraseicon.png" />
+    <None Remove="resources\icons\spotlighthighlighted.png" />
+    <None Remove="resources\icons\newheadericon.png" />
+    <None Remove="resources\icons\actions\actionaudioplaylist.png" />
+    <None Remove="resources\icons\worddocicon.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangemiddle.png" />
+    <None Remove="resources\icons\inspector-20assets\text\chords\multitrackspill.png" />
+    <None Remove="resources\icons\targetgreen.png" />
+    <None Remove="resources\icons\edgeblend\edgeblendcurvequadratic.png" />
+    <None Remove="resources\icons\toolbar\toolbarpresentation.png" />
+    <None Remove="resources\icons\header\slideshow.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonannouncements-2x.png" />
+    <None Remove="resources\icons\heart.svg" />
+    <None Remove="resources\icons\inspector-20assets\headers\expanddown.png" />
+    <None Remove="resources\icons\proicon.png" />
+    <None Remove="resources\icons\actions\actionsocial.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonvideoinput.png" />
+    <None Remove="resources\icons\transportcontrols\pause-2x.png" />
+    <None Remove="resources\icons\actions\actionforegroundmedia.png" />
+    <None Remove="resources\icons\transportcontrols\stepforward-2x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonall-2x.png" />
+    <None Remove="resources\icons\actions\clearbackground.png" />
+    <None Remove="resources\icons\actions\actionlook.png" />
+    <None Remove="resources\icons\preferences\preferencesservices.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangevertically.png" />
+    <None Remove="resources\icons\cloud.svg" />
+    <None Remove="resources\icons\clearlayer\clearbuttonall-3x.png" />
+    <None Remove="resources\icons\modulesdockundock\modulesdockundock-2x.png" />
+    <None Remove="resources\icons\transitions\trash-2x.png" />
+    <None Remove="resources\icons\inspector-20assets\text\baseline\superscript.png" />
+    <None Remove="resources\icons\toolbar\toolbarmessages-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarstage-2x.png" />
+    <None Remove="resources\icons\modulesdockundock\modulesdockundock-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbarmessages-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\gradient\swapicon.png" />
+    <None Remove="resources\icons\arrows\arrowupleft.png" />
+    <None Remove="resources\icons\preferences\preferencesgeneral.png" />
+    <None Remove="resources\icons\toolbar\toolbarstage-3x.png" />
+    <None Remove="resources\icons\arrows\arrowright.png" />
+    <None Remove="resources\icons\transportcontrols\pause.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperhombus.png" />
+    <None Remove="resources\icons\preferences\preferencesgeneral-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarreflow.png" />
+    <None Remove="resources\icons\transitions\dissolve.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviornext.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_60-2x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonannouncements-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangebottom.png" />
+    <None Remove="resources\icons\preferences\preferencesgeneral-3x.png" />
+    <None Remove="resources\icons\preferences\preferencessync-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementweb-2x.png" />
+    <None Remove="resources\icons\preferences\preferencesadvanced.png" />
+    <None Remove="resources\icons\transitions\advanced-2x.png" />
+    <None Remove="resources\icons\dock.png" />
+    <None Remove="resources\icons\preferences\updates-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperoundedrect-2x.png" />
+    <None Remove="resources\icons\tutorials-2x.png" />
+    <None Remove="resources\icons\mediaoverlay\missingfileicon-3x.png" />
+    <None Remove="resources\icons\transitions\advanced-3x.png" />
+    <None Remove="resources\icons\supportfilesicon.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapearrow-3x.png" />
+    <None Remove="resources\icons\preferences\input\audioinput.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorstop-2x.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviornext-3x.png" />
+    <None Remove="resources\icons\capture\caution.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapearrow-2x.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorstop-3x.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviornext-2x.png" />
+    <None Remove="resources\icons\preferences\preferencesinput-2x.png" />
+    <None Remove="resources\icons\reset.png" />
+    <None Remove="resources\icons\slideelements\slideelementshape-2x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonaudio-3x.png" />
+    <None Remove="resources\icons\search\songselect.png" />
+    <None Remove="resources\icons\actions\clearslide.png" />
+    <None Remove="resources\icons\slideelements\slideelementshape-3x.png" />
+    <None Remove="resources\icons\softloopicon.png" />
+    <None Remove="resources\icons\actions\actionbackgroundmedia.png" />
+    <None Remove="resources\icons\targetorange.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonaudio-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarsearch-3x.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_90-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarmessages.png" />
+    <None Remove="resources\icons\transitions\rainbowtransition.jpg" />
+    <None Remove="resources\icons\preferences\preferencessync-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementvideoinput.png" />
+    <None Remove="resources\icons\networkicon.png" />
+    <None Remove="resources\icons\slideelements\slideelementweb-3x.png" />
+    <None Remove="resources\icons\transitions\cut.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_90.png" />
+    <None Remove="resources\icons\actions\clearannouncements.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperoundedrect-3x.png" />
+    <None Remove="resources\icons\preferences\preferencesgroups-2x.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_60.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_90-2x.png" />
+    <None Remove="resources\icons\video-20input.svg" />
+    <None Remove="resources\icons\preferences\preferencesgroups-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementvideo-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarfeedback.png" />
+    <None Remove="resources\icons\shuffle\off.png" />
+    <None Remove="resources\icons\footer\easy-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementvideo-3x.png" />
+    <None Remove="resources\icons\preferences\input\enabled.png" />
+    <None Remove="resources\icons\transitions\favoritemixed-3x.png" />
+    <None Remove="resources\icons\outline\mediaitem.png" />
+    <None Remove="resources\icons\footer\table-3x.png" />
+    <None Remove="resources\icons\transitions\favoritemixed-2x.png" />
+    <None Remove="resources\icons\header\collapse-3x.png" />
+    <None Remove="resources\icons\capture\error.png" />
+    <None Remove="resources\icons\transitions\dissolve-2x.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_0-2x.png" />
+    <None Remove="resources\icons\header\slideshow-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarsearch-2x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonfill-2x.png" />
+    <None Remove="resources\icons\ruler.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_30.png" />
+    <None Remove="resources\icons\flask.svg" />
+    <None Remove="resources\icons\checkerboardicon.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonfill-3x.png" />
+    <None Remove="resources\icons\preferences\preferencesscreens-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\flip\vertical.png" />
+    <None Remove="resources\icons\reset-2x.png" />
+    <None Remove="resources\icons\header\presentationheadertimeline.png" />
+    <None Remove="resources\icons\header\presentationheadernotes.png" />
+    <None Remove="resources\icons\preferences\preferencesscreens-2x.png" />
+    <None Remove="resources\icons\outline\collapseoutline.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_10.png" />
+    <None Remove="resources\icons\cloudonboarding\onboardingbackground.png" />
+    <None Remove="resources\icons\txtfileicon.png" />
+    <None Remove="resources\icons\outline\playlist\mediadownloads.png" />
+    <None Remove="resources\icons\footer\table.png" />
+    <None Remove="resources\icons\header\presentationheaderarrangement.png" />
+    <None Remove="resources\icons\outline\playlist\playing.png" />
+    <None Remove="resources\icons\timers\timercountdowntotime.png" />
+    <None Remove="resources\icons\calendar_showrecurrencesoff.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperhombus-2x.png" />
+    <None Remove="resources\icons\preferences\preferencesscreens.png" />
+    <None Remove="resources\icons\toolbar\toolbartheme.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperhombus-3x.png" />
+    <None Remove="resources\icons\pco\pcoserviceitem.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonpresentationbackground.png" />
+    <None Remove="resources\icons\header\presentationheadertimeline-3x.png" />
+    <None Remove="resources\icons\transportcontrols\jumpback_15-2x.png" />
+    <None Remove="resources\icons\capture\standard.png" />
+    <None Remove="resources\icons\pco\pcofolder.png" />
+    <None Remove="resources\icons\header\slideshow-3x.png" />
+    <None Remove="resources\icons\header\presentationheadertimeline-2x.png" />
+    <None Remove="resources\icons\outline\prooutlineaudiofxitem.png" />
+    <None Remove="resources\icons\leftarrow.png" />
+    <None Remove="resources\icons\templateicon_32x32.tif" />
+    <None Remove="resources\icons\cloudicon.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperoundedrect.png" />
+    <None Remove="resources\icons\inspector-20assets\headers\expandup.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonpresentationbackground-2x.png" />
+    <None Remove="resources\icons\actions\actionstageonly.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorloop.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonannouncements.png" />
+    <None Remove="resources\icons\preferences\input\on.png" />
+    <None Remove="resources\icons\outline\audioitem-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbarfeedback-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbarbible.png" />
+    <None Remove="resources\icons\toolbar\toolbarfeedback-2x.png" />
+    <None Remove="resources\icons\arrows\arrowleft.png" />
+    <None Remove="resources\icons\transitions\favoriteon-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapevector.png" />
+    <None Remove="resources\icons\actions\actionforegroundmedia-3x.png" />
+    <None Remove="resources\icons\facebook-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperectangle.png" />
+    <None Remove="resources\icons\transitions\favoriteon-2x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangetop.png" />
+    <None Remove="resources\icons\header\headertarget_targetannouncement-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbarmediabin.png" />
+    <None Remove="resources\icons\arrows\arrowcenter.png" />
+    <None Remove="resources\icons\sunglasses.svg" />
+    <None Remove="resources\icons\missingfile.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonprops.png" />
+    <None Remove="resources\icons\header\headertransition-3x.png" />
+    <None Remove="resources\icons\preferences\preferencessync.png" />
+    <None Remove="resources\icons\sun.svg" />
+    <None Remove="resources\icons\clearlayer\clearbuttonpresentationbackground-3x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonpresentationforeground-2x.png" />
+    <None Remove="resources\icons\inspector-20assets\text\alignment\verticalcontrol\bottom.png" />
+    <None Remove="resources\icons\cupcake.svg" />
+    <None Remove="resources\icons\slideelements\slideelementshapepolygon.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonpresentationforeground-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbartheme-2x.png" />
+    <None Remove="resources\icons\gearicon.png" />
+    <None Remove="resources\icons\customplaylisticon.png" />
+    <None Remove="resources\icons\playback\playbackcompletionfirst-3x.png" />
+    <None Remove="resources\icons\footer\grid.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeright.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonmessages.png" />
+    <None Remove="resources\icons\inspector-20assets\text\alignment\verticalcontrol\middle.png" />
+    <None Remove="resources\icons\preferences\input\selectthumbnail.png" />
+    <None Remove="resources\icons\actions\actionforegroundmedia-2x.png" />
+    <None Remove="resources\icons\preferences\input\inputlisten-2x.png" />
+    <None Remove="resources\icons\calendar_gotocurrent.png" />
+    <None Remove="resources\icons\toolbar\toolbarwebstore-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarwebstore.png" />
+    <None Remove="resources\icons\pco\pcoitem.png" />
+    <None Remove="resources\icons\recordbutton.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperectangle-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangebottom-3x.png" />
+    <None Remove="resources\icons\search\chords.png" />
+    <None Remove="resources\icons\flower.svg" />
+    <None Remove="resources\icons\preferences\preferencesgroups.png" />
+    <None Remove="resources\icons\timers\timerelapsedtime-2x.png" />
+    <None Remove="resources\icons\preferences\preferencesimport-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperectangle-2x.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_90.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangebottom-2x.png" />
+    <None Remove="resources\icons\timers\timerelapsedtime-3x.png" />
+    <None Remove="resources\icons\header\presentationheaderarrangement-2x.png" />
+    <None Remove="resources\icons\mediaoverlay\missingfileicon.png" />
+    <None Remove="resources\icons\eyewithslash.png" />
+    <None Remove="resources\icons\slideelements\slideelementtext.png" />
+    <None Remove="resources\icons\header\presentationheaderarrangement-3x.png" />
+    <None Remove="resources\icons\audio.svg" />
+    <None Remove="resources\icons\toolbar\toolbartheme-3x.png" />
+    <None Remove="resources\icons\actions\actionbackgroundmedia-3x.png" />
+    <None Remove="resources\icons\actions\clearprops.png" />
+    <None Remove="resources\icons\toolbar\toolbarprops-2x.png" />
+    <None Remove="resources\icons\playback\playbackcompletionfirst-2x.png" />
+    <None Remove="resources\icons\transitions\none.png" />
+    <None Remove="resources\icons\actions\actionbackgroundmedia-2x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeleft.png" />
+    <None Remove="resources\icons\inspector-20assets\shape\lock\lock.png" />
+    <None Remove="resources\icons\edgeblend\edgeblendcurvecubic.png" />
+    <None Remove="resources\icons\toolbar\toolbarprops-3x.png" />
+    <None Remove="resources\icons\timers\timercountdown.png" />
+    <None Remove="resources\icons\modulesdockundock\modulesdockundock.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorstop.png" />
+    <None Remove="resources\icons\ppticon.png" />
+    <None Remove="resources\icons\footer\grid-3x.png" />
+    <None Remove="resources\icons\noneicon.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_60-2x.png" />
+    <None Remove="resources\icons\rightarrow.png" />
+    <None Remove="resources\icons\toolbar\toolbarwebstore-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbartimers-2x.png" />
+    <None Remove="resources\icons\header\expand-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbartimers-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapetriangle.png" />
+    <None Remove="resources\icons\inspector-20assets\text\style\underline.png" />
+    <None Remove="resources\icons\timer.svg" />
+    <None Remove="resources\icons\toolbar\toolbarplanningcenter-2x.png" />
+    <None Remove="resources\icons\preferences\input\off.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangehorizontally-3x.png" />
+    <None Remove="resources\icons\macro.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorloop-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarplanningcenter-3x.png" />
+    <None Remove="resources\icons\preferences\input\videoinput.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_10.png" />
+    <None Remove="resources\icons\videoimagebinicon_32x32.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangehorizontally-2x.png" />
+    <None Remove="resources\icons\transitions\trash.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperighttriangle-2x.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorloop-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapestar-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperighttriangle-3x.png" />
+    <None Remove="resources\icons\transportcontrols\jumpback_15.png" />
+    <None Remove="resources\icons\footer\options.png" />
+    <None Remove="resources\icons\timers\timercountdown-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapestar-3x.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_30.png" />
+    <None Remove="resources\icons\timers\timerelapsedtime.png" />
+    <None Remove="resources\icons\blackfoldericon.png" />
+    <None Remove="resources\icons\inspector-20assets\shape\lock\unlock-2x.png" />
+    <None Remove="resources\icons\shuffle\on-3x.png" />
+    <None Remove="resources\icons\target.svg" />
+    <None Remove="resources\icons\inspector-20assets\text\style\italic.png" />
+    <None Remove="resources\icons\preferences\preferencesdevices-2x.png" />
+    <None Remove="resources\icons\preferences\preferencesnetwork.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_60.png" />
+    <None Remove="resources\icons\transitions\advanced.png" />
+    <None Remove="resources\icons\transportcontrols\stepbackward.png" />
+    <None Remove="resources\icons\slideelements\slideelementvideoinput-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbarprops.png" />
+    <None Remove="resources\icons\star.svg" />
+    <None Remove="resources\icons\inspector-20assets\text\style\advanced.png" />
+    <None Remove="resources\icons\actions\actionmediaplaylist-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapeellipse-2x.png" />
+    <None Remove="resources\icons\arrows\arrowdownright.png" />
+    <None Remove="resources\icons\bulb.svg" />
+    <None Remove="resources\icons\instagram-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshaperighttriangle.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeright-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapeellipse-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangevertically-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarstage.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangetop-3x.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonfill.png" />
+    <None Remove="resources\icons\timers\timercountdown-2x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeright-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangetop-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbareditor.png" />
+    <None Remove="resources\icons\inspector-20assets\shape\lock\unlock-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapedoublearrow-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapevector-3x.png" />
+    <None Remove="resources\icons\edgeblend\edgeblendcurvelinear.png" />
+    <None Remove="resources\icons\preferences\preferencesdevices-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapetriangle-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapevector-2x.png" />
+    <None Remove="resources\icons\transportcontrols\play-2x.png" />
+    <None Remove="resources\icons\timers\timercountdowntotime-2x.png" />
+    <None Remove="resources\icons\slideelements\slideelementvideoinput-2x.png" />
+    <None Remove="resources\icons\welcome\startcreating.png" />
+    <None Remove="resources\icons\cycleicon.png" />
+    <None Remove="resources\icons\timers\timercountdowntotime-3x.png" />
+    <None Remove="resources\icons\footer\options-3x.png" />
+    <None Remove="resources\icons\actions\clearmessages.png" />
+    <None Remove="resources\icons\slideelements\slideelementimage.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangevertically-3x.png" />
+    <None Remove="resources\icons\spotlight.png" />
+    <None Remove="resources\icons\transportcontrols\play.png" />
+    <None Remove="resources\icons\inspector-20assets\headers\headerremoveicon.png" />
+    <None Remove="resources\icons\hat.svg" />
+    <None Remove="resources\icons\welcome\appicon.png" />
+    <None Remove="resources\icons\slideelements\slideelementticker.png" />
+    <None Remove="resources\icons\transitions\favoritemixed.png" />
+    <None Remove="resources\icons\slideelements\slideelementvideo.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapedoublearrow-2x.png" />
+    <None Remove="resources\icons\linkicon.png" />
+    <None Remove="resources\icons\header\headertarget_notarget-3x.png" />
+    <None Remove="resources\icons\hashtag.svg" />
+    <None Remove="resources\icons\slideelements\slideelementshapetriangle-2x.png" />
+    <None Remove="resources\icons\glasses.svg" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_30-2x.png" />
+    <None Remove="resources\icons\shuffle\on.png" />
+    <None Remove="resources\icons\transportcontrols\jumpforward_15.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangehorizontally.png" />
+    <None Remove="resources\icons\arrows\arrowupright.png" />
+    <None Remove="resources\icons\transportcontrols\stepforward.png" />
+    <None Remove="resources\icons\header\headertarget_targetannouncement.png" />
+    <None Remove="resources\icons\inspector-20assets\build\transition-20placeholder-20icons\noselection.png" />
+    <None Remove="resources\icons\nonetransitionicon.png" />
+    <None Remove="resources\icons\preferences\preferencesnetwork-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbartimers.png" />
+    <None Remove="resources\icons\transitions\cieffectsicon.png" />
+    <None Remove="resources\icons\toolbar\toolbarreflow-2x.png" />
+    <None Remove="resources\icons\preferences\preferencesnetwork-3x.png" />
+    <None Remove="resources\icons\thumbnailview.png" />
+    <None Remove="resources\icons\arrow.svg" />
+    <None Remove="resources\icons\telestratorcircleicon.png" />
+    <None Remove="resources\icons\play.svg" />
+    <None Remove="resources\icons\preferences\input\inputlisten.png" />
+    <None Remove="resources\icons\eyewithslash-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapeellipse.png" />
+    <None Remove="resources\icons\playback\playbackcompletionfirst.png" />
+    <None Remove="resources\icons\inspector-20assets\flip\vertical-3x.png" />
+    <None Remove="resources\icons\message.svg" />
+    <None Remove="resources\icons\actions\actiontimer.png" />
+    <None Remove="resources\icons\inspector-20assets\flip\vertical-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarbible-3x.png" />
+    <None Remove="resources\icons\preferences\preferencesservices-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbartextstyle-2x.png" />
+    <None Remove="resources\icons\shuffle\off-3x.png" />
+    <None Remove="resources\icons\bell.svg" />
+    <None Remove="resources\icons\toolbar\toolbartextstyle-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\text\style\bold.png" />
+    <None Remove="resources\icons\transportcontrols\jumpforward_15-2x.png" />
+    <None Remove="resources\icons\header\expand.png" />
+    <None Remove="resources\icons\outline\playlist\calendar.png" />
+    <None Remove="resources\icons\toolbar\toolbarreflow-3x.png" />
+    <None Remove="resources\icons\playback\mediaplaybackbehaviorsoftloop.png" />
+    <None Remove="resources\icons\playlistitemaudio.png" />
+    <None Remove="resources\icons\transitions\mountain.jpg" />
+    <None Remove="resources\icons\preferences\preferencesaudio.png" />
+    <None Remove="resources\icons\actions\actionstage.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangecenter-2x.png" />
+    <None Remove="resources\icons\userforums-2x.png" />
+    <None Remove="resources\icons\transitions\oceantransition.jpg" />
+    <None Remove="resources\icons\inspector-20assets\text\alignment\verticalcontrol\top.png" />
+    <None Remove="resources\icons\guides.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapearrow.png" />
+    <None Remove="resources\icons\transportcontrols\gotobeginning_10-2x.png" />
+    <None Remove="resources\icons\toolbar\toolbarbible-2x.png" />
+    <None Remove="resources\icons\header\add-3x.png" />
+    <None Remove="resources\icons\header\presentationheadernotes-3x.png" />
+    <None Remove="resources\icons\preferences\preferencesservices-2x.png" />
+    <None Remove="resources\icons\garbagecan.png" />
+    <None Remove="resources\icons\header\presentationheadernotes-2x.png" />
+    <None Remove="resources\icons\search\automation.png" />
+    <None Remove="resources\icons\transitions\favoriteon.png" />
+    <None Remove="resources\icons\arrows\arrowup.png" />
+    <None Remove="resources\icons\registration\pop-up-background.png" />
+    <None Remove="resources\icons\transitions\favoriteoff.png" />
+    <None Remove="resources\icons\transportcontrols\gotoend_10-2x.png" />
+    <None Remove="resources\icons\print.png" />
+    <None Remove="resources\icons\slideelements\slideelementshape.png" />
+    <None Remove="resources\icons\actions\clearall.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapepolygon-3x.png" />
+    <None Remove="resources\icons\toolbar\toolbarmore.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangecenter.png" />
+    <None Remove="resources\icons\clearlayer\clearbuttonall.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeevenly.png" />
+    <None Remove="resources\icons\x-20clear.svg" />
+    <None Remove="resources\icons\outline\audioitem.png" />
+    <None Remove="resources\icons\inspector-20assets\flip\flipvertical.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangecenter-3x.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangemiddle-3x.png" />
+    <None Remove="resources\icons\disconnectedicon.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeleft-2x.png" />
+    <None Remove="resources\icons\twitter-2x.png" />
+    <None Remove="resources\icons\arrows\arrowdown.png" />
+    <None Remove="resources\icons\transitions\cut-2x.png" />
+    <None Remove="resources\icons\slide.svg" />
+    <None Remove="resources\icons\header\headertransition.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangemiddle-2x.png" />
+    <None Remove="resources\icons\transitions\cut-3x.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapedoublearrow.png" />
+    <None Remove="resources\icons\header\collapse.png" />
+    <None Remove="resources\icons\inspector-20assets\arrange\arrangeevenly-2x.png" />
+    <None Remove="resources\icons\telestratorlasericon.png" />
+    <None Remove="resources\icons\slideelements\slideelementshapestar.png" />
+    <None Remove="resources\icons\actions\actionprop.png" />
+    <None Remove="resources\icons\templateicon.png" />
+    <None Remove="resources\icons\5.svg" />
+    <None Remove="resources\icons\4.svg" />
+    <None Remove="resources\icons\7.svg" />
+    <None Remove="resources\icons\6.svg" />
+    <None Remove="resources\icons\1.svg" />
+    <None Remove="resources\icons\clearlayer\clearbuttonaudio.png" />
+    <None Remove="resources\icons\0.svg" />
+    <None Remove="resources\icons\3.svg" />
+    <None Remove="resources\icons\2.svg" />
+    <None Remove="resources\icons\toolbar\toolbarsearch.png" />
+    <None Remove="resources\icons\9.svg" />
+    <None Remove="resources\icons\8.svg" />
+    <None Remove="resources\icons\actions\actionaudioplaylist-2x.png" />
+    <None Remove="resources\icons\telestratorspoticon.png" />
+    <None Remove="resources\icons\inspector-20assets\headers\headeraddicon.png" />
+    <None Remove="resources\icons\e.svg" />
+    <None Remove="resources\icons\d.svg" />
+    <None Remove="resources\icons\g.svg" />
+    <None Remove="resources\icons\f.svg" />
+    <None Remove="resources\icons\a.svg" />
+    <None Remove="resources\icons\c.svg" />
+    <None Remove="resources\icons\b.svg" />
+    <None Remove="resources\icons\m.svg" />
+    <None Remove="resources\icons\l.svg" />
+    <None Remove="resources\icons\o.svg" />
+    <None Remove="resources\icons\n.svg" />
+    <None Remove="resources\icons\i.svg" />
+    <None Remove="resources\icons\h.svg" />
+    <None Remove="resources\icons\k.svg" />
+    <None Remove="resources\icons\j.svg" />
+    <None Remove="resources\icons\u.svg" />
+    <None Remove="resources\icons\t.svg" />
+    <None Remove="resources\icons\w.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.0-Default.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.0.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.1.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.2.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.3.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.4.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.5.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.6.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.7.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.8.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.9.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.A.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Arrow.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Audio.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.B.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Bell.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Bulb.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.C.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Cloud.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Cupcake.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.D.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.E.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Exclamation.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.F.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Flask.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Flower.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.G.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Glasses.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.H.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Hashtag.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Hat.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Heart.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.I.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.J.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.K.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.L.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.M.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Megaphone.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Message.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.N.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.O.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.P.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Paperclip.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Play.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Q.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.R.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.S.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Slide.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Star.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Sun.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Sunglasses.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.T.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Target.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Timer.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.U.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.V.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Video-Input.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.W.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.X-Clear.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.X.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Y.svg" />
+    <None Remove="ProPresenter.UI.Resources.Icons.Z.svg" />
+    <EmbeddedResource Include="resources\icons\search\lyrics.png" LogicalName="resources/icons/search/lyrics.png" />
+    <EmbeddedResource Include="resources\icons\v.svg" LogicalName="resources/icons/v.svg" />
+    <EmbeddedResource Include="resources\icons\q.svg" LogicalName="resources/icons/q.svg" />
+    <EmbeddedResource Include="resources\icons\p.svg" LogicalName="resources/icons/p.svg" />
+    <EmbeddedResource Include="resources\icons\s.svg" LogicalName="resources/icons/s.svg" />
+    <EmbeddedResource Include="resources\icons\r.svg" LogicalName="resources/icons/r.svg" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesadvanced-2x.png" LogicalName="resources/icons/preferences/preferencesadvanced@2x.png" />
+    <EmbeddedResource Include="resources\icons\y.svg" LogicalName="resources/icons/y.svg" />
+    <EmbeddedResource Include="resources\icons\x.svg" LogicalName="resources/icons/x.svg" />
+    <EmbeddedResource Include="resources\icons\z.svg" LogicalName="resources/icons/z.svg" />
+    <EmbeddedResource Include="resources\icons\pc.png" LogicalName="resources/icons/pc.png" />
+    <EmbeddedResource Include="resources\icons\cloudonboarding\cloudonboardinglocalworkspaces.png" LogicalName="resources/icons/cloudonboarding/cloudonboardinglocalworkspaces.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapepolygon-2x.png" LogicalName="resources/icons/slideelements/slideelementshapepolygon@2x.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionmessage.png" LogicalName="resources/icons/actions/actionmessage.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesadvanced-3x.png" LogicalName="resources/icons/preferences/preferencesadvanced@3x.png" />
+    <EmbeddedResource Include="resources\icons\header\add.png" LogicalName="resources/icons/header/add.png" />
+    <EmbeddedResource Include="resources\icons\actions\clearvideoinput.png" LogicalName="resources/icons/actions/clearvideoinput.png" />
+    <EmbeddedResource Include="resources\icons\actions\clearaudio.png" LogicalName="resources/icons/actions/clearaudio.png" />
+    <EmbeddedResource Include="resources\icons\gridbutton.png" LogicalName="resources/icons/gridbutton.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementimage-2x.png" LogicalName="resources/icons/slideelements/slideelementimage@2x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeleft-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeleft@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementimage-3x.png" LogicalName="resources/icons/slideelements/slideelementimage@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementweb.png" LogicalName="resources/icons/slideelements/slideelementweb.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementtext-2x.png" LogicalName="resources/icons/slideelements/slideelementtext@2x.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionmedia.png" LogicalName="resources/icons/actions/actionmedia.png" />
+    <EmbeddedResource Include="resources\icons\header\headertarget_notarget.png" LogicalName="resources/icons/header/headertarget_notarget.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\shape\lock\lock-2x.png" LogicalName="resources/icons/inspector%20assets/shape/lock/lock@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarplanningcenter.png" LogicalName="resources/icons/toolbar/toolbarplanningcenter.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesdevices.png" LogicalName="resources/icons/preferences/preferencesdevices.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeevenly-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeevenly@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementtext-3x.png" LogicalName="resources/icons/slideelements/slideelementtext@3x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonvideoinput-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonvideoinput@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\shape\lock\lock-3x.png" LogicalName="resources/icons/inspector%20assets/shape/lock/lock@3x.png" />
+    <EmbeddedResource Include="resources\icons\saveicon.png" LogicalName="resources/icons/saveicon.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_0.png" LogicalName="resources/icons/transportcontrols/gotobeginning_0.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoriteoff-3x.png" LogicalName="resources/icons/transitions/favoriteoff@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesaudio-2x.png" LogicalName="resources/icons/preferences/preferencesaudio@2x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\grassytransitionimage.jpg" LogicalName="resources/icons/transitions/grassytransitionimage.jpg" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowdownleft.png" LogicalName="resources/icons/arrows/arrowdownleft.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoriteoff-2x.png" LogicalName="resources/icons/transitions/favoriteoff@2x.png" />
+    <EmbeddedResource Include="resources\icons\informationcentericon_32x32.png" LogicalName="resources/icons/informationcentericon_32x32.png" />
+    <EmbeddedResource Include="resources\icons\webplaylisticon.png" LogicalName="resources/icons/webplaylisticon.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesaudio-3x.png" LogicalName="resources/icons/preferences/preferencesaudio@3x.png" />
+    <EmbeddedResource Include="resources\icons\exclamation.svg" LogicalName="resources/icons/exclamation.svg" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_30-2x.png" LogicalName="resources/icons/transportcontrols/gotoend_30@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementticker-3x.png" LogicalName="resources/icons/slideelements/slideelementticker@3x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_0.png" LogicalName="resources/icons/transportcontrols/gotoend_0.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonmessages-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonmessages@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementticker-2x.png" LogicalName="resources/icons/slideelements/slideelementticker@2x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\stepbackward-2x.png" LogicalName="resources/icons/transportcontrols/stepbackward@2x.png" />
+    <EmbeddedResource Include="resources\icons\megaphone.svg" LogicalName="resources/icons/megaphone.svg" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorsoftloop-2x.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorsoftloop@2x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonmessages-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonmessages@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\input\clearthumbnail.png" LogicalName="resources/icons/preferences/input/clearthumbnail.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorsoftloop-3x.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorsoftloop@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\baseline\subscript.png" LogicalName="resources/icons/inspector%20assets/text/baseline/subscript.png" />
+    <EmbeddedResource Include="resources\icons\telestratorpenicon.png" LogicalName="resources/icons/telestratorpenicon.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionmediaplaylist.png" LogicalName="resources/icons/actions/actionmediaplaylist.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonprops-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonprops@3x.png" />
+    <EmbeddedResource Include="resources\icons\calendar_showrecurrences.png" LogicalName="resources/icons/calendar_showrecurrences.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_0-2x.png" LogicalName="resources/icons/transportcontrols/gotoend_0@2x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\flip\flipvertical-2x.png" LogicalName="resources/icons/inspector%20assets/flip/flipvertical@2x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonvideoinput-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonvideoinput@2x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonpresentationforeground.png" LogicalName="resources/icons/clearlayer/clearbuttonpresentationforeground.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonprops-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonprops@2x.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionpresentation.png" LogicalName="resources/icons/actions/actionpresentation.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\flip\flipvertical-3x.png" LogicalName="resources/icons/inspector%20assets/flip/flipvertical@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbareditor-3x.png" LogicalName="resources/icons/toolbar/toolbareditor@3x.png" />
+    <EmbeddedResource Include="resources\icons\pco\pcomediaitem.png" LogicalName="resources/icons/pco/pcomediaitem.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\build\transition-20placeholder-20icons\multipleselection.png" LogicalName="resources/icons/inspector%20assets/build/transition%20placeholder%20icons/multipleselection.png" />
+    <EmbeddedResource Include="resources\icons\warningicon.png" LogicalName="resources/icons/warningicon.png" />
+    <EmbeddedResource Include="resources\icons\0-20default.svg" LogicalName="resources/icons/0%20default.svg" />
+    <EmbeddedResource Include="resources\icons\maskicon.png" LogicalName="resources/icons/maskicon.png" />
+    <EmbeddedResource Include="resources\icons\paperclip.svg" LogicalName="resources/icons/paperclip.svg" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbareditor-2x.png" LogicalName="resources/icons/toolbar/toolbareditor@2x.png" />
+    <EmbeddedResource Include="resources\icons\add_folder.png" LogicalName="resources/icons/add_folder.png" />
+    <EmbeddedResource Include="resources\icons\dollaricon.png" LogicalName="resources/icons/dollaricon.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\shape\lock\unlock.png" LogicalName="resources/icons/inspector%20assets/shape/lock/unlock.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartextstyle.png" LogicalName="resources/icons/toolbar/toolbartextstyle.png" />
+    <EmbeddedResource Include="resources\icons\actions\actioncommunications.png" LogicalName="resources/icons/actions/actioncommunications.png" />
+    <EmbeddedResource Include="resources\icons\midiicon.png" LogicalName="resources/icons/midiicon.png" />
+    <EmbeddedResource Include="resources\icons\footer\easy.png" LogicalName="resources/icons/footer/easy.png" />
+    <EmbeddedResource Include="resources\icons\transitions\trash-3x.png" LogicalName="resources/icons/transitions/trash@3x.png" />
+    <EmbeddedResource Include="resources\icons\telestratoreraseicon.png" LogicalName="resources/icons/telestratoreraseicon.png" />
+    <EmbeddedResource Include="resources\icons\spotlighthighlighted.png" LogicalName="resources/icons/spotlighthighlighted.png" />
+    <EmbeddedResource Include="resources\icons\newheadericon.png" LogicalName="resources/icons/newheadericon.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionaudioplaylist.png" LogicalName="resources/icons/actions/actionaudioplaylist.png" />
+    <EmbeddedResource Include="resources\icons\worddocicon.png" LogicalName="resources/icons/worddocicon.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangemiddle.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangemiddle.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\chords\multitrackspill.png" LogicalName="resources/icons/inspector%20assets/text/chords/multitrackspill.png" />
+    <EmbeddedResource Include="resources\icons\targetgreen.png" LogicalName="resources/icons/targetgreen.png" />
+    <EmbeddedResource Include="resources\icons\edgeblend\edgeblendcurvequadratic.png" LogicalName="resources/icons/edgeblend/edgeblendcurvequadratic.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarpresentation.png" LogicalName="resources/icons/toolbar/toolbarpresentation.png" />
+    <EmbeddedResource Include="resources\icons\header\slideshow.png" LogicalName="resources/icons/header/slideshow.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonannouncements-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonannouncements@2x.png" />
+    <EmbeddedResource Include="resources\icons\heart.svg" LogicalName="resources/icons/heart.svg" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\headers\expanddown.png" LogicalName="resources/icons/inspector%20assets/headers/expanddown.png" />
+    <EmbeddedResource Include="resources\icons\proicon.png" LogicalName="resources/icons/proicon.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionsocial.png" LogicalName="resources/icons/actions/actionsocial.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonvideoinput.png" LogicalName="resources/icons/clearlayer/clearbuttonvideoinput.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\pause-2x.png" LogicalName="resources/icons/transportcontrols/pause@2x.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionforegroundmedia.png" LogicalName="resources/icons/actions/actionforegroundmedia.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\stepforward-2x.png" LogicalName="resources/icons/transportcontrols/stepforward@2x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonall-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonall@2x.png" />
+    <EmbeddedResource Include="resources\icons\actions\clearbackground.png" LogicalName="resources/icons/actions/clearbackground.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionlook.png" LogicalName="resources/icons/actions/actionlook.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesservices.png" LogicalName="resources/icons/preferences/preferencesservices.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangevertically.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangevertically.png" />
+    <EmbeddedResource Include="resources\icons\cloud.svg" LogicalName="resources/icons/cloud.svg" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonall-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonall@3x.png" />
+    <EmbeddedResource Include="resources\icons\modulesdockundock\modulesdockundock-2x.png" LogicalName="resources/icons/modulesdockundock/modulesdockundock@2x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\trash-2x.png" LogicalName="resources/icons/transitions/trash@2x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\baseline\superscript.png" LogicalName="resources/icons/inspector%20assets/text/baseline/superscript.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarmessages-2x.png" LogicalName="resources/icons/toolbar/toolbarmessages@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarstage-2x.png" LogicalName="resources/icons/toolbar/toolbarstage@2x.png" />
+    <EmbeddedResource Include="resources\icons\modulesdockundock\modulesdockundock-3x.png" LogicalName="resources/icons/modulesdockundock/modulesdockundock@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarmessages-3x.png" LogicalName="resources/icons/toolbar/toolbarmessages@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\gradient\swapicon.png" LogicalName="resources/icons/inspector%20assets/gradient/swapicon.png" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowupleft.png" LogicalName="resources/icons/arrows/arrowupleft.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesgeneral.png" LogicalName="resources/icons/preferences/preferencesgeneral.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarstage-3x.png" LogicalName="resources/icons/toolbar/toolbarstage@3x.png" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowright.png" LogicalName="resources/icons/arrows/arrowright.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\pause.png" LogicalName="resources/icons/transportcontrols/pause.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperhombus.png" LogicalName="resources/icons/slideelements/slideelementshaperhombus.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesgeneral-2x.png" LogicalName="resources/icons/preferences/preferencesgeneral@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarreflow.png" LogicalName="resources/icons/toolbar/toolbarreflow.png" />
+    <EmbeddedResource Include="resources\icons\transitions\dissolve.png" LogicalName="resources/icons/transitions/dissolve.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviornext.png" LogicalName="resources/icons/playback/mediaplaybackbehaviornext.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_60-2x.png" LogicalName="resources/icons/transportcontrols/gotoend_60@2x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonannouncements-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonannouncements@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangebottom.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangebottom.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesgeneral-3x.png" LogicalName="resources/icons/preferences/preferencesgeneral@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencessync-2x.png" LogicalName="resources/icons/preferences/preferencessync@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementweb-2x.png" LogicalName="resources/icons/slideelements/slideelementweb@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesadvanced.png" LogicalName="resources/icons/preferences/preferencesadvanced.png" />
+    <EmbeddedResource Include="resources\icons\transitions\advanced-2x.png" LogicalName="resources/icons/transitions/advanced@2x.png" />
+    <EmbeddedResource Include="resources\icons\dock.png" LogicalName="resources/icons/dock.png" />
+    <EmbeddedResource Include="resources\icons\preferences\updates-2x.png" LogicalName="resources/icons/preferences/updates@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperoundedrect-2x.png" LogicalName="resources/icons/slideelements/slideelementshaperoundedrect@2x.png" />
+    <EmbeddedResource Include="resources\icons\tutorials-2x.png" LogicalName="resources/icons/tutorials@2x.png" />
+    <EmbeddedResource Include="resources\icons\mediaoverlay\missingfileicon-3x.png" LogicalName="resources/icons/mediaoverlay/missingfileicon@3x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\advanced-3x.png" LogicalName="resources/icons/transitions/advanced@3x.png" />
+    <EmbeddedResource Include="resources\icons\supportfilesicon.png" LogicalName="resources/icons/supportfilesicon.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapearrow-3x.png" LogicalName="resources/icons/slideelements/slideelementshapearrow@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\input\audioinput.png" LogicalName="resources/icons/preferences/input/audioinput.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorstop-2x.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorstop@2x.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviornext-3x.png" LogicalName="resources/icons/playback/mediaplaybackbehaviornext@3x.png" />
+    <EmbeddedResource Include="resources\icons\capture\caution.png" LogicalName="resources/icons/capture/caution.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapearrow-2x.png" LogicalName="resources/icons/slideelements/slideelementshapearrow@2x.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorstop-3x.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorstop@3x.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviornext-2x.png" LogicalName="resources/icons/playback/mediaplaybackbehaviornext@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesinput-2x.png" LogicalName="resources/icons/preferences/preferencesinput@2x.png" />
+    <EmbeddedResource Include="resources\icons\reset.png" LogicalName="resources/icons/reset.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshape-2x.png" LogicalName="resources/icons/slideelements/slideelementshape@2x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonaudio-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonaudio@3x.png" />
+    <EmbeddedResource Include="resources\icons\search\songselect.png" LogicalName="resources/icons/search/songselect.png" />
+    <EmbeddedResource Include="resources\icons\actions\clearslide.png" LogicalName="resources/icons/actions/clearslide.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshape-3x.png" LogicalName="resources/icons/slideelements/slideelementshape@3x.png" />
+    <EmbeddedResource Include="resources\icons\softloopicon.png" LogicalName="resources/icons/softloopicon.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionbackgroundmedia.png" LogicalName="resources/icons/actions/actionbackgroundmedia.png" />
+    <EmbeddedResource Include="resources\icons\targetorange.png" LogicalName="resources/icons/targetorange.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonaudio-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonaudio@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarsearch-3x.png" LogicalName="resources/icons/toolbar/toolbarsearch@3x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_90-2x.png" LogicalName="resources/icons/transportcontrols/gotobeginning_90@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarmessages.png" LogicalName="resources/icons/toolbar/toolbarmessages.png" />
+    <EmbeddedResource Include="resources\icons\transitions\rainbowtransition.jpg" LogicalName="resources/icons/transitions/rainbowtransition.jpg" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencessync-3x.png" LogicalName="resources/icons/preferences/preferencessync@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementvideoinput.png" LogicalName="resources/icons/slideelements/slideelementvideoinput.png" />
+    <EmbeddedResource Include="resources\icons\networkicon.png" LogicalName="resources/icons/networkicon.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementweb-3x.png" LogicalName="resources/icons/slideelements/slideelementweb@3x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\cut.png" LogicalName="resources/icons/transitions/cut.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_90.png" LogicalName="resources/icons/transportcontrols/gotoend_90.png" />
+    <EmbeddedResource Include="resources\icons\actions\clearannouncements.png" LogicalName="resources/icons/actions/clearannouncements.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperoundedrect-3x.png" LogicalName="resources/icons/slideelements/slideelementshaperoundedrect@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesgroups-2x.png" LogicalName="resources/icons/preferences/preferencesgroups@2x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_60.png" LogicalName="resources/icons/transportcontrols/gotoend_60.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_90-2x.png" LogicalName="resources/icons/transportcontrols/gotoend_90@2x.png" />
+    <EmbeddedResource Include="resources\icons\video-20input.svg" LogicalName="resources/icons/video%20input.svg" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesgroups-3x.png" LogicalName="resources/icons/preferences/preferencesgroups@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementvideo-2x.png" LogicalName="resources/icons/slideelements/slideelementvideo@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarfeedback.png" LogicalName="resources/icons/toolbar/toolbarfeedback.png" />
+    <EmbeddedResource Include="resources\icons\shuffle\off.png" LogicalName="resources/icons/shuffle/off.png" />
+    <EmbeddedResource Include="resources\icons\footer\easy-3x.png" LogicalName="resources/icons/footer/easy@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementvideo-3x.png" LogicalName="resources/icons/slideelements/slideelementvideo@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\input\enabled.png" LogicalName="resources/icons/preferences/input/enabled.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoritemixed-3x.png" LogicalName="resources/icons/transitions/favoritemixed@3x.png" />
+    <EmbeddedResource Include="resources\icons\outline\mediaitem.png" LogicalName="resources/icons/outline/mediaitem.png" />
+    <EmbeddedResource Include="resources\icons\footer\table-3x.png" LogicalName="resources/icons/footer/table@3x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoritemixed-2x.png" LogicalName="resources/icons/transitions/favoritemixed@2x.png" />
+    <EmbeddedResource Include="resources\icons\header\collapse-3x.png" LogicalName="resources/icons/header/collapse@3x.png" />
+    <EmbeddedResource Include="resources\icons\capture\error.png" LogicalName="resources/icons/capture/error.png" />
+    <EmbeddedResource Include="resources\icons\transitions\dissolve-2x.png" LogicalName="resources/icons/transitions/dissolve@2x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_0-2x.png" LogicalName="resources/icons/transportcontrols/gotobeginning_0@2x.png" />
+    <EmbeddedResource Include="resources\icons\header\slideshow-2x.png" LogicalName="resources/icons/header/slideshow@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarsearch-2x.png" LogicalName="resources/icons/toolbar/toolbarsearch@2x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonfill-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonfill@2x.png" />
+    <EmbeddedResource Include="resources\icons\ruler.png" LogicalName="resources/icons/ruler.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_30.png" LogicalName="resources/icons/transportcontrols/gotoend_30.png" />
+    <EmbeddedResource Include="resources\icons\flask.svg" LogicalName="resources/icons/flask.svg" />
+    <EmbeddedResource Include="resources\icons\checkerboardicon.png" LogicalName="resources/icons/checkerboardicon.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonfill-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonfill@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesscreens-3x.png" LogicalName="resources/icons/preferences/preferencesscreens@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\flip\vertical.png" LogicalName="resources/icons/inspector%20assets/flip/vertical.png" />
+    <EmbeddedResource Include="resources\icons\reset-2x.png" LogicalName="resources/icons/reset@2x.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheadertimeline.png" LogicalName="resources/icons/header/presentationheadertimeline.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheadernotes.png" LogicalName="resources/icons/header/presentationheadernotes.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesscreens-2x.png" LogicalName="resources/icons/preferences/preferencesscreens@2x.png" />
+    <EmbeddedResource Include="resources\icons\outline\collapseoutline.png" LogicalName="resources/icons/outline/collapseoutline.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_10.png" LogicalName="resources/icons/transportcontrols/gotoend_10.png" />
+    <EmbeddedResource Include="resources\icons\cloudonboarding\onboardingbackground.png" LogicalName="resources/icons/cloudonboarding/onboardingbackground.png" />
+    <EmbeddedResource Include="resources\icons\txtfileicon.png" LogicalName="resources/icons/txtfileicon.png" />
+    <EmbeddedResource Include="resources\icons\outline\playlist\mediadownloads.png" LogicalName="resources/icons/outline/playlist/mediadownloads.png" />
+    <EmbeddedResource Include="resources\icons\footer\table.png" LogicalName="resources/icons/footer/table.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheaderarrangement.png" LogicalName="resources/icons/header/presentationheaderarrangement.png" />
+    <EmbeddedResource Include="resources\icons\outline\playlist\playing.png" LogicalName="resources/icons/outline/playlist/playing.png" />
+    <EmbeddedResource Include="resources\icons\timers\timercountdowntotime.png" LogicalName="resources/icons/timers/timercountdowntotime.png" />
+    <EmbeddedResource Include="resources\icons\calendar_showrecurrencesoff.png" LogicalName="resources/icons/calendar_showrecurrencesoff.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperhombus-2x.png" LogicalName="resources/icons/slideelements/slideelementshaperhombus@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesscreens.png" LogicalName="resources/icons/preferences/preferencesscreens.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartheme.png" LogicalName="resources/icons/toolbar/toolbartheme.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperhombus-3x.png" LogicalName="resources/icons/slideelements/slideelementshaperhombus@3x.png" />
+    <EmbeddedResource Include="resources\icons\pco\pcoserviceitem.png" LogicalName="resources/icons/pco/pcoserviceitem.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonpresentationbackground.png" LogicalName="resources/icons/clearlayer/clearbuttonpresentationbackground.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheadertimeline-3x.png" LogicalName="resources/icons/header/presentationheadertimeline@3x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\jumpback_15-2x.png" LogicalName="resources/icons/transportcontrols/jumpback_15@2x.png" />
+    <EmbeddedResource Include="resources\icons\capture\standard.png" LogicalName="resources/icons/capture/standard.png" />
+    <EmbeddedResource Include="resources\icons\pco\pcofolder.png" LogicalName="resources/icons/pco/pcofolder.png" />
+    <EmbeddedResource Include="resources\icons\header\slideshow-3x.png" LogicalName="resources/icons/header/slideshow@3x.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheadertimeline-2x.png" LogicalName="resources/icons/header/presentationheadertimeline@2x.png" />
+    <EmbeddedResource Include="resources\icons\outline\prooutlineaudiofxitem.png" LogicalName="resources/icons/outline/prooutlineaudiofxitem.png" />
+    <EmbeddedResource Include="resources\icons\leftarrow.png" LogicalName="resources/icons/leftarrow.png" />
+    <EmbeddedResource Include="resources\icons\templateicon_32x32.tif" LogicalName="resources/icons/templateicon_32x32.tif" />
+    <EmbeddedResource Include="resources\icons\cloudicon.png" LogicalName="resources/icons/cloudicon.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperoundedrect.png" LogicalName="resources/icons/slideelements/slideelementshaperoundedrect.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\headers\expandup.png" LogicalName="resources/icons/inspector%20assets/headers/expandup.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonpresentationbackground-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonpresentationbackground@2x.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionstageonly.png" LogicalName="resources/icons/actions/actionstageonly.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorloop.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorloop.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonannouncements.png" LogicalName="resources/icons/clearlayer/clearbuttonannouncements.png" />
+    <EmbeddedResource Include="resources\icons\preferences\input\on.png" LogicalName="resources/icons/preferences/input/on.png" />
+    <EmbeddedResource Include="resources\icons\outline\audioitem-3x.png" LogicalName="resources/icons/outline/audioitem@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarfeedback-3x.png" LogicalName="resources/icons/toolbar/toolbarfeedback@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarbible.png" LogicalName="resources/icons/toolbar/toolbarbible.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarfeedback-2x.png" LogicalName="resources/icons/toolbar/toolbarfeedback@2x.png" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowleft.png" LogicalName="resources/icons/arrows/arrowleft.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoriteon-3x.png" LogicalName="resources/icons/transitions/favoriteon@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapevector.png" LogicalName="resources/icons/slideelements/slideelementshapevector.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionforegroundmedia-3x.png" LogicalName="resources/icons/actions/actionforegroundmedia@3x.png" />
+    <EmbeddedResource Include="resources\icons\facebook-2x.png" LogicalName="resources/icons/facebook@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperectangle.png" LogicalName="resources/icons/slideelements/slideelementshaperectangle.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoriteon-2x.png" LogicalName="resources/icons/transitions/favoriteon@2x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangetop.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangetop.png" />
+    <EmbeddedResource Include="resources\icons\header\headertarget_targetannouncement-3x.png" LogicalName="resources/icons/header/headertarget_targetannouncement@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarmediabin.png" LogicalName="resources/icons/toolbar/toolbarmediabin.png" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowcenter.png" LogicalName="resources/icons/arrows/arrowcenter.png" />
+    <EmbeddedResource Include="resources\icons\sunglasses.svg" LogicalName="resources/icons/sunglasses.svg" />
+    <EmbeddedResource Include="resources\icons\missingfile.png" LogicalName="resources/icons/missingfile.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonprops.png" LogicalName="resources/icons/clearlayer/clearbuttonprops.png" />
+    <EmbeddedResource Include="resources\icons\header\headertransition-3x.png" LogicalName="resources/icons/header/headertransition@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencessync.png" LogicalName="resources/icons/preferences/preferencessync.png" />
+    <EmbeddedResource Include="resources\icons\sun.svg" LogicalName="resources/icons/sun.svg" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonpresentationbackground-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonpresentationbackground@3x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonpresentationforeground-2x.png" LogicalName="resources/icons/clearlayer/clearbuttonpresentationforeground@2x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\alignment\verticalcontrol\bottom.png" LogicalName="resources/icons/inspector%20assets/text/alignment/verticalcontrol/bottom.png" />
+    <EmbeddedResource Include="resources\icons\cupcake.svg" LogicalName="resources/icons/cupcake.svg" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapepolygon.png" LogicalName="resources/icons/slideelements/slideelementshapepolygon.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonpresentationforeground-3x.png" LogicalName="resources/icons/clearlayer/clearbuttonpresentationforeground@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartheme-2x.png" LogicalName="resources/icons/toolbar/toolbartheme@2x.png" />
+    <EmbeddedResource Include="resources\icons\gearicon.png" LogicalName="resources/icons/gearicon.png" />
+    <EmbeddedResource Include="resources\icons\customplaylisticon.png" LogicalName="resources/icons/customplaylisticon.png" />
+    <EmbeddedResource Include="resources\icons\playback\playbackcompletionfirst-3x.png" LogicalName="resources/icons/playback/playbackcompletionfirst@3x.png" />
+    <EmbeddedResource Include="resources\icons\footer\grid.png" LogicalName="resources/icons/footer/grid.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeright.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeright.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonmessages.png" LogicalName="resources/icons/clearlayer/clearbuttonmessages.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\alignment\verticalcontrol\middle.png" LogicalName="resources/icons/inspector%20assets/text/alignment/verticalcontrol/middle.png" />
+    <EmbeddedResource Include="resources\icons\preferences\input\selectthumbnail.png" LogicalName="resources/icons/preferences/input/selectthumbnail.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionforegroundmedia-2x.png" LogicalName="resources/icons/actions/actionforegroundmedia@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\input\inputlisten-2x.png" LogicalName="resources/icons/preferences/input/inputlisten@2x.png" />
+    <EmbeddedResource Include="resources\icons\calendar_gotocurrent.png" LogicalName="resources/icons/calendar_gotocurrent.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarwebstore-2x.png" LogicalName="resources/icons/toolbar/toolbarwebstore@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarwebstore.png" LogicalName="resources/icons/toolbar/toolbarwebstore.png" />
+    <EmbeddedResource Include="resources\icons\pco\pcoitem.png" LogicalName="resources/icons/pco/pcoitem.png" />
+    <EmbeddedResource Include="resources\icons\recordbutton.png" LogicalName="resources/icons/recordbutton.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperectangle-3x.png" LogicalName="resources/icons/slideelements/slideelementshaperectangle@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangebottom-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangebottom@3x.png" />
+    <EmbeddedResource Include="resources\icons\search\chords.png" LogicalName="resources/icons/search/chords.png" />
+    <EmbeddedResource Include="resources\icons\flower.svg" LogicalName="resources/icons/flower.svg" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesgroups.png" LogicalName="resources/icons/preferences/preferencesgroups.png" />
+    <EmbeddedResource Include="resources\icons\timers\timerelapsedtime-2x.png" LogicalName="resources/icons/timers/timerelapsedtime@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesimport-2x.png" LogicalName="resources/icons/preferences/preferencesimport@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperectangle-2x.png" LogicalName="resources/icons/slideelements/slideelementshaperectangle@2x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_90.png" LogicalName="resources/icons/transportcontrols/gotobeginning_90.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangebottom-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangebottom@2x.png" />
+    <EmbeddedResource Include="resources\icons\timers\timerelapsedtime-3x.png" LogicalName="resources/icons/timers/timerelapsedtime@3x.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheaderarrangement-2x.png" LogicalName="resources/icons/header/presentationheaderarrangement@2x.png" />
+    <EmbeddedResource Include="resources\icons\mediaoverlay\missingfileicon.png" LogicalName="resources/icons/mediaoverlay/missingfileicon.png" />
+    <EmbeddedResource Include="resources\icons\eyewithslash.png" LogicalName="resources/icons/eyewithslash.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementtext.png" LogicalName="resources/icons/slideelements/slideelementtext.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheaderarrangement-3x.png" LogicalName="resources/icons/header/presentationheaderarrangement@3x.png" />
+    <EmbeddedResource Include="resources\icons\audio.svg" LogicalName="resources/icons/audio.svg" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartheme-3x.png" LogicalName="resources/icons/toolbar/toolbartheme@3x.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionbackgroundmedia-3x.png" LogicalName="resources/icons/actions/actionbackgroundmedia@3x.png" />
+    <EmbeddedResource Include="resources\icons\actions\clearprops.png" LogicalName="resources/icons/actions/clearprops.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarprops-2x.png" LogicalName="resources/icons/toolbar/toolbarprops@2x.png" />
+    <EmbeddedResource Include="resources\icons\playback\playbackcompletionfirst-2x.png" LogicalName="resources/icons/playback/playbackcompletionfirst@2x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\none.png" LogicalName="resources/icons/transitions/none.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionbackgroundmedia-2x.png" LogicalName="resources/icons/actions/actionbackgroundmedia@2x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeleft.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeleft.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\shape\lock\lock.png" LogicalName="resources/icons/inspector%20assets/shape/lock/lock.png" />
+    <EmbeddedResource Include="resources\icons\edgeblend\edgeblendcurvecubic.png" LogicalName="resources/icons/edgeblend/edgeblendcurvecubic.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarprops-3x.png" LogicalName="resources/icons/toolbar/toolbarprops@3x.png" />
+    <EmbeddedResource Include="resources\icons\timers\timercountdown.png" LogicalName="resources/icons/timers/timercountdown.png" />
+    <EmbeddedResource Include="resources\icons\modulesdockundock\modulesdockundock.png" LogicalName="resources/icons/modulesdockundock/modulesdockundock.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorstop.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorstop.png" />
+    <EmbeddedResource Include="resources\icons\ppticon.png" LogicalName="resources/icons/ppticon.png" />
+    <EmbeddedResource Include="resources\icons\footer\grid-3x.png" LogicalName="resources/icons/footer/grid@3x.png" />
+    <EmbeddedResource Include="resources\icons\noneicon.png" LogicalName="resources/icons/noneicon.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_60-2x.png" LogicalName="resources/icons/transportcontrols/gotobeginning_60@2x.png" />
+    <EmbeddedResource Include="resources\icons\rightarrow.png" LogicalName="resources/icons/rightarrow.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarwebstore-3x.png" LogicalName="resources/icons/toolbar/toolbarwebstore@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartimers-2x.png" LogicalName="resources/icons/toolbar/toolbartimers@2x.png" />
+    <EmbeddedResource Include="resources\icons\header\expand-3x.png" LogicalName="resources/icons/header/expand@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartimers-3x.png" LogicalName="resources/icons/toolbar/toolbartimers@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapetriangle.png" LogicalName="resources/icons/slideelements/slideelementshapetriangle.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\style\underline.png" LogicalName="resources/icons/inspector%20assets/text/style/underline.png" />
+    <EmbeddedResource Include="resources\icons\timer.svg" LogicalName="resources/icons/timer.svg" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarplanningcenter-2x.png" LogicalName="resources/icons/toolbar/toolbarplanningcenter@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\input\off.png" LogicalName="resources/icons/preferences/input/off.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangehorizontally-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangehorizontally@3x.png" />
+    <EmbeddedResource Include="resources\icons\macro.png" LogicalName="resources/icons/macro.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorloop-2x.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorloop@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarplanningcenter-3x.png" LogicalName="resources/icons/toolbar/toolbarplanningcenter@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\input\videoinput.png" LogicalName="resources/icons/preferences/input/videoinput.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_10.png" LogicalName="resources/icons/transportcontrols/gotobeginning_10.png" />
+    <EmbeddedResource Include="resources\icons\videoimagebinicon_32x32.png" LogicalName="resources/icons/videoimagebinicon_32x32.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangehorizontally-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangehorizontally@2x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\trash.png" LogicalName="resources/icons/transitions/trash.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperighttriangle-2x.png" LogicalName="resources/icons/slideelements/slideelementshaperighttriangle@2x.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorloop-3x.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorloop@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapestar-2x.png" LogicalName="resources/icons/slideelements/slideelementshapestar@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperighttriangle-3x.png" LogicalName="resources/icons/slideelements/slideelementshaperighttriangle@3x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\jumpback_15.png" LogicalName="resources/icons/transportcontrols/jumpback_15.png" />
+    <EmbeddedResource Include="resources\icons\footer\options.png" LogicalName="resources/icons/footer/options.png" />
+    <EmbeddedResource Include="resources\icons\timers\timercountdown-3x.png" LogicalName="resources/icons/timers/timercountdown@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapestar-3x.png" LogicalName="resources/icons/slideelements/slideelementshapestar@3x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_30.png" LogicalName="resources/icons/transportcontrols/gotobeginning_30.png" />
+    <EmbeddedResource Include="resources\icons\timers\timerelapsedtime.png" LogicalName="resources/icons/timers/timerelapsedtime.png" />
+    <EmbeddedResource Include="resources\icons\blackfoldericon.png" LogicalName="resources/icons/blackfoldericon.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\shape\lock\unlock-2x.png" LogicalName="resources/icons/inspector%20assets/shape/lock/unlock@2x.png" />
+    <EmbeddedResource Include="resources\icons\shuffle\on-3x.png" LogicalName="resources/icons/shuffle/on@3x.png" />
+    <EmbeddedResource Include="resources\icons\target.svg" LogicalName="resources/icons/target.svg" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\style\italic.png" LogicalName="resources/icons/inspector%20assets/text/style/italic.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesdevices-2x.png" LogicalName="resources/icons/preferences/preferencesdevices@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesnetwork.png" LogicalName="resources/icons/preferences/preferencesnetwork.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_60.png" LogicalName="resources/icons/transportcontrols/gotobeginning_60.png" />
+    <EmbeddedResource Include="resources\icons\transitions\advanced.png" LogicalName="resources/icons/transitions/advanced.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\stepbackward.png" LogicalName="resources/icons/transportcontrols/stepbackward.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementvideoinput-3x.png" LogicalName="resources/icons/slideelements/slideelementvideoinput@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarprops.png" LogicalName="resources/icons/toolbar/toolbarprops.png" />
+    <EmbeddedResource Include="resources\icons\star.svg" LogicalName="resources/icons/star.svg" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\style\advanced.png" LogicalName="resources/icons/inspector%20assets/text/style/advanced.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionmediaplaylist-2x.png" LogicalName="resources/icons/actions/actionmediaplaylist@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapeellipse-2x.png" LogicalName="resources/icons/slideelements/slideelementshapeellipse@2x.png" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowdownright.png" LogicalName="resources/icons/arrows/arrowdownright.png" />
+    <EmbeddedResource Include="resources\icons\bulb.svg" LogicalName="resources/icons/bulb.svg" />
+    <EmbeddedResource Include="resources\icons\instagram-2x.png" LogicalName="resources/icons/instagram@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshaperighttriangle.png" LogicalName="resources/icons/slideelements/slideelementshaperighttriangle.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeright-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeright@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapeellipse-3x.png" LogicalName="resources/icons/slideelements/slideelementshapeellipse@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangevertically-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangevertically@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarstage.png" LogicalName="resources/icons/toolbar/toolbarstage.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangetop-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangetop@3x.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonfill.png" LogicalName="resources/icons/clearlayer/clearbuttonfill.png" />
+    <EmbeddedResource Include="resources\icons\timers\timercountdown-2x.png" LogicalName="resources/icons/timers/timercountdown@2x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeright-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeright@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangetop-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangetop@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbareditor.png" LogicalName="resources/icons/toolbar/toolbareditor.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\shape\lock\unlock-3x.png" LogicalName="resources/icons/inspector%20assets/shape/lock/unlock@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapedoublearrow-3x.png" LogicalName="resources/icons/slideelements/slideelementshapedoublearrow@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapevector-3x.png" LogicalName="resources/icons/slideelements/slideelementshapevector@3x.png" />
+    <EmbeddedResource Include="resources\icons\edgeblend\edgeblendcurvelinear.png" LogicalName="resources/icons/edgeblend/edgeblendcurvelinear.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesdevices-3x.png" LogicalName="resources/icons/preferences/preferencesdevices@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapetriangle-3x.png" LogicalName="resources/icons/slideelements/slideelementshapetriangle@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapevector-2x.png" LogicalName="resources/icons/slideelements/slideelementshapevector@2x.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\play-2x.png" LogicalName="resources/icons/transportcontrols/play@2x.png" />
+    <EmbeddedResource Include="resources\icons\timers\timercountdowntotime-2x.png" LogicalName="resources/icons/timers/timercountdowntotime@2x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementvideoinput-2x.png" LogicalName="resources/icons/slideelements/slideelementvideoinput@2x.png" />
+    <EmbeddedResource Include="resources\icons\welcome\startcreating.png" LogicalName="resources/icons/welcome/startcreating.png" />
+    <EmbeddedResource Include="resources\icons\cycleicon.png" LogicalName="resources/icons/cycleicon.png" />
+    <EmbeddedResource Include="resources\icons\timers\timercountdowntotime-3x.png" LogicalName="resources/icons/timers/timercountdowntotime@3x.png" />
+    <EmbeddedResource Include="resources\icons\footer\options-3x.png" LogicalName="resources/icons/footer/options@3x.png" />
+    <EmbeddedResource Include="resources\icons\actions\clearmessages.png" LogicalName="resources/icons/actions/clearmessages.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementimage.png" LogicalName="resources/icons/slideelements/slideelementimage.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangevertically-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangevertically@3x.png" />
+    <EmbeddedResource Include="resources\icons\spotlight.png" LogicalName="resources/icons/spotlight.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\play.png" LogicalName="resources/icons/transportcontrols/play.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\headers\headerremoveicon.png" LogicalName="resources/icons/inspector%20assets/headers/headerremoveicon.png" />
+    <EmbeddedResource Include="resources\icons\hat.svg" LogicalName="resources/icons/hat.svg" />
+    <EmbeddedResource Include="resources\icons\welcome\appicon.png" LogicalName="resources/icons/welcome/appicon.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementticker.png" LogicalName="resources/icons/slideelements/slideelementticker.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoritemixed.png" LogicalName="resources/icons/transitions/favoritemixed.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementvideo.png" LogicalName="resources/icons/slideelements/slideelementvideo.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapedoublearrow-2x.png" LogicalName="resources/icons/slideelements/slideelementshapedoublearrow@2x.png" />
+    <EmbeddedResource Include="resources\icons\linkicon.png" LogicalName="resources/icons/linkicon.png" />
+    <EmbeddedResource Include="resources\icons\header\headertarget_notarget-3x.png" LogicalName="resources/icons/header/headertarget_notarget@3x.png" />
+    <EmbeddedResource Include="resources\icons\hashtag.svg" LogicalName="resources/icons/hashtag.svg" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapetriangle-2x.png" LogicalName="resources/icons/slideelements/slideelementshapetriangle@2x.png" />
+    <EmbeddedResource Include="resources\icons\glasses.svg" LogicalName="resources/icons/glasses.svg" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_30-2x.png" LogicalName="resources/icons/transportcontrols/gotobeginning_30@2x.png" />
+    <EmbeddedResource Include="resources\icons\shuffle\on.png" LogicalName="resources/icons/shuffle/on.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\jumpforward_15.png" LogicalName="resources/icons/transportcontrols/jumpforward_15.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangehorizontally.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangehorizontally.png" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowupright.png" LogicalName="resources/icons/arrows/arrowupright.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\stepforward.png" LogicalName="resources/icons/transportcontrols/stepforward.png" />
+    <EmbeddedResource Include="resources\icons\header\headertarget_targetannouncement.png" LogicalName="resources/icons/header/headertarget_targetannouncement.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\build\transition-20placeholder-20icons\noselection.png" LogicalName="resources/icons/inspector%20assets/build/transition%20placeholder%20icons/noselection.png" />
+    <EmbeddedResource Include="resources\icons\nonetransitionicon.png" LogicalName="resources/icons/nonetransitionicon.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesnetwork-2x.png" LogicalName="resources/icons/preferences/preferencesnetwork@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartimers.png" LogicalName="resources/icons/toolbar/toolbartimers.png" />
+    <EmbeddedResource Include="resources\icons\transitions\cieffectsicon.png" LogicalName="resources/icons/transitions/cieffectsicon.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarreflow-2x.png" LogicalName="resources/icons/toolbar/toolbarreflow@2x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesnetwork-3x.png" LogicalName="resources/icons/preferences/preferencesnetwork@3x.png" />
+    <EmbeddedResource Include="resources\icons\thumbnailview.png" LogicalName="resources/icons/thumbnailview.png" />
+    <EmbeddedResource Include="resources\icons\arrow.svg" LogicalName="resources/icons/arrow.svg" />
+    <EmbeddedResource Include="resources\icons\telestratorcircleicon.png" LogicalName="resources/icons/telestratorcircleicon.png" />
+    <EmbeddedResource Include="resources\icons\play.svg" LogicalName="resources/icons/play.svg" />
+    <EmbeddedResource Include="resources\icons\preferences\input\inputlisten.png" LogicalName="resources/icons/preferences/input/inputlisten.png" />
+    <EmbeddedResource Include="resources\icons\eyewithslash-3x.png" LogicalName="resources/icons/eyewithslash@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapeellipse.png" LogicalName="resources/icons/slideelements/slideelementshapeellipse.png" />
+    <EmbeddedResource Include="resources\icons\playback\playbackcompletionfirst.png" LogicalName="resources/icons/playback/playbackcompletionfirst.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\flip\vertical-3x.png" LogicalName="resources/icons/inspector%20assets/flip/vertical@3x.png" />
+    <EmbeddedResource Include="resources\icons\message.svg" LogicalName="resources/icons/message.svg" />
+    <EmbeddedResource Include="resources\icons\actions\actiontimer.png" LogicalName="resources/icons/actions/actiontimer.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\flip\vertical-2x.png" LogicalName="resources/icons/inspector%20assets/flip/vertical@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarbible-3x.png" LogicalName="resources/icons/toolbar/toolbarbible@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesservices-3x.png" LogicalName="resources/icons/preferences/preferencesservices@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartextstyle-2x.png" LogicalName="resources/icons/toolbar/toolbartextstyle@2x.png" />
+    <EmbeddedResource Include="resources\icons\shuffle\off-3x.png" LogicalName="resources/icons/shuffle/off@3x.png" />
+    <EmbeddedResource Include="resources\icons\bell.svg" LogicalName="resources/icons/bell.svg" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbartextstyle-3x.png" LogicalName="resources/icons/toolbar/toolbartextstyle@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\style\bold.png" LogicalName="resources/icons/inspector%20assets/text/style/bold.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\jumpforward_15-2x.png" LogicalName="resources/icons/transportcontrols/jumpforward_15@2x.png" />
+    <EmbeddedResource Include="resources\icons\header\expand.png" LogicalName="resources/icons/header/expand.png" />
+    <EmbeddedResource Include="resources\icons\outline\playlist\calendar.png" LogicalName="resources/icons/outline/playlist/calendar.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarreflow-3x.png" LogicalName="resources/icons/toolbar/toolbarreflow@3x.png" />
+    <EmbeddedResource Include="resources\icons\playback\mediaplaybackbehaviorsoftloop.png" LogicalName="resources/icons/playback/mediaplaybackbehaviorsoftloop.png" />
+    <EmbeddedResource Include="resources\icons\playlistitemaudio.png" LogicalName="resources/icons/playlistitemaudio.png" />
+    <EmbeddedResource Include="resources\icons\transitions\mountain.jpg" LogicalName="resources/icons/transitions/mountain.jpg" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesaudio.png" LogicalName="resources/icons/preferences/preferencesaudio.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionstage.png" LogicalName="resources/icons/actions/actionstage.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangecenter-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangecenter@2x.png" />
+    <EmbeddedResource Include="resources\icons\userforums-2x.png" LogicalName="resources/icons/userforums@2x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\oceantransition.jpg" LogicalName="resources/icons/transitions/oceantransition.jpg" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\text\alignment\verticalcontrol\top.png" LogicalName="resources/icons/inspector%20assets/text/alignment/verticalcontrol/top.png" />
+    <EmbeddedResource Include="resources\icons\guides.png" LogicalName="resources/icons/guides.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapearrow.png" LogicalName="resources/icons/slideelements/slideelementshapearrow.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotobeginning_10-2x.png" LogicalName="resources/icons/transportcontrols/gotobeginning_10@2x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarbible-2x.png" LogicalName="resources/icons/toolbar/toolbarbible@2x.png" />
+    <EmbeddedResource Include="resources\icons\header\add-3x.png" LogicalName="resources/icons/header/add@3x.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheadernotes-3x.png" LogicalName="resources/icons/header/presentationheadernotes@3x.png" />
+    <EmbeddedResource Include="resources\icons\preferences\preferencesservices-2x.png" LogicalName="resources/icons/preferences/preferencesservices@2x.png" />
+    <EmbeddedResource Include="resources\icons\garbagecan.png" LogicalName="resources/icons/garbagecan.png" />
+    <EmbeddedResource Include="resources\icons\header\presentationheadernotes-2x.png" LogicalName="resources/icons/header/presentationheadernotes@2x.png" />
+    <EmbeddedResource Include="resources\icons\search\automation.png" LogicalName="resources/icons/search/automation.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoriteon.png" LogicalName="resources/icons/transitions/favoriteon.png" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowup.png" LogicalName="resources/icons/arrows/arrowup.png" />
+    <EmbeddedResource Include="resources\icons\registration\pop-up-background.png" LogicalName="resources/icons/registration/pop-up-background.png" />
+    <EmbeddedResource Include="resources\icons\transitions\favoriteoff.png" LogicalName="resources/icons/transitions/favoriteoff.png" />
+    <EmbeddedResource Include="resources\icons\transportcontrols\gotoend_10-2x.png" LogicalName="resources/icons/transportcontrols/gotoend_10@2x.png" />
+    <EmbeddedResource Include="resources\icons\print.png" LogicalName="resources/icons/print.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshape.png" LogicalName="resources/icons/slideelements/slideelementshape.png" />
+    <EmbeddedResource Include="resources\icons\actions\clearall.png" LogicalName="resources/icons/actions/clearall.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapepolygon-3x.png" LogicalName="resources/icons/slideelements/slideelementshapepolygon@3x.png" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarmore.png" LogicalName="resources/icons/toolbar/toolbarmore.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangecenter.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangecenter.png" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonall.png" LogicalName="resources/icons/clearlayer/clearbuttonall.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeevenly.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeevenly.png" />
+    <EmbeddedResource Include="resources\icons\x-20clear.svg" LogicalName="resources/icons/x%20clear.svg" />
+    <EmbeddedResource Include="resources\icons\outline\audioitem.png" LogicalName="resources/icons/outline/audioitem.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\flip\flipvertical.png" LogicalName="resources/icons/inspector%20assets/flip/flipvertical.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangecenter-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangecenter@3x.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangemiddle-3x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangemiddle@3x.png" />
+    <EmbeddedResource Include="resources\icons\disconnectedicon.png" LogicalName="resources/icons/disconnectedicon.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeleft-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeleft@2x.png" />
+    <EmbeddedResource Include="resources\icons\twitter-2x.png" LogicalName="resources/icons/twitter@2x.png" />
+    <EmbeddedResource Include="resources\icons\arrows\arrowdown.png" LogicalName="resources/icons/arrows/arrowdown.png" />
+    <EmbeddedResource Include="resources\icons\transitions\cut-2x.png" LogicalName="resources/icons/transitions/cut@2x.png" />
+    <EmbeddedResource Include="resources\icons\slide.svg" LogicalName="resources/icons/slide.svg" />
+    <EmbeddedResource Include="resources\icons\header\headertransition.png" LogicalName="resources/icons/header/headertransition.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangemiddle-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangemiddle@2x.png" />
+    <EmbeddedResource Include="resources\icons\transitions\cut-3x.png" LogicalName="resources/icons/transitions/cut@3x.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapedoublearrow.png" LogicalName="resources/icons/slideelements/slideelementshapedoublearrow.png" />
+    <EmbeddedResource Include="resources\icons\header\collapse.png" LogicalName="resources/icons/header/collapse.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\arrange\arrangeevenly-2x.png" LogicalName="resources/icons/inspector%20assets/arrange/arrangeevenly@2x.png" />
+    <EmbeddedResource Include="resources\icons\telestratorlasericon.png" LogicalName="resources/icons/telestratorlasericon.png" />
+    <EmbeddedResource Include="resources\icons\slideelements\slideelementshapestar.png" LogicalName="resources/icons/slideelements/slideelementshapestar.png" />
+    <EmbeddedResource Include="resources\icons\actions\actionprop.png" LogicalName="resources/icons/actions/actionprop.png" />
+    <EmbeddedResource Include="resources\icons\templateicon.png" LogicalName="resources/icons/templateicon.png" />
+    <EmbeddedResource Include="resources\icons\5.svg" LogicalName="resources/icons/5.svg" />
+    <EmbeddedResource Include="resources\icons\4.svg" LogicalName="resources/icons/4.svg" />
+    <EmbeddedResource Include="resources\icons\7.svg" LogicalName="resources/icons/7.svg" />
+    <EmbeddedResource Include="resources\icons\6.svg" LogicalName="resources/icons/6.svg" />
+    <EmbeddedResource Include="resources\icons\1.svg" LogicalName="resources/icons/1.svg" />
+    <EmbeddedResource Include="resources\icons\clearlayer\clearbuttonaudio.png" LogicalName="resources/icons/clearlayer/clearbuttonaudio.png" />
+    <EmbeddedResource Include="resources\icons\0.svg" LogicalName="resources/icons/0.svg" />
+    <EmbeddedResource Include="resources\icons\3.svg" LogicalName="resources/icons/3.svg" />
+    <EmbeddedResource Include="resources\icons\2.svg" LogicalName="resources/icons/2.svg" />
+    <EmbeddedResource Include="resources\icons\toolbar\toolbarsearch.png" LogicalName="resources/icons/toolbar/toolbarsearch.png" />
+    <EmbeddedResource Include="resources\icons\9.svg" LogicalName="resources/icons/9.svg" />
+    <EmbeddedResource Include="resources\icons\8.svg" LogicalName="resources/icons/8.svg" />
+    <EmbeddedResource Include="resources\icons\actions\actionaudioplaylist-2x.png" LogicalName="resources/icons/actions/actionaudioplaylist@2x.png" />
+    <EmbeddedResource Include="resources\icons\telestratorspoticon.png" LogicalName="resources/icons/telestratorspoticon.png" />
+    <EmbeddedResource Include="resources\icons\inspector-20assets\headers\headeraddicon.png" LogicalName="resources/icons/inspector%20assets/headers/headeraddicon.png" />
+    <EmbeddedResource Include="resources\icons\e.svg" LogicalName="resources/icons/e.svg" />
+    <EmbeddedResource Include="resources\icons\d.svg" LogicalName="resources/icons/d.svg" />
+    <EmbeddedResource Include="resources\icons\g.svg" LogicalName="resources/icons/g.svg" />
+    <EmbeddedResource Include="resources\icons\f.svg" LogicalName="resources/icons/f.svg" />
+    <EmbeddedResource Include="resources\icons\a.svg" LogicalName="resources/icons/a.svg" />
+    <EmbeddedResource Include="resources\icons\c.svg" LogicalName="resources/icons/c.svg" />
+    <EmbeddedResource Include="resources\icons\b.svg" LogicalName="resources/icons/b.svg" />
+    <EmbeddedResource Include="resources\icons\m.svg" LogicalName="resources/icons/m.svg" />
+    <EmbeddedResource Include="resources\icons\l.svg" LogicalName="resources/icons/l.svg" />
+    <EmbeddedResource Include="resources\icons\o.svg" LogicalName="resources/icons/o.svg" />
+    <EmbeddedResource Include="resources\icons\n.svg" LogicalName="resources/icons/n.svg" />
+    <EmbeddedResource Include="resources\icons\i.svg" LogicalName="resources/icons/i.svg" />
+    <EmbeddedResource Include="resources\icons\h.svg" LogicalName="resources/icons/h.svg" />
+    <EmbeddedResource Include="resources\icons\k.svg" LogicalName="resources/icons/k.svg" />
+    <EmbeddedResource Include="resources\icons\j.svg" LogicalName="resources/icons/j.svg" />
+    <EmbeddedResource Include="resources\icons\u.svg" LogicalName="resources/icons/u.svg" />
+    <EmbeddedResource Include="resources\icons\t.svg" LogicalName="resources/icons/t.svg" />
+    <EmbeddedResource Include="resources\icons\w.svg" LogicalName="resources/icons/w.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.0-Default.svg" LogicalName="ProPresenter.UI.Resources.Icons.0 Default.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.0.svg" LogicalName="ProPresenter.UI.Resources.Icons.0.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.1.svg" LogicalName="ProPresenter.UI.Resources.Icons.1.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.2.svg" LogicalName="ProPresenter.UI.Resources.Icons.2.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.3.svg" LogicalName="ProPresenter.UI.Resources.Icons.3.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.4.svg" LogicalName="ProPresenter.UI.Resources.Icons.4.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.5.svg" LogicalName="ProPresenter.UI.Resources.Icons.5.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.6.svg" LogicalName="ProPresenter.UI.Resources.Icons.6.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.7.svg" LogicalName="ProPresenter.UI.Resources.Icons.7.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.8.svg" LogicalName="ProPresenter.UI.Resources.Icons.8.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.9.svg" LogicalName="ProPresenter.UI.Resources.Icons.9.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.A.svg" LogicalName="ProPresenter.UI.Resources.Icons.A.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Arrow.svg" LogicalName="ProPresenter.UI.Resources.Icons.Arrow.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Audio.svg" LogicalName="ProPresenter.UI.Resources.Icons.Audio.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.B.svg" LogicalName="ProPresenter.UI.Resources.Icons.B.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Bell.svg" LogicalName="ProPresenter.UI.Resources.Icons.Bell.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Bulb.svg" LogicalName="ProPresenter.UI.Resources.Icons.Bulb.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.C.svg" LogicalName="ProPresenter.UI.Resources.Icons.C.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Cloud.svg" LogicalName="ProPresenter.UI.Resources.Icons.Cloud.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Cupcake.svg" LogicalName="ProPresenter.UI.Resources.Icons.Cupcake.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.D.svg" LogicalName="ProPresenter.UI.Resources.Icons.D.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.E.svg" LogicalName="ProPresenter.UI.Resources.Icons.E.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Exclamation.svg" LogicalName="ProPresenter.UI.Resources.Icons.Exclamation.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.F.svg" LogicalName="ProPresenter.UI.Resources.Icons.F.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Flask.svg" LogicalName="ProPresenter.UI.Resources.Icons.Flask.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Flower.svg" LogicalName="ProPresenter.UI.Resources.Icons.Flower.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.G.svg" LogicalName="ProPresenter.UI.Resources.Icons.G.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Glasses.svg" LogicalName="ProPresenter.UI.Resources.Icons.Glasses.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.H.svg" LogicalName="ProPresenter.UI.Resources.Icons.H.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Hashtag.svg" LogicalName="ProPresenter.UI.Resources.Icons.Hashtag.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Hat.svg" LogicalName="ProPresenter.UI.Resources.Icons.Hat.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Heart.svg" LogicalName="ProPresenter.UI.Resources.Icons.Heart.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.I.svg" LogicalName="ProPresenter.UI.Resources.Icons.I.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.J.svg" LogicalName="ProPresenter.UI.Resources.Icons.J.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.K.svg" LogicalName="ProPresenter.UI.Resources.Icons.K.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.L.svg" LogicalName="ProPresenter.UI.Resources.Icons.L.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.M.svg" LogicalName="ProPresenter.UI.Resources.Icons.M.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Megaphone.svg" LogicalName="ProPresenter.UI.Resources.Icons.Megaphone.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Message.svg" LogicalName="ProPresenter.UI.Resources.Icons.Message.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.N.svg" LogicalName="ProPresenter.UI.Resources.Icons.N.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.O.svg" LogicalName="ProPresenter.UI.Resources.Icons.O.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.P.svg" LogicalName="ProPresenter.UI.Resources.Icons.P.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Paperclip.svg" LogicalName="ProPresenter.UI.Resources.Icons.Paperclip.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Play.svg" LogicalName="ProPresenter.UI.Resources.Icons.Play.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Q.svg" LogicalName="ProPresenter.UI.Resources.Icons.Q.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.R.svg" LogicalName="ProPresenter.UI.Resources.Icons.R.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.S.svg" LogicalName="ProPresenter.UI.Resources.Icons.S.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Slide.svg" LogicalName="ProPresenter.UI.Resources.Icons.Slide.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Star.svg" LogicalName="ProPresenter.UI.Resources.Icons.Star.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Sun.svg" LogicalName="ProPresenter.UI.Resources.Icons.Sun.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Sunglasses.svg" LogicalName="ProPresenter.UI.Resources.Icons.Sunglasses.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.T.svg" LogicalName="ProPresenter.UI.Resources.Icons.T.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Target.svg" LogicalName="ProPresenter.UI.Resources.Icons.Target.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Timer.svg" LogicalName="ProPresenter.UI.Resources.Icons.Timer.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.U.svg" LogicalName="ProPresenter.UI.Resources.Icons.U.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.V.svg" LogicalName="ProPresenter.UI.Resources.Icons.V.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Video-Input.svg" LogicalName="ProPresenter.UI.Resources.Icons.Video Input.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.W.svg" LogicalName="ProPresenter.UI.Resources.Icons.W.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.X-Clear.svg" LogicalName="ProPresenter.UI.Resources.Icons.X Clear.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.X.svg" LogicalName="ProPresenter.UI.Resources.Icons.X.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Y.svg" LogicalName="ProPresenter.UI.Resources.Icons.Y.svg" />
+    <EmbeddedResource Include="ProPresenter.UI.Resources.Icons.Z.svg" LogicalName="ProPresenter.UI.Resources.Icons.Z.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ReactiveProperty.Core">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ReactiveProperty.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ProPresenter.DO">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProPresenter.DO.dll</HintPath>
+    </Reference>
+    <Reference Include="CommunityToolkit.Mvvm">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Common">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.UI">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="ProPresenter.Controller">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProPresenter.Controller.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Text">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.ssAPI">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.ssAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="ProPresenter.Rendering">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProPresenter.Rendering.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.DO">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.DO.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Localization">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Core">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Reporting">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="ProCore.Interop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProCore.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Semver">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Semver.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.SerializationInterop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.SerializationInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Editor">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Testably.Abstractions.FileSystem.Interface">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Testably.Abstractions.FileSystem.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Entity">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.MIDI">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.MIDI.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Web">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.CoreApplication">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.CoreApplication.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Common.Standard">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ReactiveProperty.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Serialization">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Serialization.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

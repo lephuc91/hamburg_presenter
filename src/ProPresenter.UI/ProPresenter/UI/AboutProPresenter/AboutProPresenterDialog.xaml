@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.AboutProPresenter.AboutProPresenterDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:license="clr-namespace:ProPresenter.UI.License" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:thirdparty="clr-namespace:ProPresenter.UI.ThirdParty" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="aboutPro7" Title="AboutProPresenterDialog" Width="550" uiUtility:WindowHelper.CanOwnWindows="True" uiUtility:WindowHelper.ChildOf="MainWindow" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" ShowInTaskbar="False" ShowTitle="False" SizeToContent="Height" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" xmlns:aboutpropresenter="clr-namespace:ProPresenter.UI.AboutProPresenter">
+  <windowing:Caption>
+    <Grid>
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+          <commonConverters:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+          <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+          </Style>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Image Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Width="100" Height="100" Margin="20,0" VerticalAlignment="Center" Source="{StaticResource {x:Static themesUI:Icons.AppIcon}}" Stretch="Uniform" />
+      <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,20,0" FontSize="60" FontWeight="SemiBold" Text="{mex:Localized ABOUT_PROPRESENTER_LOGO_label}" />
+      <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Orientation="Horizontal">
+        <TextBlock Margin="5,0,5,0" Text="{mex:Localized ABOUT_PROPRESENTER_VERSION_label}" />
+        <TextBlock Text="{Binding AssemblyVersionDescription, ElementName=aboutPro7}" />
+      </StackPanel>
+      <TextBlock Grid.Row="2" Grid.Column="1" Margin="5,10,0,10" TextWrapping="Wrap" Text="{Binding BuildYear, ElementName=aboutPro7, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=ABOUT_PROPRESENTER_COPYRIGHT_label}" />
+      <Grid Row="3" Column="1" Margin="5,0,20,20">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ToggleButton Name="acknowlegementsButton" Grid.Column="0" Height="22" Margin="0,0,10,0" HorizontalAlignment="Stretch" Content="{mex:Localized ABOUT_PROPRESENTER_ACKNOWLEDGEMENTS_BUTTON_title}" Checked="AcknowlegementsButton_Checked" />
+        <ToggleButton Name="licenseButton" Grid.Column="1" Height="22" HorizontalAlignment="Stretch" Content="{mex:Localized ABOUT_PROPRESENTER_LICENSE_AGREEMENT_BUTTON_title}" Checked="LicenseButton_Checked" />
+      </Grid>
+      <Grid Row="4" Column="0" ColumnSpan="2">
+        <thirdparty:ThirdPartyViewer Margin="10" HorizontalAlignment="Center" Licenses="{Binding Licenses, ElementName=aboutPro7}" Visibility="{Binding ElementName=acknowlegementsButton, Path=IsChecked, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <license:LicenseViewer Margin="10" HorizontalAlignment="Center" LicenseContent="{Binding LicenseContent, ElementName=aboutPro7}" Visibility="{Binding ElementName=licenseButton, Path=IsChecked, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </Grid>
+    </Grid>
+  </windowing:Caption>
+</windowing:ChromedWindow>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.DialogService.MessageContent" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:Pro.UI.Converters" x:Name="messageContent" xmlns:dialogservice="clr-namespace:Pro.UI.DialogService">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converters:StringNullOrEmptyToVisibilityConverter x:Key="StringNotNullOrEmptyToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Margin="0,0,0,10" FontWeight="Bold" TextWrapping="WrapWithOverflow" Text="{Binding Heading, ElementName=messageContent}" Visibility="{Binding Heading, ElementName=messageContent, Converter={StaticResource StringNotNullOrEmptyToVisibilityConverter}}" />
+    <TextBlock Grid.Row="1" TextWrapping="WrapWithOverflow" Text="{Binding Message, ElementName=messageContent}" />
+  </Grid>
+</UserControl>

@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Messages.Messages" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonResources="clr-namespace:Pro.UI.Resources;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:local="clr-namespace:ProPresenter.UI.Messages" xmlns:messages="clr-namespace:ProPresenter.DO.Messages;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:settings="clr-namespace:ProPresenter.DO.Settings;assembly=ProPresenter.DO" xmlns:templates="clr-namespace:ProPresenter.UI.Templates" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transitions="clr-namespace:ProPresenter.UI.Transitions" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:ui1="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="messagesUI" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ui1:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui1:SharedResourceDictionary Source="../SourceDetailListResources.xaml" />
+        <ui1:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="messagesVMProxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <local:TimerControlsVisibilityConverter x:Key="TimerControlsVisibilityConverter" />
+      <commonConverters:EnumToContentConverter x:Key="MessagesEnumToContentConverter" />
+      <local:MessageClearTypeVisibilityConverter x:Key="MessageClearTypeVisibilityConverter" />
+      <local:TimeSliceToSecondsStringConverter x:Key="TimeSliceToSecondsStringConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+    </ui1:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Name="MessageListRow" Height="{Binding MessageOutlineHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition MinHeight="80" Height="{Binding MessageDetailHeight, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" Height="22" MinHeight="22" MaxHeight="22" Margin="0,2,0,0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" uiUtility:TextHelper.Capitalize="True" FontWeight="Bold" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{mex:Localized MESSAGES_HEADER_title}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Visibility" Value="{Binding MessagesOutlineVisible, Source={x:Static settings:Layout.Settings}, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding HasMessages}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+      <commonControls:BorderlessButton Grid.Row="0" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding Messages}">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type messages:Message}}">
+                  <MenuItem Command="{Binding Data.SelectMessageCommand, Source={StaticResource messagesVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding Path="Data.ActiveMessage.ID" Source="{StaticResource messagesVMProxy}" />
+                        <Binding Path="ID" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                  </MenuItem>
+                </ItemContainerTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+            <Setter Property="Visibility" Value="{Binding MessagesOutlineVisible, Source={x:Static settings:Layout.Settings}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding HasMessages}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" Margin="0,0,5,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding ActiveMessage.Name}" />
+          <commonControls:PathControl Grid.Column="1" Width="10" Height="6" HorizontalAlignment="Right" VerticalAlignment="Center" Fill="#00FFFFFF" PathType="VDownArrow" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+        </Grid>
+      </commonControls:BorderlessButton>
+      <StackPanel Grid.Row="0" Margin="0,0,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+        <commonControls:BorderlessPathButton HorizontalAlignment="Right" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" PathType="Plus" Command="{Binding AddMessageCommand}" ToolTip="{mex:Localized MESSAGES_ADD_BUTTON_tooltip}" Visibility="{Binding ElementName=MessagesList, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+        <commonControls:ExpanderToggleButton Margin="8,0,0,0" CollapsedPathType="VDownArrow" ExpandedPathType="VUpArrow" ShouldFill="False" IsChecked="{Binding MessagesOutlineVisible, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}" Visibility="{Binding HasMessages, Converter={StaticResource ValueToVisibilityConverter}}" Click="ExpanderToggleButton_Click" />
+      </StackPanel>
+    </Grid>
+    <local:MessageListBox x:Name="MessagesList" Grid.Row="1" Margin="0,0,-1,0" HorizontalContentAlignment="Stretch" BorderThickness="0" DeselectOnLostFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectItemsOnSelfDrop="False" SelectionMode="Extended" VirtualizingPanel.ScrollUnit="Pixel" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyCommand}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding CutCommand}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicateCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteCommand}" ActiveItem="{Binding ActiveMessage}" FocusVisualStyle="{x:Null}" ItemsSource="{Binding Messages}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedListItem="{Binding SelectedMessage}" SelectedListItems="{Binding SelectedMessages}" Visibility="{Binding MessagesOutlineVisible, Source={x:Static settings:Layout.Settings}, Converter={StaticResource ValueToVisibilityConverter}}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type local:MessageListBox}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Value="True" Binding="{Binding HasMessages}" />
+                <Condition Value="True" Binding="{Binding MessagesOutlineVisible, Source={x:Static settings:Layout.Settings}}" />
+              </MultiDataTrigger.Conditions>
+              <MultiDataTrigger.Setters>
+                <Setter Property="Visibility" Value="Visible" />
+              </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="{x:Type messages:Message}">
+          <local:MessageTemplate Margin="0,3" ActiveMessages="{Binding Data.ActiveMessages, Source={StaticResource messagesVMProxy}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemContainerStyle>
+        <Style BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+          <Setter Property="FrameworkElement.ContextMenu">
+            <Setter.Value>
+              <ContextMenu>
+                <MenuItem Command="{Binding Data.ClearSelectedMessagesCommand, Source={StaticResource messagesVMProxy}}" Header="{mex:Localized STAGE_WINDOW_HIDE_STAGE_MESSAGE_BUTTON_title}" Visibility="{Binding IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" />
+                <Separator />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.CutCommand}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Copy}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+                <Separator />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+              </ContextMenu>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </local:MessageListBox>
+    <controls:ImageTextButton Grid.Row="1" Grid.RowSpan="3" ButtonBackground="#80707070" ButtonHeight="80" ButtonWidth="80" ImageSource="{StaticResource {x:Static themes:Icons.EmptyAdd}}" Command="{Binding AddMessageCommand}" Text="{mex:Localized MESSAGES_WINDOW_ADD_MESSAGE_label}" Visibility="{Binding ElementName=MessagesList, Path=Items.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}" />
+    <GridSplitter Grid.Row="2" Height="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Visibility="{Binding HasMessages, Converter={StaticResource ValueToVisibilityConverter}}" DragDelta="GridSplitter_DragDelta" />
+    <GridSplitter Grid.Row="2" Height="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Visibility="{Binding HasMessages, Converter={StaticResource ValueToVisibilityConverter}}" DragDelta="GridSplitter_DragDelta" />
+    <Grid Row="2" Height="22" Background="{Binding UTILITYVIEW_MESSAGES_DETAIL, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding HasMessages, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="8,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{mex:Localized MESSAGES_DETAIL_title}" />
+      <commonControls:ExpanderToggleButton Grid.Column="1" Margin="0,0,8,0" HorizontalAlignment="Right" CollapsedPathType="VDownArrow" ExpandedPathType="VUpArrow" ShouldFill="False" IsChecked="{Binding MessageDetailVisible, Source={x:Static settings:Layout.Settings}, Mode=TwoWay}">
+        <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" Text="{mex:Localized MESSAGES_EDIT_BUTTON_title}" />
+      </commonControls:ExpanderToggleButton>
+    </Grid>
+    <ScrollViewer Grid.Row="3" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Visibility="{Binding HasMessages, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Row="0" VerticalAlignment="Top" Background="{Binding UTILITYVIEW_MESSAGES_DETAIL, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding MessageDetailVisible, Source={x:Static settings:Layout.Settings}, Converter={StaticResource ValueToVisibilityConverter}}">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <local:MessageTokenTextBox Grid.Row="0" Margin="10,5" ScrollViewer.CanContentScroll="True" DocumentChangeEndedCommand="{Binding DocumentChangeEndedCommand}" DocumentChangeStartedCommand="{Binding DocumentChangeStartedCommand}" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Tokens="{Binding ActiveMessage.Tokens}" />
+          <local:AddTokenControl Grid.Row="1" Height="22" Margin="10,0,10,5" HorizontalAlignment="Stretch" AddCustomTokenCommand="{Binding AddCustomTokenCommand}" AddTokenCommand="{Binding AddTokenCommand}" AddTokenText="{Binding AddTokenText, Mode=TwoWay}" DefaultTokens="{Binding AvailableTokens}" Timers="{Binding Timers}" />
+          <Grid Row="2" Margin="15,0,10,0" IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Row="0" Margin="0,0,0,5" HorizontalAlignment="Stretch">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="TemplateLabelColumn" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized MESSAGES_WINDOW_TEMPLATE_title}" />
+              <templates:TemplateButton Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" ContextGroup="Messages" IsMediaActionEnabled="False" ShowMediaActionButton="False" ShowOptions="False" DefaultTemplate="{Binding DefaultTheme[0], ElementName=messagesUI}" DefaultTemplateHeader="{mex:Localized GLOBAL_DEFAULT}" SelectTemplateCommand="{Binding SelectTemplateCommand}" SelectedTemplate="{Binding SelectedTemplate, Mode=OneWay}" TemplateSlideTooltipText="{mex:Localized THEMES_POPOVER_SELECT_THEME_SLIDE_tooltip}" />
+            </Grid>
+            <Grid Row="1" Margin="0,0,0,5" HorizontalAlignment="Stretch">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="TemplateLabelColumn" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized MESSAGES_WINDOW_DISMISS_title}" />
+              <commonControls:DropDownButton Grid.Column="1" MinWidth="150" HorizontalAlignment="Left" VerticalAlignment="Center" CustomContent="{Binding DismissalLabel}">
+                <commonControls:DropDownButton.CustomContextMenu>
+                  <ContextMenu Placement="Bottom" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+                    <ItemsControl.ItemContainerStyle>
+                      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                        <Setter Property="MenuItem.IsChecked">
+                          <Setter.Value>
+                            <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                              <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                              <Binding Mode="OneWay" Path="Data.ActiveMessage.ClearType" Source="{StaticResource messagesVMProxy}" />
+                            </MultiBinding>
+                          </Setter.Value>
+                        </Setter>
+                      </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <MenuItem DataContext="{x:Static messages:MessageClearType.Manual}" Command="{Binding Data.SetMessageClearTypeCommand, Source={StaticResource messagesVMProxy}}" CommandParameter="{Binding}" Header="{Binding Converter={StaticResource MessagesEnumToContentConverter}}" />
+                    <MenuItem DataContext="{x:Static messages:MessageClearType.AfterTimers}" Command="{Binding Data.SetMessageClearTypeCommand, Source={StaticResource messagesVMProxy}}" CommandParameter="{Binding}" Header="{Binding Converter={StaticResource MessagesEnumToContentConverter}}">
+                      <UIElement.Visibility>
+                        <MultiBinding Converter="{StaticResource MessageClearTypeVisibilityConverter}" Mode="OneWay">
+                          <Binding Path="Data.ActiveMessage" Source="{StaticResource messagesVMProxy}" />
+                          <Binding Path="Data.ActiveMessageTokens" Source="{StaticResource messagesVMProxy}" />
+                        </MultiBinding>
+                      </UIElement.Visibility>
+                    </MenuItem>
+                    <MenuItem DataContext="{x:Static messages:MessageClearType.AfterTime}" Header="{Binding Converter={StaticResource MessagesEnumToContentConverter}}" ItemsSource="{Binding Data.RemoveTimes, Source={StaticResource messagesVMProxy}}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                          <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Converter={StaticResource TimeSliceToSecondsStringConverter}}" />
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                      <ItemsControl.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                          <Setter Property="MenuItem.Command" Value="{Binding Data.SetMessageClearTimeCommand, Source={StaticResource messagesVMProxy}}" />
+                          <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                          <Setter Property="MenuItem.IsChecked">
+                            <Setter.Value>
+                              <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                                <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                                <Binding Mode="OneWay" Path="Data.ActiveMessage.TimeToRemove" Source="{StaticResource messagesVMProxy}" />
+                              </MultiBinding>
+                            </Setter.Value>
+                          </Setter>
+                        </Style>
+                      </ItemsControl.ItemContainerStyle>
+                    </MenuItem>
+                  </ContextMenu>
+                </commonControls:DropDownButton.CustomContextMenu>
+              </commonControls:DropDownButton>
+            </Grid>
+            <Grid Row="2" Margin="0,0,0,5" HorizontalAlignment="Stretch">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" SharedSizeGroup="TemplateLabelColumn" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox Grid.Column="1" Content="{mex:Localized MESSAGES_WINDOW_ALLOW_WEB_NOTIFICATIONS_BUTTON_title}" IsChecked="{Binding IsVisibleOnNetwork, Mode=TwoWay}" ToolTip="{mex:Localized MESSAGES_WINDOW_ALLOW_WEB_NOTIFICATIONS_BUTTON_tooltip}" />
+            </Grid>
+          </Grid>
+        </Grid>
+        <ItemsControl Name="MessageTokensList" Grid.Row="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" BorderBrush="#00FFFFFF" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding Data.ActiveMessage.Tokens, Source={StaticResource messagesVMProxy}}">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <DataTemplate x:Key="{DataTemplateKey {x:Type messages:TextToken}}" DataType="{x:Type messages:TextToken}">
+                <Border BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+                  <local:TextTokenTemplate Margin="8" Text="{Binding Text}" TokenName="{Binding Content}" />
+                </Border>
+              </DataTemplate>
+              <DataTemplate x:Key="{DataTemplateKey {x:Type messages:TimerToken}}" DataType="{x:Type messages:TimerToken}">
+                <Border BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+                  <local:TimerTokenTemplate Margin="8" Format="{Binding Format}" ResetCommand="{Binding Data.ResetCommand, Source={StaticResource messagesVMProxy}}" SelectedTimerType="{Binding SelectedTimerType}" StartCommand="{Binding Data.StartCommand, Source={StaticResource messagesVMProxy}}" StopCommand="{Binding Data.StopCommand, Source={StaticResource messagesVMProxy}}" Timer="{Binding Timer}" Timers="{Binding Data.TimerCollection, Source={StaticResource messagesVMProxy}}">
+                    <local:TimerTokenTemplate.ShowTimerControls>
+                      <MultiBinding Converter="{StaticResource TimerControlsVisibilityConverter}">
+                        <Binding />
+                        <Binding Path="Data.ActiveMessages" Source="{StaticResource messagesVMProxy}" />
+                      </MultiBinding>
+                    </local:TimerTokenTemplate.ShowTimerControls>
+                  </local:TimerTokenTemplate>
+                </Border>
+              </DataTemplate>
+              <DataTemplate x:Key="{DataTemplateKey {x:Type messages:ClockToken}}" DataType="{x:Type messages:ClockToken}">
+                <Border BorderThickness="0,0,0,1" uiUtility:UIElementHelper.Palette="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+                  <local:ClockTokenTemplate Margin="8" ClockData="{Binding ClockData}" ClockName="{Binding Content}" />
+                </Border>
+              </DataTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+        </ItemsControl>
+      </Grid>
+    </ScrollViewer>
+    <Border Grid.Row="4" HorizontalAlignment="Stretch" Background="{Binding DETAILLIST_PALETTE.Standard.Background, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding HasMessages, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid Margin="8,5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+          <transitions:ButtonSelector Margin="0,0,5,0" IsGlobalAllowed="False" SelectorButtonContentType="Utility" OutputController="{Binding OutputController}" SelectedTransition="{Binding SelectedTransition, Mode=TwoWay}" ToolTip="{mex:Localized MESSAGES_TRANSITION_BUTTON_tooltip}" TransitionHandler="{Binding TransitionHandler}" />
+          <commonControls:BorderlessButton HorizontalAlignment="Left" Command="{Binding OpenNetworkMessagesCommand}" ToolTip="{mex:Localized MESSAGES_WINDOW_SHOW_WEB_MESSAGES_tooltip}">
+            <commonControls:PathControl Grid.Column="0" Width="18" Height="18" VerticalAlignment="Center" Data="{StaticResource Network}" StrokeThickness="0" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
+          </commonControls:BorderlessButton>
+        </StackPanel>
+        <Button Grid.Column="2" Height="22" MinWidth="80" HorizontalAlignment="Right" Command="{Binding ClearMessageCommand}" Content="{mex:Localized STAGE_WINDOW_HIDE_STAGE_MESSAGE_BUTTON_title}" Visibility="{Binding IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+        <Button Grid.Column="2" Height="22" MinWidth="80" HorizontalAlignment="Right" Command="{Binding ShowMessageCommand}" Content="{mex:Localized STAGE_WINDOW_SHOW_STAGE_MESSAGE_BUTTON_title}" Visibility="{Binding IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" />
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

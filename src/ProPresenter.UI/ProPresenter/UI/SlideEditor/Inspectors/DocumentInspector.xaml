@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.DocumentInspector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors" xmlns:math="http://hexinnovation.com/math" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:presenation="clr-namespace:ProPresenter.DO.Presentation;assembly=ProPresenter.DO" xmlns:strings="clr-namespace:Pro.Common.Strings;assembly=Pro.Common" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transitions="clr-namespace:ProPresenter.UI.Transitions" xmlns:ui="clr-namespace:ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <local:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel>
+    <Grid Margin="0,5,0,0">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_BACKGROUND_ENABLE_BUTTON_title}" IsChecked="{Binding Presentation.UseBackgroundColor}" />
+      <commonControls:ColorPicker Width="50" Height="22" HorizontalAlignment="Right" ColorChangeFinishedCommand="{Binding ColorChangeFinishedCommand}" ColorChangeStartedCommand="{Binding ColorChangeStartedCommand}" SelectedColor="{Binding Presentation.BackgroundColor}" Visibility="{Binding Presentation.UseBackgroundColor, Converter={StaticResource ValueToVisibilityConverter}}" />
+      <TextBlock Grid.Row="1" Margin="22,5,0,0" FontSize="10" TextWrapping="Wrap" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_BACKGROUND_INFORMATIVE_TEXT_label}">
+        <UIElement.Visibility>
+          <ConvertExtension p18:ConvertExtension.x="{Binding Presentation.UseBackgroundColor}" p18:ConvertExtension.y="{Binding IgnoreBackgroundColors}" xmlns:p18="clr-namespace:HexInnovation;assembly=MathConverter" xmlns="clr-namespace:HexInnovation;assembly=MathConverter">
+            <Ctor xmlns="https://github.com/icsharpcode/ILSpy">And(x==true,y) ? `Visible` : `Collapsed`</Ctor>
+          </ConvertExtension>
+        </UIElement.Visibility>
+      </TextBlock>
+    </Grid>
+    <Separator Margin="-10,10" />
+    <TextBlock Margin="0,0,0,5" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_SIZE_label}" />
+    <ui:SizeSelector ResizeButtonContent="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_SIZE_MISMATCH_BUTTON_title}" Target="{Binding Data.Presentation, Source={StaticResource proxy}}" UnconfiguredSizeMessage="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_SIZE_MISMATCH_label}" />
+    <Separator Margin="-10,10" />
+    <TextBlock Margin="0,0,0,5" HorizontalAlignment="Left" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_TRANSITION_HEADER_label}" />
+    <transitions:ButtonSelector x:Name="DocumentTransitionButton" Margin="20,0,0,0" HorizontalAlignment="Stretch" SelectorButtonContentType="LongChooseAndName" OutputController="{Binding OutputController}" SelectedTransition="{Binding SelectedTransition}" TransitionHandler="{Binding TransitionHandler}" />
+    <Button Height="22" Margin="20,8,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Center" Command="{Binding RemoveTransitionCommand}" Content="{mex:Localized GLOBAL_REMOVE_title}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding SelectedTransition, ElementName=DocumentTransitionButton}" Value="{x:Null}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Button>
+    <Separator Margin="-10,10" Visibility="{Binding ShowCCLIInfo, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_HEADER_label}" Visibility="{Binding ShowCCLIInfo, Converter={StaticResource ValueToVisibilityConverter}}" />
+      <CheckBox Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Presentation.CCLIInfo.Display}">
+        <TextBlock TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_DISPLAY_COPYRIGHT_BUTTON_title}" />
+      </CheckBox>
+    </Grid>
+    <Grid Visibility="{Binding ShowCCLIInfo, Converter={StaticResource ValueToVisibilityConverter}}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Margin" Value="0,0,0,5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+          </Style>
+          <Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Margin" Value="5,0,0,5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+          </Style>
+          <Style x:Key="{x:Type commonControls:RegexTextBox}" BasedOn="{StaticResource {x:Type commonControls:RegexTextBox}}" TargetType="{x:Type commonControls:RegexTextBox}">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Margin" Value="5,0,0,5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+          </Style>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_TITLE_label}" />
+      <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Presentation.CCLIInfo.Title, UpdateSourceTrigger=PropertyChanged}" />
+      <TextBlock Grid.Row="1" Grid.Column="0" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_ARTIST_label}" />
+      <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Presentation.CCLIInfo.Artist, UpdateSourceTrigger=PropertyChanged}" />
+      <TextBlock Grid.Row="2" Grid.Column="0" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_AUTHOR_label}" />
+      <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Presentation.CCLIInfo.Author, UpdateSourceTrigger=PropertyChanged}" />
+      <TextBlock Grid.Row="3" Grid.Column="0" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_ALBUM_label}" />
+      <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Presentation.CCLIInfo.Album, UpdateSourceTrigger=PropertyChanged}" />
+      <TextBlock Grid.Row="4" Grid.Column="0" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_PUBLISHER_label}" />
+      <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Presentation.CCLIInfo.Publisher, UpdateSourceTrigger=PropertyChanged}" />
+      <TextBlock Grid.Row="5" Grid.Column="0" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_CCLI_NUMBER_label}" />
+      <commonControls:RegexTextBox Grid.Row="5" Grid.Column="1" AllowSpace="False" RegexString="{x:Static strings:RegexFilters.NumbersOnlyPattern}" Text="{Binding Presentation.CCLIInfo.SongNumber, UpdateSourceTrigger=PropertyChanged}" />
+      <TextBlock Grid.Row="6" Grid.Column="0" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_YEAR_label}" />
+      <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Presentation.CCLIInfo.Copyright, UpdateSourceTrigger=PropertyChanged}" />
+      <TextBlock Grid.Row="7" Grid.Column="0" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_MTID_NUMBER_label}" Visibility="{Binding Presentation.PresentationType, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static presenation:PresentationType.MultiTracks}}" />
+      <TextBox Grid.Row="7" Grid.Column="1" IsReadOnly="True" Visibility="{Binding Presentation.PresentationType, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static presenation:PresentationType.MultiTracks}}">
+        <TextBox.Text>
+          <PriorityBinding>
+            <Binding Mode="OneWay" Path="Presentation.SongID" />
+          </PriorityBinding>
+        </TextBox.Text>
+      </TextBox>
+      <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Top" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COPYRIGHT_ARTWORK_label}" />
+      <Border Name="ArtworkBorder" Grid.Row="8" Grid.Column="1" Width="100" Height="100" Margin="5,0,0,0" HorizontalAlignment="Left" AllowDrop="true" Background="#00FFFFFF" BorderThickness="1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+        <Image Source="{Binding Presentation.CCLIInfo.ArtworkImageData, Converter={StaticResource ByteArrayToBitmapConverter}}" />
+      </Border>
+    </Grid>
+  </StackPanel>
+</UserControl>

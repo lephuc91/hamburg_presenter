@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Links.SystemClock" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonLocalization="clr-namespace:Pro.Localization;assembly=Pro.Localization" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Links" xmlns:localConverters="clr-namespace:ProPresenter.UI.Converters" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <localConverters:DateFormatLengthConverter x:Key="DateFormatLengthConverter" NoDateLabel="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TIMER_DATE_NONE_ITEM_title}" />
+      <localConverters:TimeFormatLengthConverter x:Key="TimeFormatLengthConverter" NoTimeLabel="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TIMER_TIME_NONE_ITEM_title}" />
+      <ObjectDataProvider x:Key="FormatLengthEnum" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="commonLocalization:FormatLength" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*" />
+      <ColumnDefinition Width="3*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Margin="0,0,7,7" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TIMER_DATE_label}" />
+    <ComboBox Grid.Column="1" Height="22" Margin="0,0,0,7" ItemsSource="{Binding Source={StaticResource FormatLengthEnum}}" SelectedItem="{Binding DateFormat, Mode=TwoWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding Converter={StaticResource DateFormatLengthConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+    <TextBlock Grid.Row="1" Margin="0,0,7,7" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TIMER_TIME_label}" />
+    <ComboBox Grid.Row="1" Grid.Column="1" Height="22" Margin="0,0,0,7" ItemsSource="{Binding Source={StaticResource FormatLengthEnum}}" SelectedItem="{Binding TimeFormat, Mode=TwoWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding Converter={StaticResource TimeFormatLengthConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ComboBox>
+    <Grid Row="2" Column="1">
+      <CheckBox Margin="0,0,0,7" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TIMER_24_HOUR_TIME_BUTTON_title}" IsChecked="{Binding Use24HourFormat, Mode=TwoWay}" />
+      <commonControls:BorderlessButton Margin="0,0,0,7" HorizontalAlignment="Right" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Content="{DynamicResource GearControl}">
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Placement="Bottom">
+            <MenuItem Command="{Binding Data.SaveAsDefaultCommand, Source={StaticResource proxy}}" Header="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TIMER_DATE_FORMAT_SAVE_AS_DEFAULT_title}" />
+            <MenuItem Command="{Binding Data.ResetToDefaultCommand, Source={StaticResource proxy}}" Header="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TIMER_DATE_FORMAT_RESET_TO_DEFAULT_title}" />
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+      </commonControls:BorderlessButton>
+    </Grid>
+    <local:ClockTokenTextBox Grid.Row="3" Grid.ColumnSpan="2" Height="65" Text="{Binding DisplayFormatText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Tokens="{Binding ClockTokens}" />
+  </Grid>
+</UserControl>

@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<uiComponents:FrameworkCollection x:Class="ProPresenter.UI.Input.AudioSourceDeviceSelectorSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:liveVideo="clr-namespace:ProPresenter.UI.LiveVideo" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiComponents="clr-namespace:Pro.UI.Components;assembly=Pro.UI" x:Name="audioSourceDeviceSelectorSource" xmlns:input="clr-namespace:ProPresenter.UI.Input">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="AudioSourceDeviceSelectorSourceProxy" Data="{Binding ElementName=audioSourceDeviceSelectorSource}" />
+      <commonConverters:IsNotNullOrWhiteSpaceConverter x:Key="IsNotNullOrWhiteSpaceConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+      <liveVideo:SelectVideoDeviceCommandParameterConverter x:Key="SelectVideoDeviceCommandParameterConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <liveVideo:VideoInputDeviceShouldDisplayModesConverter x:Key="VideoInputDeviceShouldDisplayModesConverter" />
+      <Style x:Key="DeviceTypeHeaderStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <MenuItem Command="{Binding Data.ClearDeviceCommand, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" Header="{mex:Localized GLOBAL_VIDEO_INPUT_NO_AUDIO_SOURCE_title}">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Style.Triggers>
+          <DataTrigger Value="False" Binding="{Binding Data.Source.HasDevice, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}, Mode=OneWay}">
+            <Setter Property="MenuItem.IsChecked" Value="True" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </MenuItem>
+  <MenuItem Command="{Binding Data.SelectVideoDeviceCommand, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" Header="{mex:Localized SETTINGS_INPUT_VIDEO_AUDIO_DEFAULT_DEVICE_MENU_title}" CommandParameter="{MultiBinding Converter={StaticResource SelectVideoDeviceCommandParameterConverter}, Bindings={Binding Path=Data.DefaultVideoDevice, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}}">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="{Binding Data.DefaultVideoDevice, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+        <Style.Triggers>
+          <DataTrigger Value="False" Binding="{Binding Data.DefaultVideoDevice.SupportsAudio, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <MenuItem.IsChecked>
+      <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+        <Binding Path="Data.DefaultVideoDevice" Source="{StaticResource AudioSourceDeviceSelectorSourceProxy}" />
+        <Binding Path="Data.Source.VideoDevice" Source="{StaticResource AudioSourceDeviceSelectorSourceProxy}" />
+      </MultiBinding>
+    </MenuItem.IsChecked>
+  </MenuItem>
+  <Separator />
+  <MenuItem IsEnabled="False">
+    <HeaderedItemsControl.Header>
+      <TextBlock Style="{StaticResource DeviceTypeHeaderStyle}" Text="{mex:Localized SETTINGS_INPUTS_AUDIO_INPUT_ADD_ADD_AUDIO_INPUTS_label}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <MenuItem IsChecked="True" IsEnabled="False" Header="{Binding Data.Source.DeviceName, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}, StringFormat={mex:Localized INPUT_PREFERENCES_VIDEO_AUDIO_DISCONNECTED_DEVICE_MENU_title}}">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding Data.Source.DeviceName, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}" />
+              <Condition Value="False" Binding="{Binding Data.Source.IsDeviceConnected, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" />
+              <Condition Value="True" Binding="{Binding Data.Source.HasAudioDevice, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Visibility" Value="Visible" />
+          </MultiDataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </MenuItem>
+  <uiComponents:FrameworkCollectionWrapper BoundCollection="{Binding Path=Data.AudioDevices, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}">
+    <uiComponents:FrameworkCollectionWrapper.BoundDataTemplate>
+      <DataTemplate>
+        <MenuItem Command="{Binding Data.SelectAudioDeviceCommand, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+          <MenuItem.IsChecked>
+            <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}" Mode="OneWay">
+              <Binding />
+              <Binding Path="Data.Source.AudioDevice" Source="{StaticResource AudioSourceDeviceSelectorSourceProxy}" />
+            </MultiBinding>
+          </MenuItem.IsChecked>
+        </MenuItem>
+      </DataTemplate>
+    </uiComponents:FrameworkCollectionWrapper.BoundDataTemplate>
+  </uiComponents:FrameworkCollectionWrapper>
+  <Separator Visibility="{Binding Data.FilteredVideoDevices.Count, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}, Converter={StaticResource CountToVisibilityConverter}}" />
+  <MenuItem IsEnabled="False" Visibility="{Binding Data.FilteredVideoDevices.Count, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}, Converter={StaticResource CountToVisibilityConverter}}">
+    <HeaderedItemsControl.Header>
+      <TextBlock Style="{StaticResource DeviceTypeHeaderStyle}" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUTS_title}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <MenuItem IsChecked="True" IsEnabled="False" Header="{Binding Data.Source.DeviceName, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}, StringFormat={mex:Localized SETTINGS_INPUTS_DISCONNECTED_DEVICE_MENU_title}}">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding Data.Source.DeviceName, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}" />
+              <Condition Value="False" Binding="{Binding Data.Source.IsDeviceConnected, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" />
+              <Condition Value="True" Binding="{Binding Data.Source.HasVideoDevice, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Visibility" Value="Visible" />
+          </MultiDataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </MenuItem>
+  <uiComponents:FrameworkCollectionWrapper BoundCollection="{Binding Path=Data.FilteredVideoDevices, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}">
+    <uiComponents:FrameworkCollectionWrapper.BoundDataTemplate>
+      <DataTemplate>
+        <MenuItem Command="{Binding Data.SelectVideoDeviceCommand, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" Header="{Binding Name}" CommandParameter="{MultiBinding Converter={StaticResource SelectVideoDeviceCommandParameterConverter}, Bindings={Binding}}">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <commonUtility:BindingProxy x:Key="VideoDeviceProxy" Data="{Binding}" />
+              <commonUtility:BindingProxy x:Key="VideoDeviceMenuItemProxy" Data="{Binding RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <MenuItem.IsChecked>
+            <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}" Mode="OneWay">
+              <Binding />
+              <Binding Path="Data.Source.VideoDevice" Source="{StaticResource AudioSourceDeviceSelectorSourceProxy}" />
+            </MultiBinding>
+          </MenuItem.IsChecked>
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Style.Triggers>
+                <DataTrigger Value="True" Binding="{Binding Data, Source={StaticResource VideoDeviceProxy}, Converter={StaticResource VideoInputDeviceShouldDisplayModesConverter}}">
+                  <Setter Property="ItemsSource">
+                    <Setter.Value>
+                      <CompositeCollection>
+                        <CollectionContainer>
+                          <CollectionContainer.Collection>
+                            <uiComponents:FrameworkCollection>
+                              <uiComponents:FrameworkCollectionWrapper BoundCollection="{Binding Path=Data.Modes, Source={StaticResource VideoDeviceProxy}}">
+                                <uiComponents:FrameworkCollectionWrapper.BoundDataTemplate>
+                                  <DataTemplate>
+                                    <MenuItem Command="{Binding Data.SelectVideoDeviceCommand, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" Header="{Binding Name}">
+                                      <MenuItem.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource SelectVideoDeviceCommandParameterConverter}">
+                                          <MultiBinding.Bindings>
+                                            <Binding Path="Data" Source="{StaticResource VideoDeviceProxy}" />
+                                            <Binding />
+                                          </MultiBinding.Bindings>
+                                        </MultiBinding>
+                                      </MenuItem.CommandParameter>
+                                      <FrameworkElement.Style>
+                                        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                                          <Style.Triggers>
+                                            <MultiDataTrigger>
+                                              <MultiDataTrigger.Conditions>
+                                                <Condition Value="True" Binding="{Binding Data.IsChecked, Source={StaticResource VideoDeviceMenuItemProxy}}" />
+                                                <Condition Value="True">
+                                                  <Condition.Binding>
+                                                    <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                                                      <Binding Path="ModeIndex" />
+                                                      <Binding Mode="OneWay" Path="Data.Source.VideoDeviceModeIndex" Source="{StaticResource AudioSourceDeviceSelectorSourceProxy}" />
+                                                    </MultiBinding>
+                                                  </Condition.Binding>
+                                                </Condition>
+                                              </MultiDataTrigger.Conditions>
+                                              <MultiDataTrigger.Setters>
+                                                <Setter Property="MenuItem.IsChecked" Value="True" />
+                                              </MultiDataTrigger.Setters>
+                                            </MultiDataTrigger>
+                                          </Style.Triggers>
+                                        </Style>
+                                      </FrameworkElement.Style>
+                                    </MenuItem>
+                                  </DataTemplate>
+                                </uiComponents:FrameworkCollectionWrapper.BoundDataTemplate>
+                              </uiComponents:FrameworkCollectionWrapper>
+                            </uiComponents:FrameworkCollection>
+                          </CollectionContainer.Collection>
+                        </CollectionContainer>
+                      </CompositeCollection>
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+      </DataTemplate>
+    </uiComponents:FrameworkCollectionWrapper.BoundDataTemplate>
+  </uiComponents:FrameworkCollectionWrapper>
+  <Separator Visibility="{Binding Visibility, Source={x:Reference Name=AddAirCastMenuItem}}" />
+  <MenuItem IsEnabled="False" Visibility="{Binding Visibility, Source={x:Reference Name=AddAirCastMenuItem}}">
+    <HeaderedItemsControl.Header>
+      <TextBlock Style="{StaticResource DeviceTypeHeaderStyle}" Text="{mex:Localized SETTINGS_INPUTS_AUDIO_INPUT_ADD_ADD_AIRCAST_INPUT_label}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <MenuItem Name="AddAirCastMenuItem" Command="{Binding Data.AddAirCastDeviceCommand, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" CommandParameter="{Binding Data.Source, Source={StaticResource AudioSourceDeviceSelectorSourceProxy}}" Header="{mex:Localized SETTINGS_INPUTS_AUDIO_INPUT_ADD_AIRCAST_label}">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="True" Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <MenuItem.Icon>
+      <controls:ImageMask ImageSource="{StaticResource {x:Static themesUI:Icons.AirCastAudio}}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+    </MenuItem.Icon>
+  </MenuItem>
+</uiComponents:FrameworkCollection>

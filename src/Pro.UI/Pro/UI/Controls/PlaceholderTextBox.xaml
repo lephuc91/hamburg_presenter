@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.PlaceholderTextBox" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls" xmlns:local="clr-namespace:Pro.UI.Controls" xmlns:uiUtility="clr-namespace:Pro.UI.Utility" x:Name="self" BorderThickness="1" Focusable="True" BorderBrush="{Binding BorderBrush, Source={x:Reference Name=InputBox}}">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Button Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" IsTabStop="False" ContextMenu="{Binding CustomContextMenu, ElementName=self}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding PlaceholderPathType, ElementName=self}" Value="{x:Null}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <Control.Template>
+        <ControlTemplate>
+          <Grid Background="#00FFFFFF">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <local:PathControl Grid.Column="0" Width="12" Height="12" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Fill="#00FFFFFF" PathType="{Binding PlaceholderPathType, ElementName=self}" Stroke="{Binding PlaceholderForeground, ElementName=self}" />
+            <local:PathControl Grid.Column="1" Width="7" HorizontalAlignment="Left" VerticalAlignment="Center" Fill="#00FFFFFF" PathType="VDownArrow" Stroke="{Binding PlaceholderForeground, ElementName=self}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type commonControls:PathControl}">
+                  <Setter Property="Visibility" Value="Visible" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding CustomContextMenu, ElementName=self}" Value="{x:Null}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </local:PathControl>
+          </Grid>
+        </ControlTemplate>
+      </Control.Template>
+    </Button>
+    <local:AutoCompleteTextBox x:Name="InputBox" KeyDown="TextBox_KeyEvent" KeyUp="TextBox_KeyEvent" Grid.Column="1" Padding="0,0,3,0" HorizontalAlignment="Left" BorderThickness="0" Width="{Binding ActualWidth, ElementName=self}" Height="{Binding ActualHeight, ElementName=self}" HorizontalContentAlignment="{Binding TextContentHorizontalAlignment, ElementName=self}" VerticalContentAlignment="{Binding TextContentVerticalAlignment, ElementName=self}" uiUtility:UIElementHelper.FocusOnVisible="{Binding FocusOnVisible, ElementName=self}" uiUtility:UIElementHelper.KeepFocus="{Binding KeepFocus, ElementName=self}" AcceptsReturn="{Binding AcceptsReturn, ElementName=self}" Background="{Binding Background, ElementName=self}" CaretBrush="{Binding Foreground, ElementName=self}" IsTabStop="{Binding Path=IsTabStop, RelativeSource={RelativeSource AncestorType={x:Type commonControls:PlaceholderTextBox}}}" ItemsSource="{Binding AutoCompleteItemsSource, ElementName=self}" MaxLength="{Binding MaxLength, ElementName=self}" MaxLines="{Binding MaxLines, ElementName=self}" MinLines="{Binding MinLines, ElementName=self}" SpellCheck.IsEnabled="{Binding SpellCheckEnable, ElementName=self}" TextWrapping="{Binding TextWrapping, ElementName=self}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
+          <Setter Property="Text" Value="{Binding Text, ElementName=self, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <Style.Triggers>
+            <DataTrigger Value="True" Binding="{Binding IsTextBindingExplicit, ElementName=self}">
+              <Setter Property="Text" Value="{Binding Text, ElementName=self, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:AutoCompleteTextBox>
+    <TextBlock Grid.Column="1" Margin="3,0,0,0" Padding="0,0,3,0" IsHitTestVisible="False" Opacity="0.8" HorizontalAlignment="{Binding TextContentHorizontalAlignment, ElementName=self}" VerticalAlignment="{Binding TextContentVerticalAlignment, ElementName=self}" Foreground="{Binding PlaceholderForeground, ElementName=self}" Text="{Binding PlaceholderText, ElementName=self}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="0" Binding="{Binding Text.Length, ElementName=InputBox}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBlock>
+    <local:CloseButton Click="ClearButton_Click" Grid.Column="2" Width="12" Height="12" Margin="0,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Center" IsTabStop="False">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type commonControls:CloseButton}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Value="0" Binding="{Binding Text.Length, ElementName=InputBox}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="False" Binding="{Binding ShowClearButton, ElementName=self}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:CloseButton>
+  </Grid>
+</UserControl>

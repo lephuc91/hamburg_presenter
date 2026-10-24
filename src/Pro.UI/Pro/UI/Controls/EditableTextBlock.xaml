@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.EditableTextBlock" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:uiUtility="clr-namespace:Pro.UI.Utility" x:Name="this" xmlns:controls="clr-namespace:Pro.UI.Controls">
+  <Grid Width="{Binding Width, ElementName=this}">
+    <TextBlock Name="VisualTextBlock" TextTrimming="CharacterEllipsis" HorizontalAlignment="{Binding HorizontalContentAlignment, ElementName=this}" Foreground="{Binding Foreground, ElementName=this}" />
+    <TextBox Name="EditTextBox" Margin="-2,0,0,0" uiUtility:UIElementHelper.DisableUndoInputBindings="False" Visibility="Collapsed" HorizontalContentAlignment="{Binding HorizontalContentAlignment, ElementName=this}" Foreground="{Binding Foreground, ElementName=this}" Text="{Binding ElementName=this, NotifyOnValidationError=True, Path=Text, UpdateSourceTrigger=Explicit}" KeyDown="TextBox_KeyDown" LayoutUpdated="TextBox_LayoutUpdated" LostFocus="TextBox_LostFocus" Validation.Error="EditTextBox_Error" />
+  </Grid>
+</UserControl>

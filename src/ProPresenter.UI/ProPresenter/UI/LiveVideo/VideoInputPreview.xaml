@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.LiveVideo.VideoInputPreview" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.LiveVideo" x:Name="videoInputPreview">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="VideoInputPreviewProxy" Data="{Binding ElementName=videoInputPreview}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+      <commonConverters:ColorInverterConverter x:Key="ColorInverterConverter" />
+      <local:VideoInputThumbnailConverter x:Key="VideoInputThumbnailConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" MinHeight="15" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Grid}">
+        <Setter Property="Background" Value="{Binding VideoInput.DisplayColor, ElementName=videoInputPreview, Converter={StaticResource ColorToBrushConverter}}" />
+        <Style.Triggers>
+          <DataTrigger Value="True" Binding="{Binding VideoInput.HasThumbnail, ElementName=videoInputPreview}">
+            <Setter Property="Background">
+              <Setter.Value>
+                <ImageBrush Stretch="Uniform" ImageSource="{Binding Data.VideoInput.ThumbnailPath, Source={StaticResource VideoInputPreviewProxy}, Converter={StaticResource VideoInputThumbnailConverter}}" />
+              </Setter.Value>
+            </Setter>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Viewbox Grid.Row="0" Margin="2,2,2,0" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform">
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" Opacity="0.8" TextOptions.TextFormattingMode="Ideal" Foreground="{Binding VideoInput.DisplayColor, ElementName=videoInputPreview, Converter={StaticResource ColorInverterConverter}}" Text="{Binding VideoInput.DefaultDescription, ElementName=videoInputPreview}" Visibility="{Binding VideoInput.HasThumbnail, ElementName=videoInputPreview, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+    </Viewbox>
+    <commonControls:TruncatedTextblock Grid.Row="1" Margin="2,0" FontSize="15" FontStretch="Normal" FontWeight="Normal" HorizontalTextAlignment="Left" TruncatingMode="Middle" VerticalTextAlignment="Top" Foreground="{Binding VideoInput.DisplayColor, ElementName=videoInputPreview, Converter={StaticResource ColorInverterConverter}}" Text="{Binding VideoInput.Description, ElementName=videoInputPreview}" Visibility="{Binding VideoInput.HasThumbnail, ElementName=videoInputPreview, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+  </Grid>
+</UserControl>

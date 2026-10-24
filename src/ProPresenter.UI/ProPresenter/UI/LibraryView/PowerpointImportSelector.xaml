@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.LibraryView.PowerpointImportSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:librarian="clr-namespace:ProPresenter.DO.Librarian;assembly=ProPresenter.DO" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:playlists="clr-namespace:ProPresenter.DO.Playlists;assembly=ProPresenter.DO" xmlns:proUIThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:utility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="Self" utility:WindowHelper.ChildOf="MainWindow" utility:WindowHelper.UseGlobalStyle="True" CanClose="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" xmlns:libraryview="clr-namespace:ProPresenter.UI.LibraryView" Title="{markupExtensions:Localized IMPORT_TEXT_DESTINATION_LIBRARY_WINDOW_title}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="selfProxy" Data="{Binding}" />
+      <converters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="10" IsSharedSizeScope="True">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition Width="200" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition SharedSizeGroup="A" />
+      <RowDefinition SharedSizeGroup="A" />
+      <RowDefinition SharedSizeGroup="A" />
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{markupExtensions:Localized IMPORT_TEXT_DESTINATION_LIBRARY_label}" />
+    <controls:DropDownButton Grid.Column="1" Margin="0,3" VerticalAlignment="Center" VerticalContentAlignment="Center" CustomContent="{Binding Library.Name}">
+      <controls:DropDownButton.CustomContextMenu>
+        <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding Libraries}">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type librarian:Library}}">
+                <MenuItem utility:CommandHelper.CommandParameter="{Binding}" Command="{Binding Data.SelectLibraryCommand, Source={StaticResource selfProxy}}" Header="{Binding Name}">
+                  <MenuItem.IsChecked>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                      <Binding />
+                      <Binding Path="Data.Library" Source="{StaticResource selfProxy}" />
+                    </MultiBinding>
+                  </MenuItem.IsChecked>
+                </MenuItem>
+              </ItemContainerTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+        </ContextMenu>
+      </controls:DropDownButton.CustomContextMenu>
+    </controls:DropDownButton>
+    <TextBlock Grid.Row="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{markupExtensions:Localized IMPORT_TEXT_DESTINATION_PLAYLIST_label}" Visibility="{Binding AllowPlaylistSelection, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    <controls:DropDownButton Grid.Row="1" Grid.Column="1" Margin="0,3" VerticalAlignment="Center" VerticalContentAlignment="Center" Visibility="{Binding AllowPlaylistSelection, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type controls:DropDownButton}">
+          <Setter Property="controls:DropDownButton.CustomContent" Value="{Binding Playlist.Name}" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Playlist}" Value="{x:Null}">
+              <Setter Property="controls:DropDownButton.CustomContent" Value="{markupExtensions:Localized NEW_PRESENTATION_ADD_TO_PLAYLIST_NO_PLAYLIST_label}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <controls:DropDownButton.CustomContextMenu>
+        <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <CollectionViewSource x:Key="Playlists" Source="{Binding Data.Playlists, Source={StaticResource selfProxy}}" />
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:GeneralPlaylist}}">
+                <MenuItem Command="{Binding Data.SelectPlaylistCommand, Source={StaticResource selfProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                  <MenuItem.IsChecked>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                      <Binding />
+                      <Binding Path="Data.Playlist" Source="{StaticResource selfProxy}" />
+                    </MultiBinding>
+                  </MenuItem.IsChecked>
+                  <MenuItem.Icon>
+                    <Image Source="{StaticResource {x:Static proUIThemes:Icons.LibraryPlaylist}}" />
+                  </MenuItem.Icon>
+                </MenuItem>
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:PCOPlaylist}}">
+                <MenuItem Command="{Binding Data.SelectPlaylistCommand, Source={StaticResource selfProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                  <MenuItem.IsChecked>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                      <Binding />
+                      <Binding Path="Data.Playlist" Source="{StaticResource selfProxy}" />
+                    </MultiBinding>
+                  </MenuItem.IsChecked>
+                  <MenuItem.Icon>
+                    <Image Source="{StaticResource {x:Static proUIThemes:Icons.PCOPlaylist}}" />
+                  </MenuItem.Icon>
+                </MenuItem>
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:GeneralGroupPlaylist}}">
+                <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding Children}">
+                  <MenuItem.Icon>
+                    <Image Source="{StaticResource {x:Static proUIThemes:Icons.PlaylistFolder}}" />
+                  </MenuItem.Icon>
+                </MenuItem>
+              </ItemContainerTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <MenuItem Command="{Binding Data.SelectPlaylistCommand, Source={StaticResource selfProxy}}" CommandParameter="{x:Null}" Header="{markupExtensions:Localized NEW_PRESENTATION_ADD_TO_PLAYLIST_NO_PLAYLIST_label}">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                    <Setter Property="MenuItem.IsChecked" Value="False" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Data.Playlist, Source={StaticResource selfProxy}}" Value="{x:Null}">
+                        <Setter Property="MenuItem.IsChecked" Value="True" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </MenuItem>
+              <Separator />
+              <CollectionContainer Collection="{Binding Source={StaticResource Playlists}}" />
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </controls:DropDownButton.CustomContextMenu>
+    </controls:DropDownButton>
+    <TextBlock Grid.Row="2" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{markupExtensions:Localized IMPORT_TEXT_DESTINATION_SIZE_label}" />
+    <ui:SizeSelector x:Name="sizeSelector" Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Margin="0,3" VerticalAlignment="Center" VerticalContentAlignment="Center" SetTargetToDefaultSize="True" Target="{Binding Data, Source={StaticResource selfProxy}}" />
+    <StackPanel Name="ButtonsPanel" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+      <Button Name="okButton" Height="22" MinWidth="80" Margin="10,0,0,0" Padding="4,0" IsDefault="True" Content="{markupExtensions:Localized GLOBAL_OK_BUTTON_title}" Click="Button_Close" />
+      <Button Name="cancelButton" Height="22" MinWidth="80" Margin="10,0,0,0" Padding="4,0" IsCancel="True" Content="{markupExtensions:Localized GLOBAL_CANCEL_BUTTON_title}" Click="Button_Close" />
+    </StackPanel>
+  </Grid>
+</windowing:ChromedWindow>

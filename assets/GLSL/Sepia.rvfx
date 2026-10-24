@@ -1,0 +1,8 @@
+{
+    "description": "Simulates the Sepia tone.",
+    "name": "Sepia",
+    "numPasses": 1,
+    "shaderFile": "Sepia",
+    "type": 0,
+    "uuid": "06157C8E-D971-4F06-9ECA-2663664E22A6"
+}

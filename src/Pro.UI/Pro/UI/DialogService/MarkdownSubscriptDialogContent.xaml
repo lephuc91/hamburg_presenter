@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.DialogService.MarkdownSubscriptDialogContent" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Pro.UI.DialogService" xmlns:markdown="clr-namespace:Pro.UI.Controls.Markdown" x:Name="self">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <local:MessageContent Grid.Row="0" Heading="{Binding Heading, ElementName=self}" Message="{Binding Message, ElementName=self}" />
+    <markdown:MarkdownTextBlock Grid.Row="1" Margin="0,10,10,10" TextWrapping="WrapWithOverflow" Markdown="{Binding Markdown, ElementName=self}" />
+  </Grid>
+</UserControl>

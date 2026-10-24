@@ -1,0 +1,2882 @@
+
+<USXKeys>
+    <Bible abbreviation="NRSV" name="New Revised Standard Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalm"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="HCSB" name="Holman Christian Standard Bible">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalm"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="UKJV" name="Updated King James Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="TCNT" name="Twentieth Century New Testament">
+        <Book index="1" code="MAT" name="Matthew"></Book>
+        <Book index="2" code="MRK" name="Mark"></Book>
+        <Book index="3" code="LUK" name="Luke"></Book>
+        <Book index="4" code="JHN" name="John"></Book>
+        <Book index="5" code="ACT" name="Acts"></Book>
+        <Book index="6" code="ROM" name="Romans"></Book>
+        <Book index="7" code="1CO" name="I Corinthians"></Book>
+        <Book index="8" code="2CO" name="II Corinthians"></Book>
+        <Book index="9" code="GAL" name="Galatians"></Book>
+        <Book index="10" code="EPH" name="Ephesians"></Book>
+        <Book index="11" code="PHP" name="Philippians"></Book>
+        <Book index="12" code="COL" name="Colossians"></Book>
+        <Book index="13" code="1TH" name="I Thessalonians"></Book>
+        <Book index="14" code="2TH" name="II Thessalonians"></Book>
+        <Book index="15" code="1TI" name="I Timothy"></Book>
+        <Book index="16" code="2TI" name="II Timothy"></Book>
+        <Book index="17" code="TIT" name="Titus"></Book>
+        <Book index="18" code="PHM" name="Philemon"></Book>
+        <Book index="19" code="HEB" name="Hebrews"></Book>
+        <Book index="20" code="JAS" name="James"></Book>
+        <Book index="21" code="1PE" name="I Peter"></Book>
+        <Book index="22" code="2PE" name="II Peter"></Book>
+        <Book index="23" code="1JN" name="I John"></Book>
+        <Book index="24" code="2JN" name="II John"></Book>
+        <Book index="25" code="3JN" name="III John"></Book>
+        <Book index="26" code="JUD" name="Jude"></Book>
+        <Book index="27" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="CEB" name="Common English Bible">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalm"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="JPS" name="Jewish Publication Society Old Testament">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+    </Bible>
+    <Bible abbreviation="WTB" name="William Tyndale Bible">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="MAT" name="Matthew"></Book>
+        <Book index="3" code="MRK" name="Mark"></Book>
+        <Book index="4" code="LUK" name="Luke"></Book>
+        <Book index="5" code="JHN" name="John"></Book>
+        <Book index="6" code="ACT" name="Acts"></Book>
+        <Book index="7" code="ROM" name="Romans"></Book>
+        <Book index="8" code="1CO" name="I Corinthians"></Book>
+        <Book index="9" code="HEB" name="Hebrews"></Book>
+        <Book index="10" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="DHB" name="Darby Translation">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Songs"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="ESV" name="English Standard Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Songs"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="BIS" name="Bahasa Indonesia Seharihari">
+        <Book index="1" code="GEN" name="Kejadian"></Book>
+        <Book index="2" code="EXO" name="Keluaran"></Book>
+        <Book index="3" code="LEV" name="Imamat"></Book>
+        <Book index="4" code="NUM" name="Bilangan"></Book>
+        <Book index="5" code="DEU" name="Ulangan"></Book>
+        <Book index="6" code="JOS" name="Yosua"></Book>
+        <Book index="7" code="JDG" name="Hakim Hakim"></Book>
+        <Book index="8" code="RUT" name="Rut"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Raja Raja"></Book>
+        <Book index="12" code="2KI" name="2 Raja Raja"></Book>
+        <Book index="13" code="1CH" name="1 Tawarikh"></Book>
+        <Book index="14" code="2CH" name="2 Tawarikh"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemia"></Book>
+        <Book index="17" code="EST" name="Ester"></Book>
+        <Book index="18" code="JOB" name="Ayub"></Book>
+        <Book index="19" code="PSA" name="Mazmur"></Book>
+        <Book index="20" code="PRO" name="Amsal"></Book>
+        <Book index="21" code="ECC" name="Pengkhotbah"></Book>
+        <Book index="22" code="SNG" name="Kidung Agung"></Book>
+        <Book index="23" code="ISA" name="Yesaya"></Book>
+        <Book index="24" code="JER" name="Yeremia"></Book>
+        <Book index="25" code="LAM" name="Ratapan"></Book>
+        <Book index="26" code="EZK" name="Yehezkiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Yoel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obaja"></Book>
+        <Book index="32" code="JON" name="Yunus"></Book>
+        <Book index="33" code="MIC" name="Mikha"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakuk"></Book>
+        <Book index="36" code="ZEP" name="Zafanya"></Book>
+        <Book index="37" code="HAG" name="Hagai"></Book>
+        <Book index="38" code="ZEC" name="Zakharia"></Book>
+        <Book index="39" code="MAL" name="Maleakhi"></Book>
+        <Book index="40" code="MAT" name="Matius"></Book>
+        <Book index="41" code="MRK" name="Markus"></Book>
+        <Book index="42" code="LUK" name="Lukas"></Book>
+        <Book index="43" code="JHN" name="Yohanes"></Book>
+        <Book index="44" code="ACT" name="Kisah Para Rasul"></Book>
+        <Book index="45" code="ROM" name="Roma"></Book>
+        <Book index="46" code="1CO" name="1 Korintus"></Book>
+        <Book index="47" code="2CO" name="2 Korintus"></Book>
+        <Book index="48" code="GAL" name="Galatia"></Book>
+        <Book index="49" code="EPH" name="Efesus"></Book>
+        <Book index="50" code="PHP" name="Filipi"></Book>
+        <Book index="51" code="COL" name="Kolose"></Book>
+        <Book index="52" code="1TH" name="1 Tesalonika"></Book>
+        <Book index="53" code="2TH" name="2 Tesalonika"></Book>
+        <Book index="54" code="1TI" name="1 Timotius"></Book>
+        <Book index="55" code="2TI" name="2 Timotius"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Filemon"></Book>
+        <Book index="58" code="HEB" name="Ibrani"></Book>
+        <Book index="59" code="JAS" name="Yakobus"></Book>
+        <Book index="60" code="1PE" name="1 Petrus"></Book>
+        <Book index="61" code="2PE" name="2 Petrus"></Book>
+        <Book index="62" code="1JN" name="1 Yohanes"></Book>
+        <Book index="63" code="2JN" name="2 Yohanes"></Book>
+        <Book index="64" code="3JN" name="3 Yohanes"></Book>
+        <Book index="65" code="JUD" name="Yudas"></Book>
+        <Book index="66" code="REV" name="Wahyu"></Book>
+    </Bible>
+    <Bible abbreviation="MNT" name="Montgomery New Testament">
+        <Book index="1" code="MAT" name="Matthew"></Book>
+        <Book index="2" code="MRK" name="Mark"></Book>
+        <Book index="3" code="LUK" name="Luke"></Book>
+        <Book index="4" code="JHN" name="John"></Book>
+        <Book index="5" code="ACT" name="Acts"></Book>
+        <Book index="6" code="ROM" name="Romans"></Book>
+        <Book index="7" code="1CO" name="I Corinthians"></Book>
+        <Book index="8" code="2CO" name="II Corinthians"></Book>
+        <Book index="9" code="GAL" name="Galatians"></Book>
+        <Book index="10" code="EPH" name="Ephesians"></Book>
+        <Book index="11" code="PHP" name="Philippians"></Book>
+        <Book index="12" code="COL" name="Colossians"></Book>
+        <Book index="13" code="1TH" name="I Thessalonians"></Book>
+        <Book index="14" code="2TH" name="II Thessalonians"></Book>
+        <Book index="15" code="1TI" name="I Timothy"></Book>
+        <Book index="16" code="2TI" name="II Timothy"></Book>
+        <Book index="17" code="TIT" name="Titus"></Book>
+        <Book index="18" code="PHM" name="Philemon"></Book>
+        <Book index="19" code="HEB" name="Hebrews"></Book>
+        <Book index="20" code="JAS" name="James"></Book>
+        <Book index="21" code="1PE" name="I Peter"></Book>
+        <Book index="22" code="2PE" name="II Peter"></Book>
+        <Book index="23" code="1JN" name="I John"></Book>
+        <Book index="24" code="2JN" name="II John"></Book>
+        <Book index="25" code="3JN" name="III John"></Book>
+        <Book index="26" code="JUD" name="Jude"></Book>
+        <Book index="27" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="Geneva" name="Geneva Bible (1599)">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="RWB" name="Revised Webster Version (1833)">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="NIRV" name="New International Reader's Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Songs"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="TNIV" name="Today's New International Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Songs"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="LSG" name="Louis Segond (1910)">
+        <Book index="1" code="GEN" name="Genèse"></Book>
+        <Book index="2" code="EXO" name="Exode"></Book>
+        <Book index="3" code="LEV" name="Lévitique"></Book>
+        <Book index="4" code="NUM" name="Nombres"></Book>
+        <Book index="5" code="DEU" name="Deutéronome"></Book>
+        <Book index="6" code="JOS" name="Josué"></Book>
+        <Book index="7" code="JDG" name="Juges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Rois"></Book>
+        <Book index="12" code="2KI" name="2 Rois"></Book>
+        <Book index="13" code="1CH" name="1 Chroniques"></Book>
+        <Book index="14" code="2CH" name="2 Chroniques"></Book>
+        <Book index="15" code="EZR" name="Esdras"></Book>
+        <Book index="16" code="NEH" name="Néhémie"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psaumes"></Book>
+        <Book index="20" code="PRO" name="Proverbes"></Book>
+        <Book index="21" code="ECC" name="Ecclésiaste"></Book>
+        <Book index="22" code="SNG" name="Cantique des cantiques"></Book>
+        <Book index="23" code="ISA" name="Esaïe"></Book>
+        <Book index="24" code="JER" name="Jérémie"></Book>
+        <Book index="25" code="LAM" name="Lamentations de Jérémie"></Book>
+        <Book index="26" code="EZK" name="Ézéchiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Osée"></Book>
+        <Book index="29" code="JOL" name="Joël"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Abdias"></Book>
+        <Book index="32" code="JON" name="Jonas"></Book>
+        <Book index="33" code="MIC" name="Michée"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakuk"></Book>
+        <Book index="36" code="ZEP" name="Sophonie"></Book>
+        <Book index="37" code="HAG" name="Aggée"></Book>
+        <Book index="38" code="ZEC" name="Zaccharie"></Book>
+        <Book index="39" code="MAL" name="Malachie"></Book>
+        <Book index="40" code="MAT" name="Matthieu"></Book>
+        <Book index="41" code="MRK" name="Marc"></Book>
+        <Book index="42" code="LUK" name="Luc"></Book>
+        <Book index="43" code="JHN" name="Jean"></Book>
+        <Book index="44" code="ACT" name="Actes"></Book>
+        <Book index="45" code="ROM" name="Romains"></Book>
+        <Book index="46" code="1CO" name="1 Corinthiens"></Book>
+        <Book index="47" code="2CO" name="2 Corinthiens"></Book>
+        <Book index="48" code="GAL" name="Galates"></Book>
+        <Book index="49" code="EPH" name="Ephésiens"></Book>
+        <Book index="50" code="PHP" name="Philippiens"></Book>
+        <Book index="51" code="COL" name="Colossiens"></Book>
+        <Book index="52" code="1TH" name="1 Thessaloniciens"></Book>
+        <Book index="53" code="2TH" name="2 Thessaloniciens"></Book>
+        <Book index="54" code="1TI" name="1 Timothée"></Book>
+        <Book index="55" code="2TI" name="2 Timothée"></Book>
+        <Book index="56" code="TIT" name="Tite"></Book>
+        <Book index="57" code="PHM" name="Philémon"></Book>
+        <Book index="58" code="HEB" name="Hébreux"></Book>
+        <Book index="59" code="JAS" name="Jacques"></Book>
+        <Book index="60" code="1PE" name="1 Pierre"></Book>
+        <Book index="61" code="2PE" name="2 Pierre"></Book>
+        <Book index="62" code="1JN" name="1 Jean"></Book>
+        <Book index="63" code="2JN" name="2 Jean"></Book>
+        <Book index="64" code="3JN" name="3 Jean"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Apocalypse"></Book>
+    </Bible>
+    <Bible abbreviation="WEY" name="Weymouth NT (1912)">
+        <Book index="1" code="MAT" name="Matthew"></Book>
+        <Book index="2" code="MRK" name="Mark"></Book>
+        <Book index="3" code="LUK" name="Luke"></Book>
+        <Book index="4" code="JHN" name="John"></Book>
+        <Book index="5" code="ACT" name="Acts"></Book>
+        <Book index="6" code="ROM" name="Romans"></Book>
+        <Book index="7" code="1CO" name="I Corinthians"></Book>
+        <Book index="8" code="2CO" name="II Corinthians"></Book>
+        <Book index="9" code="GAL" name="Galatians"></Book>
+        <Book index="10" code="EPH" name="Ephesians"></Book>
+        <Book index="11" code="PHP" name="Philippians"></Book>
+        <Book index="12" code="COL" name="Colossians"></Book>
+        <Book index="13" code="1TH" name="I Thessalonians"></Book>
+        <Book index="14" code="2TH" name="II Thessalonians"></Book>
+        <Book index="15" code="1TI" name="I Timothy"></Book>
+        <Book index="16" code="2TI" name="II Timothy"></Book>
+        <Book index="17" code="TIT" name="Titus"></Book>
+        <Book index="18" code="PHM" name="Philemon"></Book>
+        <Book index="19" code="HEB" name="Hebrews"></Book>
+        <Book index="20" code="JAS" name="James"></Book>
+        <Book index="21" code="1PE" name="I Peter"></Book>
+        <Book index="22" code="2PE" name="II Peter"></Book>
+        <Book index="23" code="1JN" name="I John"></Book>
+        <Book index="24" code="2JN" name="II John"></Book>
+        <Book index="25" code="3JN" name="III John"></Book>
+        <Book index="26" code="JUD" name="Jude"></Book>
+        <Book index="27" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="NKRV" name="New Korean Revised Version">
+        <Book index="1" code="GEN" name="창세기"></Book>
+        <Book index="2" code="EXO" name="출애굽기"></Book>
+        <Book index="3" code="LEV" name="레위기"></Book>
+        <Book index="4" code="NUM" name="민수기"></Book>
+        <Book index="5" code="DEU" name="신명기"></Book>
+        <Book index="6" code="JOS" name="여호수아"></Book>
+        <Book index="7" code="JDG" name="사사기"></Book>
+        <Book index="8" code="RUT" name="룻기"></Book>
+        <Book index="9" code="1SA" name="사무엘상"></Book>
+        <Book index="10" code="2SA" name="사무엘하"></Book>
+        <Book index="11" code="1KI" name="열왕기상"></Book>
+        <Book index="12" code="2KI" name="열왕기하"></Book>
+        <Book index="13" code="1CH" name="역대상"></Book>
+        <Book index="14" code="2CH" name="역대하"></Book>
+        <Book index="15" code="EZR" name="에스라"></Book>
+        <Book index="16" code="NEH" name="느헤미야"></Book>
+        <Book index="17" code="EST" name="에스더"></Book>
+        <Book index="18" code="JOB" name="욥기"></Book>
+        <Book index="19" code="PSA" name="시편"></Book>
+        <Book index="20" code="PRO" name="잠언"></Book>
+        <Book index="21" code="ECC" name="전도서"></Book>
+        <Book index="22" code="SNG" name="아가"></Book>
+        <Book index="23" code="ISA" name="이사야"></Book>
+        <Book index="24" code="JER" name="예레미야"></Book>
+        <Book index="25" code="LAM" name="예레미야애가"></Book>
+        <Book index="26" code="EZK" name="에스겔"></Book>
+        <Book index="27" code="DAN" name="다니엘"></Book>
+        <Book index="28" code="HOS" name="호세아"></Book>
+        <Book index="29" code="JOL" name="요엘"></Book>
+        <Book index="30" code="AMO" name="아모스"></Book>
+        <Book index="31" code="OBA" name="오바댜"></Book>
+        <Book index="32" code="JON" name="요나"></Book>
+        <Book index="33" code="MIC" name="미가"></Book>
+        <Book index="34" code="NAM" name="나훔"></Book>
+        <Book index="35" code="HAB" name="하박국"></Book>
+        <Book index="36" code="ZEP" name="스바냐"></Book>
+        <Book index="37" code="HAG" name="학개"></Book>
+        <Book index="38" code="ZEC" name="스가랴"></Book>
+        <Book index="39" code="MAL" name="말라기"></Book>
+        <Book index="40" code="MAT" name="마태복음"></Book>
+        <Book index="41" code="MRK" name="마가복음"></Book>
+        <Book index="42" code="LUK" name="누가복음"></Book>
+        <Book index="43" code="JHN" name="요한복음"></Book>
+        <Book index="44" code="ACT" name="사도행전"></Book>
+        <Book index="45" code="ROM" name="로마서"></Book>
+        <Book index="46" code="1CO" name="고린도전서"></Book>
+        <Book index="47" code="2CO" name="고린도후서"></Book>
+        <Book index="48" code="GAL" name="갈라디아서"></Book>
+        <Book index="49" code="EPH" name="에베소서"></Book>
+        <Book index="50" code="PHP" name="빌립보서"></Book>
+        <Book index="51" code="COL" name="골로새서"></Book>
+        <Book index="52" code="1TH" name="데살로니가전서"></Book>
+        <Book index="53" code="2TH" name="데살로니가후서"></Book>
+        <Book index="54" code="1TI" name="디모데전서"></Book>
+        <Book index="55" code="2TI" name="디모데후서"></Book>
+        <Book index="56" code="TIT" name="디도서"></Book>
+        <Book index="57" code="PHM" name="빌레몬서"></Book>
+        <Book index="58" code="HEB" name="히브리서"></Book>
+        <Book index="59" code="JAS" name="야고보서"></Book>
+        <Book index="60" code="1PE" name="베드로전서"></Book>
+        <Book index="61" code="2PE" name="베드로후서"></Book>
+        <Book index="62" code="1JN" name="요한일서"></Book>
+        <Book index="63" code="2JN" name="요한이서"></Book>
+        <Book index="64" code="3JN" name="요한삼서"></Book>
+        <Book index="65" code="JUD" name="유다서"></Book>
+        <Book index="66" code="REV" name="요한계시록"></Book>
+    </Bible>
+    <Bible abbreviation="BBE" name="Bible in Basic English">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="FINPR" name="Finnish Pyhä Raamattu">
+        <Book index="1" code="GEN" name="1. Mooseksen kirja"></Book>
+        <Book index="2" code="EXO" name="2. Mooseksen kirja"></Book>
+        <Book index="3" code="LEV" name="3. Mooseksen kirja"></Book>
+        <Book index="4" code="NUM" name="4. Mooseksen kirja"></Book>
+        <Book index="5" code="DEU" name="5. Mooseksen kirja"></Book>
+        <Book index="6" code="JOS" name="Joosua"></Book>
+        <Book index="7" code="JDG" name="Tuomarien kirja"></Book>
+        <Book index="8" code="RUT" name="Ruut"></Book>
+        <Book index="9" code="1SA" name="1. Samuelin kirja"></Book>
+        <Book index="10" code="2SA" name="2. Samuelin kirja"></Book>
+        <Book index="11" code="1KI" name="1. Kuninkaiden kirja"></Book>
+        <Book index="12" code="2KI" name="2. Kuninkaiden kirja"></Book>
+        <Book index="13" code="1CH" name="1. Aikakirja"></Book>
+        <Book index="14" code="2CH" name="2. Aikakirja"></Book>
+        <Book index="15" code="EZR" name="Esra"></Book>
+        <Book index="16" code="NEH" name="Nehemia"></Book>
+        <Book index="17" code="EST" name="Ester"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalmit"></Book>
+        <Book index="20" code="PRO" name="Sananlaskut"></Book>
+        <Book index="21" code="ECC" name="Saarnaaja"></Book>
+        <Book index="22" code="SNG" name="Laulujen laulu"></Book>
+        <Book index="23" code="ISA" name="Jesaja"></Book>
+        <Book index="24" code="JER" name="Jeremia"></Book>
+        <Book index="25" code="LAM" name="Valitusvirret"></Book>
+        <Book index="26" code="EZK" name="Hesekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hoosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Aamos"></Book>
+        <Book index="31" code="OBA" name="Obadja"></Book>
+        <Book index="32" code="JON" name="Joona"></Book>
+        <Book index="33" code="MIC" name="Miika"></Book>
+        <Book index="34" code="NAM" name="Naahum"></Book>
+        <Book index="35" code="HAB" name="Habakuk"></Book>
+        <Book index="36" code="ZEP" name="Sefanja"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Sakarja"></Book>
+        <Book index="39" code="MAL" name="Malakia"></Book>
+        <Book index="40" code="MAT" name="Matteus"></Book>
+        <Book index="41" code="MRK" name="Markus"></Book>
+        <Book index="42" code="LUK" name="Luukas"></Book>
+        <Book index="43" code="JHN" name="Johannes"></Book>
+        <Book index="44" code="ACT" name="Apostolien teot"></Book>
+        <Book index="45" code="ROM" name="Roomalaiskirje"></Book>
+        <Book index="46" code="1CO" name="1. Korinttolaiskirje"></Book>
+        <Book index="47" code="2CO" name="2. Korinttolaiskirje"></Book>
+        <Book index="48" code="GAL" name="Galatalaiskirje"></Book>
+        <Book index="49" code="EPH" name="Efesolaiskirje"></Book>
+        <Book index="50" code="PHP" name="Filippiläiskirje"></Book>
+        <Book index="51" code="COL" name="Kolossalaiskirje"></Book>
+        <Book index="52" code="1TH" name="1. Tessalonikalaiskirje"></Book>
+        <Book index="53" code="2TH" name="2. Tessalonikalaiskirje"></Book>
+        <Book index="54" code="1TI" name="1. kirje Timoteukselle"></Book>
+        <Book index="55" code="2TI" name="2. kirje Timoteukselle"></Book>
+        <Book index="56" code="TIT" name="Kirje Titukselle"></Book>
+        <Book index="57" code="PHM" name="Kirje Filemonille"></Book>
+        <Book index="58" code="HEB" name="Heprealaiskirje"></Book>
+        <Book index="59" code="JAS" name="Jaakobin kirje"></Book>
+        <Book index="60" code="1PE" name="1. Pietarin kirje"></Book>
+        <Book index="61" code="2PE" name="2. Pietarin kirje"></Book>
+        <Book index="62" code="1JN" name="1. Johanneksen kirje"></Book>
+        <Book index="63" code="2JN" name="2. Johanneksen kirje"></Book>
+        <Book index="64" code="3JN" name="3. Johanneksen kirje"></Book>
+        <Book index="65" code="JUD" name="Juudaksen kirje"></Book>
+        <Book index="66" code="REV" name="Johanneksen ilmestys"></Book>
+    </Bible>
+    <Bible abbreviation="DRC" name="Douay-Rheims Bible, Challoner Revision">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="KRV" name="Korean Revised Version">
+        <Book index="1" code="GEN" name="창세기"></Book>
+        <Book index="2" code="EXO" name="출애굽기"></Book>
+        <Book index="3" code="LEV" name="레위기"></Book>
+        <Book index="4" code="NUM" name="민수기"></Book>
+        <Book index="5" code="DEU" name="신명기"></Book>
+        <Book index="6" code="JOS" name="여호수아"></Book>
+        <Book index="7" code="JDG" name="사사기"></Book>
+        <Book index="8" code="RUT" name="룻기"></Book>
+        <Book index="9" code="1SA" name="사무엘상"></Book>
+        <Book index="10" code="2SA" name="사무엘하"></Book>
+        <Book index="11" code="1KI" name="열왕기상"></Book>
+        <Book index="12" code="2KI" name="열왕기하"></Book>
+        <Book index="13" code="1CH" name="역대상"></Book>
+        <Book index="14" code="2CH" name="역대하"></Book>
+        <Book index="15" code="EZR" name="에스라"></Book>
+        <Book index="16" code="NEH" name="느헤미야"></Book>
+        <Book index="17" code="EST" name="에스더"></Book>
+        <Book index="18" code="JOB" name="욥기"></Book>
+        <Book index="19" code="PSA" name="시편"></Book>
+        <Book index="20" code="PRO" name="잠언"></Book>
+        <Book index="21" code="ECC" name="전도서"></Book>
+        <Book index="22" code="SNG" name="아가"></Book>
+        <Book index="23" code="ISA" name="이사야"></Book>
+        <Book index="24" code="JER" name="예레미야"></Book>
+        <Book index="25" code="LAM" name="예레미야애가"></Book>
+        <Book index="26" code="EZK" name="에스겔"></Book>
+        <Book index="27" code="DAN" name="다니엘"></Book>
+        <Book index="28" code="HOS" name="호세아"></Book>
+        <Book index="29" code="JOL" name="요엘"></Book>
+        <Book index="30" code="AMO" name="아모스"></Book>
+        <Book index="31" code="OBA" name="오바댜"></Book>
+        <Book index="32" code="JON" name="요나"></Book>
+        <Book index="33" code="MIC" name="미가"></Book>
+        <Book index="34" code="NAM" name="나훔"></Book>
+        <Book index="35" code="HAB" name="하박국"></Book>
+        <Book index="36" code="ZEP" name="스바냐"></Book>
+        <Book index="37" code="HAG" name="학개"></Book>
+        <Book index="38" code="ZEC" name="스가랴"></Book>
+        <Book index="39" code="MAL" name="말라기"></Book>
+        <Book index="40" code="MAT" name="마태복음"></Book>
+        <Book index="41" code="MRK" name="마가복음"></Book>
+        <Book index="42" code="LUK" name="누가복음"></Book>
+        <Book index="43" code="JHN" name="요한복음"></Book>
+        <Book index="44" code="ACT" name="사도행전"></Book>
+        <Book index="45" code="ROM" name="로마서"></Book>
+        <Book index="46" code="1CO" name="고린도전서"></Book>
+        <Book index="47" code="2CO" name="고린도후서"></Book>
+        <Book index="48" code="GAL" name="갈라디아서"></Book>
+        <Book index="49" code="EPH" name="에베소서"></Book>
+        <Book index="50" code="PHP" name="빌립보서"></Book>
+        <Book index="51" code="COL" name="골로새서"></Book>
+        <Book index="52" code="1TH" name="데살로니가전서"></Book>
+        <Book index="53" code="2TH" name="데살로니가후서"></Book>
+        <Book index="54" code="1TI" name="디모데전서"></Book>
+        <Book index="55" code="2TI" name="디모데후서"></Book>
+        <Book index="56" code="TIT" name="디도서"></Book>
+        <Book index="57" code="PHM" name="빌레몬서"></Book>
+        <Book index="58" code="HEB" name="히브리서"></Book>
+        <Book index="59" code="JAS" name="야고보서"></Book>
+        <Book index="60" code="1PE" name="베드로전서"></Book>
+        <Book index="61" code="2PE" name="베드로후서"></Book>
+        <Book index="62" code="1JN" name="요한일서"></Book>
+        <Book index="63" code="2JN" name="요한이서"></Book>
+        <Book index="64" code="3JN" name="요한삼서"></Book>
+        <Book index="65" code="JUD" name="유다서"></Book>
+        <Book index="66" code="REV" name="요한계시록"></Book>
+    </Bible>
+    <Bible abbreviation="NIV" name="New International Version 1984">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalm"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="HCV" name="Haitian Creole Version">
+        <Book index="1" code="GEN" name="Jenèz"></Book>
+        <Book index="2" code="EXO" name="Egzòd"></Book>
+        <Book index="3" code="LEV" name="Levitik"></Book>
+        <Book index="4" code="NUM" name="Resansman"></Book>
+        <Book index="5" code="DEU" name="Deteronòm"></Book>
+        <Book index="6" code="JOS" name="Jozye"></Book>
+        <Book index="7" code="JDG" name="Jij"></Book>
+        <Book index="8" code="RUT" name="Rit"></Book>
+        <Book index="9" code="1SA" name="1 Samyèl"></Book>
+        <Book index="10" code="2SA" name="2 Samyèl"></Book>
+        <Book index="11" code="1KI" name="1 Wa"></Book>
+        <Book index="12" code="2KI" name="2 Wa"></Book>
+        <Book index="13" code="1CH" name="1 Istwa"></Book>
+        <Book index="14" code="2CH" name="2 Istwa"></Book>
+        <Book index="15" code="EZR" name="Esdras"></Book>
+        <Book index="16" code="NEH" name="Neemi"></Book>
+        <Book index="17" code="EST" name="Estè"></Book>
+        <Book index="18" code="JOB" name="Jòb"></Book>
+        <Book index="19" code="PSA" name="Sòm"></Book>
+        <Book index="20" code="PRO" name="Pwovèb"></Book>
+        <Book index="21" code="ECC" name="Eklezyas - Liv Filozòf la"></Book>
+        <Book index="22" code="SNG" name="Chante Salomon"></Book>
+        <Book index="23" code="ISA" name="Ezayi"></Book>
+        <Book index="24" code="JER" name="Jeremi"></Book>
+        <Book index="25" code="LAM" name="Plenn"></Book>
+        <Book index="26" code="EZK" name="Ezekyèl"></Book>
+        <Book index="27" code="DAN" name="Danyèl"></Book>
+        <Book index="28" code="HOS" name="Oze"></Book>
+        <Book index="29" code="JOL" name="Jowèl"></Book>
+        <Book index="30" code="AMO" name="Amòs"></Book>
+        <Book index="31" code="OBA" name="Abdias"></Book>
+        <Book index="32" code="JON" name="Jonas"></Book>
+        <Book index="33" code="MIC" name="Miche"></Book>
+        <Book index="34" code="NAM" name="Nawoun"></Book>
+        <Book index="35" code="HAB" name="Abakouk"></Book>
+        <Book index="36" code="ZEP" name="Sofoni"></Book>
+        <Book index="37" code="HAG" name="Aje"></Book>
+        <Book index="38" code="ZEC" name="Zakari"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matye"></Book>
+        <Book index="41" code="MRK" name="Mak"></Book>
+        <Book index="42" code="LUK" name="Lik"></Book>
+        <Book index="43" code="JHN" name="Jan"></Book>
+        <Book index="44" code="ACT" name="Travay"></Book>
+        <Book index="45" code="ROM" name="Ròm"></Book>
+        <Book index="46" code="1CO" name="1 Korint"></Book>
+        <Book index="47" code="2CO" name="2 Korint"></Book>
+        <Book index="48" code="GAL" name="Galasi"></Book>
+        <Book index="49" code="EPH" name="Efèz"></Book>
+        <Book index="50" code="PHP" name="Filip"></Book>
+        <Book index="51" code="COL" name="Kolòs"></Book>
+        <Book index="52" code="1TH" name="1 Tesalonik"></Book>
+        <Book index="53" code="2TH" name="2 Tesalonik"></Book>
+        <Book index="54" code="1TI" name="1 Timote"></Book>
+        <Book index="55" code="2TI" name="2 Timote"></Book>
+        <Book index="56" code="TIT" name="Tit"></Book>
+        <Book index="57" code="PHM" name="Filemon"></Book>
+        <Book index="58" code="HEB" name="Ebre"></Book>
+        <Book index="59" code="JAS" name="Jak"></Book>
+        <Book index="60" code="1PE" name="1 Piè"></Book>
+        <Book index="61" code="2PE" name="2 Piè"></Book>
+        <Book index="62" code="1JN" name="1 Jan"></Book>
+        <Book index="63" code="2JN" name="2 Jan"></Book>
+        <Book index="64" code="3JN" name="3 Jan"></Book>
+        <Book index="65" code="JUD" name="Jid"></Book>
+        <Book index="66" code="REV" name="Revelasyon"></Book>
+    </Bible>
+    <Bible abbreviation="TLO" name="The Living Oracles NT">
+        <Book index="1" code="MAT" name="Matthew"></Book>
+        <Book index="2" code="MRK" name="Mark"></Book>
+        <Book index="3" code="LUK" name="Luke"></Book>
+        <Book index="4" code="JHN" name="John"></Book>
+        <Book index="5" code="ACT" name="Acts"></Book>
+        <Book index="6" code="ROM" name="Romans"></Book>
+        <Book index="7" code="1CO" name="I Corinthians"></Book>
+        <Book index="8" code="2CO" name="II Corinthians"></Book>
+        <Book index="9" code="GAL" name="Galatians"></Book>
+        <Book index="10" code="EPH" name="Ephesians"></Book>
+        <Book index="11" code="PHP" name="Philippians"></Book>
+        <Book index="12" code="COL" name="Colossians"></Book>
+        <Book index="13" code="1TH" name="I Thessalonians"></Book>
+        <Book index="14" code="2TH" name="II Thessalonians"></Book>
+        <Book index="15" code="1TI" name="I Timothy"></Book>
+        <Book index="16" code="2TI" name="II Timothy"></Book>
+        <Book index="17" code="TIT" name="Titus"></Book>
+        <Book index="18" code="PHM" name="Philemon"></Book>
+        <Book index="19" code="HEB" name="Hebrews"></Book>
+        <Book index="20" code="JAS" name="James"></Book>
+        <Book index="21" code="1PE" name="I Peter"></Book>
+        <Book index="22" code="2PE" name="II Peter"></Book>
+        <Book index="23" code="1JN" name="I John"></Book>
+        <Book index="24" code="2JN" name="II John"></Book>
+        <Book index="25" code="3JN" name="III John"></Book>
+        <Book index="26" code="JUD" name="Jude"></Book>
+        <Book index="27" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="HNV" name="Hebrew Names Version of the World English Bible">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="RMN" name="Romanian Cornilescu Version">
+        <Book index="1" code="GEN" name="Geneza"></Book>
+        <Book index="2" code="EXO" name="Exod"></Book>
+        <Book index="3" code="LEV" name="Levitic"></Book>
+        <Book index="4" code="NUM" name="Numeri"></Book>
+        <Book index="5" code="DEU" name="Deuteronom"></Book>
+        <Book index="6" code="JOS" name="Iosua"></Book>
+        <Book index="7" code="JDG" name="Judecatori"></Book>
+        <Book index="8" code="RUT" name="Rut"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Imparati"></Book>
+        <Book index="12" code="2KI" name="2 Imparati"></Book>
+        <Book index="13" code="1CH" name="1 Cronici"></Book>
+        <Book index="14" code="2CH" name="2 Cronici"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Neemia"></Book>
+        <Book index="17" code="EST" name="Estera"></Book>
+        <Book index="18" code="JOB" name="Iov"></Book>
+        <Book index="19" code="PSA" name="Psalmi"></Book>
+        <Book index="20" code="PRO" name="Proverbe"></Book>
+        <Book index="21" code="ECC" name="Ecclesiast"></Book>
+        <Book index="22" code="SNG" name="Cantarea Cantarilor"></Book>
+        <Book index="23" code="ISA" name="Isaia"></Book>
+        <Book index="24" code="JER" name="Ieremia"></Book>
+        <Book index="25" code="LAM" name="Plângeri"></Book>
+        <Book index="26" code="EZK" name="Ezechiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Osea"></Book>
+        <Book index="29" code="JOL" name="Ioel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadia"></Book>
+        <Book index="32" code="JON" name="Iona"></Book>
+        <Book index="33" code="MIC" name="Mica"></Book>
+        <Book index="34" code="NAM" name="Naum"></Book>
+        <Book index="35" code="HAB" name="Habacuc"></Book>
+        <Book index="36" code="ZEP" name="Tefania"></Book>
+        <Book index="37" code="HAG" name="Hagai"></Book>
+        <Book index="38" code="ZEC" name="Zaharia"></Book>
+        <Book index="39" code="MAL" name="Maleahi"></Book>
+        <Book index="40" code="MAT" name="Matei"></Book>
+        <Book index="41" code="MRK" name="Marcu"></Book>
+        <Book index="42" code="LUK" name="Luca"></Book>
+        <Book index="43" code="JHN" name="Ioan"></Book>
+        <Book index="44" code="ACT" name="Faptele Apostolilor"></Book>
+        <Book index="45" code="ROM" name="Romani"></Book>
+        <Book index="46" code="1CO" name="1 Corinteni"></Book>
+        <Book index="47" code="2CO" name="2 Corinteni"></Book>
+        <Book index="48" code="GAL" name="Galateni"></Book>
+        <Book index="49" code="EPH" name="Efeseni"></Book>
+        <Book index="50" code="PHP" name="Filipeni"></Book>
+        <Book index="51" code="COL" name="Coloseni"></Book>
+        <Book index="52" code="1TH" name="1 Tesaloniceni"></Book>
+        <Book index="53" code="2TH" name="2 Tesaloniceni"></Book>
+        <Book index="54" code="1TI" name="1 Timotei"></Book>
+        <Book index="55" code="2TI" name="2 Timotei"></Book>
+        <Book index="56" code="TIT" name="Tit"></Book>
+        <Book index="57" code="PHM" name="Filimon"></Book>
+        <Book index="58" code="HEB" name="Evrei"></Book>
+        <Book index="59" code="JAS" name="Iacob"></Book>
+        <Book index="60" code="1PE" name="1 Petru"></Book>
+        <Book index="61" code="2PE" name="2 Petru"></Book>
+        <Book index="62" code="1JN" name="1 Ioan"></Book>
+        <Book index="63" code="2JN" name="2 Ioan"></Book>
+        <Book index="64" code="3JN" name="3 Ioan"></Book>
+        <Book index="65" code="JUD" name="Iuda"></Book>
+        <Book index="66" code="REV" name="Apocalipsa"></Book>
+    </Bible>
+    <Bible abbreviation="Webster" name="Webster Bible">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="RST" name="Russian Synodal Translation">
+        <Book index="1" code="GEN" name="Бытие"></Book>
+        <Book index="2" code="EXO" name="Исход"></Book>
+        <Book index="3" code="LEV" name="Левит"></Book>
+        <Book index="4" code="NUM" name="Числа"></Book>
+        <Book index="5" code="DEU" name="Второзаконие"></Book>
+        <Book index="6" code="JOS" name="Иисус Навин"></Book>
+        <Book index="7" code="JDG" name="Судьи"></Book>
+        <Book index="8" code="RUT" name="Руфь"></Book>
+        <Book index="9" code="1SA" name="1. Царств"></Book>
+        <Book index="10" code="2SA" name="2. Царств"></Book>
+        <Book index="11" code="1KI" name="3. Царств"></Book>
+        <Book index="12" code="2KI" name="4. Царств"></Book>
+        <Book index="13" code="1CH" name="1. Паралипоменон"></Book>
+        <Book index="14" code="2CH" name="2. Паралипоменон"></Book>
+        <Book index="15" code="EZR" name="Ездра"></Book>
+        <Book index="16" code="NEH" name="Неемия"></Book>
+        <Book index="17" code="EST" name="Есфирь"></Book>
+        <Book index="18" code="JOB" name="Иов"></Book>
+        <Book index="19" code="PSA" name="Псалтирь"></Book>
+        <Book index="20" code="PRO" name="Притчи"></Book>
+        <Book index="21" code="ECC" name="Екклесиаст"></Book>
+        <Book index="22" code="SNG" name="Песня Песней"></Book>
+        <Book index="23" code="ISA" name="Исаия"></Book>
+        <Book index="24" code="JER" name="Иеремия"></Book>
+        <Book index="25" code="LAM" name="Плач Иеремии"></Book>
+        <Book index="26" code="EZK" name="Иезекииль"></Book>
+        <Book index="27" code="DAN" name="Даниил"></Book>
+        <Book index="28" code="HOS" name="Осия"></Book>
+        <Book index="29" code="JOL" name="Иоиль"></Book>
+        <Book index="30" code="AMO" name="Амос"></Book>
+        <Book index="31" code="OBA" name="Авдий"></Book>
+        <Book index="32" code="JON" name="Иона"></Book>
+        <Book index="33" code="MIC" name="Михей"></Book>
+        <Book index="34" code="NAM" name="Наум"></Book>
+        <Book index="35" code="HAB" name="Аввакум"></Book>
+        <Book index="36" code="ZEP" name="Софония"></Book>
+        <Book index="37" code="HAG" name="Аггей"></Book>
+        <Book index="38" code="ZEC" name="Захария"></Book>
+        <Book index="39" code="MAL" name="Малахия"></Book>
+        <Book index="40" code="MAT" name="От Матфея"></Book>
+        <Book index="41" code="MRK" name="От Марка"></Book>
+        <Book index="42" code="LUK" name="От Луки"></Book>
+        <Book index="43" code="JHN" name="От Иоанна"></Book>
+        <Book index="44" code="ACT" name="Деяния"></Book>
+        <Book index="45" code="ROM" name="К Римлянам"></Book>
+        <Book index="46" code="1CO" name="1. Коринфянам"></Book>
+        <Book index="47" code="2CO" name="2. Коринфянам"></Book>
+        <Book index="48" code="GAL" name="К Галатам"></Book>
+        <Book index="49" code="EPH" name="К Ефесянам"></Book>
+        <Book index="50" code="PHP" name="К Филиппийцам"></Book>
+        <Book index="51" code="COL" name="К Колоссянам"></Book>
+        <Book index="52" code="1TH" name="1. Фессалоникийцам"></Book>
+        <Book index="53" code="2TH" name="2. Фессалоникийцам"></Book>
+        <Book index="54" code="1TI" name="1. Тимофею"></Book>
+        <Book index="55" code="2TI" name="2. Тимофею"></Book>
+        <Book index="56" code="TIT" name="К Титу"></Book>
+        <Book index="57" code="PHM" name="К Филимону"></Book>
+        <Book index="58" code="HEB" name="К Евреям"></Book>
+        <Book index="59" code="JAS" name="Иакова"></Book>
+        <Book index="60" code="1PE" name="1. Петра"></Book>
+        <Book index="61" code="2PE" name="2. Петра"></Book>
+        <Book index="62" code="1JN" name="1. Иоанна"></Book>
+        <Book index="63" code="2JN" name="2. Иоанна"></Book>
+        <Book index="64" code="3JN" name="3. Иоанна"></Book>
+        <Book index="65" code="JUD" name="Иуды"></Book>
+        <Book index="66" code="REV" name="Откровение"></Book>
+    </Bible>
+    <Bible abbreviation="TJB" name="Terjemahan Baru">
+        <Book index="1" code="GEN" name="Kejadian"></Book>
+        <Book index="2" code="EXO" name="Keluaran"></Book>
+        <Book index="3" code="LEV" name="Imamat"></Book>
+        <Book index="4" code="NUM" name="Bilangan"></Book>
+        <Book index="5" code="DEU" name="Ulangan"></Book>
+        <Book index="6" code="JOS" name="Yosua"></Book>
+        <Book index="7" code="JDG" name="Hakim Hakim"></Book>
+        <Book index="8" code="RUT" name="Rut"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Raja Raja"></Book>
+        <Book index="12" code="2KI" name="2 Raja Raja"></Book>
+        <Book index="13" code="1CH" name="1 Tawarikh"></Book>
+        <Book index="14" code="2CH" name="2 Tawarikh"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemia"></Book>
+        <Book index="17" code="EST" name="Ester"></Book>
+        <Book index="18" code="JOB" name="Ayub"></Book>
+        <Book index="19" code="PSA" name="Mazmur"></Book>
+        <Book index="20" code="PRO" name="Amsal"></Book>
+        <Book index="21" code="ECC" name="Pengkhotbah"></Book>
+        <Book index="22" code="SNG" name="Kidung Agung"></Book>
+        <Book index="23" code="ISA" name="Yesaya"></Book>
+        <Book index="24" code="JER" name="Yeremia"></Book>
+        <Book index="25" code="LAM" name="Ratapan"></Book>
+        <Book index="26" code="EZK" name="Yehezkiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Yoel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obaja"></Book>
+        <Book index="32" code="JON" name="Yunus"></Book>
+        <Book index="33" code="MIC" name="Mikha"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakuk"></Book>
+        <Book index="36" code="ZEP" name="Zafanya"></Book>
+        <Book index="37" code="HAG" name="Hagai"></Book>
+        <Book index="38" code="ZEC" name="Zakharia"></Book>
+        <Book index="39" code="MAL" name="Maleakhi"></Book>
+        <Book index="40" code="MAT" name="Matius"></Book>
+        <Book index="41" code="MRK" name="Markus"></Book>
+        <Book index="42" code="LUK" name="Lukas"></Book>
+        <Book index="43" code="JHN" name="Yohanes"></Book>
+        <Book index="44" code="ACT" name="Kisah Para Rasul"></Book>
+        <Book index="45" code="ROM" name="Roma"></Book>
+        <Book index="46" code="1CO" name="1 Korintus"></Book>
+        <Book index="47" code="2CO" name="2 Korintus"></Book>
+        <Book index="48" code="GAL" name="Galatia"></Book>
+        <Book index="49" code="EPH" name="Efesus"></Book>
+        <Book index="50" code="PHP" name="Filipi"></Book>
+        <Book index="51" code="COL" name="Kolose"></Book>
+        <Book index="52" code="1TH" name="1 Tesalonika"></Book>
+        <Book index="53" code="2TH" name="2 Tesalonika"></Book>
+        <Book index="54" code="1TI" name="1 Timotius"></Book>
+        <Book index="55" code="2TI" name="2 Timotius"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Filemon"></Book>
+        <Book index="58" code="HEB" name="Ibrani"></Book>
+        <Book index="59" code="JAS" name="Yakobus"></Book>
+        <Book index="60" code="1PE" name="1 Petrus"></Book>
+        <Book index="61" code="2PE" name="2 Petrus"></Book>
+        <Book index="62" code="1JN" name="1 Yohanes"></Book>
+        <Book index="63" code="2JN" name="2 Yohanes"></Book>
+        <Book index="64" code="3JN" name="3 Yohanes"></Book>
+        <Book index="65" code="JUD" name="Yudas"></Book>
+        <Book index="66" code="REV" name="Wahyu"></Book>
+    </Bible>
+    <Bible abbreviation="Roth" name="The Emphasized Bible by J. B. Rotherham">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="LUT" name="German Unrevidierte Luther Ubersetzung von 1545">
+        <Book index="1" code="GEN" name="1. Mose"></Book>
+        <Book index="2" code="EXO" name="2. Mose"></Book>
+        <Book index="3" code="LEV" name="3. Mose"></Book>
+        <Book index="4" code="NUM" name="4. Mose"></Book>
+        <Book index="5" code="DEU" name="5. Mose"></Book>
+        <Book index="6" code="JOS" name="Josua"></Book>
+        <Book index="7" code="JDG" name="Richter"></Book>
+        <Book index="8" code="RUT" name="Rut"></Book>
+        <Book index="9" code="1SA" name="1. Samuel"></Book>
+        <Book index="10" code="2SA" name="2. Samuel"></Book>
+        <Book index="11" code="1KI" name="1. Könige"></Book>
+        <Book index="12" code="2KI" name="2. Könige"></Book>
+        <Book index="13" code="1CH" name="1. Chronik"></Book>
+        <Book index="14" code="2CH" name="2. Chronik"></Book>
+        <Book index="15" code="EZR" name="Esra"></Book>
+        <Book index="16" code="NEH" name="Nehemia"></Book>
+        <Book index="17" code="EST" name="Ester"></Book>
+        <Book index="18" code="JOB" name="Hiob"></Book>
+        <Book index="19" code="PSA" name="Psalmen"></Book>
+        <Book index="20" code="PRO" name="Sprüche"></Book>
+        <Book index="21" code="ECC" name="Prediger"></Book>
+        <Book index="22" code="SNG" name="Hoheslied"></Book>
+        <Book index="23" code="ISA" name="Jesaja"></Book>
+        <Book index="24" code="JER" name="Jeremia"></Book>
+        <Book index="25" code="LAM" name="Klagelieder"></Book>
+        <Book index="26" code="EZK" name="Hesekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadja"></Book>
+        <Book index="32" code="JON" name="Jona"></Book>
+        <Book index="33" code="MIC" name="Micha"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakuk"></Book>
+        <Book index="36" code="ZEP" name="Zefanja"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Sacharja"></Book>
+        <Book index="39" code="MAL" name="Maleachi"></Book>
+        <Book index="40" code="MAT" name="Matthäus"></Book>
+        <Book index="41" code="MRK" name="Markus"></Book>
+        <Book index="42" code="LUK" name="Lukas"></Book>
+        <Book index="43" code="JHN" name="Johannes"></Book>
+        <Book index="44" code="ACT" name="Apostelgeschichte"></Book>
+        <Book index="45" code="ROM" name="Römer"></Book>
+        <Book index="46" code="1CO" name="1. Korinther"></Book>
+        <Book index="47" code="2CO" name="2. Korinther"></Book>
+        <Book index="48" code="GAL" name="Galater"></Book>
+        <Book index="49" code="EPH" name="Epheser"></Book>
+        <Book index="50" code="PHP" name="Philipper"></Book>
+        <Book index="51" code="COL" name="Kolosser"></Book>
+        <Book index="52" code="1TH" name="1. Thessalonicher"></Book>
+        <Book index="53" code="2TH" name="2. Thessalonicher"></Book>
+        <Book index="54" code="1TI" name="1. Timotheus"></Book>
+        <Book index="55" code="2TI" name="2. Timotheus"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebräer"></Book>
+        <Book index="59" code="JAS" name="Jakobus"></Book>
+        <Book index="60" code="1PE" name="1. Petrus"></Book>
+        <Book index="61" code="2PE" name="2. Petrus"></Book>
+        <Book index="62" code="1JN" name="1. Johannes"></Book>
+        <Book index="63" code="2JN" name="2. Johannes"></Book>
+        <Book index="64" code="3JN" name="3. Johannes"></Book>
+        <Book index="65" code="JUD" name="Judas"></Book>
+        <Book index="66" code="REV" name="Offenbarung"></Book>
+    </Bible>
+    <Bible abbreviation="CUV" name="Chinese Union Version Traditional">
+        <Book index="1" code="GEN" name="創 世 記"></Book>
+        <Book index="2" code="EXO" name="出 埃 及 記"></Book>
+        <Book index="3" code="LEV" name="利 未 記"></Book>
+        <Book index="4" code="NUM" name="民 數 記"></Book>
+        <Book index="5" code="DEU" name="申 命 記"></Book>
+        <Book index="6" code="JOS" name="約 書 亞 記"></Book>
+        <Book index="7" code="JDG" name="士 師 記"></Book>
+        <Book index="8" code="RUT" name="路 得 記"></Book>
+        <Book index="9" code="1SA" name="撒 母 耳 記 上"></Book>
+        <Book index="10" code="2SA" name="撒 母 耳 記 下"></Book>
+        <Book index="11" code="1KI" name="列 王 紀 上"></Book>
+        <Book index="12" code="2KI" name="列 王 紀 下"></Book>
+        <Book index="13" code="1CH" name="歷 代 志 上"></Book>
+        <Book index="14" code="2CH" name="歷 代 志 下"></Book>
+        <Book index="15" code="EZR" name="以 斯 拉 記"></Book>
+        <Book index="16" code="NEH" name="尼 希 米 記"></Book>
+        <Book index="17" code="EST" name="以 斯 帖 記"></Book>
+        <Book index="18" code="JOB" name="約 伯 記"></Book>
+        <Book index="19" code="PSA" name="詩 篇"></Book>
+        <Book index="20" code="PRO" name="箴 言"></Book>
+        <Book index="21" code="ECC" name="傳 道 書"></Book>
+        <Book index="22" code="SNG" name="雅 歌"></Book>
+        <Book index="23" code="ISA" name="以 賽 亞 書"></Book>
+        <Book index="24" code="JER" name="耶 利 米 書"></Book>
+        <Book index="25" code="LAM" name="耶 利 米 哀 歌"></Book>
+        <Book index="26" code="EZK" name="以 西 結 書"></Book>
+        <Book index="27" code="DAN" name="但 以 理 書"></Book>
+        <Book index="28" code="HOS" name="何 西 阿 書"></Book>
+        <Book index="29" code="JOL" name="約 珥 書"></Book>
+        <Book index="30" code="AMO" name="阿 摩 司 書"></Book>
+        <Book index="31" code="OBA" name="俄 巴 底 亞 書"></Book>
+        <Book index="32" code="JON" name="約 拿 書"></Book>
+        <Book index="33" code="MIC" name="彌 迦 書"></Book>
+        <Book index="34" code="NAM" name="那 鴻 書"></Book>
+        <Book index="35" code="HAB" name="哈 巴 谷 書"></Book>
+        <Book index="36" code="ZEP" name="西 番 雅 書"></Book>
+        <Book index="37" code="HAG" name="哈 該 書"></Book>
+        <Book index="38" code="ZEC" name="撒 迦 利 亞"></Book>
+        <Book index="39" code="MAL" name="瑪 拉 基 書"></Book>
+        <Book index="40" code="MAT" name="馬 太 福 音"></Book>
+        <Book index="41" code="MRK" name="馬 可 福 音"></Book>
+        <Book index="42" code="LUK" name="路 加 福 音"></Book>
+        <Book index="43" code="JHN" name="約 翰 福 音"></Book>
+        <Book index="44" code="ACT" name="使 徒 行 傳"></Book>
+        <Book index="45" code="ROM" name="羅 馬 書"></Book>
+        <Book index="46" code="1CO" name="歌 林 多 前 書"></Book>
+        <Book index="47" code="2CO" name="歌 林 多 後 書"></Book>
+        <Book index="48" code="GAL" name="加 拉 太 書"></Book>
+        <Book index="49" code="EPH" name="以 弗 所 書"></Book>
+        <Book index="50" code="PHP" name="腓 立 比 書"></Book>
+        <Book index="51" code="COL" name="歌 羅 西 書"></Book>
+        <Book index="52" code="1TH" name="帖 撒 羅 尼 迦 前 書"></Book>
+        <Book index="53" code="2TH" name="帖 撒 羅 尼 迦 後 書"></Book>
+        <Book index="54" code="1TI" name="提 摩 太 前 書"></Book>
+        <Book index="55" code="2TI" name="提 摩 太 後 書"></Book>
+        <Book index="56" code="TIT" name="提 多 書"></Book>
+        <Book index="57" code="PHM" name="腓 利 門 書"></Book>
+        <Book index="58" code="HEB" name="希 伯 來 書"></Book>
+        <Book index="59" code="JAS" name="雅 各 書"></Book>
+        <Book index="60" code="1PE" name="彼 得 前 書"></Book>
+        <Book index="61" code="2PE" name="彼 得 後 書"></Book>
+        <Book index="62" code="1JN" name="約 翰 一 書"></Book>
+        <Book index="63" code="2JN" name="約 翰 二 書"></Book>
+        <Book index="64" code="3JN" name="約 翰 三 書"></Book>
+        <Book index="65" code="JUD" name="猶 大 書"></Book>
+        <Book index="66" code="REV" name="启 示 录"></Book>
+    </Bible>
+    <Bible abbreviation="NBLH" name="Nueva Biblia de los Hispanos">
+        <Book index="1" code="GEN" name="Génesis"></Book>
+        <Book index="2" code="EXO" name="Éxodo"></Book>
+        <Book index="3" code="LEV" name="Levítico"></Book>
+        <Book index="4" code="NUM" name="Números"></Book>
+        <Book index="5" code="DEU" name="Deuteronomio"></Book>
+        <Book index="6" code="JOS" name="Josué"></Book>
+        <Book index="7" code="JDG" name="Jueces"></Book>
+        <Book index="8" code="RUT" name="Rut"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Reyes"></Book>
+        <Book index="12" code="2KI" name="2 Reyes"></Book>
+        <Book index="13" code="1CH" name="1 Crónicas"></Book>
+        <Book index="14" code="2CH" name="2 Crónicas"></Book>
+        <Book index="15" code="EZR" name="Esdras"></Book>
+        <Book index="16" code="NEH" name="Nehemías"></Book>
+        <Book index="17" code="EST" name="Ester"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Salmos"></Book>
+        <Book index="20" code="PRO" name="Proverbios"></Book>
+        <Book index="21" code="ECC" name="Eclesiastés"></Book>
+        <Book index="22" code="SNG" name="Cantares"></Book>
+        <Book index="23" code="ISA" name="Isaías"></Book>
+        <Book index="24" code="JER" name="Jeremías"></Book>
+        <Book index="25" code="LAM" name="Lamentaciones"></Book>
+        <Book index="26" code="EZK" name="Ezequiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Oseas"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amós"></Book>
+        <Book index="31" code="OBA" name="Abdías"></Book>
+        <Book index="32" code="JON" name="Jonás"></Book>
+        <Book index="33" code="MIC" name="Miqueas"></Book>
+        <Book index="34" code="NAM" name="Nahúm"></Book>
+        <Book index="35" code="HAB" name="Habacuc"></Book>
+        <Book index="36" code="ZEP" name="Sofonías"></Book>
+        <Book index="37" code="HAG" name="Hageo"></Book>
+        <Book index="38" code="ZEC" name="Zacarías"></Book>
+        <Book index="39" code="MAL" name="Malaquías"></Book>
+        <Book index="40" code="MAT" name="Mateo"></Book>
+        <Book index="41" code="MRK" name="Marcos"></Book>
+        <Book index="42" code="LUK" name="Lucas"></Book>
+        <Book index="43" code="JHN" name="Juan"></Book>
+        <Book index="44" code="ACT" name="Hechos"></Book>
+        <Book index="45" code="ROM" name="Romanos"></Book>
+        <Book index="46" code="1CO" name="1 Corintios"></Book>
+        <Book index="47" code="2CO" name="2 Corintios"></Book>
+        <Book index="48" code="GAL" name="Gálatas"></Book>
+        <Book index="49" code="EPH" name="Efesios"></Book>
+        <Book index="50" code="PHP" name="Filipenses"></Book>
+        <Book index="51" code="COL" name="Colosenses"></Book>
+        <Book index="52" code="1TH" name="1 Tesalonicenses"></Book>
+        <Book index="53" code="2TH" name="2 Tesalonicenses"></Book>
+        <Book index="54" code="1TI" name="1 Timoteo"></Book>
+        <Book index="55" code="2TI" name="2 Timoteo"></Book>
+        <Book index="56" code="TIT" name="Tito"></Book>
+        <Book index="57" code="PHM" name="Filemón"></Book>
+        <Book index="58" code="HEB" name="Hebreos"></Book>
+        <Book index="59" code="JAS" name="Santiago"></Book>
+        <Book index="60" code="1PE" name="1 Pedro"></Book>
+        <Book index="61" code="2PE" name="2 Pedro"></Book>
+        <Book index="62" code="1JN" name="1 Juan"></Book>
+        <Book index="63" code="2JN" name="2 Juan"></Book>
+        <Book index="64" code="3JN" name="3 Juan"></Book>
+        <Book index="65" code="JUD" name="Judas"></Book>
+        <Book index="66" code="REV" name="Apocalipsis"></Book>
+    </Bible>
+    <Bible abbreviation="NBLA" name="Nueva Biblia de las Américas">
+        <Book index="1" code="GEN" name="Génesis"></Book>
+        <Book index="2" code="EXO" name="Éxodo"></Book>
+        <Book index="3" code="LEV" name="Levítico"></Book>
+        <Book index="4" code="NUM" name="Números"></Book>
+        <Book index="5" code="DEU" name="Deuteronomio"></Book>
+        <Book index="6" code="JOS" name="Josué"></Book>
+        <Book index="7" code="JDG" name="Jueces"></Book>
+        <Book index="8" code="RUT" name="Rut"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Reyes"></Book>
+        <Book index="12" code="2KI" name="2 Reyes"></Book>
+        <Book index="13" code="1CH" name="1 Crónicas"></Book>
+        <Book index="14" code="2CH" name="2 Crónicas"></Book>
+        <Book index="15" code="EZR" name="Esdras"></Book>
+        <Book index="16" code="NEH" name="Nehemías"></Book>
+        <Book index="17" code="EST" name="Ester"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Salmos"></Book>
+        <Book index="20" code="PRO" name="Proverbios"></Book>
+        <Book index="21" code="ECC" name="Eclesiastés"></Book>
+        <Book index="22" code="SNG" name="Cantares"></Book>
+        <Book index="23" code="ISA" name="Isaías"></Book>
+        <Book index="24" code="JER" name="Jeremías"></Book>
+        <Book index="25" code="LAM" name="Lamentaciones"></Book>
+        <Book index="26" code="EZK" name="Ezequiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Oseas"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amós"></Book>
+        <Book index="31" code="OBA" name="Abdías"></Book>
+        <Book index="32" code="JON" name="Jonás"></Book>
+        <Book index="33" code="MIC" name="Miqueas"></Book>
+        <Book index="34" code="NAM" name="Nahúm"></Book>
+        <Book index="35" code="HAB" name="Habacuc"></Book>
+        <Book index="36" code="ZEP" name="Sofonías"></Book>
+        <Book index="37" code="HAG" name="Hageo"></Book>
+        <Book index="38" code="ZEC" name="Zacarías"></Book>
+        <Book index="39" code="MAL" name="Malaquías"></Book>
+        <Book index="40" code="MAT" name="Mateo"></Book>
+        <Book index="41" code="MRK" name="Marcos"></Book>
+        <Book index="42" code="LUK" name="Lucas"></Book>
+        <Book index="43" code="JHN" name="Juan"></Book>
+        <Book index="44" code="ACT" name="Hechos"></Book>
+        <Book index="45" code="ROM" name="Romanos"></Book>
+        <Book index="46" code="1CO" name="1 Corintios"></Book>
+        <Book index="47" code="2CO" name="2 Corintios"></Book>
+        <Book index="48" code="GAL" name="Gálatas"></Book>
+        <Book index="49" code="EPH" name="Efesios"></Book>
+        <Book index="50" code="PHP" name="Filipenses"></Book>
+        <Book index="51" code="COL" name="Colosenses"></Book>
+        <Book index="52" code="1TH" name="1 Tesalonicenses"></Book>
+        <Book index="53" code="2TH" name="2 Tesalonicenses"></Book>
+        <Book index="54" code="1TI" name="1 Timoteo"></Book>
+        <Book index="55" code="2TI" name="2 Timoteo"></Book>
+        <Book index="56" code="TIT" name="Tito"></Book>
+        <Book index="57" code="PHM" name="Filemón"></Book>
+        <Book index="58" code="HEB" name="Hebreos"></Book>
+        <Book index="59" code="JAS" name="Santiago"></Book>
+        <Book index="60" code="1PE" name="1 Pedro"></Book>
+        <Book index="61" code="2PE" name="2 Pedro"></Book>
+        <Book index="62" code="1JN" name="1 Juan"></Book>
+        <Book index="63" code="2JN" name="2 Juan"></Book>
+        <Book index="64" code="3JN" name="3 Juan"></Book>
+        <Book index="65" code="JUD" name="Judas"></Book>
+        <Book index="66" code="REV" name="Apocalipsis"></Book>
+    </Bible>
+    <Bible abbreviation="IRB" name="Italian Riveduta Bibbia (1927)">
+        <Book index="1" code="GEN" name="Genesi"></Book>
+        <Book index="2" code="EXO" name="Esodo"></Book>
+        <Book index="3" code="LEV" name="Levitico"></Book>
+        <Book index="4" code="NUM" name="Numeri"></Book>
+        <Book index="5" code="DEU" name="Deuteronomio"></Book>
+        <Book index="6" code="JOS" name="Giosuè"></Book>
+        <Book index="7" code="JDG" name="Giudici"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1. Samuele"></Book>
+        <Book index="10" code="2SA" name="2. Samuele"></Book>
+        <Book index="11" code="1KI" name="1. Re"></Book>
+        <Book index="12" code="2KI" name="2. Re"></Book>
+        <Book index="13" code="1CH" name="1. Cronache"></Book>
+        <Book index="14" code="2CH" name="2. Cronache"></Book>
+        <Book index="15" code="EZR" name="Esdra"></Book>
+        <Book index="16" code="NEH" name="Nehemia"></Book>
+        <Book index="17" code="EST" name="Ester"></Book>
+        <Book index="18" code="JOB" name="Giobbe"></Book>
+        <Book index="19" code="PSA" name="Salmi"></Book>
+        <Book index="20" code="PRO" name="Proverbi"></Book>
+        <Book index="21" code="ECC" name="Ecclesiaste"></Book>
+        <Book index="22" code="SNG" name="Cantico dei Cantici"></Book>
+        <Book index="23" code="ISA" name="Isaia"></Book>
+        <Book index="24" code="JER" name="Geremia"></Book>
+        <Book index="25" code="LAM" name="Lamentazioni"></Book>
+        <Book index="26" code="EZK" name="Ezechiele"></Book>
+        <Book index="27" code="DAN" name="Daniele"></Book>
+        <Book index="28" code="HOS" name="Osea"></Book>
+        <Book index="29" code="JOL" name="Gioele"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Abdia"></Book>
+        <Book index="32" code="JON" name="Giona"></Book>
+        <Book index="33" code="MIC" name="Michea"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habacuc"></Book>
+        <Book index="36" code="ZEP" name="Sofonia"></Book>
+        <Book index="37" code="HAG" name="Aggeo"></Book>
+        <Book index="38" code="ZEC" name="Zaccaria"></Book>
+        <Book index="39" code="MAL" name="Malachia"></Book>
+        <Book index="40" code="MAT" name="Matteo"></Book>
+        <Book index="41" code="MRK" name="Marco"></Book>
+        <Book index="42" code="LUK" name="Luca"></Book>
+        <Book index="43" code="JHN" name="Giovanni"></Book>
+        <Book index="44" code="ACT" name="Atti degli Apostoli"></Book>
+        <Book index="45" code="ROM" name="Romani"></Book>
+        <Book index="46" code="1CO" name="1. Corinzi"></Book>
+        <Book index="47" code="2CO" name="2. Corinzi"></Book>
+        <Book index="48" code="GAL" name="Galati"></Book>
+        <Book index="49" code="EPH" name="Efesini"></Book>
+        <Book index="50" code="PHP" name="Filippesi"></Book>
+        <Book index="51" code="COL" name="Colossesi"></Book>
+        <Book index="52" code="1TH" name="1. Tessalonicesi"></Book>
+        <Book index="53" code="2TH" name="2. Tessalonicesi"></Book>
+        <Book index="54" code="1TI" name="1. Timoteo"></Book>
+        <Book index="55" code="2TI" name="2. Timoteo"></Book>
+        <Book index="56" code="TIT" name="Tito"></Book>
+        <Book index="57" code="PHM" name="Filemone"></Book>
+        <Book index="58" code="HEB" name="Ebrei"></Book>
+        <Book index="59" code="JAS" name="Giacomo"></Book>
+        <Book index="60" code="1PE" name="1. Pietro"></Book>
+        <Book index="61" code="2PE" name="2. Pietro"></Book>
+        <Book index="62" code="1JN" name="1. Giovanni"></Book>
+        <Book index="63" code="2JN" name="2. Giovanni"></Book>
+        <Book index="64" code="3JN" name="3. Giovanni"></Book>
+        <Book index="65" code="JUD" name="Giuda"></Book>
+        <Book index="66" code="REV" name="Apocalisse di Giovanni"></Book>
+    </Bible>
+    <Bible abbreviation="UKR" name="Ukrainian Bible">
+        <Book index="1" code="GEN" name="Буття"></Book>
+        <Book index="2" code="EXO" name="Вихід"></Book>
+        <Book index="3" code="LEV" name="Левит"></Book>
+        <Book index="4" code="NUM" name="Числа"></Book>
+        <Book index="5" code="DEU" name="Повторення Закону"></Book>
+        <Book index="6" code="JOS" name="Ісус Навин"></Book>
+        <Book index="7" code="JDG" name="Книга Суддів"></Book>
+        <Book index="8" code="RUT" name="Рут"></Book>
+        <Book index="9" code="1SA" name="1-а Самуїлова"></Book>
+        <Book index="10" code="2SA" name="2-а Самуїлова"></Book>
+        <Book index="11" code="1KI" name="1-а царів"></Book>
+        <Book index="12" code="2KI" name="2-а царів"></Book>
+        <Book index="13" code="1CH" name="1-а хроніки"></Book>
+        <Book index="14" code="2CH" name="2-а хроніки"></Book>
+        <Book index="15" code="EZR" name="Ездра"></Book>
+        <Book index="16" code="NEH" name="Неемія"></Book>
+        <Book index="17" code="EST" name="Естер"></Book>
+        <Book index="18" code="JOB" name="Йов"></Book>
+        <Book index="19" code="PSA" name="Псалми"></Book>
+        <Book index="20" code="PRO" name="Приповісті"></Book>
+        <Book index="21" code="ECC" name="Екклезіяст"></Book>
+        <Book index="22" code="SNG" name="Пісня над піснями"></Book>
+        <Book index="23" code="ISA" name="Ісая"></Book>
+        <Book index="24" code="JER" name="Єремія"></Book>
+        <Book index="25" code="LAM" name="Плач Єремії"></Book>
+        <Book index="26" code="EZK" name="Єзекіїль"></Book>
+        <Book index="27" code="DAN" name="Даниїл"></Book>
+        <Book index="28" code="HOS" name="Осія"></Book>
+        <Book index="29" code="JOL" name="Йоїл"></Book>
+        <Book index="30" code="AMO" name="Амос"></Book>
+        <Book index="31" code="OBA" name="Овдій"></Book>
+        <Book index="32" code="JON" name="Йона"></Book>
+        <Book index="33" code="MIC" name="Михей"></Book>
+        <Book index="34" code="NAM" name="Наум"></Book>
+        <Book index="35" code="HAB" name="Авакум"></Book>
+        <Book index="36" code="ZEP" name="Софонія"></Book>
+        <Book index="37" code="HAG" name="Огій"></Book>
+        <Book index="38" code="ZEC" name="Захарія"></Book>
+        <Book index="39" code="MAL" name="Малахії"></Book>
+        <Book index="40" code="MAT" name="Від Матвія"></Book>
+        <Book index="41" code="MRK" name="Від Марка"></Book>
+        <Book index="42" code="LUK" name="Від Луки"></Book>
+        <Book index="43" code="JHN" name="Від Івана"></Book>
+        <Book index="44" code="ACT" name="Дії"></Book>
+        <Book index="45" code="ROM" name="До римлян"></Book>
+        <Book index="46" code="1CO" name="1-е до коринтян"></Book>
+        <Book index="47" code="2CO" name="2-е до коринтян"></Book>
+        <Book index="48" code="GAL" name="До галатів"></Book>
+        <Book index="49" code="EPH" name="До ефесян"></Book>
+        <Book index="50" code="PHP" name="До филип'ян"></Book>
+        <Book index="51" code="COL" name="До колоссян"></Book>
+        <Book index="52" code="1TH" name="1-е до солунян"></Book>
+        <Book index="53" code="2TH" name="2-е до солунян"></Book>
+        <Book index="54" code="1TI" name="1-е Тимофію"></Book>
+        <Book index="55" code="2TI" name="2-е Тимофію"></Book>
+        <Book index="56" code="TIT" name="До Тита"></Book>
+        <Book index="57" code="PHM" name="До Филимона"></Book>
+        <Book index="58" code="HEB" name="До євреїв"></Book>
+        <Book index="59" code="JAS" name="Якова"></Book>
+        <Book index="60" code="1PE" name="1-е Петра"></Book>
+        <Book index="61" code="2PE" name="2-е Петра"></Book>
+        <Book index="62" code="1JN" name="1-е Івана"></Book>
+        <Book index="63" code="2JN" name="2-е Івана"></Book>
+        <Book index="64" code="3JN" name="3-е Iвана"></Book>
+        <Book index="65" code="JUD" name="Юда"></Book>
+        <Book index="66" code="REV" name="Об'явлення"></Book>
+    </Bible>
+    <Bible abbreviation="CUVS" name="Chinese Union Version Simplified">
+        <Book index="1" code="GEN" name="創 世 記"></Book>
+        <Book index="2" code="EXO" name="出 埃 及 記"></Book>
+        <Book index="3" code="LEV" name="利 未 記"></Book>
+        <Book index="4" code="NUM" name="民 數 記"></Book>
+        <Book index="5" code="DEU" name="申 命 記"></Book>
+        <Book index="6" code="JOS" name="約 書 亞 記"></Book>
+        <Book index="7" code="JDG" name="士 師 記"></Book>
+        <Book index="8" code="RUT" name="路 得 記"></Book>
+        <Book index="9" code="1SA" name="撒 母 耳 記 上"></Book>
+        <Book index="10" code="2SA" name="撒 母 耳 記 下"></Book>
+        <Book index="11" code="1KI" name="列 王 紀 上"></Book>
+        <Book index="12" code="2KI" name="列 王 紀 下"></Book>
+        <Book index="13" code="1CH" name="歷 代 志 上"></Book>
+        <Book index="14" code="2CH" name="歷 代 志 下"></Book>
+        <Book index="15" code="EZR" name="以 斯 拉 記"></Book>
+        <Book index="16" code="NEH" name="尼 希 米 記"></Book>
+        <Book index="17" code="EST" name="以 斯 帖 記"></Book>
+        <Book index="18" code="JOB" name="約 伯 記"></Book>
+        <Book index="19" code="PSA" name="詩 篇"></Book>
+        <Book index="20" code="PRO" name="箴 言"></Book>
+        <Book index="21" code="ECC" name="傳 道 書"></Book>
+        <Book index="22" code="SNG" name="雅 歌"></Book>
+        <Book index="23" code="ISA" name="以 賽 亞 書"></Book>
+        <Book index="24" code="JER" name="耶 利 米 書"></Book>
+        <Book index="25" code="LAM" name="耶 利 米 哀 歌"></Book>
+        <Book index="26" code="EZK" name="以 西 結 書"></Book>
+        <Book index="27" code="DAN" name="但 以 理 書"></Book>
+        <Book index="28" code="HOS" name="何 西 阿 書"></Book>
+        <Book index="29" code="JOL" name="約 珥 書"></Book>
+        <Book index="30" code="AMO" name="阿 摩 司 書"></Book>
+        <Book index="31" code="OBA" name="俄 巴 底 亞 書"></Book>
+        <Book index="32" code="JON" name="約 拿 書"></Book>
+        <Book index="33" code="MIC" name="彌 迦 書"></Book>
+        <Book index="34" code="NAM" name="那 鴻 書"></Book>
+        <Book index="35" code="HAB" name="哈 巴 谷 書"></Book>
+        <Book index="36" code="ZEP" name="西 番 雅 書"></Book>
+        <Book index="37" code="HAG" name="哈 該 書"></Book>
+        <Book index="38" code="ZEC" name="撒 迦 利 亞"></Book>
+        <Book index="39" code="MAL" name="瑪 拉 基 書"></Book>
+        <Book index="40" code="MAT" name="馬 太 福 音"></Book>
+        <Book index="41" code="MRK" name="馬 可 福 音"></Book>
+        <Book index="42" code="LUK" name="路 加 福 音"></Book>
+        <Book index="43" code="JHN" name="約 翰 福 音"></Book>
+        <Book index="44" code="ACT" name="使 徒 行 傳"></Book>
+        <Book index="45" code="ROM" name="羅 馬 書"></Book>
+        <Book index="46" code="1CO" name="歌 林 多 前 書"></Book>
+        <Book index="47" code="2CO" name="歌 林 多 後 書"></Book>
+        <Book index="48" code="GAL" name="加 拉 太 書"></Book>
+        <Book index="49" code="EPH" name="以 弗 所 書"></Book>
+        <Book index="50" code="PHP" name="腓 立 比 書"></Book>
+        <Book index="51" code="COL" name="歌 羅 西 書"></Book>
+        <Book index="52" code="1TH" name="帖 撒 羅 尼 迦 前 書"></Book>
+        <Book index="53" code="2TH" name="帖 撒 羅 尼 迦 後 書"></Book>
+        <Book index="54" code="1TI" name="提 摩 太 前 書"></Book>
+        <Book index="55" code="2TI" name="提 摩 太 後 書"></Book>
+        <Book index="56" code="TIT" name="提 多 書"></Book>
+        <Book index="57" code="PHM" name="腓 利 門 書"></Book>
+        <Book index="58" code="HEB" name="希 伯 來 書"></Book>
+        <Book index="59" code="JAS" name="雅 各 書"></Book>
+        <Book index="60" code="1PE" name="彼 得 前 書"></Book>
+        <Book index="61" code="2PE" name="彼 得 後 書"></Book>
+        <Book index="62" code="1JN" name="約 翰 一 書"></Book>
+        <Book index="63" code="2JN" name="約 翰 二 書"></Book>
+        <Book index="64" code="3JN" name="約 翰 三 書"></Book>
+        <Book index="65" code="JUD" name="猶 大 書"></Book>
+        <Book index="66" code="REV" name="启 示 录"></Book>
+    </Bible>
+    <Bible abbreviation="KJ21" name="21st Century King James Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Songs"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="AKJV" name="American King James Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="DAN" name="Danske Bibel">
+        <Book index="1" code="GEN" name="Første Mosebog"></Book>
+        <Book index="2" code="EXO" name="Anden Mosebog"></Book>
+        <Book index="3" code="LEV" name="Tredje Mosebog"></Book>
+        <Book index="4" code="NUM" name="Fjerde Mosebog"></Book>
+        <Book index="5" code="DEU" name="Femte Mosebog"></Book>
+        <Book index="6" code="JOS" name="Josvabogen"></Book>
+        <Book index="7" code="JDG" name="Dommerbogen"></Book>
+        <Book index="8" code="RUT" name="Ruths Bog"></Book>
+        <Book index="9" code="1SA" name="1. Samuelsbog"></Book>
+        <Book index="10" code="2SA" name="2. Samuelsbog"></Book>
+        <Book index="11" code="1KI" name="1. Kongebog"></Book>
+        <Book index="12" code="2KI" name="2. Kongebog"></Book>
+        <Book index="13" code="1CH" name="1. Krønikebog"></Book>
+        <Book index="14" code="2CH" name="2. Krønikebog"></Book>
+        <Book index="15" code="EZR" name="Ezras Bog"></Book>
+        <Book index="16" code="NEH" name="Nehemias' Bog"></Book>
+        <Book index="17" code="EST" name="Esters Bog"></Book>
+        <Book index="18" code="JOB" name="Jobs Bog"></Book>
+        <Book index="19" code="PSA" name="Salmernes Bog"></Book>
+        <Book index="20" code="PRO" name="Ordsprogenes Bog"></Book>
+        <Book index="21" code="ECC" name="Prædikerens Bog"></Book>
+        <Book index="22" code="SNG" name="Højsangen"></Book>
+        <Book index="23" code="ISA" name="Esajas' Bog"></Book>
+        <Book index="24" code="JER" name="Jeremias' Bog"></Book>
+        <Book index="25" code="LAM" name="Klagesangene"></Book>
+        <Book index="26" code="EZK" name="Ezekiels Bog"></Book>
+        <Book index="27" code="DAN" name="Daniels Bog"></Book>
+        <Book index="28" code="HOS" name="Hoseas' Bog"></Book>
+        <Book index="29" code="JOL" name="Joels Bog"></Book>
+        <Book index="30" code="AMO" name="Amos' Bog"></Book>
+        <Book index="31" code="OBA" name="Obadias' Bog"></Book>
+        <Book index="32" code="JON" name="Jonas' Bog"></Book>
+        <Book index="33" code="MIC" name="Mikas Bog"></Book>
+        <Book index="34" code="NAM" name="Nahums Bog"></Book>
+        <Book index="35" code="HAB" name="Habakkuks Bog"></Book>
+        <Book index="36" code="ZEP" name="Sefanias' Bog"></Book>
+        <Book index="37" code="HAG" name="Haggajs Bog"></Book>
+        <Book index="38" code="ZEC" name="Zakarias' Bog"></Book>
+        <Book index="39" code="MAL" name="Malakias' Bog"></Book>
+        <Book index="40" code="MAT" name="Matthæusevangeliet"></Book>
+        <Book index="41" code="MRK" name="Markusevangeliet"></Book>
+        <Book index="42" code="LUK" name="Lukasevangeliet"></Book>
+        <Book index="43" code="JHN" name="Johannesevangeliet"></Book>
+        <Book index="44" code="ACT" name="Apostlenes Gerninger"></Book>
+        <Book index="45" code="ROM" name="Paulus' Brev til Romerne"></Book>
+        <Book index="46" code="1CO" name="Paulus' Første Brev til  Korintherne"></Book>
+        <Book index="47" code="2CO" name="Paulus' Andet Brev til  Korintherne"></Book>
+        <Book index="48" code="GAL" name="Paulus' Brev til Galaterne"></Book>
+        <Book index="49" code="EPH" name="Paulus' Brev til Efeserne"></Book>
+        <Book index="50" code="PHP" name="Paulus' Brev til Filipperne"></Book>
+        <Book index="51" code="COL" name="Paulus' Brev til Kolossenserne"></Book>
+        <Book index="52" code="1TH" name="Paulus' Første Brev til Thessalonikerne"></Book>
+        <Book index="53" code="2TH" name="Paulus' Andet Brev til Thessalonikerne"></Book>
+        <Book index="54" code="1TI" name="Paulus' Første Brev til Timotheus"></Book>
+        <Book index="55" code="2TI" name="Paulus' Andet Brev til Timotheus"></Book>
+        <Book index="56" code="TIT" name="Paulus' Brev til Titus"></Book>
+        <Book index="57" code="PHM" name="Paulus' Brev til Filemon"></Book>
+        <Book index="58" code="HEB" name="Brevet til Hebræerne"></Book>
+        <Book index="59" code="JAS" name="Jakobs Brev"></Book>
+        <Book index="60" code="1PE" name="Peters Første Brev"></Book>
+        <Book index="61" code="2PE" name="Peters Andet Brev"></Book>
+        <Book index="62" code="1JN" name="Johannes' Første Brev"></Book>
+        <Book index="63" code="2JN" name="Johannes' Andet Brev"></Book>
+        <Book index="64" code="3JN" name="Johannes' Tredje Brev"></Book>
+        <Book index="65" code="JUD" name="Judas' Brev"></Book>
+        <Book index="66" code="REV" name="Johannes' Åbenbaring"></Book>
+    </Bible>
+    <Bible abbreviation="ACV" name="A Conservative Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="RKJNT" name="Revised King James New Testament">
+        <Book index="1" code="MAT" name="Matthew"></Book>
+        <Book index="2" code="MRK" name="Mark"></Book>
+        <Book index="3" code="LUK" name="Luke"></Book>
+        <Book index="4" code="JHN" name="John"></Book>
+        <Book index="5" code="ACT" name="Acts"></Book>
+        <Book index="6" code="ROM" name="Romans"></Book>
+        <Book index="7" code="1CO" name="I Corinthians"></Book>
+        <Book index="8" code="2CO" name="II Corinthians"></Book>
+        <Book index="9" code="GAL" name="Galatians"></Book>
+        <Book index="10" code="EPH" name="Ephesians"></Book>
+        <Book index="11" code="PHP" name="Philippians"></Book>
+        <Book index="12" code="COL" name="Colossians"></Book>
+        <Book index="13" code="1TH" name="I Thessalonians"></Book>
+        <Book index="14" code="2TH" name="II Thessalonians"></Book>
+        <Book index="15" code="1TI" name="I Timothy"></Book>
+        <Book index="16" code="2TI" name="II Timothy"></Book>
+        <Book index="17" code="TIT" name="Titus"></Book>
+        <Book index="18" code="PHM" name="Philemon"></Book>
+        <Book index="19" code="HEB" name="Hebrews"></Book>
+        <Book index="20" code="JAS" name="James"></Book>
+        <Book index="21" code="1PE" name="I Peter"></Book>
+        <Book index="22" code="2PE" name="II Peter"></Book>
+        <Book index="23" code="1JN" name="I John"></Book>
+        <Book index="24" code="2JN" name="II John"></Book>
+        <Book index="25" code="3JN" name="III John"></Book>
+        <Book index="26" code="JUD" name="Jude"></Book>
+        <Book index="27" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="GNT" name="Tischendorf's Eighth Edition GNT">
+        <Book index="1" code="MAT" name="ΚΑΤΑ ΜΑΤΘΑΙΟΝ"></Book>
+        <Book index="2" code="MRK" name="ΚΑΤΑ ΜΑΡΚΟΝ"></Book>
+        <Book index="3" code="LUK" name="ΚΑΤΑ ΛΟΥΚΑΝ"></Book>
+        <Book index="4" code="JHN" name="ΚΑΤΑ ΙΩΑΝΝΗΝ"></Book>
+        <Book index="5" code="ACT" name="ΠΡΑΞΕΙΣ ΤΩΝ ΑΠΟΣΤΟΛΩΝ"></Book>
+        <Book index="6" code="ROM" name="ΠΡΟΣ ΡΩΜΑΙΟΥΣ"></Book>
+        <Book index="7" code="1CO" name="ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Α΄"></Book>
+        <Book index="8" code="2CO" name="ΠΡΟΣ ΚΟΡΙΝΘΙΟΥΣ Β΄"></Book>
+        <Book index="9" code="GAL" name="ΠΡΟΣ ΓΑΛΑΤΑΣ"></Book>
+        <Book index="10" code="EPH" name="ΠΡΟΣ ΕΦΕΣΙΟΥΣ"></Book>
+        <Book index="11" code="PHP" name="ΠΡΟΣ ΦΙΛΙΠΠΗΣΙΟΥΣ"></Book>
+        <Book index="12" code="COL" name="ΠΡΟΣ ΚΟΛΟΣΣΑΕΙΣ"></Book>
+        <Book index="13" code="1TH" name="ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Α΄"></Book>
+        <Book index="14" code="2TH" name="ΠΡΟΣ ΘΕΣΣΑΛΟΝΙΚΕΙΣ Β΄"></Book>
+        <Book index="15" code="1TI" name="ΠΡΟΣ ΤΙΜΟΘΕΟΝ Α΄"></Book>
+        <Book index="16" code="2TI" name="ΠΡΟΣ ΤΙΜΟΘΕΟΝ Β΄"></Book>
+        <Book index="17" code="TIT" name="ΠΡΟΣ ΤΙΤΟΝ"></Book>
+        <Book index="18" code="PHM" name="ΠΡΟΣ ΦΙΛΗΜΟΝΑ"></Book>
+        <Book index="19" code="HEB" name="ΠΡΟΣ ΕΒΡΑΙΟΥΣ"></Book>
+        <Book index="20" code="JAS" name="ΙΑΚΩΒΟΥ"></Book>
+        <Book index="21" code="1PE" name="ΠΕΤΡΟΥ Α΄"></Book>
+        <Book index="22" code="2PE" name="ΠΕΤΡΟΥ Β΄"></Book>
+        <Book index="23" code="1JN" name="ΙΩΑΝΝΟΥ Α΄"></Book>
+        <Book index="24" code="2JN" name="ΙΩΑΝΝΟΥ Β΄"></Book>
+        <Book index="25" code="3JN" name="ΙΩΑΝΝΟΥ Γ΄"></Book>
+        <Book index="26" code="JUD" name="ΙΟΥΔΑ"></Book>
+        <Book index="27" code="REV" name="ΑΠΟΚΑΛΥΨΙΣ ΙΩΑΝΝΟΥ"></Book>
+    </Bible>
+    <Bible abbreviation="RSV" name="Revised Standard Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="1 Samuel"></Book>
+        <Book index="10" code="2SA" name="2 Samuel"></Book>
+        <Book index="11" code="1KI" name="1 Kings"></Book>
+        <Book index="12" code="2KI" name="2 Kings"></Book>
+        <Book index="13" code="1CH" name="1 Chronicles"></Book>
+        <Book index="14" code="2CH" name="2 Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Songs"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="1 Corinthians"></Book>
+        <Book index="47" code="2CO" name="2 Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="1 Thessalonians"></Book>
+        <Book index="53" code="2TH" name="2 Thessalonians"></Book>
+        <Book index="54" code="1TI" name="1 Timothy"></Book>
+        <Book index="55" code="2TI" name="2 Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="1 Peter"></Book>
+        <Book index="61" code="2PE" name="2 Peter"></Book>
+        <Book index="62" code="1JN" name="1 John"></Book>
+        <Book index="63" code="2JN" name="2 John"></Book>
+        <Book index="64" code="3JN" name="3 John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation"></Book>
+    </Bible>
+    <Bible abbreviation="RNKJV" name="Restored Name King James Version">
+        <Book index="1" code="GEN" name="Genesis"></Book>
+        <Book index="2" code="EXO" name="Exodus"></Book>
+        <Book index="3" code="LEV" name="Leviticus"></Book>
+        <Book index="4" code="NUM" name="Numbers"></Book>
+        <Book index="5" code="DEU" name="Deuteronomy"></Book>
+        <Book index="6" code="JOS" name="Joshua"></Book>
+        <Book index="7" code="JDG" name="Judges"></Book>
+        <Book index="8" code="RUT" name="Ruth"></Book>
+        <Book index="9" code="1SA" name="I Samuel"></Book>
+        <Book index="10" code="2SA" name="II Samuel"></Book>
+        <Book index="11" code="1KI" name="I Kings"></Book>
+        <Book index="12" code="2KI" name="II Kings"></Book>
+        <Book index="13" code="1CH" name="I Chronicles"></Book>
+        <Book index="14" code="2CH" name="II Chronicles"></Book>
+        <Book index="15" code="EZR" name="Ezra"></Book>
+        <Book index="16" code="NEH" name="Nehemiah"></Book>
+        <Book index="17" code="EST" name="Esther"></Book>
+        <Book index="18" code="JOB" name="Job"></Book>
+        <Book index="19" code="PSA" name="Psalms"></Book>
+        <Book index="20" code="PRO" name="Proverbs"></Book>
+        <Book index="21" code="ECC" name="Ecclesiastes"></Book>
+        <Book index="22" code="SNG" name="Song of Solomon"></Book>
+        <Book index="23" code="ISA" name="Isaiah"></Book>
+        <Book index="24" code="JER" name="Jeremiah"></Book>
+        <Book index="25" code="LAM" name="Lamentations"></Book>
+        <Book index="26" code="EZK" name="Ezekiel"></Book>
+        <Book index="27" code="DAN" name="Daniel"></Book>
+        <Book index="28" code="HOS" name="Hosea"></Book>
+        <Book index="29" code="JOL" name="Joel"></Book>
+        <Book index="30" code="AMO" name="Amos"></Book>
+        <Book index="31" code="OBA" name="Obadiah"></Book>
+        <Book index="32" code="JON" name="Jonah"></Book>
+        <Book index="33" code="MIC" name="Micah"></Book>
+        <Book index="34" code="NAM" name="Nahum"></Book>
+        <Book index="35" code="HAB" name="Habakkuk"></Book>
+        <Book index="36" code="ZEP" name="Zephaniah"></Book>
+        <Book index="37" code="HAG" name="Haggai"></Book>
+        <Book index="38" code="ZEC" name="Zechariah"></Book>
+        <Book index="39" code="MAL" name="Malachi"></Book>
+        <Book index="40" code="MAT" name="Matthew"></Book>
+        <Book index="41" code="MRK" name="Mark"></Book>
+        <Book index="42" code="LUK" name="Luke"></Book>
+        <Book index="43" code="JHN" name="John"></Book>
+        <Book index="44" code="ACT" name="Acts"></Book>
+        <Book index="45" code="ROM" name="Romans"></Book>
+        <Book index="46" code="1CO" name="I Corinthians"></Book>
+        <Book index="47" code="2CO" name="II Corinthians"></Book>
+        <Book index="48" code="GAL" name="Galatians"></Book>
+        <Book index="49" code="EPH" name="Ephesians"></Book>
+        <Book index="50" code="PHP" name="Philippians"></Book>
+        <Book index="51" code="COL" name="Colossians"></Book>
+        <Book index="52" code="1TH" name="I Thessalonians"></Book>
+        <Book index="53" code="2TH" name="II Thessalonians"></Book>
+        <Book index="54" code="1TI" name="I Timothy"></Book>
+        <Book index="55" code="2TI" name="II Timothy"></Book>
+        <Book index="56" code="TIT" name="Titus"></Book>
+        <Book index="57" code="PHM" name="Philemon"></Book>
+        <Book index="58" code="HEB" name="Hebrews"></Book>
+        <Book index="59" code="JAS" name="James"></Book>
+        <Book index="60" code="1PE" name="I Peter"></Book>
+        <Book index="61" code="2PE" name="II Peter"></Book>
+        <Book index="62" code="1JN" name="I John"></Book>
+        <Book index="63" code="2JN" name="II John"></Book>
+        <Book index="64" code="3JN" name="III John"></Book>
+        <Book index="65" code="JUD" name="Jude"></Book>
+        <Book index="66" code="REV" name="Revelation of John"></Book>
+    </Bible>
+    <Bible abbreviation="KOU" name="Colloquial Japanese">
+        <Book index="1" code="GEN" name="創世記"></Book>
+        <Book index="2" code="EXO" name="出エジプト記"></Book>
+        <Book index="3" code="LEV" name="レビ記"></Book>
+        <Book index="4" code="NUM" name="民数記"></Book>
+        <Book index="5" code="DEU" name="申命記"></Book>
+        <Book index="6" code="JOS" name="ヨシュア記"></Book>
+        <Book index="7" code="JDG" name="士師記"></Book>
+        <Book index="8" code="RUT" name="ルツ記"></Book>
+        <Book index="9" code="1SA" name="サムエル記上"></Book>
+        <Book index="10" code="2SA" name="サムエル記下"></Book>
+        <Book index="11" code="1KI" name="列王紀上"></Book>
+        <Book index="12" code="2KI" name="列王紀下"></Book>
+        <Book index="13" code="1CH" name="歴代志上"></Book>
+        <Book index="14" code="2CH" name="歴代志下"></Book>
+        <Book index="15" code="EZR" name="エズラ記"></Book>
+        <Book index="16" code="NEH" name="ネヘミヤ記"></Book>
+        <Book index="17" code="EST" name="エステル記"></Book>
+        <Book index="18" code="JOB" name="ヨブ記"></Book>
+        <Book index="19" code="PSA" name="詩篇"></Book>
+        <Book index="20" code="PRO" name="箴言"></Book>
+        <Book index="21" code="ECC" name="伝道の書"></Book>
+        <Book index="22" code="SNG" name="雅歌"></Book>
+        <Book index="23" code="ISA" name="イザヤ書"></Book>
+        <Book index="24" code="JER" name="エレミヤ書"></Book>
+        <Book index="25" code="LAM" name="哀歌"></Book>
+        <Book index="26" code="EZK" name="エゼキエル書"></Book>
+        <Book index="27" code="DAN" name="ダニエル書"></Book>
+        <Book index="28" code="HOS" name="ホセア書"></Book>
+        <Book index="29" code="JOL" name="ヨエル書"></Book>
+        <Book index="30" code="AMO" name="アモス書"></Book>
+        <Book index="31" code="OBA" name="オバデヤ書"></Book>
+        <Book index="32" code="JON" name="ヨナ書"></Book>
+        <Book index="33" code="MIC" name="ミカ書"></Book>
+        <Book index="34" code="NAM" name="ナホム書"></Book>
+        <Book index="35" code="HAB" name="ハバクク書"></Book>
+        <Book index="36" code="ZEP" name="ゼパニヤ書"></Book>
+        <Book index="37" code="HAG" name="ハガイ書"></Book>
+        <Book index="38" code="ZEC" name="ゼカリヤ書"></Book>
+        <Book index="39" code="MAL" name="マラキ書"></Book>
+        <Book index="40" code="MAT" name="マタイによる福音書"></Book>
+        <Book index="41" code="MRK" name="マルコによる福音書"></Book>
+        <Book index="42" code="LUK" name="ルカによる福音書"></Book>
+        <Book index="43" code="JHN" name="ヨハネによる福音書"></Book>
+        <Book index="44" code="ACT" name="使徒行伝"></Book>
+        <Book index="45" code="ROM" name="ローマ人への手紙"></Book>
+        <Book index="46" code="1CO" name="コリント人への第一の手紙"></Book>
+        <Book index="47" code="2CO" name="コリント人への第二の手紙"></Book>
+        <Book index="48" code="GAL" name="ガラテヤ人への手紙"></Book>
+        <Book index="49" code="EPH" name="エペソ人への手紙"></Book>
+        <Book index="50" code="PHP" name="ピリピ人への手紙"></Book>
+        <Book index="51" code="COL" name="コロサイ人への手紙"></Book>
+        <Book index="52" code="1TH" name="テサロニケ人への第一の手紙"></Book>
+        <Book index="53" code="2TH" name="テサロニケ人への第二の手紙"></Book>
+        <Book index="54" code="1TI" name="テモテヘの第一の手紙"></Book>
+        <Book index="55" code="2TI" name="テモテヘの第二の手紙"></Book>
+        <Book index="56" code="TIT" name="テトスヘの手紙"></Book>
+        <Book index="57" code="PHM" name="ピレモンヘの手紙"></Book>
+        <Book index="58" code="HEB" name="ヘブル人への手紙"></Book>
+        <Book index="59" code="JAS" name="ヤコブの手紙"></Book>
+        <Book index="60" code="1PE" name="ペテロの第一の手紙"></Book>
+        <Book index="61" code="2PE" name="ペテロの第二の手紙"></Book>
+        <Book index="62" code="1JN" name="ヨハネの第一の手紙"></Book>
+        <Book index="63" code="2JN" name="ヨハネの第二の手紙"></Book>
+        <Book index="64" code="3JN" name="ヨハネの第三の手紙"></Book>
+        <Book index="65" code="JUD" name="ユダの手紙"></Book>
+        <Book index="66" code="REV" name="ヨハネの黙示録"></Book>
+    </Bible>
+</USXKeys>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Capture.EncoderSelectionControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:captureDO="clr-namespace:ProPresenter.DO.Capture;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="encoderSelectionControl" xmlns:capture="clr-namespace:ProPresenter.UI.Capture;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="encoderSelectionControlProxy" Data="{Binding ElementName=encoderSelectionControl}" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <commonControls:DropDownButton VerticalContentAlignment="Center">
+    <commonControls:DropDownButton.CustomContent>
+      <TextBlock Margin="0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Data.SelectedEncoder, Source={StaticResource encoderSelectionControlProxy}}" />
+    </commonControls:DropDownButton.CustomContent>
+    <commonControls:DropDownButton.CustomContextMenu>
+      <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type captureDO:Encoder}}">
+              <MenuItem Command="{Binding Data.SelectEncoderCommand, Source={StaticResource encoderSelectionControlProxy}}" CommandParameter="{Binding}" Header="{Binding}">
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="Data.SelectedEncoder" Source="{StaticResource encoderSelectionControlProxy}" />
+                    <Binding />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <CollectionContainer Collection="{Binding Data.DefaultEncoders, Source={StaticResource encoderSelectionControlProxy}}" />
+            <Separator Visibility="{Binding Data.IsCustomEncoder, Source={StaticResource encoderSelectionControlProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <MenuItem IsChecked="True" Header="{Binding Data.SelectedEncoder, Source={StaticResource encoderSelectionControlProxy}}" Visibility="{Binding Data.IsCustomEncoder, Source={StaticResource encoderSelectionControlProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <Separator />
+            <MenuItem Command="{Binding Data.SelectCustomEncoderCommand, Source={StaticResource encoderSelectionControlProxy}}" Header="{mex:Localized RECORDING_WINDOW_ENCODING_CUSTOM_title}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </commonControls:DropDownButton.CustomContextMenu>
+  </commonControls:DropDownButton>
+</UserControl>

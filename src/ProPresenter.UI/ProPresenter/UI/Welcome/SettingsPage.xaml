@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Welcome.SettingsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:settings="clr-namespace:ProPresenter.UI.Settings.PageTemplates.General" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:welcome="clr-namespace:ProPresenter.UI.Welcome" Resources="{settings:SelectedLanguageConverter Key=SelectedLanguageConverter}">
+  <Grid>
+    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="30" IsHitTestVisible="False" Text="{mex:Localized WELCOME_WINDOW_SETTINGS_title}" />
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid Row="0" Margin="0,0,0,20">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <commonControls:ToggleSwitch Margin="0,0,20,0" VerticalAlignment="Center" IsChecked="{Binding IncludeHoWIntegrations}" />
+        <TextBlock Grid.Column="1" Margin="0,8,0,10" VerticalAlignment="Center" FontSize="20" Text="{mex:Localized WELCOME_WINDOW_SETTINGS_HOUSE_OF_WORSHIP_title}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="18" TextWrapping="Wrap" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource Self}}" Text="{mex:Localized WELCOME_WINDOW_SETTINGS_HOUSE_OF_WORSHIP_explanation}" />
+      </Grid>
+      <Grid Row="1" Margin="0,0,0,20">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <commonControls:ToggleSwitch Margin="0,0,20,0" VerticalAlignment="Center" IsChecked="{Binding EnableCrashReporting}" />
+        <TextBlock Grid.Column="1" Margin="0,8,0,10" VerticalAlignment="Center" FontSize="20" Text="{mex:Localized WELCOME_WINDOW_SETTINGS_CRASH_REPORTING_title}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="18" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource Self}}" Text="{mex:Localized WELCOME_WINDOW_SETTINGS_CRASH_REPORTING_explanation}" />
+      </Grid>
+      <Grid Row="2" Margin="0,0,0,50">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <commonControls:ToggleSwitch Margin="0,0,20,0" VerticalAlignment="Center" IsChecked="{Binding EnableAnalytics}" />
+        <TextBlock Grid.Column="1" Margin="0,8,0,10" VerticalAlignment="Center" FontSize="20" Text="{mex:Localized WELCOME_WINDOW_SETTINGS_ANALYTICS_title}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="18" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource Self}}" Text="{mex:Localized WELCOME_WINDOW_SETTINGS_ANALYTICS_explanation}" />
+      </Grid>
+      <Grid Row="3">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Text="{mex:Localized SETTINGS_GENERAL_LANGUAGE_SELECTOR_title}" />
+        <ComboBox Grid.Column="1" Height="28" MinWidth="200" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock FontSize="14" Text="{Binding Converter={StaticResource SelectedLanguageConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource Self}}" Text="{mex:Localized SETTINGS_GENERAL_LANGUAGE_CHANGE_REQUIRES_RESTART_title}" />
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

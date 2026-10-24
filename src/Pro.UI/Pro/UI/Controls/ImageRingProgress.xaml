@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.ImageRingProgress" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters" x:Name="imageRingProgress" xmlns:controls="clr-namespace:Pro.UI.Controls">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsCollapsing="False" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Image Name="imageControl" RenderOptions.BitmapScalingMode="Fant" Source="{Binding ElementName=imageRingProgress, Path=Source}" />
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="4*" />
+        <RowDefinition Height="8*" />
+        <RowDefinition Height="4*" />
+      </Grid.RowDefinitions>
+      <Viewbox Grid.Row="1">
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{StaticResource DefaultDropShadowEffect}" FontWeight="Bold" TextOptions.TextFormattingMode="Ideal" FontSize="{Binding ElementName=imageRingProgress, Path=FontSize}" Text="{Binding ElementName=imageRingProgress, Path=Value}" Visibility="{Binding ElementName=imageRingProgress, Path=ShowValue, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </Viewbox>
+    </Grid>
+  </Grid>
+</UserControl>

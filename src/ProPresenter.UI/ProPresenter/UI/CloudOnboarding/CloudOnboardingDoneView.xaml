@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CloudOnboarding.CloudOnboardingDoneView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:dependencyInjection="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:viewModels="clr-namespace:ProPresenter.UI.ViewModels.CloudOnboarding;assembly=ProPresenter.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Background="#00FFFFFF" xmlns:cloudonboarding="clr-namespace:ProPresenter.UI.CloudOnboarding;assembly=ProPresenter.UI" DataContext="{dependencyInjection:DIMarkup {x:Type viewModels:ICloudOnboardingDoneVM}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="CloudOnboardingResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <converters:BooleanToVisibilityConverter x:Key="BoolToVis" />
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource CloudOnboarding.TextBlockStyle}" TargetType="{x:Type TextBlock}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="7*" />
+        <ColumnDefinition Width="26*" />
+        <ColumnDefinition Width="7*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,48,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <TextBlock FontSize="44" FontWeight="Bold" Foreground="{StaticResource CloudOnboarding.TitleBrush}" Text="{markupExtensions:Localized CLOUD_ONBOARDING_RETURNING_USERS_WELCOME_title}" />
+        <TextBlock Margin="0,8,0,0" FontSize="16" Foreground="{StaticResource CloudOnboarding.SubtleBrush}" TextWrapping="Wrap" Text="{markupExtensions:Localized CLOUD_ONBOARDING_RETURNING_USERS_WELCOME_description}" />
+      </StackPanel>
+      <Grid Row="1" Column="0" ColumnSpan="3">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="7.5*" />
+          <ColumnDefinition Width="85*" />
+          <ColumnDefinition Width="7.5*" />
+        </Grid.ColumnDefinitions>
+        <Grid Column="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" UseLayoutRounding="True">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="28" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Grid.Column="0" Height="220" MinWidth="320" MaxWidth="420" Padding="24,16,24,16" HorizontalAlignment="Stretch" Background="{StaticResource CloudOnboarding.CardBackgroundBrush}" BorderBrush="{StaticResource CloudOnboarding.CardBorderBrush}" BorderThickness="1" CornerRadius="10">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Image Name="UnlockCloudIcon" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9" Stretch="Uniform">
+                  <Image.Source>
+                    <DrawingImage>
+                      <DrawingImage.Drawing>
+                        <DrawingGroup ClipGeometry="M0,0 L0,34 L51,34 L51,0 L0,0">
+                          <GeometryDrawing Geometry="F1 M51,34 M0,0 M23.2588,0 C29.6891,0 34.7357,3.08745 37.5439,8.5918 C45.1952,8.5918 50.8729,14.0963 50.873,21.3271 C50.873,28.4565 45.2163,34.0017 37.9111,34.002 L10.8457,34.002 C4.43588,34.0018 6.06883E-05,29.7975 0,23.9072 C0,19.4386 2.78781,15.7619 7.14258,14.3604 C8.16011,6.05299 14.9972,0.000174219 23.2588,0 M29.8965,10.3809 C27.3591,10.3809 25.2803,12.1703 25.2803,15.2773 L25.2803,17.3193 L18.4561,17.3193 C17.0621,17.3195 16.3516,18.0528 16.3516,19.5537 L16.3516,26.0391 C16.3517,27.5661 17.0621,28.2899 18.4561,28.29 L26.9004,28.29 C28.2857,28.2899 28.996,27.5661 28.9961,26.0391 L28.9961,19.5537 C28.996,18.2185 28.4328,17.4941 27.333,17.3457 L27.333,15.1816 C27.333,13.4099 28.4762,12.3799 29.8965,12.3799 C31.3168,12.3799 32.46,13.4099 32.46,15.1816 L32.46,17.084 C32.46,17.7385 32.9275,18.1747 33.499,18.1748 C34.0533,18.1748 34.5215,17.7473 34.5215,17.084 L34.5215,15.2773 C34.5215,12.1702 32.4339,10.3809 29.8965,10.3809">
+                            <GeometryDrawing.Brush>
+                              <RadialGradientBrush Center="0,0" GradientOrigin="0,0" MappingMode="Absolute" Opacity="1" RadiusX="1" RadiusY="1" SpreadMethod="Pad" Transform="38.2342,-27.1271,36.3284,22.8732,12.6842,27.1271">
+                                <GradientStop Offset="0" Color="#FFFFA235" />
+                                <GradientStop Offset="1" Color="#FFFF6C1A" />
+                              </RadialGradientBrush>
+                            </GeometryDrawing.Brush>
+                          </GeometryDrawing>
+                        </DrawingGroup>
+                      </DrawingImage.Drawing>
+                    </DrawingImage>
+                  </Image.Source>
+                </Image>
+              </Grid>
+              <TextBlock Grid.Row="2" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" Text="{markupExtensions:Localized CLOUD_ONBOARDING_RETURNING_USERS_UNLOCK_STORAGE_title}" />
+              <TextBlock Grid.Row="4" Margin="0,4,0,0" FontSize="14" Foreground="{StaticResource CloudOnboarding.BodyBrush}" TextWrapping="Wrap" Text="{markupExtensions:Localized CLOUD_ONBOARDING_RETURNING_USERS_UNLOCK_STORAGE_message}" />
+              <Button Grid.Row="0" Grid.RowSpan="5" Background="#00FFFFFF" BorderThickness="0" Cursor="Hand" Command="{Binding OpenUpgradePlanCommand}" />
+            </Grid>
+          </Border>
+          <Border Grid.Column="1" Background="#00FFFFFF" />
+          <Border Grid.Column="2" Height="220" MinWidth="320" MaxWidth="420" Padding="24,16,24,16" HorizontalAlignment="Stretch" Background="{StaticResource CloudOnboarding.CardBackgroundBrush}" BorderBrush="{StaticResource CloudOnboarding.CardBorderBrush}" BorderThickness="1" CornerRadius="10">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="8" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="4" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Image Name="CollaborateIcon" Width="40" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9" Stretch="Uniform">
+                  <Image.Source>
+                    <DrawingImage>
+                      <DrawingImage.Drawing>
+                        <DrawingGroup ClipGeometry="M0,0 L0,43 L48,43 L48,0 L0,0">
+                          <GeometryDrawing Geometry="F1 M48,43 M0,0 M45.4922,9.03735 C46.6172,9.54712 47.1621,10.4436 47.1621,11.3401 C47.1621,12.2366 46.6172,13.1155 45.4922,13.6428 L28.2832,21.5354 C26.4902,22.3616 25.0312,22.7131 23.5723,22.6956 C22.1309,22.7131 20.6719,22.3616 18.8613,21.5354 L11.3555,18.0901 L21.9727,13.1155 C22.4824,13.2561 23.0625,13.344 23.6426,13.344 C25.541,13.344 27.3691,12.4827 27.3691,11.3401 C27.3691,10.2327 25.541,9.38892 23.6426,9.38892 C21.7617,9.38892 19.8984,10.2327 19.8984,11.3401 C19.8984,11.4631 19.9336,11.6038 20.0391,11.7268 L8.91211,16.9475 L1.66992,13.6428 C0.544922,13.1155 0,12.2366 0,11.3401 C0,10.4436 0.544922,9.54712 1.66992,9.03735 L18.8613,1.16235 C20.6719,0.35376 22.1309,-0.032959 23.5723,0.00219727 C25.0312,-0.032959 26.4902,0.35376 28.2832,1.16235 L45.4922,9.03735 M11.2852,20.6917 L17.8594,23.6975 C19.916,24.6467 21.7969,25.1213 23.5723,25.1038 C25.3652,25.1213 27.2285,24.6467 29.2852,23.6975 L40.623,18.512 L40.623,24.5588 C40.623,29.8147 33.9434,34.262 23.5723,34.262 C18.457,34.262 14.2383,33.1721 11.2852,31.3792 L11.2852,20.6917 M6.53906,18.512 L9,19.6545 L9,29.6038 C7.41797,27.9866 6.53906,26.0881 6.53906,24.5588 L6.53906,18.512 M7.61133,35.5803 C7.61133,34.5256 8.13867,33.7522 9,33.4534 L9,29.6038 C9.63281,30.2542 10.4062,30.8518 11.2852,31.3792 L11.2852,33.4534 C12.1289,33.7698 12.6562,34.5256 12.6562,35.5803 L12.6562,40.2034 C12.6562,41.592 11.7598,42.4885 10.3711,42.4885 L9.89648,42.4885 C8.50781,42.4885 7.61133,41.592 7.61133,40.2034 L7.61133,35.5803">
+                            <GeometryDrawing.Brush>
+                              <RadialGradientBrush Center="0,0" GradientOrigin="0,0" MappingMode="Absolute" Opacity="1" RadiusX="1" RadiusY="1" SpreadMethod="Pad" Transform="35.4452,-33.8978,33.6785,28.5821,11.759,33.8978">
+                                <GradientStop Offset="0" Color="#FFFFA235" />
+                                <GradientStop Offset="1" Color="#FFFF6C1A" />
+                              </RadialGradientBrush>
+                            </GeometryDrawing.Brush>
+                          </GeometryDrawing>
+                        </DrawingGroup>
+                      </DrawingImage.Drawing>
+                    </DrawingImage>
+                  </Image.Source>
+                </Image>
+              </Grid>
+              <TextBlock Grid.Row="2" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" Text="{markupExtensions:Localized CLOUD_ONBOARDING_RETURNING_USERS_LEARN_COLLABORATION_title}" />
+              <TextBlock Grid.Row="4" Margin="0,4,0,0" FontSize="14" Foreground="{StaticResource CloudOnboarding.BodyBrush}" TextWrapping="Wrap" Text="{markupExtensions:Localized CLOUD_ONBOARDING_RETURNING_USERS_LEARN_COLLABORATION_message}" />
+              <Button Grid.Row="0" Grid.RowSpan="5" Background="#00FFFFFF" BorderThickness="0" Cursor="Hand" Command="{Binding OpenLearnMoreCommand}" />
+            </Grid>
+          </Border>
+        </Grid>
+      </Grid>
+    </Grid>
+    <StackPanel Grid.Row="1" Margin="0,0,0,36" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
+      <commonControls:LoadingIndicator Width="40" Height="40" HorizontalAlignment="Center" DisplayMode="Spinner" />
+      <TextBlock Margin="0,12,0,0" HorizontalAlignment="Center" FontSize="14" Foreground="{StaticResource CloudOnboarding.SubtleBrush}" TextAlignment="Center" Text="{markupExtensions:Localized CLOUD_ONBOARDING_RETURNING_USERS_CLOUD_WORKSPACE_UPLOADING_label}" />
+    </StackPanel>
+    <Grid Row="2" Visibility="{Binding ShowGetStarted, Converter={StaticResource BoolToVis}}">
+      <Border Height="56" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource CloudOnboarding.BottomStripeBrush}" />
+      <DockPanel LastChildFill="False">
+        <StackPanel Margin="16,0,16,0" VerticalAlignment="Center" DockPanel.Dock="Right" Orientation="Horizontal">
+          <Button Padding="16,6" IsDefault="True" Command="{Binding GetStartedCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type windowing:ICloseable}}}" Content="{markupExtensions:Localized CLOUD_ONBOARDING_RETURNING_USERS_GET_STARTED}" />
+        </StackPanel>
+      </DockPanel>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.CloudWorkspaces.ManageCloudWorkspacesWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:cloudWorkspaces="clr-namespace:ProPresenter.UI.CloudWorkspaces" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:converters1="clr-namespace:ProPresenter.UI.Converters" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiworkspaces="clr-namespace:ProPresenter.UI.ViewModels.Workspaces;assembly=ProPresenter.UI" xmlns:utility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility1="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" xmlns:workspaceTypes="clr-namespace:ProPresenter.UI.ViewModels.Workspaces" xmlns:workspaces="clr-namespace:ProPresenter.UI.Workspaces" Width="340" Height="350" utility:WindowHelper.CanOwnWindows="True" utility:WindowHelper.ChildOf="MainWindow" utility:WindowHelper.HideOnClose="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" Title="{markupExtensions:Localized LOCALWORKSPACE_MANAGER_WORKSPACES_DIALOG_title}" Background="{Binding (utility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Loaded="ManageCloudWorkspacesWindow_Loaded">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility1:BindingProxy x:Key="proxy" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type cloudWorkspaces:ManageCloudWorkspacesWindow}}}" />
+      <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" IsCollapsing="False" />
+      <converters:IsNotNullToVisibilityConverter x:Key="IsNotNullToVisibilityConverter" />
+      <converters1:WorkspaceToVisibilityConverter x:Key="WorkspaceToVisibilityConverter" />
+      <converters:StringNullOrEmptyToVisibilityConverter x:Key="StringNullOrEmptyToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <workspaces:WorkspacesListBox x:Name="WorkspacesListBox" BorderThickness="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding LISTITEM_CONTENT, Source={x:Static theming:AppTheme.Active}}" ItemsSource="{Binding Workspaces}" SelectedListItem="{Binding SelectedManagedWorkspace, Mode=TwoWay}">
+      <ItemsControl.ItemContainerStyle>
+        <Style TargetType="{x:Type ListBoxItem}">
+          <Setter Property="FrameworkElement.ContextMenu">
+            <Setter.Value>
+              <ContextMenu DataContext="{Binding Data, Source={StaticResource proxy}}">
+                <MenuItem Command="{Binding DuplicateSelectedWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_DUPLICATE_WORKSPACE_MENU_ITEM_title_no_ellipsis}">
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Duplicate}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </MenuItem>
+                <MenuItem Command="{Binding RenameWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_RENAME_WORKSPACE_MENU_ITEM_title_no_ellipsis}">
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Rename}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </MenuItem>
+                <Separator>
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Rename}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </Separator>
+                <MenuItem Command="{Binding PublishWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_CONVERT_TO_CLOUD_MENU_ITEM_title}">
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Publish}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </MenuItem>
+                <Separator>
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Publish}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </Separator>
+                <MenuItem Command="{Binding DeleteWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_DELETE_WORKSPACE_MENU_ITEM_title}" IsEnabled="{Binding SelectedManagedWorkspace.Active, Converter={StaticResource InvertedBooleanConverter}}">
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Delete}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </MenuItem>
+                <Separator>
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.DownloadCloudWorkspace}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </Separator>
+                <MenuItem Command="{Binding DownloadCloudWorkspaceCommand}" Header="{markupExtensions:Localized CLOUDWORKSPACE_DOWNLOAD_MENU_ITEM_title}">
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.DownloadCloudWorkspace}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </MenuItem>
+                <Separator>
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.ConvertSyncedToLocal}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </Separator>
+                <MenuItem Command="{Binding ConvertToLocalWorkspaceCommand}" Header="{markupExtensions:Localized CLOUDWORKSPACE_MAKE_LOCAL_COPY_MENU_ITEM_title}">
+                  <UIElement.Visibility>
+                    <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.ConvertSyncedToLocal}">
+                      <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                      <Binding Path="IsCloudSignedIn" />
+                    </MultiBinding>
+                  </UIElement.Visibility>
+                </MenuItem>
+              </ContextMenu>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid MinWidth="275">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <commonControls:Icon Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="5,10,5,0" VerticalAlignment="Top" IconSize="XSmall" Source="{StaticResource {x:Static themes:Icons.Check}}" Visibility="{Binding Active, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,0,5" VerticalAlignment="Center" Text="{Binding Name}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Margin="5,5,0,5" VerticalAlignment="Top" FontSize="11" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{Binding ReadableWorkspaceSize}" Visibility="{Binding ReadableWorkspaceSize, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}" />
+            <commonControls:BorderlessButton Grid.Row="0" Grid.Column="2" Margin="0,5,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Command="{Binding Data.DownloadCloudWorkspaceCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}">
+              <Image>
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Setter Property="Source" Value="{x:Null}" />
+                    <Style.Triggers>
+                      <DataTrigger Value="{x:Static uiworkspaces:WorkspaceType.Cloud}" Binding="{Binding WorkspaceType}">
+                        <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.SyncAvailableCloudWorkspace}}" />
+                      </DataTrigger>
+                      <DataTrigger Value="{x:Static uiworkspaces:WorkspaceType.Synced}" Binding="{Binding WorkspaceType}">
+                        <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.SyncCloudWorkspace}}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </Image>
+            </commonControls:BorderlessButton>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </workspaces:WorkspacesListBox>
+    <Border Grid.Row="1" Grid.Column="0" Height="25" BorderBrush="#FF808080" BorderThickness="1" Background="{Binding PANELBREAK, Source={x:Static theming:AppTheme.Active}}">
+      <StackPanel Margin="0,2,0,2" Orientation="Horizontal">
+        <commonControls:BorderlessDropDownButton>
+          <commonControls:BorderlessDropDownButton.CustomContent>
+            <commonControls:PathControl Width="15" Height="15" Margin="0,0,5,0" PathType="Plus" StrokeThickness="2" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+          </commonControls:BorderlessDropDownButton.CustomContent>
+          <commonControls:BorderlessDropDownButton.CustomContextMenu>
+            <ContextMenu>
+              <MenuItem Command="{Binding CreateWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_CREATE_NEW_WORKSPACE_MENU_ITEM_NO_ELLIPSIS_title}" />
+              <MenuItem Command="{Binding ImportSelectedLegacyFolderToWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_IMPORT_LEGACY_FOLDER_MENU_ITEM_title}" />
+            </ContextMenu>
+          </commonControls:BorderlessDropDownButton.CustomContextMenu>
+        </commonControls:BorderlessDropDownButton>
+        <Border Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+        <commonControls:BorderlessPathButton PathType="Minus" ToolTipService.ShowOnDisabled="True" Command="{Binding DeleteWorkspaceCommand}" IsEnabled="{Binding SelectedManagedWorkspace.Active, Converter={StaticResource InvertedBooleanConverter}}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessPathButton}}" TargetType="{x:Type commonControls:BorderlessPathButton}">
+              <Setter Property="FrameworkElement.ToolTip" Value="{x:Null}" />
+              <Style.Triggers>
+                <DataTrigger Value="False" Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{markupExtensions:Localized LOCALWORKSPACE_DELETE_ACTIVE_WORKSPACE_ERROR_title}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </commonControls:BorderlessPathButton>
+        <Border Style="{StaticResource {x:Static themes:Styles.ToolBarSeparator}}" />
+        <commonControls:BorderlessDropDownButton>
+          <commonControls:BorderlessDropDownButton.CustomContent>
+            <commonControls:PathControl Width="15" Height="15" Margin="5,0,5,0" PathType="More" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" Stroke="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+          </commonControls:BorderlessDropDownButton.CustomContent>
+          <commonControls:BorderlessDropDownButton.CustomContextMenu>
+            <ContextMenu>
+              <MenuItem Command="{Binding PublishWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_CONVERT_TO_CLOUD_MENU_ITEM_title}">
+                <UIElement.Visibility>
+                  <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Publish}">
+                    <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                    <Binding Path="IsCloudSignedIn" />
+                  </MultiBinding>
+                </UIElement.Visibility>
+              </MenuItem>
+              <MenuItem Command="{Binding DownloadCloudWorkspaceCommand}" CommandParameter="{Binding SelectedManagedWorkspace}" Header="{markupExtensions:Localized CLOUDWORKSPACE_MAKE_LOCAL_COPY_MENU_ITEM_title}">
+                <UIElement.Visibility>
+                  <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.DownloadCloudWorkspace}">
+                    <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                    <Binding Path="IsCloudSignedIn" />
+                  </MultiBinding>
+                </UIElement.Visibility>
+              </MenuItem>
+              <MenuItem Command="{Binding DuplicateSelectedWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_DUPLICATE_WORKSPACE_MENU_ITEM_title_no_ellipsis}">
+                <UIElement.Visibility>
+                  <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Duplicate}">
+                    <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                    <Binding Path="IsCloudSignedIn" />
+                  </MultiBinding>
+                </UIElement.Visibility>
+              </MenuItem>
+              <MenuItem Command="{Binding RenameWorkspaceCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_RENAME_WORKSPACE_MENU_ITEM_title_no_ellipsis}">
+                <UIElement.Visibility>
+                  <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.Rename}">
+                    <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                    <Binding Path="IsCloudSignedIn" />
+                  </MultiBinding>
+                </UIElement.Visibility>
+              </MenuItem>
+              <MenuItem Command="{Binding OpenInExplorerCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_OPEN_FOLDER_IN_EXPLORER_MENU_ITEM_title}">
+                <UIElement.Visibility>
+                  <MultiBinding Converter="{StaticResource WorkspaceToVisibilityConverter}" ConverterParameter="{x:Static uiworkspaces:WorkspaceOperation.OpenInExplorer}">
+                    <Binding Path="SelectedManagedWorkspace.WorkspaceType" />
+                    <Binding Path="IsCloudSignedIn" />
+                  </MultiBinding>
+                </UIElement.Visibility>
+              </MenuItem>
+            </ContextMenu>
+          </commonControls:BorderlessDropDownButton.CustomContextMenu>
+        </commonControls:BorderlessDropDownButton>
+      </StackPanel>
+    </Border>
+  </Grid>
+</windowing:ChromedWindow>

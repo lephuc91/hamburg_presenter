@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.SlideLabelSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:label="clr-namespace:ProPresenter.UI.Label" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:slideeditor="clr-namespace:ProPresenter.UI.SlideEditor" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <label:LabelSelector />
+    <Button Grid.Row="1" Margin="0,7,0,0" Command="{Binding SaveToPreferencesCommand}" Content="{mex:Localized PRESENTATION_LABEL_DIALOG_SAVE_LABEL_label}" Visibility="{Binding CanSaveToPreferences, Converter={StaticResource ValueToVisibilityConverter}}" />
+  </Grid>
+</UserControl>

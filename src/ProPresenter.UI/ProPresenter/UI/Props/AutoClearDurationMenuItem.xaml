@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MenuItem x:Class="ProPresenter.UI.Props.AutoClearDurationMenuItem" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProPresenter.UI.Props" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" x:Name="autoClearDurationMenuItem" Style="{StaticResource {x:Type MenuItem}}" UsesItemContainerTemplate="True" Header="{mex:Localized PROP_CONTROL_DECK_CONTEXTUAL_MENU_AUTO_CLEAR_title}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="autoClearDurationMenuItemProxy" Data="{Binding ElementName=autoClearDurationMenuItem}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ItemsControl.ItemsSource>
+    <local:AutoClearDurationMenuSource IsAutoClearCommandToDefaultAvailable="False" AutoClearDuration="{Binding Data.AutoClearDuration, Source={StaticResource autoClearDurationMenuItemProxy}}" AutoClearFollowsPropDuration="{Binding Data.AutoClearFollowsPropDuration, Source={StaticResource autoClearDurationMenuItemProxy}}" SetAutoClearCommand="{Binding Data.SetAutoClearCommand, Source={StaticResource autoClearDurationMenuItemProxy}}" SetCustomAutoClearCommand="{Binding Data.SetCustomAutoClearCommand, Source={StaticResource autoClearDurationMenuItemProxy}}" />
+  </ItemsControl.ItemsSource>
+</MenuItem>

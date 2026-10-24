@@ -1,0 +1,12 @@
+{
+    "category": "Objects",
+    "description": "Door wipe",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Door Wipe",
+    "numPasses": 1,
+    "shaderFile": "doorWipe",
+    "type": 1,
+    "uuid": "645A6350-128C-48B9-AA9D-D7D85ABEF81E",
+    "usesDepth": true
+}

@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.TestPattern.TestPatternStateOptionsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:outputConfiguration="clr-namespace:ProPresenter.DO.OutputConfiguration;assembly=ProPresenter.DO" xmlns:testPatternDO="clr-namespace:ProPresenter.DO.TestPattern.State;assembly=ProPresenter.DO" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="testPatternStateOptionsView" xmlns:testpattern="clr-namespace:ProPresenter.UI.TestPattern">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="testPatternVMProxy" Data="{Binding}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <Style x:Key="DisplayLocationMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.CurrentState.SelectDisplayLocationCommand, Source={StaticResource testPatternVMProxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="Header" Value="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        <Setter Property="MenuItem.IsChecked">
+          <Setter.Value>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+              <Binding Path="Data.CurrentState.DisplayLocation" Source="{StaticResource testPatternVMProxy}" />
+              <Binding />
+            </MultiBinding>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <Style x:Key="LogoMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.CurrentState.SelectLogoTypeCommand, Source={StaticResource testPatternVMProxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="Header" Value="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        <Setter Property="MenuItem.IsChecked">
+          <Setter.Value>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+              <Binding Path="Data.CurrentState.LogoType" Source="{StaticResource testPatternVMProxy}" />
+              <Binding />
+            </MultiBinding>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border CornerRadius="4" Background="{Binding SOURCELIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0" Margin="8,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized TEST_PATTERN_SCREEN_label}" />
+      <commonControls:BorderlessDropDownButton Grid.Column="1" Height="22" Margin="8,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" uiUtility:UIElementHelper.CornerRadius="4">
+        <commonControls:BorderlessDropDownButton.CustomContent>
+          <TextBlock Margin="0,0,4,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text" Value="{Binding CurrentState.DisplayLocation, Converter={StaticResource EnumToContentConverter}}" />
+                <Style.Triggers>
+                  <DataTrigger Value="SpecificScreen" Binding="{Binding CurrentState.DisplayLocation}">
+                    <Setter Property="Text" Value="{Binding CurrentState.TargetScreen.Name}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+        </commonControls:BorderlessDropDownButton.CustomContent>
+        <commonControls:BorderlessDropDownButton.CustomContextMenu>
+          <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type outputConfiguration:ScreenArrangementBase}}">
+                  <MenuItem Command="{Binding Data.CurrentState.SelectScreenCommand, Source={StaticResource testPatternVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding Path="Data.CurrentState.SpecificScreen" Source="{StaticResource testPatternVMProxy}" />
+                        <Binding Path="ID" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                  </MenuItem>
+                </ItemContainerTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+            <ItemsControl.ItemsSource>
+              <CompositeCollection>
+                <MenuItem DataContext="{x:Static testPatternDO:DisplayLocation.AllScreens}" Style="{StaticResource DisplayLocationMenuItemStyle}" />
+                <Separator />
+                <MenuItem DataContext="{x:Static testPatternDO:DisplayLocation.AudienceScreens}" Style="{StaticResource DisplayLocationMenuItemStyle}" />
+                <MenuItem DataContext="{x:Static testPatternDO:DisplayLocation.StageScreens}" Style="{StaticResource DisplayLocationMenuItemStyle}" />
+                <Separator />
+                <CollectionContainer Collection="{Binding Data.CurrentState.AudienceScreens, Source={StaticResource testPatternVMProxy}}" />
+                <CollectionContainer Collection="{Binding Data.CurrentState.StageScreens, Source={StaticResource testPatternVMProxy}}" />
+              </CompositeCollection>
+            </ItemsControl.ItemsSource>
+          </ContextMenu>
+        </commonControls:BorderlessDropDownButton.CustomContextMenu>
+      </commonControls:BorderlessDropDownButton>
+      <Separator Grid.Row="1" Grid.ColumnSpan="2" Margin="0,4" />
+      <TextBlock Grid.Row="2" Grid.Column="0" Margin="8,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized TEST_PATTERN_IDENTIFY_SCREENS_label}" />
+      <commonControls:ToggleSwitch Grid.Row="2" Grid.Column="1" Height="22" Margin="0,8,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" BorderBrush="#00FFFFFF" IsChecked="{Binding CurrentState.IdentifyScreens, Mode=TwoWay}" />
+      <Separator Grid.Row="3" Grid.ColumnSpan="2" Margin="0,4" />
+      <TextBlock Grid.Row="4" Grid.Column="0" Margin="8,0,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized TEST_PATTERN_LOGO_label}" />
+      <commonControls:BorderlessDropDownButton Grid.Row="4" Grid.Column="1" Height="22" Margin="0,0,8,8" HorizontalAlignment="Right" VerticalAlignment="Center" uiUtility:UIElementHelper.CornerRadius="4">
+        <commonControls:BorderlessDropDownButton.CustomContent>
+          <TextBlock Margin="0,0,4,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text" Value="{Binding CurrentState.LogoType, Converter={StaticResource EnumToContentConverter}}" />
+                <Style.Triggers>
+                  <DataTrigger Value="User" Binding="{Binding CurrentState.LogoType}">
+                    <Setter Property="Text" Value="{Binding CurrentState.UserLogoLocation.Filename}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+        </commonControls:BorderlessDropDownButton.CustomContent>
+        <commonControls:BorderlessDropDownButton.CustomContextMenu>
+          <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+            <ItemsControl.ItemsSource>
+              <CompositeCollection>
+                <MenuItem IsChecked="True" Header="{Binding CurrentState.UserLogoLocation.Filename}" Visibility="{Binding Data.CurrentState.LogoType, Source={StaticResource testPatternVMProxy}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static testPatternDO:LogoType.User}}" />
+                <Separator Visibility="{Binding Data.CurrentState.LogoType, Source={StaticResource testPatternVMProxy}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static testPatternDO:LogoType.User}}" />
+                <MenuItem DataContext="{x:Static testPatternDO:LogoType.None}" Style="{StaticResource LogoMenuItemStyle}" Visibility="{Binding Data.CurrentState.CanDeselectLogo, Source={StaticResource testPatternVMProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+                <MenuItem DataContext="{x:Static testPatternDO:LogoType.Propresenter}" Style="{StaticResource LogoMenuItemStyle}" />
+                <Separator />
+                <MenuItem Command="{Binding Data.CurrentState.SelectCustomLogoCommand, Source={StaticResource testPatternVMProxy}}" CommandParameter="{Binding Data.CurrentState.UserLogoLocation, Source={StaticResource testPatternVMProxy}}" Header="{Binding Data.CurrentState.UserLogoLocation.Filename, Source={StaticResource testPatternVMProxy}}" Visibility="{Binding IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+                <MenuItem DataContext="{x:Static testPatternDO:LogoType.User}" IsChecked="False" Style="{StaticResource LogoMenuItemStyle}" Header="{mex:Localized TEST_PATTERN_IMPORT_LOGO_title}" />
+              </CompositeCollection>
+            </ItemsControl.ItemsSource>
+          </ContextMenu>
+        </commonControls:BorderlessDropDownButton.CustomContextMenu>
+      </commonControls:BorderlessDropDownButton>
+    </Grid>
+  </Border>
+</UserControl>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.KeyMapping.InputActionItemTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:uiConverter="clr-namespace:ProPresenter.UI.Converters" x:Name="inputActionItemTemplate" xmlns:keymapping="clr-namespace:ProPresenter.UI.KeyMapping">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:CountToBoolConverter x:Key="CountToBoolConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverterNonCollapse" IsCollapsing="False" />
+      <uiConverter:KeyToStringConverter x:Key="KeyToStringConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Label}" ToolTip="{Binding Label}" />
+    <Grid Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="{Binding DefaultKeyboardGestureText}">
+      <commonControls:EditableTextBlock Name="GestureBox" Width="125" Margin="0,0,50,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Center" BorderThickness="0" Text="{Binding KeyboardGestureText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="GestureBox_PreviewKeyDown" PreviewKeyUp="GestureBox_PreviewKeyUp" />
+      <commonControls:CloseButton Width="12" Height="12" Margin="0,0,54,0" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding ClearKeyboardGestureCommand}" Visibility="{Binding IsInEditMode, ElementName=GestureBox, Converter={StaticResource ValueToVisibilityConverter}}" />
+    </Grid>
+    <commonControls:BorderlessButton Grid.Column="3" Margin="0,0,5,0" Command="{Binding ShowConflictsCommand, ElementName=inputActionItemTemplate}" ToolTip="{Binding ConflictMessage}" Visibility="{Binding HasConflicts, Converter={StaticResource ValueToVisibilityConverterNonCollapse}}">
+      <Image Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" Source="../Resources/Icons/WarningIcon.png" />
+    </commonControls:BorderlessButton>
+  </Grid>
+</UserControl>

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.UserAttachments.UserAttachmentListControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui1="clr-namespace:Pro.UI;assembly=Pro.UI" MinHeight="150" xmlns:userattachments="clr-namespace:ProPresenter.UI.UserAttachments">
+  <FrameworkElement.Resources>
+    <ui1:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui1:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <converters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ui1:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30" />
+      <RowDefinition />
+      <RowDefinition Height="24" />
+    </Grid.RowDefinitions>
+    <TextBlock Height="20" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="{mex:Localized USER_FEEDBACK_FORM_ATTACHMENTS_VIEW_title}" />
+    <commonControls:DropDownButton Grid.Row="0" Width="156" Margin="0,5,5,5" HorizontalAlignment="Right" IsTabStop="False">
+      <commonControls:DropDownButton.CustomContent>
+        <TextBlock TextAlignment="Right" Text="{mex:Localized ATTACH_FILE_HEADER_label}" />
+      </commonControls:DropDownButton.CustomContent>
+      <commonControls:DropDownButton.CustomContextMenu>
+        <ContextMenu HorizontalAlignment="Right" IsTabStop="False" Placement="Bottom" UsesItemContainerTemplate="True">
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <MenuItem IsTabStop="False" Command="{Binding AttachSystemDiagnosticsCommand}" Header="{mex:Localized ATTACH_FILE_TYPE_SYSTEM_DIAGNOSTICS_title}" />
+              <MenuItem IsTabStop="False" Command="{Binding AttachSystemInformationCommand}" Header="{mex:Localized ATTACH_FILE_TYPE_APPLICATION_METADATA_title}" />
+              <MenuItem IsTabStop="False" Command="{Binding AttachCrashReportCommand}" Header="{mex:Localized ATTACH_FILE_TYPE_CRASH_REPORT_title}" />
+              <MenuItem IsTabStop="False" Command="{Binding AttachProgramFileLogCommand}" Header="{mex:Localized ATTACH_FILE_TYPE_PROGRAM_FILE_LOG_title}" />
+              <MenuItem IsTabStop="False" Command="{Binding AttachWorkspaceCommand}" Header="{mex:Localized ATTACH_FILE_TYPE_ACTIVE_WORKSPACE_title}" />
+              <MenuItem IsTabStop="False" Command="{Binding AttachCloudDocumentsCommand}" Header="{mex:Localized ATTACH_FILE_TYPE_CRDT_DOCUMENTS_title}" Visibility="{mex:FeatureFlag Cloud}" />
+              <Separator />
+              <MenuItem IsTabStop="False" Command="{Binding AttachChooseFileCommand}" Header="{mex:Localized ATTACH_FILE_TYPE_CHOOSE_FILE_title}" />
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </commonControls:DropDownButton.CustomContextMenu>
+    </commonControls:DropDownButton>
+    <ListBox Grid.Row="1" HorizontalContentAlignment="Stretch" IsTabStop="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Attachments}" SelectedItem="{Binding SelectedAttachment}">
+      <FrameworkElement.ContextMenu>
+        <ContextMenu>
+          <MenuItem Command="{Binding RemoveAttachmentCommand}" CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" Header="{mex:Localized GLOBAL_REMOVE_title}" />
+          <MenuItem Command="{Binding ShowInFolderCommand}" Header="{mex:Localized GLOBAL_SHOW_IN_FINDER_MENU_ITEM_windows_title}" />
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding DisplayName}" ToolTip="{Binding FileName}" />
+            <commonControls:BorderlessButton Grid.Column="1" Width="16" Height="16" Command="{Binding Path=DataContext.RemoveAttachmentCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" ToolTip="{mex:Localized GLOBAL_REMOVE_title}">
+              <Viewbox Stretch="Fill">
+                <Path Data="{StaticResource TrashCan}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+              </Viewbox>
+            </commonControls:BorderlessButton>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemContainerStyle>
+        <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
+          <Setter Property="Height" Value="30" />
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </ListBox>
+    <commonControls:LoadingIndicator Grid.Row="1" Width="30" Height="30" Margin="0,0,8,8" HorizontalAlignment="Center" VerticalAlignment="Center" DisplayMode="Spinner" Fill="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding AttachmentInProgress, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <TextBlock Grid.Row="2" Margin="5,5,0,0" FontSize="11" Foreground="#FF808080" Text="{mex:Localized ATTACH_FILE_UPLOAD_BACKGROUND_NOTICE_title}" />
+  </Grid>
+</UserControl>

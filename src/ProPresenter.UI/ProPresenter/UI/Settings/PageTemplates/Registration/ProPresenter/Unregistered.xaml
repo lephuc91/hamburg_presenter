@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter.Unregistered" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Registration.ProPresenter">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="vmProxy" Data="{Binding}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <SolidColorBrush x:Key="OverlayBrush" Color="{StaticResource {x:Static themes:Colors.PopUpWindowOverlay}}" />
+      <Style x:Key="Description" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+      </Style>
+      <Style x:Key="Value" TargetType="{x:Type TextBlock}">
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="UIElement.Opacity" Value="0.6" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <commonControls:GroupedControl>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock VerticalAlignment="Center" Style="{StaticResource Description}" TextAlignment="Right" Text="{mex:Localized SETTINGS_ACCOUNT_CURRENT_SEAT_STATE_label}" />
+        <TextBlock Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource Value}" Text="{Binding Source={x:Static vm:SeatState.Inactive}, Converter={StaticResource EnumToContentConverter}}" />
+        <Button Grid.Column="3" Margin="8,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" IsDefault="True" Command="{Binding Data.ActivateCommand, Source={StaticResource vmProxy}}" Content="{mex:Localized SETTINGS_ACCOUNT_ACTIVATE_LICENSE_BUTTON_title}" Visibility="{Binding IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+      </Grid>
+    </commonControls:GroupedControl>
+    <Grid Row="1" Margin="0,8,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <ToggleButton Grid.Column="1" HorizontalAlignment="Right" Content="{mex:Localized SETTINGS_ACCOUNT_REGISTER_ENTERING_UNLOCK_CODE_label}" IsChecked="{Binding UnlockCodeVM.IsVisible}" />
+    </Grid>
+    <commonControls:ModalPopup HorizontalAlignment="Center" VerticalAlignment="Center" IsModal="True" OverlayBrush="{StaticResource OverlayBrush}" Placement="Center" IsOpen="{Binding UnlockCodeVM.IsVisible}" PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+      <local:UnlockCodeControl DataContext="{Binding Data.UnlockCodeVM, Source={StaticResource vmProxy}}" />
+    </commonControls:ModalPopup>
+  </Grid>
+</UserControl>

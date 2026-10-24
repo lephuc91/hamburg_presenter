@@ -1,0 +1,20 @@
+{
+    "description": "Filters based on color.",
+    "name": "Color Filter",
+    "numPasses": 1,
+    "shaderFile": "ColorFilter",
+    "type": 0,
+    "uuid": "85A535EF-4EFC-4105-B8C7-C65C53376B87",
+    "variables": [
+        {
+            "name": "pickedColor",
+            "label": "Blend Color",
+            "description": "color to blend to",
+            "type": 2,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 0, 0, 1],
+            "value": [1, 0, 0, 1]
+        }
+    ]
+}

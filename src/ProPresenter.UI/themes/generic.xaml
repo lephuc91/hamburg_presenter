@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ui:SharedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls1="clr-namespace:ProPresenter.UI.Controls" xmlns:templates="clr-namespace:ProPresenter.UI.Templates" xmlns:themes="clr-namespace:ProPresenter.UI.Themes" xmlns:timeline="clr-namespace:ProPresenter.UI.PresentationView.PresentationTimeline" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI">
+  <ResourceDictionary.MergedDictionaries>
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/PresentationView/PresentationTimeline/TimelineControl.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/PresentationView/PresentationTimeline/TimelineDurationBar.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/PresentationView/PresentationTimeline/TimelineRow.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/PresentationView/PresentationTimeline/TimelineScrollBar.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/PresentationView/PresentationTimeline/TimelineSection.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/PresentationView/PresentationTimeline/TimelineSectionGroup.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/PresentationView/PresentationTimeline/TimelineTimeSection.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/Themes/Controls/SecondsInput.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/Themes/Controls/Slide/SlidePreviewThumbnail.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/Themes/Controls/Template/ThemeThumbnailList.xaml" />
+    <ui:SharedResourceDictionary Source="/ProPresenter.UI;component/Themes/Controls/Template/FolderMenuButton.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <Style x:Key="{x:Type templates:FolderMenuButton}" BasedOn="{StaticResource {x:Static themes:Styles.FolderMenuButton}}" TargetType="{x:Type templates:FolderMenuButton}" />
+  <Style x:Key="{x:Type timeline:TimelineControl}" BasedOn="{StaticResource {x:Static themes:Styles.TimelineControl}}" TargetType="{x:Type timeline:TimelineControl}" />
+  <Style x:Key="{x:Type timeline:TimelineDurationBar}" BasedOn="{StaticResource {x:Static themes:Styles.TimelineDurationBar}}" TargetType="{x:Type timeline:TimelineDurationBar}" />
+  <Style x:Key="{x:Type timeline:TimelineRow}" BasedOn="{StaticResource {x:Static themes:Styles.TimelineRow}}" TargetType="{x:Type timeline:TimelineRow}" />
+  <Style x:Key="{x:Type timeline:TimelineScrollBar}" BasedOn="{StaticResource {x:Static themes:Styles.TimelineScrollBar}}" TargetType="{x:Type timeline:TimelineScrollBar}" />
+  <Style x:Key="{x:Type timeline:TimelineSection}" BasedOn="{StaticResource {x:Static themes:Styles.TimelineSection}}" TargetType="{x:Type timeline:TimelineSection}" />
+  <Style x:Key="{x:Type timeline:TimelineSectionGroup}" BasedOn="{StaticResource {x:Static themes:Styles.TimelineSectionGroup}}" TargetType="{x:Type timeline:TimelineSectionGroup}" />
+  <Style x:Key="{x:Type timeline:TimelineTimeSection}" BasedOn="{StaticResource {x:Static themes:Styles.TimelineTimeSection}}" TargetType="{x:Type timeline:TimelineTimeSection}" />
+  <Style x:Key="{x:Type controls1:SecondsInput}" BasedOn="{StaticResource {x:Static themes:Styles.SecondsInput}}" TargetType="{x:Type controls1:SecondsInput}" />
+  <Style x:Key="{x:Type templates:ThemeThumbnail}" BasedOn="{StaticResource {x:Static themes:Styles.SlidePreviewThumbnail}}" TargetType="{x:Type templates:ThemeThumbnail}" />
+  <Style x:Key="{x:Type templates:ThemeSlideThumbnail}" BasedOn="{StaticResource {x:Static themes:Styles.SlidePreviewThumbnail}}" TargetType="{x:Type templates:ThemeSlideThumbnail}" />
+  <Style x:Key="{x:Type templates:ThemeSlideList}" BasedOn="{StaticResource {x:Static themes:Styles.ThemeThumbnailList}}" TargetType="{x:Type templates:ThemeSlideList}" />
+  <Style x:Key="{x:Type templates:ThemeList}" BasedOn="{StaticResource {x:Static themes:Styles.ThemeThumbnailList}}" TargetType="{x:Type templates:ThemeList}" />
+</ui:SharedResourceDictionary>

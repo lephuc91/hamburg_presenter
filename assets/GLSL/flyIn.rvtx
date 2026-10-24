@@ -1,0 +1,23 @@
+{
+    "category": "Movements",
+    "description": "Fly In",
+    "duration": 0.6,
+    "name": "Fly In",
+    "numPasses": 1,
+    "shaderFile": "flyIn",
+    "type": 1,
+    "uuid": "ADF02083-C3B8-4A47-BC9A-BA57A887C404",
+    "usesDepth": true,
+    "variables": [
+        {
+            "name": "direction",
+            "label": "Direction",
+            "description": "Direction of Fly In",
+            "type": 3,
+            "min": [511, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

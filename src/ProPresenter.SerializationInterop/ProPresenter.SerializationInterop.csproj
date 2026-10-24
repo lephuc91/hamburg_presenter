@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>ProPresenter.SerializationInterop</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Pro.Serialization">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="Pro.SerializationInterop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.SerializationInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Common">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MenuItem x:Class="ProPresenter.UI.SizeMenuItem" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:viewModels="clr-namespace:ProPresenter.UI.ViewModels" ItemContainerStyleSelector="{DynamicResource SizeItemStyleSelector}" ItemsSource="{DynamicResource Source}" Style="{StaticResource {x:Type MenuItem}}" xmlns:ui1="clr-namespace:ProPresenter.UI">
+  <FrameworkElement.DataContext>
+    <viewModels:SizeSelectorVM />
+  </FrameworkElement.DataContext>
+  <FrameworkElement.Resources>
+    <ResourceDictionary Source="SizeSelectorResources.xaml" />
+  </FrameworkElement.Resources>
+</MenuItem>

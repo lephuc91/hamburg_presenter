@@ -1,0 +1,38 @@
+namespace ProPresenter.DO.ClearGroups;
+
+public enum ImageType
+{
+	Zero,
+	One,
+	Two,
+	Three,
+	Four,
+	Five,
+	Six,
+	Seven,
+	Eight,
+	Nine,
+	All,
+	Megahorn,
+	Play,
+	Bulb,
+	Sunglasses,
+	Arrow,
+	Target,
+	Star,
+	Sun,
+	Bell,
+	Paperclip,
+	Flask,
+	Eyeglasses,
+	Cupcake,
+	Slide,
+	Hat,
+	Flower,
+	Heart,
+	Message,
+	Audio,
+	Cloud,
+	Exclamation,
+	Custom
+}

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming">
+  <local:SizeItemStyleSelector x:Key="SizeItemStyleSelector" />
+  <commonUtility:BindingProxy x:Key="sizeSelectorProxy" Data="{Binding}" />
+  <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+  <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsInverted="True" />
+  <Style x:Key="SizeItemStyleBase" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+    <Setter Property="HeaderTemplate" Value="{StaticResource ResolutionFormatTemplate}" />
+  </Style>
+  <Style x:Key="VectorStyle" BasedOn="{StaticResource SizeItemStyleBase}" TargetType="{x:Type MenuItem}">
+    <Setter Property="MenuItem.Command" Value="{Binding Data.SelectSizeCommand, Source={StaticResource sizeSelectorProxy}}" />
+    <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+    <Style.Triggers>
+      <DataTrigger Value="True">
+        <DataTrigger.Binding>
+          <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+            <MultiBinding.Bindings>
+              <Binding />
+              <Binding Path="Data.SelectedSize" Source="{StaticResource sizeSelectorProxy}" />
+            </MultiBinding.Bindings>
+          </MultiBinding>
+        </DataTrigger.Binding>
+        <Setter Property="MenuItem.IsChecked" Value="True" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <Style x:Key="ScreenStyle" BasedOn="{StaticResource SizeItemStyleBase}" TargetType="{x:Type MenuItem}">
+    <Setter Property="MenuItem.Command" Value="{Binding Data.SelectSizeCommand, Source={StaticResource sizeSelectorProxy}}" />
+    <Setter Property="MenuItem.CommandParameter" Value="{Binding TotalSize}" />
+    <Style.Triggers>
+      <DataTrigger Value="True">
+        <DataTrigger.Binding>
+          <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+            <MultiBinding.Bindings>
+              <Binding Path="TotalSize" />
+              <Binding Path="Data.SelectedSize" Source="{StaticResource sizeSelectorProxy}" />
+            </MultiBinding.Bindings>
+          </MultiBinding>
+        </DataTrigger.Binding>
+        <Setter Property="MenuItem.IsChecked" Value="True" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <CompositeCollection x:Key="Source">
+    <MenuItem IsEnabled="False" TextBlock.FontWeight="Bold" Header="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_SCREEN_SIZE_placeholder}" />
+    <CollectionContainer Collection="{Binding Data.TargetScreens, Source={StaticResource sizeSelectorProxy}}" />
+    <Separator />
+    <MenuItem IsEnabled="False" TextBlock.FontWeight="Bold" Header="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_COMMON_SCREEN_SIZES_HEADER_label}" />
+    <CollectionContainer Collection="{Binding Data.CommonSizes, Source={StaticResource sizeSelectorProxy}}" />
+    <Separator />
+    <MenuItem Command="{Binding Data.CustomSizeCommand, Source={StaticResource sizeSelectorProxy}}">
+      <HeaderedItemsControl.Header>
+        <TextBlock Foreground="{Binding SUBHEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_CUSTOM_SCREEN_SIZE_ITEM_title}" />
+      </HeaderedItemsControl.Header>
+    </MenuItem>
+    <MenuItem Style="{StaticResource VectorStyle}" DataContext="{Binding Data.CustomSize, Source={StaticResource sizeSelectorProxy}}" Header="{Binding}" Visibility="{Binding Data.CustomSize, Source={StaticResource sizeSelectorProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+  </CompositeCollection>
+</ResourceDictionary>

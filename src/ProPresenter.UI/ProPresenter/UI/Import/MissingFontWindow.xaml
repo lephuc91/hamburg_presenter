@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Import.MissingFontWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:utility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Width="580" Height="290" utility:WindowHelper.CanOwnWindows="True" utility:WindowHelper.ChildOf="MainWindow" utility:WindowHelper.UseGlobalStyle="True" CanClose="False" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" xmlns:import="clr-namespace:ProPresenter.UI.Import" Title="{mex:Localized ISSUE_RESOLVER_FONTS_title}" utility:UIElementHelper.Palette="{Binding WELCOME_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (utility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Margin="0,8,0,16" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding DisplayMessage}" />
+    <DataGrid Grid.Row="1" AutoGenerateColumns="False" CanUserSortColumns="False" ItemsSource="{Binding MissingFontItems}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <Style x:Key="{x:Type DataGridColumnHeader}" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="{Binding SURFACE, Source={x:Static theming:AppTheme.Active}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:Brushes.ControlBorder}}" />
+            <Setter Property="BorderThickness" Value="0,0,1,1" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:Brushes.ControlForeground}}" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+          </Style>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <DataGrid.Columns>
+        <DataGridTextColumn Width="*" IsReadOnly="True" Binding="{Binding FontName}" Header="{mex:Localized ISSUE_RESOLVER_COLUMN_FONT_ISSUE}" />
+        <DataGridTemplateColumn Width="2*" Header="{mex:Localized ISSUE_RESOLVER_COLUMN_FONT_RESOLUTION}">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <controls:FontSelector CanChangeCharacterSize="False" CustomFontOptions="{Binding DataContext.AvailableFontOptions, RelativeSource={RelativeSource AncestorType=DataGrid}}" DropdownBackground="{Binding SURFACE, Source={x:Static theming:AppTheme.Active}}" MissingFont="{Binding FontName}" SelectedCustomOption="{Binding SelectedReplacement, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+    <StackPanel Grid.Row="2" Margin="0,16,0,0" HorizontalAlignment="Right" Orientation="Horizontal">
+      <Button MinWidth="80" Margin="0,0,6,0" IsCancel="True" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" Visibility="{Binding CanCancel, Converter={StaticResource BooleanToVisibilityConverter}}" />
+      <Button MinWidth="80" IsDefault="True" Command="{Binding ContinueCommand}" Content="{mex:Localized ISSUE_RESOLVER_CONTINUE}" Click="Continue_Click" />
+    </StackPanel>
+  </Grid>
+</windowing:ChromedWindow>

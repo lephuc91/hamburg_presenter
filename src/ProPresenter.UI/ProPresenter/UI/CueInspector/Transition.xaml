@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.Transition" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:transitions="clr-namespace:ProPresenter.UI.Transitions" x:Name="transition" xmlns:cueinspector="clr-namespace:ProPresenter.UI.CueInspector">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" MinWidth="80" MaxWidth="200" SharedSizeGroup="CIPropertiesLabelColumnGroup" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,8,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" TextWrapping="Wrap" Text="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_TRANSITION_label}" />
+    <transitions:SlimSelector Grid.Row="0" Grid.Column="1" Margin="5" IsGlobalAllowed="True" OutputController="{Binding OutputController, ElementName=transition}" SelectedTransition="{Binding SelectedTransition, Mode=TwoWay}" TransitionHandler="{Binding TransitionHandler}" />
+    <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+      <transitions:ParameterControl Margin="10" HorizontalAlignment="Stretch" TransitionHandler="{Binding TransitionHandler}" Visibility="{Binding TransitionHandler.IsActive, Converter={StaticResource ValueToVisibilityConverter}}" />
+    </ScrollViewer>
+  </Grid>
+</UserControl>

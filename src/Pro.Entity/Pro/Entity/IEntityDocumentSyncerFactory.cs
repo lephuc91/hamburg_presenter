@@ -1,0 +1,7 @@
+using Pro.Entity.Persistence;
+
+namespace Pro.Entity;
+
+public interface IEntityDocumentSyncerFactory : IEntityDocSyncerFactory<ICcliDocumentDoc>, IEntityDocSyncerFactory<ICalendarDoc>, IEntityDocSyncerFactory<IClearGroupsDocumentDoc>, IEntityDocSyncerFactory<IEffect.Types.IPresetDoc>, IEntityDocSyncerFactory<IKeyMappingDocumentDoc>, IEntityDocSyncerFactory<ILibraryDoc>, IEntityDocSyncerFactory<IMacrosDocumentDoc>, IEntityDocSyncerFactory<IMessageDocumentDoc>, IEntityDocSyncerFactory<IMessageLocalDocumentDoc>, IEntityDocSyncerFactory<IPlaylistDocumentDoc>, IEntityDocSyncerFactory<IPlaylistTemplateDoc>, IEntityDocSyncerFactory<IPresentationDoc>, IEntityDocSyncerFactory<IProGroupsDocumentDoc>, IEntityDocSyncerFactory<IProLabelsDocumentDoc>, IEntityDocSyncerFactory<IProPresenterCommunicationsDoc>, IEntityDocSyncerFactory<IProPresenterLocalCommunicationsDoc>, IEntityDocSyncerFactory<IProPresenterLocalWorkspaceDoc>, IEntityDocSyncerFactory<IProPresenterWorkspaceDoc>, IEntityDocSyncerFactory<IPropDocumentDoc>, IEntityDocSyncerFactory<IStage.Types.IDocumentDoc>, IEntityDocSyncerFactory<ITemplate.Types.IDocumentDoc>, IEntityDocSyncerFactory<ITestPatternDocumentDoc>, IEntityDocSyncerFactory<ITimersDocumentDoc>, IEntityDocSyncerFactory<ITimersLocalDocumentDoc>, IEntityDocSyncerFactory<ITransition.Types.IPresetDoc>
+{
+}

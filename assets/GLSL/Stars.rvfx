@@ -1,0 +1,30 @@
+{
+    "description": "Generates animated Star field.",
+    "name": "Stars",
+    "numPasses": 1,
+    "shaderFile": "Stars",
+    "type": 0,
+    "uuid": "55BB6AA1-9133-4CE4-991B-7BF5149E6834",
+    "variables": [
+        {
+            "name": "speed",
+            "label": "Speed",
+            "description": "Speed of animation",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [20, 20, 20, 20],
+            "defValue": [10, 10, 10, 10],
+            "value": [10, 10, 10, 10]
+        },
+        {
+            "name": "blendValue",
+            "label": "Blend",
+            "description": "amount to blend by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.AudioLibrary.AudioItemTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:audioTypeEnum="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="audioitemtemplate" xmlns:audiolibrary="clr-namespace:ProPresenter.UI.AudioLibrary" Resources="{commonConverters:TimeSliceToStringConverter Key=TimeSliceToStringConverter}">
+  <Border BorderThickness="3">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Border}">
+        <Style.Triggers>
+          <DataTrigger Value="True" Binding="{Binding IsActive, ElementName=audioitemtemplate}">
+            <Setter Property="Background" Value="{Binding MEDIAGRIDACTIVEITEM, Source={x:Static theming:AppTheme.Active}}" />
+            <Setter Property="BorderBrush" Value="{Binding THUMBNAILPRESENTATION, Source={x:Static theming:AppTheme.Active}}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Border Grid.Column="0" Width="20" Height="20">
+        <commonControls:ImageMask Fill="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type commonControls:ImageMask}">
+              <Setter Property="commonControls:ImageMask.ImageSource" Value="../Resources/Icons/Outline/AudioItem.png" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static audioTypeEnum:AudioType.AudioTrack}" Binding="{Binding MediaAction.AudioMedia.AudioType}">
+                  <Setter Property="commonControls:ImageMask.ImageSource" Value="../Resources/Icons/Outline/AudioItem.png" />
+                </DataTrigger>
+                <DataTrigger Value="{x:Static audioTypeEnum:AudioType.SoundEffect}" Binding="{Binding MediaAction.AudioMedia.AudioType}">
+                  <Setter Property="commonControls:ImageMask.ImageSource" Value="../Resources/Icons/Outline/proOutlineAudioFxItem.png" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding IsActive, ElementName=audioitemtemplate}" />
+                    <Condition Value="True" Binding="{Binding IsPlaying, ElementName=audioitemtemplate}" />
+                    <Condition Value="{x:Static audioTypeEnum:AudioType.AudioTrack}" Binding="{Binding MediaAction.AudioMedia.AudioType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="commonControls:ImageMask.ImageSource" Value="../Resources/Icons/Outline/Playlist/Playing.png" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </commonControls:ImageMask>
+      </Border>
+      <commonControls:EditableTextBlock Name="NameChangeTextBox" Grid.Column="1" Margin="5,0,8,0" VerticalAlignment="Center" Text="{Binding MediaAction.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+      <TextBlock Grid.Column="2" Margin="0,0,8,0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.HelperContent, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Text="{Binding MediaAction.MediaDuration, Converter={StaticResource TimeSliceToStringConverter}}" />
+    </Grid>
+  </Border>
+</UserControl>

@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.ListItemTemplates.SettingsHeaderItemTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="15" IsHitTestVisible="False" xmlns:listitemtemplates="clr-namespace:ProPresenter.UI.Settings.ListItemTemplates;assembly=ProPresenter.UI" />

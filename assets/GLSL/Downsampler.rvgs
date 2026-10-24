@@ -1,0 +1,30 @@
+{
+    "description": "HQ Downsample",
+    "name": "Downsampler",
+    "numPasses": 5,
+    "shaderFile": "Downsampler",
+    "type": 0,
+    "uuid": "9AD7F33C-F380-4A3D-9257-9DB03836EEB7",
+    "variables": [
+        {
+            "name": "downsampleStep",
+            "label": "Step",
+            "description": "amount to step by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "textureScale",
+            "label": "Scale",
+            "description": "scale textures to each pass",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

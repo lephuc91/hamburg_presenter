@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Welcome.AdditionalResourcesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Welcome" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CloudOnboarding/CloudOnboardingResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Margin="0,40,0,0" HorizontalAlignment="Center" FontSize="48" FontWeight="SemiBold" Foreground="{StaticResource CloudOnboarding.TitleBrush}" Text="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_title}" />
+    <TextBlock Grid.Row="1" Margin="200,10,200,0" HorizontalAlignment="Center" FontSize="20" Foreground="{StaticResource CloudOnboarding.PrimaryBrush}" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_subtitle}" />
+    <Grid Row="2" Margin="0,30,0,10" HorizontalAlignment="Center" VerticalAlignment="Top">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <local:AdditionalResourceButton Grid.Row="0" Grid.Column="0" AdditionalIcon="{StaticResource {x:Static uiThemes:Icons.CloudWorkspaceArrow}}" AdditionalIconColor="{StaticResource CloudOnboarding.PrimaryBrush}" BackgroundColor="{StaticResource CloudOnboarding.BottomStripeBrush}" DescriptionForeground="{StaticResource CloudOnboarding.PrimaryBrush}" HoverBackgroundColor="{StaticResource CloudOnboarding.BottomStripeBrush}" Icon="{StaticResource {x:Static uiThemes:Icons.WelcomeKnowledgeBase}}" IconColor="{StaticResource CloudOnboarding.TitleBrush}" TitleForeground="{StaticResource CloudOnboarding.PrimaryBrush}" Title="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_KNOWLEDGE_BASE_title}" Command="{Binding KnowledgeBaseCommand}" Description="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_KNOWLEDGE_BASE_subtitle}" />
+      <local:AdditionalResourceButton Grid.Row="0" Grid.Column="1" AdditionalIcon="{StaticResource {x:Static uiThemes:Icons.CloudWorkspaceArrow}}" AdditionalIconColor="{StaticResource CloudOnboarding.PrimaryBrush}" BackgroundColor="{StaticResource CloudOnboarding.BottomStripeBrush}" DescriptionForeground="{StaticResource CloudOnboarding.PrimaryBrush}" HoverBackgroundColor="{StaticResource CloudOnboarding.BottomStripeBrush}" Icon="{StaticResource {x:Static uiThemes:Icons.WelcomeTutorials}}" IconColor="{StaticResource CloudOnboarding.TitleBrush}" TitleForeground="{StaticResource CloudOnboarding.PrimaryBrush}" Title="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_TUTORIALS_title}" Command="{Binding TutorialsCommand}" Description="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_TUTORIALS_subtitle}" />
+      <local:AdditionalResourceButton Grid.Row="1" Grid.Column="0" AdditionalIcon="{StaticResource {x:Static uiThemes:Icons.CloudWorkspaceArrow}}" AdditionalIconColor="{StaticResource CloudOnboarding.PrimaryBrush}" BackgroundColor="{StaticResource CloudOnboarding.BottomStripeBrush}" DescriptionForeground="{StaticResource CloudOnboarding.PrimaryBrush}" HoverBackgroundColor="{StaticResource CloudOnboarding.BottomStripeBrush}" Icon="{StaticResource {x:Static uiThemes:Icons.WelcomeUserGroup}}" IconColor="{StaticResource CloudOnboarding.TitleBrush}" TitleForeground="{StaticResource CloudOnboarding.PrimaryBrush}" Title="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_USER_GROUP_title}" Command="{Binding UserGroupCommand}" Description="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_USER_GROUP_subtitle}" />
+      <local:AdditionalResourceButton Grid.Row="1" Grid.Column="1" AdditionalIcon="{StaticResource {x:Static uiThemes:Icons.CloudWorkspaceArrow}}" AdditionalIconColor="{StaticResource CloudOnboarding.PrimaryBrush}" BackgroundColor="{StaticResource CloudOnboarding.BottomStripeBrush}" DescriptionForeground="{StaticResource CloudOnboarding.PrimaryBrush}" HoverBackgroundColor="{StaticResource CloudOnboarding.BottomStripeBrush}" Icon="{StaticResource {x:Static uiThemes:Icons.WelcomeBlog}}" IconColor="{StaticResource CloudOnboarding.TitleBrush}" TitleForeground="{StaticResource CloudOnboarding.PrimaryBrush}" Title="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_BLOG_title}" Command="{Binding BlogCommand}" Description="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_BLOG_subtitle}" />
+    </Grid>
+    <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="{Binding IsDownloadingWorkspace, Converter={StaticResource ValueToVisibilityConverter}}">
+      <commonControls:LoadingIndicator Width="30" Height="30" DisplayMode="Spinner" />
+      <TextBlock Margin="0,5,0,0" HorizontalAlignment="Center" FontSize="14" Foreground="{StaticResource CloudOnboarding.PrimaryBrush}" TextAlignment="Center" Text="{mex:Localized CLOUD_ONBOARDING_RETURNING_USERS_CLOUD_WORKSPACE_UPLOADING_label}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

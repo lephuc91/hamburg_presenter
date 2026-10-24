@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PCO.HeaderBarView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:headerview="clr-namespace:ProPresenter.UI.Header" xmlns:pcoDO="clr-namespace:ProPresenter.DO.PCO;assembly=ProPresenter.DO" xmlns:presentationView="clr-namespace:ProPresenter.UI.PresentationView" x:Name="self" xmlns:pco="clr-namespace:ProPresenter.UI.PCO">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="HeaderBarViewSelfProxy" Data="{Binding ElementName=self}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ContentPresenter>
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type ContentPresenter}">
+        <Setter Property="Content">
+          <Setter.Value>
+            <presentationView:PlaceholderViewHeaderBar Cue="{Binding Data.Cue, Source={StaticResource HeaderBarViewSelfProxy}}" ItemActivatedCommand="{Binding Data.ItemActivatedCommand, Source={StaticResource HeaderBarViewSelfProxy}}" ItemButtonLabel="{Binding Data.Cue.PCOItem.Name, Source={StaticResource HeaderBarViewSelfProxy}}" LinkDocumentCommand="{Binding Data.LinkDocumentCommand, Source={StaticResource HeaderBarViewSelfProxy}}" LinkDropFilesCommand="{Binding Data.LinkDropFilesCommand, Source={StaticResource HeaderBarViewSelfProxy}}" LinkImportCommand="{Binding Data.LinkImportCommand, Source={StaticResource HeaderBarViewSelfProxy}}" LinkMediaCommand="{Binding Data.LinkMediaCommand, Source={StaticResource HeaderBarViewSelfProxy}}" LinkMultiTracksItemCommand="{Binding Data.LinkMultiTracksItemCommand, Source={StaticResource HeaderBarViewSelfProxy}}" LinkNewPresentationCommand="{Binding Data.LinkNewPresentationCommand, Source={StaticResource HeaderBarViewSelfProxy}}" LinkSongSelectItemCommand="{Binding Data.LinkSongSelectItemCommand, Source={StaticResource HeaderBarViewSelfProxy}}" LinkState="{Binding Data.Cue.PCOAction.LinkedObjectType, Source={StaticResource HeaderBarViewSelfProxy}}" OpenAttachmentsCommand="{Binding Data.OpenAttachmentsCommand, Source={StaticResource HeaderBarViewSelfProxy}}" OpenSearchCommand="{Binding Data.OpenSearchCommand, Source={StaticResource HeaderBarViewSelfProxy}}" PresentationVM="{Binding Data.PresentationVM, Source={StaticResource HeaderBarViewSelfProxy}}" UnlinkCommand="{Binding Data.UnlinkCommand, Source={StaticResource HeaderBarViewSelfProxy}}" UploadCommand="{Binding Data.UploadCommand, Source={StaticResource HeaderBarViewSelfProxy}}" />
+          </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+          <DataTrigger Value="{x:Static pcoDO:PCOItemType.Header}" Binding="{Binding Data.Cue.PCOItemType, Source={StaticResource HeaderBarViewSelfProxy}}">
+            <Setter Property="Content">
+              <Setter.Value>
+                <headerview:HeaderView DataContext="{Binding Data.Cue, Source={StaticResource HeaderBarViewSelfProxy}}" Timers="{Binding Data.PresentationVM.Timers, Source={StaticResource HeaderBarViewSelfProxy}}" TriggerHeaderItemCommand="{Binding Data.PresentationVM.TriggerHeaderItemCommand, Source={StaticResource HeaderBarViewSelfProxy}}">
+                  <headerview:HeaderView.HeaderAction>
+                    <PriorityBinding>
+                      <Binding Path="HeaderAction" />
+                    </PriorityBinding>
+                  </headerview:HeaderView.HeaderAction>
+                </headerview:HeaderView>
+              </Setter.Value>
+            </Setter>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </ContentPresenter>
+</UserControl>

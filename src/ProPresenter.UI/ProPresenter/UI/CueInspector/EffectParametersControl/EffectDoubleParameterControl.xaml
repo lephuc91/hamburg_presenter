@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.EffectParametersControl.EffectDoubleParameterControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" x:Name="doubleParamSelf" xmlns:effectparameterscontrol="clr-namespace:ProPresenter.UI.CueInspector.EffectParametersControl;assembly=ProPresenter.UI">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="100" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="0" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding Label}" />
+    <Slider Name="doubleParamSlider" Grid.Column="1" Margin="0,0,5,0" VerticalAlignment="Center" TickFrequency="1" Maximum="{Binding MaxValue}" Minimum="{Binding MinValue}" Value="{Binding Value, Mode=TwoWay, ElementName=doubleParamSelf}" />
+    <commonControls:DoubleUpDown Grid.Column="2" Width="55" Height="22" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FormatString="F2" Increment="0.01" Maximum="{Binding MaxValue}" Minimum="{Binding MinValue}" Value="{Binding Value, Mode=TwoWay, ElementName=doubleParamSlider}" />
+  </Grid>
+</UserControl>

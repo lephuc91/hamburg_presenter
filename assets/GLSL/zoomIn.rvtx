@@ -1,0 +1,23 @@
+{
+    "category": "Blurs",
+    "description": "Zoom In",
+    "duration": 0.6,
+    "name": "Zoom In",
+    "numPasses": 1,
+    "shaderFile": "zoomIn",
+    "type": 1,
+    "uuid": "928B442C-4912-42F6-B526-60921E0F0D40",
+    "usesDepth": true,
+    "variables": [
+        {
+            "name": "direction",
+            "label": "Direction",
+            "description": "Direction of Zoom In",
+            "type": 3,
+            "min": [511, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

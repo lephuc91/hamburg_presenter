@@ -1,0 +1,30 @@
+{
+    "description": "Distorts as if looking through big lens.",
+    "name": "Lens Distortion",
+    "numPasses": 1,
+    "shaderFile": "LensDistortion",
+    "type": 0,
+    "uuid": "291C7C20-07C5-42D2-92C9-45C173D69898",
+    "variables": [
+        {
+            "name": "lensSize",
+            "label": "Lens Size",
+            "description": "Adjust Lens",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        },
+        {
+            "name": "colorDistort",
+            "label": "Color Distortion",
+            "description": "Adjust Color distortion",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

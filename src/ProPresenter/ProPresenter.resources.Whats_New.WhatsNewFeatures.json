@@ -1,0 +1,26 @@
+{
+    "accentColor": {
+        "red": 0.9542,
+        "green": 0.5478,
+        "blue": 0.0021,
+        "alpha": 0.9213
+    },
+    "version": "21.0",
+    "features": [
+        {
+            "imageName": "PowerPointImporter.png",
+            "titleKey": "NEW_FEATURE_POWERPOINT_IMPORTER_BETA_title",
+            "descriptionKey": "NEW_FEATURE_POWERPOINT_IMPORTER_BETA_description"
+        },
+        {
+            "imageName": "MissingFontHandling.png",
+            "titleKey": "NEW_FEATURE_MISSING_FONT_HANDLING_title",
+            "descriptionKey": "NEW_FEATURE_MISSING_FONT_HANDLING_description"
+        },
+        {
+            "imageName": "HDRSupport.png",
+            "titleKey": "NEW_FEATURE_HDR_SUPPORT_title",
+            "descriptionKey": "NEW_FEATURE_HDR_SUPPORT_description"
+        }
+    ]
+}

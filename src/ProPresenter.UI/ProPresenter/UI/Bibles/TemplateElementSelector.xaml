@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Bibles.TemplateElementSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtilities="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Bibles" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:slide="clr-namespace:ProPresenter.DO.Slide.Custom.Elements;assembly=ProPresenter.DO" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="selectorSelf">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtilities:BindingProxy x:Key="selfProxy" Data="{Binding ElementName=selectorSelf}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <Style x:Key="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.SelectElementCommand, Source={StaticResource selfProxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="MenuItem.IsChecked">
+          <Setter.Value>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+              <Binding />
+              <Binding Path="Data.SelectedElement" Source="{StaticResource selfProxy}" />
+            </MultiBinding>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Button Height="22" HorizontalContentAlignment="Stretch" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+    <ContentControl.Content>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid Row="0">
+          <TextBlock Grid.Column="0" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text" Value="{Binding SelectedElement.Name, ElementName=selectorSelf}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding SelectedElement, ElementName=selectorSelf}" Value="{x:Null}">
+                    <Setter Property="Text" Value="{mex:Localized GLOBAL_NONE}" />
+                  </DataTrigger>
+                  <DataTrigger Value="True" Binding="{Binding IsReferenceWithVerseActive, ElementName=selectorSelf}">
+                    <Setter Property="Text" Value="{mex:Localized BIBLE_HEADER_WITH_VERSE_title}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+        </Grid>
+        <commonControls:PathControl Grid.Column="1" Width="8" Height="8" Margin="8,0" HorizontalAlignment="Right" PathType="DownArrow" Fill="{Binding Foreground, ElementName=selectorSelf}" Stroke="{Binding Foreground, ElementName=selectorSelf}" />
+      </Grid>
+    </ContentControl.Content>
+    <FrameworkElement.ContextMenu>
+      <ContextMenu ItemContainerStyle="{StaticResource {x:Type MenuItem}}" Placement="Bottom">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type slide:SlideElementBase}}" DataType="{x:Type slide:SlideElementBase}">
+              <local:BibleSlideElementTemplate SlideElement="{Binding}" TemplateSlide="{Binding Data.TemplateSlide, Source={StaticResource selfProxy}}" />
+            </DataTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <MenuItem CommandParameter="{x:Null}" Header="{mex:Localized GLOBAL_NONE}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.IsChecked" Value="False" />
+                  <Style.Triggers>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Data.SelectedElement, Source={StaticResource selfProxy}}" Value="{x:Null}" />
+                        <Condition Value="False" Binding="{Binding Data.IsReferenceWithVerseActive, Source={StaticResource selfProxy}}" />
+                      </MultiDataTrigger.Conditions>
+                      <MultiDataTrigger.Setters>
+                        <Setter Property="MenuItem.IsChecked" Value="True" />
+                      </MultiDataTrigger.Setters>
+                    </MultiDataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </MenuItem>
+            <MenuItem Command="{Binding Data.SelectReferenceWithVerseCommand, Source={StaticResource selfProxy}}" Header="{mex:Localized BIBLE_HEADER_WITH_VERSE_title}" IsChecked="{Binding Data.IsReferenceWithVerseActive, Source={StaticResource selfProxy}}" Visibility="{Binding Data.AllowReferenceWithVerse, Source={StaticResource selfProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <Separator Style="{x:Null}" />
+            <CollectionContainer Collection="{Binding Data.TemplateSlide.Slide.Elements, Source={StaticResource selfProxy}}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </FrameworkElement.ContextMenu>
+  </Button>
+</UserControl>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.OutputConfiguration.PhysicalDeviceItem" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.OutputConfiguration" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="self">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsCollapsing="False" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <local:ScreenDeviceArrangementPreview Grid.Column="0" TargetScreen="{Binding TargetScreen, ElementName=self}" />
+    <StackPanel Grid.Column="1" Width="150" Margin="5,0,0,0" VerticalAlignment="Center" Orientation="Vertical">
+      <TextBlock TextTrimming="CharacterEllipsis" Foreground="{Binding Foreground, ElementName=self}" Text="{Binding TargetScreen.Name, ElementName=self}" />
+      <TextBlock Foreground="{Binding Foreground, ElementName=self}">
+        <TextBlock.Text>
+          <MultiBinding StringFormat="({0} x {1})">
+            <Binding ElementName="self" Path="TargetScreen.DeviceMode.Size.X" />
+            <Binding ElementName="self" Path="TargetScreen.DeviceMode.Size.Y" />
+          </MultiBinding>
+        </TextBlock.Text>
+      </TextBlock>
+    </StackPanel>
+    <commonControls:BorderlessButton Grid.Column="2" Command="{Binding IdentifyScreenCommand, ElementName=self}" CommandParameter="{Binding TargetScreen, ElementName=self}" Content="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_IDENTIFY_title}" Visibility="{Binding IsMouseOver, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=MenuItem}}" />
+  </Grid>
+</UserControl>

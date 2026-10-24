@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Settings.PageTemplates.Devices.MIDISettingsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:communications="clr-namespace:ProPresenter.DO.Communication.MIDI;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Devices" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Width="750" uiUtility:WindowHelper.CanOwnWindows="True" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.HideOnClose="True" uiUtility:WindowHelper.SendKeyEventsToMainWindow="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" SizeToContent="Height" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" Title="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_WINDOW_title}" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+    <DataTemplate x:Key="MIDIActionItemTemplate">
+      <local:MIDIActionItem Action="{Binding}" AssignNoteNumberCommand="{Binding Data.AssignNoteNumberCommand, Source={StaticResource proxy}}" MIDIMap="{Binding Data.MIDIMappings, Source={StaticResource proxy}}" />
+    </DataTemplate>
+    <Style x:Key="MIDIActionItemsControlStyle" TargetType="{x:Type ItemsControl}">
+      <Setter Property="ItemTemplate" Value="{StaticResource MIDIActionItemTemplate}" />
+      <Setter Property="Margin" Value="5" />
+      <Setter Property="MinHeight" Value="200" />
+    </Style>
+    <Style x:Key="MIDIActionControlBorderStyle" TargetType="{x:Type Border}">
+      <Setter Property="Background" Value="{Binding GROUP, Source={x:Static theming:AppTheme.Active}}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Border.CornerRadius" Value="10" />
+    </Style>
+    <Style TargetType="{x:Type local:MIDIActionItem}">
+      <Setter Property="Foreground" Value="{Binding GROUPCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+    </Style>
+  </FrameworkElement.Resources>
+  <Border BorderThickness="1" BorderBrush="{Binding POPUPBORDER, Source={x:Static theming:AppTheme.Active}}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Border Grid.Column="0" Margin="0,0,0,5" BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+        <Grid Margin="15,15,0,10">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <commonControls:IntegerUpDown Grid.Column="0" Width="50" Height="22" Margin="0,0,5,0" VerticalAlignment="Center" DefaultValue="0" DisplayDefaultValueOnEmptyText="True" Maximum="127" Minimum="0" Value="{Binding AutoFillStart, Mode=TwoWay}" />
+          <Button Grid.Column="1" Height="22" MinWidth="80" Margin="0,0,5,0" VerticalAlignment="Center" Command="{Binding AutoFillCommand}" Content="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_AUTO_FILL_title}" />
+          <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_AUTO_FILL_label}" />
+          <TextBlock Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LastNoteReceived}" />
+        </Grid>
+      </Border>
+      <Grid Row="1" Margin="15,0,15,10">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="0,0,0,5">
+          <TextBlock Margin="10,0,0,0" Text="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_CLEAR_COMMANDS_HEADER_label}" />
+          <Border Style="{StaticResource MIDIActionControlBorderStyle}">
+            <ItemsControl Style="{StaticResource MIDIActionItemsControlStyle}">
+              <ItemsControl.Items>
+                <communications:MIDIAction>ClearAll</communications:MIDIAction>
+                <communications:MIDIAction>ClearSlide</communications:MIDIAction>
+                <communications:MIDIAction>ClearBackground</communications:MIDIAction>
+                <communications:MIDIAction>ClearAnnouncements</communications:MIDIAction>
+                <communications:MIDIAction>ClearProps</communications:MIDIAction>
+                <communications:MIDIAction>ClearMessages</communications:MIDIAction>
+                <communications:MIDIAction>ClearAudio</communications:MIDIAction>
+                <communications:MIDIAction>ShowLogo</communications:MIDIAction>
+              </ItemsControl.Items>
+            </ItemsControl>
+          </Border>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="10,0,0,5">
+          <TextBlock Margin="10,0,0,0" Text="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_VIDEO_CONTROLS_HEADER_label}" />
+          <Border Style="{StaticResource MIDIActionControlBorderStyle}">
+            <ItemsControl Style="{StaticResource MIDIActionItemsControlStyle}">
+              <ItemsControl.Items>
+                <communications:MIDIAction>GoToVideoBeginning</communications:MIDIAction>
+                <communications:MIDIAction>PlayPauseVideo</communications:MIDIAction>
+                <communications:MIDIAction>PlayVideo</communications:MIDIAction>
+                <communications:MIDIAction>PauseVideo</communications:MIDIAction>
+              </ItemsControl.Items>
+            </ItemsControl>
+          </Border>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Margin="10,0,0,5">
+          <TextBlock Margin="10,0,0,0" Text="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_PRESENTATION_ACTIONS_HEADER_label}" />
+          <Border Style="{StaticResource MIDIActionControlBorderStyle}">
+            <ItemsControl Style="{StaticResource MIDIActionItemsControlStyle}">
+              <ItemsControl.Items>
+                <communications:MIDIAction>NextPlaylistItem</communications:MIDIAction>
+                <communications:MIDIAction>PreviousPlaylistItem</communications:MIDIAction>
+                <communications:MIDIAction>NextSlide</communications:MIDIAction>
+                <communications:MIDIAction>PreviousSlide</communications:MIDIAction>
+                <communications:MIDIAction>StartTimeline</communications:MIDIAction>
+                <communications:MIDIAction>StopTimeline</communications:MIDIAction>
+                <communications:MIDIAction>RewindTimeline</communications:MIDIAction>
+              </ItemsControl.Items>
+            </ItemsControl>
+          </Border>
+        </StackPanel>
+      </Grid>
+      <Grid Row="2" Margin="15,0,15,15">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="10,0,0,0" Text="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_SELECT_BY_INDEX_HEADER_label}" />
+        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource MIDIActionControlBorderStyle}" />
+        <ItemsControl Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Style="{StaticResource MIDIActionItemsControlStyle}">
+          <ItemsControl.Items>
+            <communications:MIDIAction>SelectPlaylist</communications:MIDIAction>
+            <communications:MIDIAction>SelectPlaylistItem</communications:MIDIAction>
+            <communications:MIDIAction>TriggerSlideCue</communications:MIDIAction>
+            <communications:MIDIAction>SelectVisualPlaylist</communications:MIDIAction>
+            <communications:MIDIAction>TriggerVisualCue</communications:MIDIAction>
+            <communications:MIDIAction>SelectAudioPlaylist</communications:MIDIAction>
+            <communications:MIDIAction>TriggerAudioCue</communications:MIDIAction>
+          </ItemsControl.Items>
+        </ItemsControl>
+        <StackPanel Grid.Row="1" Grid.Column="1" Width="250">
+          <ItemsControl MinHeight="80" HorizontalAlignment="Left" Style="{StaticResource MIDIActionItemsControlStyle}">
+            <ItemsControl.ItemsSource>
+              <CompositeCollection>
+                <CollectionContainer>
+                  <CollectionContainer.Collection>
+                    <local:MIDIPropActionGroupItemSource />
+                  </CollectionContainer.Collection>
+                </CollectionContainer>
+                <CollectionContainer>
+                  <CollectionContainer.Collection>
+                    <local:MIDITimerAndMacroActionGroupItemsSource />
+                  </CollectionContainer.Collection>
+                </CollectionContainer>
+              </CompositeCollection>
+            </ItemsControl.ItemsSource>
+          </ItemsControl>
+        </StackPanel>
+        <TextBlock Grid.Row="1" Grid.Column="2" Margin="10,10,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" Text="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_NOTE_INTENSITY_DESCRIPTION_label}" />
+      </Grid>
+      <Button Grid.Row="3" Height="22" MinWidth="220" Margin="0,0,0,15" Padding="10,0" HorizontalAlignment="Center" Command="{Binding AutoFillBlocksCommand}" Content="{mex:Localized DEVICES_PREFERENCES_MIDI_MAP_AUTO_FILL_FIRST_VALUE_title}" />
+    </Grid>
+  </Border>
+</windowing:ChromedWindow>

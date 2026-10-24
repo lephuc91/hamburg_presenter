@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Transitions.SegmentedButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Transitions" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="transitionSelectorSelf">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverterInverted" IsInverted="True" />
+      <commonConverters:TimeSliceToDoubleSecondConverter x:Key="TimeSliceToDoubleSecondConverter" RoundDecimalPlace="1" />
+      <Style x:Key="selectorToggleButtonStyleBase" BasedOn="{StaticResource {x:Type commonControls:BorderlessToggleButton}}" TargetType="{x:Type commonControls:BorderlessToggleButton}">
+        <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding TRANSITIONFOREGROUND_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+        <Style.Triggers>
+          <DataTrigger Value="Background" Binding="{Binding DisplayMode, ElementName=transitionSelectorSelf}">
+            <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding TRANSITIONBACKGROUND_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <commonControls:BorderlessToggleButton Name="CutButton" Grid.Column="0" Style="{StaticResource selectorToggleButtonStyleBase}" ToolTip="{mex:Localized TRANSITIONS_CUT_toolip}" Visibility="{Binding ElementName=transitionSelectorSelf, Path=SimplifiedTransitionsButtons, Converter={StaticResource ValueToVisibilityConverterInverted}}" Checked="CutButton_Checked" Unchecked="CutButton_Unchecked">
+      <Path Width="18" Height="18" Data="{StaticResource Cut}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessToggleButton}}" />
+    </commonControls:BorderlessToggleButton>
+    <commonControls:BorderlessToggleButton Name="AutoButton" Grid.Column="1" Margin="6,0" VerticalAlignment="Center" Style="{StaticResource selectorToggleButtonStyleBase}" ToolTip="{mex:Localized TRANSITIONS_DISSOLVE_toolip}" Visibility="{Binding ElementName=transitionSelectorSelf, Path=SimplifiedTransitionsButtons, Converter={StaticResource ValueToVisibilityConverterInverted}}" Checked="AutoButton_Checked" Unchecked="AutoButton_Unchecked">
+      <Path Width="18" Height="18" Data="{StaticResource Dissolve}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessToggleButton}}" />
+    </commonControls:BorderlessToggleButton>
+    <commonControls:BorderlessToggleButton Name="AdvButton" Grid.Column="2" Style="{StaticResource selectorToggleButtonStyleBase}" ToolTip="{mex:Localized TRANSITIONS_ADVANCED_toolip}" Visibility="{Binding ElementName=transitionSelectorSelf, Path=SimplifiedTransitionsButtons, Converter={StaticResource ValueToVisibilityConverterInverted}}" Checked="AdvButton_Checked" Unchecked="AdvButton_Unchecked">
+      <Path Width="18" Height="18" Data="{StaticResource Advanced}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessToggleButton}}" />
+    </commonControls:BorderlessToggleButton>
+    <commonControls:BorderlessPathButton Name="SimpleTransitionButton" Grid.Column="2" Visibility="{Binding ElementName=transitionSelectorSelf, Path=SimplifiedTransitionsButtons, Converter={StaticResource ValueToVisibilityConverter}}" Click="SimpleTransitionButton_Click">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessPathButton}}" TargetType="{x:Type commonControls:BorderlessPathButton}">
+          <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSITIONS_ADVANCED_toolip}" />
+          <Style.Triggers>
+            <DataTrigger Value="Cut" Binding="{Binding SelectedTransition.Name}">
+              <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSITIONS_CUT_toolip}" />
+            </DataTrigger>
+            <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.Name}">
+              <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSITIONS_DISSOLVE_toolip}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <Path Width="18" Height="18" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessPathButton}}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Path}">
+            <Setter Property="Data" Value="{StaticResource Advanced}" />
+            <Style.Triggers>
+              <DataTrigger Value="Cut" Binding="{Binding SelectedTransition.Name}">
+                <Setter Property="Data" Value="{StaticResource Cut}" />
+              </DataTrigger>
+              <DataTrigger Binding="{Binding SelectedTransition.Name}" Value="{x:Null}">
+                <Setter Property="Data" Value="{StaticResource Cut}" />
+              </DataTrigger>
+              <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.Name}">
+                <Setter Property="Data" Value="{StaticResource Dissolve}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Path>
+    </commonControls:BorderlessPathButton>
+    <local:ButtonSelector x:Name="transitionSelectControl" Grid.Column="3" IsGlobalAllowed="{Binding ElementName=transitionSelectorSelf, Path=IsGlobalAllowed}" OutputController="{Binding ElementName=transitionSelectorSelf, Path=OutputController}" SelectedTransition="{Binding ElementName=transitionSelectorSelf, Path=InternalSelectedTransition}" TransitionHandler="{Binding ElementName=transitionSelectorSelf, Path=TransitionHandler}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type local:ButtonSelector}">
+          <Setter Property="Visibility" Value="{Binding ElementName=transitionSelectorSelf, Path=ControlHasExtraRoomVisibility}" />
+          <Style.Triggers>
+            <DataTrigger Value="Cut" Binding="{Binding SelectedTransition.Name}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.Name}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:ButtonSelector>
+    <commonControls:DoubleUpDown Grid.Column="3" Width="35" Height="22" Margin="8,0,0,0" VerticalAlignment="Center" Background="#00FFFFFF" BorderThickness="0" FormatString="{}{0:F1}s" Increment="0.1" Maximum="30.0" Minimum="0" ShowButtonSpinner="False" Value="{Binding SelectedTransition.Duration, ElementName=transitionSelectorSelf, Converter={StaticResource TimeSliceToDoubleSecondConverter}, StringFormat={}{0}s}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type commonControls:DoubleUpDown}}" TargetType="{x:Type commonControls:DoubleUpDown}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.Name}">
+              <Setter Property="Visibility" Value="{Binding ElementName=transitionSelectorSelf, Path=ControlHasExtraRoomVisibility}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </commonControls:DoubleUpDown>
+    <commonControls:FillSlider Grid.Column="4" Width="100" VerticalAlignment="Center" Maximum="5" Minimum="0" Value="{Binding SelectedTransition.Duration, ElementName=transitionSelectorSelf, Mode=TwoWay, Converter={StaticResource TimeSliceToDoubleSecondConverter}}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type commonControls:FillSlider}}" TargetType="{x:Type commonControls:FillSlider}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.Name}">
+              <Setter Property="Visibility" Value="{Binding ElementName=transitionSelectorSelf, Path=ControlHasExtraRoomVisibility}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </commonControls:FillSlider>
+  </Grid>
+</UserControl>

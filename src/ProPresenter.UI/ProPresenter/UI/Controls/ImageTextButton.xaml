@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Controls.ImageTextButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self" AllowDrop="True" xmlns:controls1="clr-namespace:ProPresenter.UI.Controls" DragEnter="ImageTextButtonOnDragEnter" DragOver="ImageTextButtonOnDragOver" Drop="ImageTextButtonOnDrop">
+  <Grid>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+      <Button uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:UIElementHelper.CornerRadius="10" Width="{Binding ButtonWidth, ElementName=self}" Height="{Binding ButtonHeight, ElementName=self}" Background="{Binding ButtonBackground, ElementName=self}" Command="{Binding Command, ElementName=self}" CommandParameter="{Binding CommandParameter, ElementName=self}" CommandTarget="{Binding CommandTarget, ElementName=self}">
+        <controls:ImageMask HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ImageWidth, ElementName=self}" Height="{Binding ImageHeight, ElementName=self}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" ImageSource="{Binding ImageSource, ElementName=self}" />
+      </Button>
+      <TextBlock Margin="0,10,0,0" HorizontalAlignment="Center" FontSize="{Binding TextSize, ElementName=self}" Foreground="{Binding TextForeground, ElementName=self}" Text="{Binding Text, ElementName=self}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

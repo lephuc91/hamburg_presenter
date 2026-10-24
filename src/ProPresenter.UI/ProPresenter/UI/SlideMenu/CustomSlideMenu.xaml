@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContextMenu x:Class="ProPresenter.UI.SlideMenu.CustomSlideMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.SlideMenu" x:Name="customSlideMenu" Style="{StaticResource {x:Type ContextMenu}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="customSlideMenuProxy" Data="{Binding ElementName=customSlideMenu}" />
+      <commonUtility:BindingProxy x:Key="menuVMProxy" Data="{Binding}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ItemsControl.ItemsSource>
+    <local:SlideMenuSource DataContext="{Binding Data, Source={StaticResource menuVMProxy}}" ShowQuickEdit="{Binding Data.ShowQuickEdit, Source={StaticResource customSlideMenuProxy}}" ThemeContextGroup="{Binding Data.ThemeContextGroup, Source={StaticResource customSlideMenuProxy}}" />
+  </ItemsControl.ItemsSource>
+</ContextMenu>

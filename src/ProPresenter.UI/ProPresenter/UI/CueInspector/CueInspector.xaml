@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.CueInspector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:cropUI="clr-namespace:ProPresenter.UI.CueInspector.Crop" xmlns:local="clr-namespace:ProPresenter.UI.CueInspector" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=Propresenter.DO" xmlns:mediaLibrary="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:overlay="clr-namespace:ProPresenter.UI.ThumbnailOverlay" xmlns:preview="clr-namespace:ProPresenter.UI.Preview" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:thumbnailVM="clr-namespace:ProPresenter.UI.ViewModels.Thumbnails" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="ci" UseLayoutRounding="True">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="ciVMProxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+      <Style x:Key="CueInspectorScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:DoubleUpDown}" BasedOn="{StaticResource {x:Type commonControls:DoubleUpDown}}" TargetType="{x:Type commonControls:DoubleUpDown}">
+        <Setter Property="UpDownBase.ShowButtonSpinner" Value="False" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:IntegerUpDown}" BasedOn="{StaticResource {x:Type commonControls:IntegerUpDown}}" TargetType="{x:Type commonControls:IntegerUpDown}">
+        <Setter Property="UpDownBase.ShowButtonSpinner" Value="False" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:FloatUpDown}" BasedOn="{StaticResource {x:Type commonControls:FloatUpDown}}" TargetType="{x:Type commonControls:FloatUpDown}">
+        <Setter Property="UpDownBase.ShowButtonSpinner" Value="False" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="340" />
+    </Grid.ColumnDefinitions>
+    <Grid Column="0" Visibility="{Binding OverlayVM.IsValid.Value, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <preview:OutputPreviewControl Grid.Row="0" Margin="20" DataContext="{Binding Data.PreviewVM, Source={StaticResource ciVMProxy}}">
+        <cropUI:PreviewOverlay DataContext="{Binding Data, Source={StaticResource ciVMProxy}}" />
+      </preview:OutputPreviewControl>
+      <ContentControl Grid.Row="1" Margin="0,-15,0,0">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <DataTrigger Value="Audio" Binding="{Binding ActiveMediaCue.MediaCue.MediaAction.Media.MediaType}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+              <DataTrigger Value="Video" Binding="{Binding ActiveMediaCue.MediaCue.MediaAction.Media.MediaType}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <local:CIMediaController HorizontalAlignment="Stretch" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding Data.PlaybackMarkersVM.CopyCommand, Source={StaticResource ciVMProxy}}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding Data.PlaybackMarkersVM.CutCommand, Source={StaticResource ciVMProxy}}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding Data.PlaybackMarkersVM.DeleteCommand, Source={StaticResource ciVMProxy}}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding Data.PlaybackMarkersVM.DuplicateCommand, Source={StaticResource ciVMProxy}}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding Data.PlaybackMarkersVM.PasteCommand, Source={StaticResource ciVMProxy}}" ActionsMenuVM="{Binding Data.PlaybackMarkersVM.ActionsMenuVM, Source={StaticResource ciVMProxy}}" AddPlaybackMarkerCommand="{Binding Data.PlaybackMarkersVM.AddMarkerCommand, Source={StaticResource ciVMProxy}}" ContextMenuTarget="{Binding Data.PlaybackMarkersVM.ContextMenuTarget, Source={StaticResource ciVMProxy}, Mode=TwoWay}" DataContext="{Binding Data.CIMediaControlVM, Source={StaticResource ciVMProxy}}" Foreground="{Binding HEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" MarkerColor="{Binding Data.PlaybackMarkersVM.MarkerColor, Source={StaticResource ciVMProxy}, Mode=TwoWay}" MarkerName="{Binding Data.PlaybackMarkersVM.MarkerName, Source={StaticResource ciVMProxy}, Mode=TwoWay}" MoveToPlayheadCommand="{Binding Data.PlaybackMarkersVM.MoveToPlayheadCommand, Source={StaticResource ciVMProxy}}" PlaybackMarkers="{Binding Data.PlaybackMarkersVM.PlaybackMarkers, Source={StaticResource ciVMProxy}}" SelectMarkerCommand="{Binding Data.PlaybackMarkersVM.SelectMarkerCommand, Source={StaticResource ciVMProxy}}" SetContextMenuPositionCommand="{Binding Data.PlaybackMarkersVM.SetContextMenuPositionCommand, Source={StaticResource ciVMProxy}}" />
+      </ContentControl>
+    </Grid>
+    <Grid Column="0" Visibility="{Binding OverlayVM.IsValid.Value, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+      <mediaLibrary:MediaPreview x:Name="mediaPreview" Grid.Column="0" Margin="20" BorderThickness="1" ShowIconForNonVisualMedia="False" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" Media="{Binding InfoVM.Media}" Visibility="{Binding OverlayVM.IsValid.Value, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+      <overlay:MediaOverlay x:Name="overlay" RingSize="Small" ShowText="False" Width="{Binding ElementName=mediaPreview, Path=ActualWidth}" Height="{Binding ElementName=mediaPreview, Path=ActualHeight}" BackgroundControl="{Binding ElementName=mediaPreview}" DataContext="{Binding OverlayVM}" />
+    </Grid>
+    <Grid Column="1" Visibility="{Binding OverlayVM.IsValid.Value, Converter={StaticResource ValueToVisibilityConverter}}">
+      <TabControl BorderThickness="2,2,0,0" Grid.IsSharedSizeScope="True" Background="{Binding CUEINSPECTOR_PROPERTY_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding CUEINSPECTOR_PROPERTY_BORDER, Source={x:Static theming:AppTheme.Active}}" SelectedIndex="{Binding SelectedInspectorTab, ElementName=ci}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TabPanel}" TargetType="{x:Type TabPanel}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </Style>
+            <Style x:Key="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+              <Setter Property="MinWidth" Value="60" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <TabItem Header="{mex:Localized CUE_INSPECTOR_INFO_TAB_title}">
+          <ScrollViewer Style="{StaticResource CueInspectorScrollViewerStyle}">
+            <local:Info x:Name="InfoTab" Margin="10,15" DataContext="{Binding InfoVM}" />
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Header="{mex:Localized CUE_INSPECTOR_PROPERTIES_TAB_title}">
+          <ScrollViewer Style="{StaticResource CueInspectorScrollViewerStyle}">
+            <local:Properties x:Name="PropertiesTab" Margin="10,15" HorizontalAlignment="Stretch" DataContext="{Binding PropertiesVM}" />
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Header="[T]">
+          <local:Transition Margin="10,10" DataContext="{Binding PropertiesVM}" OutputController="{Binding OutputController, ElementName=ci}" />
+        </TabItem>
+        <TabItem Header="{mex:Localized CUE_INSPECTOR_EFFECTS_TAB_title}">
+          <local:EffectControl Margin="10,15,10,0" HorizontalAlignment="Stretch" ContextMenuPlacement="Center" DataContext="{Binding EffectsVM}" />
+        </TabItem>
+        <TabItem Header="{mex:Localized CUE_INSPECTOR_AUDIO_TAB_title}">
+          <ScrollViewer Style="{StaticResource CueInspectorScrollViewerStyle}">
+            <local:CueAudio Margin="10,15" HorizontalAlignment="Stretch" DataContext="{Binding AudioVM}" />
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Header="[M]">
+          <local:PlaybackMarkers DataContext="{Binding PlaybackMarkersVM}" />
+        </TabItem>
+      </TabControl>
+    </Grid>
+    <Grid Column="1" Background="{Binding CUEINSPECTOR_PROPERTY_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding OverlayVM.IsValid.Value, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+              <Setter Property="Height" Value="22" />
+              <Setter Property="MinWidth" Value="200" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <TextBlock Margin="0,0,0,16" HorizontalAlignment="Center" FontSize="20">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type TextBlock}">
+              <Setter Property="Text" Value="{mex:Localized CUE_INSPECTOR_MEDIA_NOT_FOUND_label}" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static thumbnailVM:InvalidMediaType.Remote}" Binding="{Binding OverlayVM.InvalidMediaType.Value}" />
+                    <Condition Value="{x:Static media:MediaAvailability.Missing}" Binding="{Binding OverlayVM.CloudMediaAvailability.Value}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_IN_PROGRESS_title}" />
+                </MultiDataTrigger>
+                <DataTrigger Value="{x:Static media:MediaAvailability.Downloading}" Binding="{Binding OverlayVM.CloudMediaAvailability.Value}">
+                  <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_IN_PROGRESS_title}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+        <Grid Visibility="{Binding OverlayVM.InvalidMediaType.Value, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static thumbnailVM:InvalidMediaType.Local}}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Collapsed" Binding="{Binding Mode=OneTime, Source={mex:FeatureFlag Cloud}}" />
+                    <Condition Value="{x:Static thumbnailVM:InvalidMediaType.Local}" Binding="{Binding OverlayVM.InvalidMediaType.Value}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Visible" Binding="{Binding Mode=OneTime, Source={mex:FeatureFlag Cloud}}" />
+                    <Condition Value="{x:Static thumbnailVM:InvalidMediaType.Local}" Binding="{Binding OverlayVM.InvalidMediaType.Value}" />
+                    <Condition Value="{x:Static media:MediaAvailability.Missing}" Binding="{Binding OverlayVM.CloudMediaAvailability.Value}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Button Padding="4,0" HorizontalAlignment="Center" Command="{Binding OverlayVM.RelinkCommand}" Content="{mex:Localized PRESENTATION_CONTEXT_MENU_LINK_MEDIA_win_title}" Visibility="{Binding Path=IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+        </Grid>
+        <Grid>
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Visible" Binding="{Binding OverlayVM.InvalidMediaType.Value, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static thumbnailVM:InvalidMediaType.Remote}}" />
+                    <Condition Value="Collapsed" Binding="{Binding Mode=OneTime, Source={mex:FeatureFlag Cloud}}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Button Padding="4,0" HorizontalAlignment="Center" Command="{Binding OverlayVM.DownloadCommand}" Content="{mex:Localized PRESENTATION_CONTEXT_MENU_DOWNLOAD_MEDIA_title}" Visibility="{Binding ElementName=PART_CancelDownload, Path=IsEnabled, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+          <Button Name="PART_CancelDownload" Padding="4,0" HorizontalAlignment="Center" Command="{Binding OverlayVM.CancelDownloadCommand}" Content="{mex:Localized PRESENTATION_CONTEXT_MENU_CANCEL_DOWNLOAD_title}" Visibility="{Binding Path=IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+        </Grid>
+        <Grid Visibility="{Binding OverlayVM.InvalidMediaType.Value, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static thumbnailVM:InvalidMediaType.Device}}">
+          <Button Padding="4,0" HorizontalAlignment="Center" Command="{Binding OverlayVM.ReconnectVideoInputCommand}" Content="{mex:Localized GLOBAL_VIDEO_INPUT_SETUP_BUTTON_title}" Visibility="{Binding Path=IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}" />
+        </Grid>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</UserControl>

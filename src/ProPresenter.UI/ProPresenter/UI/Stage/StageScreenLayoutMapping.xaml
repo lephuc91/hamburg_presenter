@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Stage.StageScreenLayoutMapping" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:cues="clr-namespace:ProPresenter.DO.Cues;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="mapping" xmlns:stage="clr-namespace:ProPresenter.UI.Stage;assembly=ProPresenter.UI">
+  <Grid>
+    <ItemsControl ItemsSource="{Binding ScreenAssignments, ElementName=mapping}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <commonUtility:BindingProxy x:Key="mappingProxy" Data="{Binding ElementName=mapping}" />
+          <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+          <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+          <commonConverters:TypeOfConverter x:Key="TypeOfConverter" />
+          <CompositeCollection x:Key="layouts">
+            <MenuItem HorizontalAlignment="Stretch" VerticalAlignment="Center" Header="{mex:Localized ACTION_PALETTE_STAGE_NO_LAYOUT_CHANGE_title}" Click="MenuItem_Click" />
+            <Separator />
+            <CollectionContainer Collection="{Binding Data.Layouts, Source={StaticResource mappingProxy}}" />
+          </CompositeCollection>
+          <ContextMenu x:Key="LayoutsMenu" Placement="Bottom" UsesItemContainerTemplate="True" ItemsSource="{StaticResource layouts}" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}" Opened="LayoutsMenuOpened">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type cues:SlideCue}}">
+                  <MenuItem Header="{Binding Name}" Click="MenuItem_Click" />
+                </ItemContainerTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+          </ContextMenu>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid Visibility="{Binding CanAssign, Converter={StaticResource ValueToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Screen.Name}" />
+            <Button Name="layoutsButton" Grid.Column="1" Height="22" Margin="10,0,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" ContextMenu="{StaticResource LayoutsMenu}">
+              <ContentControl.Content>
+                <Grid Margin="5,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <FrameworkElement.Style>
+                      <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                        <Setter Property="FontStyle" Value="Normal" />
+                        <Setter Property="Text" Value="{Binding Layout.Name}" />
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding Layout}" Value="{x:Null}">
+                            <Setter Property="Text" Value="{mex:Localized ACTION_PALETTE_STAGE_NO_LAYOUT_CHANGE_title}" />
+                          </DataTrigger>
+                          <DataTrigger Value="False" Binding="{Binding IsValid}">
+                            <Setter Property="FontStyle" Value="Italic" />
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </TextBlock>
+                  <commonControls:PathControl Grid.Column="2" Width="8" Height="8" Margin="0,0,3,0" HorizontalAlignment="Right" VerticalAlignment="Center" PathType="DownArrow" Fill="{Binding Foreground, ElementName=layoutsButton}" Stroke="{Binding Foreground, ElementName=layoutsButton}" />
+                </Grid>
+              </ContentControl.Content>
+            </Button>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </Grid>
+</UserControl>

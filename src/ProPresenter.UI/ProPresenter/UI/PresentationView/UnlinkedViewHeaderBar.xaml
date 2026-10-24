@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.UnlinkedViewHeaderBar" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="self" xmlns:presentationview="clr-namespace:ProPresenter.UI.PresentationView" Background="{Binding HEADER, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../CueIconResources.xaml" />
+        <ui:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Height="27">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Image Grid.Column="0" Margin="6,6,0,6" Style="{StaticResource CueIconStyle}" DataContext="{Binding Cue, ElementName=self}" />
+    <TextBlock Grid.Column="1" Margin="8,6,0,6" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{Binding HEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{Binding Cue.Name, ElementName=self}" />
+    <commonControls:BorderlessButton Grid.Column="3" Width="24" Height="24" Margin="3,0" VerticalAlignment="Center" ToolTip="{mex:Localized PLANNING_CENTER_ITEMS_HEADER_ATTACHMENTS_tooltip}" Click="OpenAttachmentsClick">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+          <Setter Property="Visibility" Value="Visible" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding OpenAttachmentsCommand, ElementName=self}" Value="{x:Null}">
+              <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <Path Data="{StaticResource PCOAttachments}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+    </commonControls:BorderlessButton>
+    <commonControls:BorderlessPathButton Grid.Column="4" Width="24" Height="24" Margin="3,0" VerticalAlignment="Center" PathType="Plus" ToolTip="{mex:Localized PLACEHOLDER_ITEMS_HEADER_NEW_PRESENTATION_tooltip}" Click="LinkNewPresentationClick" />
+    <commonControls:BorderlessButton Grid.Column="5" Width="24" Height="24" Margin="3,0" VerticalAlignment="Center" ToolTip="{mex:Localized PLACEHOLDER_ITEMS_HEADER_IMPORT_tooltip}" Click="LinkImportClick">
+      <Path Data="M13.1,8.74 C13.1,8.74 10.43,8.74 10.43,8.74 C10.43,8.74 10.43,1 10.43,1 C10.43,1 7.57,1 7.57,1 C7.57,1 7.57,8.74 7.57,8.74 C7.57,8.74 4.9,8.74 4.9,8.74 C4.9,8.74 9,13.02 9,13.02 C9,13.02 13.1,8.74 13.1,8.74 M15.89,11.75 C15.89,11.75 15.89,13.84 15.89,13.84 C15.89,14.55 15.24,15.13 14.44,15.13 C14.44,15.13 3.56,15.13 3.56,15.13 C2.76,15.13 2.11,14.55 2.11,13.84 C2.11,13.84 2.11,11.75 2.11,11.75 C2.11,11.75 0,11.75 0,11.75 C0,11.75 0,13.84 0,13.84 C0,15.58 1.6,17 3.56,17 C3.56,17 14.44,17 14.44,17 C16.4,17 18,15.58 18,13.84 C18,13.84 18,11.75 18,11.75 C18,11.75 15.89,11.75 15.89,11.75" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+    </commonControls:BorderlessButton>
+    <commonControls:BorderlessButton Grid.Column="6" Width="24" Height="24" Margin="3,0" VerticalAlignment="Center" ToolTip="{mex:Localized PLACEHOLDER_ITEMS_HEADER_SEARCH_tooltip}" Click="OpenSearchClick">
+      <Path Data="M15.73,17 C16.42,17 16.93,16.46 16.93,15.78 C16.93,15.46 16.82,15.15 16.58,14.92 C16.58,14.92 12.97,11.29 12.97,11.29 C13.72,10.23 14.16,8.94 14.16,7.54 C14.16,3.94 11.22,1 7.62,1 C4.03,1 1.07,3.94 1.07,7.54 C1.07,11.14 4.02,14.08 7.62,14.08 C8.94,14.08 10.18,13.68 11.21,13 C11.21,13 14.85,16.65 14.85,16.65 C15.09,16.88 15.4,17 15.73,17 M7.62,12.34 C4.98,12.34 2.82,10.18 2.82,7.54 C2.82,4.91 4.98,2.75 7.62,2.75 C10.25,2.75 12.41,4.91 12.41,7.54 C12.41,10.18 10.25,12.34 7.62,12.34" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+    </commonControls:BorderlessButton>
+  </Grid>
+</UserControl>

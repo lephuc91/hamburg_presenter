@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CloudOnboarding.CloudOnboardingDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:cloudOnboarding="clr-namespace:ProPresenter.UI.ViewModels.CloudOnboarding" xmlns:do="clr-namespace:ProPresenter.DO.CloudOnboarding;assembly=ProPresenter.DO" xmlns:views="clr-namespace:ProPresenter.UI.CloudOnboarding" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.CloudOnboarding;assembly=ProPresenter.MainApp">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <DataTemplate x:Key="EligibilityTemplate">
+        <views:CloudOnboardingEligibilityView />
+      </DataTemplate>
+      <DataTemplate x:Key="PricingTemplate">
+        <views:CloudOnboardingPricingOptionsView />
+      </DataTemplate>
+      <DataTemplate x:Key="LocalWorkspacesTemplate">
+        <views:CloudOnboardingLocalWorkspacesView />
+      </DataTemplate>
+      <DataTemplate x:Key="ManageMediaTemplate">
+        <views:CloudOnboardingManageMediaView />
+      </DataTemplate>
+      <DataTemplate x:Key="DoneTemplate">
+        <views:CloudOnboardingDoneView />
+      </DataTemplate>
+      <views:CloudOnboardingTemplateSelector x:Key="OnboardingTemplateSelector" DoneTemplate="{StaticResource DoneTemplate}" EligibilityTemplate="{StaticResource EligibilityTemplate}" LocalWorkspacesTemplate="{StaticResource LocalWorkspacesTemplate}" ManageMediaTemplate="{StaticResource ManageMediaTemplate}" PricingTemplate="{StaticResource PricingTemplate}" />
+      <ImageBrush x:Key="OnboardingBackdrop" AlignmentX="Center" AlignmentY="Center" ImageSource="pack://application:,,,/ProPresenter.UI;component/Resources/Icons/CloudOnboarding/OnboardingBackground.png" Stretch="UniformToFill" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <DockPanel Background="{StaticResource OnboardingBackdrop}" LastChildFill="True">
+    <ContentControl Margin="0" ContentTemplateSelector="{StaticResource OnboardingTemplateSelector}" SnapsToDevicePixels="True" Content="{Binding CurrentPage}" />
+  </DockPanel>
+</UserControl>

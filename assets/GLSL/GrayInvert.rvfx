@@ -1,0 +1,8 @@
+{
+    "description": "Inverts a gray scale image.",
+    "name": "Gray Invert",
+    "numPasses": 1,
+    "shaderFile": "GrayInvert",
+    "type": 0,
+    "uuid": "4FDA3849-C39D-4269-AADA-B963944900B7"
+}

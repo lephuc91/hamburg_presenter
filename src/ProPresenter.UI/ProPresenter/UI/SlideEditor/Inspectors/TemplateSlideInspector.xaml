@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.TemplateSlideInspector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proUI="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:inspectors="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors">
+  <FrameworkElement.Resources>
+    <proUI:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <proUI:SharedResourceDictionary Source="pack://application:,,,/ProPresenter.UI;component/Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsCollapsing="False" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:IsNotNullToVisibilityConverter x:Key="IsNotNullToVisibilityConverter" />
+      <commonConverters:IsNotNullToVisibilityConverter x:Key="InvertedIsNotNullToVisibilityConverter" IsInverted="True" />
+      <commonConverters:FilePathToFileNameConverter x:Key="FilePathToFileNameConverter" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    </proUI:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel Margin="0,5,0,0">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" Text="{mex:Localized GLOBAL_NAME}" Visibility="{Binding EditMode, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.CCLITemplate}}" />
+      <TextBox Grid.Column="1" Height="22" VerticalContentAlignment="Center" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding EditMode, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.CCLITemplate}}" />
+    </Grid>
+    <Separator Margin="-10,10" Visibility="{Binding EditMode, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.CCLITemplate}}" />
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <TextBlock Margin="0,5,10,0" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{mex:Localized EDITOR_THEME_SLIDE_INSPECTOR_SIZE_title}" />
+      <ui:SizeSelector Grid.Column="1" Target="{Binding Data.SelectedTemplate.Slide, Source={StaticResource proxy}}" />
+    </Grid>
+    <Separator Margin="-10,10" Visibility="{Binding EditMode, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.CCLITemplate}}" />
+    <Grid Visibility="{Binding EditMode, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.CCLITemplate}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <CheckBox Content="{mex:Localized EDITOR_THEME_SLIDE_INSPECTOR_BACKGROUND_title}" IsChecked="{Binding UseBackgroundColor}" />
+      <commonControls:ColorPicker Grid.Column="1" Width="50" Height="22" HorizontalAlignment="Right" ColorChangeFinishedCommand="{Binding ColorChangeFinishedCommand}" SelectedColor="{Binding BackgroundColor}" Visibility="{Binding UseBackgroundColor, Converter={StaticResource ValueToVisibilityConverter}}" />
+    </Grid>
+    <Separator Margin="-10,10" Visibility="{Binding EditMode, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.CCLITemplate}}" />
+    <Grid Name="MediaActionButton" Margin="0,0,0,5" Visibility="{Binding EditMode, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static do:EditMode.CCLITemplate}}">
+      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_SLIDE_INSPECTOR_MEDIA_ACTION_HEADER_title}" />
+      <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+        <commonControls:BorderlessPathButton Height="22" VerticalAlignment="Center" Cursor="Hand" PathType="Plus" StrokeThickness="2" Command="{Binding AddMediaActionCommand}" Visibility="{Binding MediaAction, Converter={StaticResource InvertedIsNotNullToVisibilityConverter}, Mode=OneWay}" />
+        <commonControls:BorderlessButton Height="22" VerticalAlignment="Center" Cursor="Hand" Command="{Binding RemoveMediaActionCommand}" Visibility="{Binding MediaAction, Converter={StaticResource IsNotNullToVisibilityConverter}, Mode=OneWay}">
+          <commonControls:ImageMask ImageSource="pack://application:,,,/ProPresenter.UI;component/Resources/Icons/Transitions/trash.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+        </commonControls:BorderlessButton>
+      </StackPanel>
+    </Grid>
+    <StackPanel Visibility="{Binding MediaAction, Converter={StaticResource IsNotNullToVisibilityConverter}, Mode=OneWay}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <Style x:Key="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+          </Style>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,5" VerticalAlignment="Center" Orientation="Horizontal">
+          <Path Margin="0,0,5,0" Data="{StaticResource Image}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+          <TextBlock Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Text" Value="{Binding MediaAction.Media.SourceFile.FullPath, Converter={StaticResource FilePathToFileNameConverter}}" />
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding MediaAction}" Value="{x:Null}">
+                    <Setter Property="Text" Value="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_CHOOSE_FILE_BUTTON_title}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+          <Button Margin="2,0,0,0" HorizontalAlignment="Right" Background="#00FFFFFF" BorderThickness="0" Command="{Binding ShowInFileExplorerCommand}">
+            <Control.Template>
+              <ControlTemplate>
+                <commonControls:PathControl Width="12" Height="12" Fill="#00FFFFFF" PathType="Magnifier" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+              </ControlTemplate>
+            </Control.Template>
+          </Button>
+        </StackPanel>
+        <Button Grid.Row="1" Margin="0,0,2,5" Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding MediaAction, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" Content="{mex:Localized GLOBAL_INSPECTOR_BUTTON_title}" />
+        <Button Grid.Row="1" Grid.Column="1" Margin="2,0,0,5" Command="{Binding ChooseGraphicMediaFileCommand}" Content="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_CHOOSE_FILE_BUTTON_title}" />
+      </Grid>
+      <TextBlock Margin="0,10,0,5" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_SLIDE_INSPECTOR_RETRIGGER_BEHAVIOR_label}" Visibility="{Binding TransportMedia, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+      <ComboBox Margin="0,0,0,10" SelectedItem="{Binding TransportMedia.Transport.RetriggerBehavior, Mode=TwoWay}" Visibility="{Binding TransportMedia, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+            <Setter Property="ItemsSource">
+              <Setter.Value>
+                <CompositeCollection>
+                  <media:RetriggerBehavior>Always</media:RetriggerBehavior>
+                  <media:RetriggerBehavior>Never</media:RetriggerBehavior>
+                  <media:RetriggerBehavior>Automatic</media:RetriggerBehavior>
+                </CompositeCollection>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </FrameworkElement.Style>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

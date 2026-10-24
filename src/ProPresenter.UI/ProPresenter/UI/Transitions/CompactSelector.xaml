@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Transitions.CompactSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProPresenter.UI.Transitions" x:Name="compactSelectorSelf" Width="420" Height="340">
+  <local:SelectorControl IsGlobalAllowed="{Binding IsGlobalAllowed, ElementName=compactSelectorSelf}" OutputController="{Binding OutputController, ElementName=compactSelectorSelf}" TransitionHandler="{Binding TransitionHandler, ElementName=compactSelectorSelf}" />
+</UserControl>

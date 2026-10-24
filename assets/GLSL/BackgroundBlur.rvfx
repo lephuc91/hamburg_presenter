@@ -1,0 +1,30 @@
+{
+    "description": "Gaussian Blur of the background image.",
+    "name": "Background Blur",
+    "numPasses": 2,
+    "shaderFile": "BackgroundBlur",
+    "type": 2,
+    "uuid": "F8907C4C-D768-41C1-8EBF-5B6AC07A4517",
+    "variables": [
+        {
+            "name": "saturation",
+            "label": "Saturation",
+            "description": "mix between object and effect",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "blurAmount",
+            "label": "Intensity",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

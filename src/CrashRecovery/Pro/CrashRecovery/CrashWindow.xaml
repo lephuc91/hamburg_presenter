@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="Pro.CrashRecovery.CrashWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="self" Title="Crash Report" Width="600" Background="#FFD3D3D3" ResizeMode="NoResize" ShowInTaskbar="True" SizeToContent="Height" WindowStartupLocation="CenterScreen" xmlns:crashrecovery="clr-namespace:Pro.CrashRecovery;assembly=CrashRecovery">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="CrashButton" TargetType="{x:Type FrameworkElement}">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Margin" Value="10,0" />
+        <Setter Property="Width" Value="80" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="10,5">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30" />
+      <RowDefinition />
+      <RowDefinition Height="40" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding AppName, ElementName=self, StringFormat={}{0} has quit unexpectedly}" />
+    <TextBox Grid.Row="1" Height="300" Margin="0,10" HorizontalAlignment="Stretch" IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Text="{Binding CrashDetails, ElementName=self}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type TextBox}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="True" Binding="{Binding IsChecked, ElementName=detailsToggle}">
+              <DataTrigger.Setters>
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger.Setters>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </TextBox>
+    <Grid Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <ToggleButton Name="detailsToggle" Grid.Column="0" Content="Details..." Style="{StaticResource CrashButton}" />
+      <Button Grid.Column="2" Content="Relaunch" IsDefault="True" Style="{StaticResource CrashButton}" Click="Relaunch_Click" />
+      <Button Grid.Column="3" Content="Close" IsCancel="True" Style="{StaticResource CrashButton}" />
+    </Grid>
+  </Grid>
+</Window>

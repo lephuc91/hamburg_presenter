@@ -1,0 +1,11 @@
+{
+    "category": "Movements",
+    "description": "Ripple",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Ripple",
+    "numPasses": 1,
+    "shaderFile": "ripple",
+    "type": 1,
+    "uuid": "47A0842A-E064-4282-854A-27224E48D7B0"
+}

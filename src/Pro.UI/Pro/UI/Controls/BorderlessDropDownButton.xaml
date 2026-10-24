@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.BorderlessDropDownButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls" xmlns:commonConverters="clr-namespace:Pro.UI.Converters" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:uiUtility="clr-namespace:Pro.UI.Utility" x:Name="dropDownButton" Height="22">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="dropDownButtonProxy" Data="{Binding ElementName=dropDownButton}" />
+      <commonConverters:TypeOfConverter x:Key="TypeOfConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <commonControls:BorderlessButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Height="{Binding ActualHeight, ElementName=dropDownButton}" ContextMenu="{Binding CustomContextMenu, ElementName=dropDownButton}">
+    <ContentControl.Content>
+      <Grid Margin="5,0" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ContentControl HorizontalAlignment="Left" VerticalAlignment="Center">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type ContentControl}">
+              <Setter Property="Content" Value="{Binding Data.CustomContent, Source={StaticResource dropDownButtonProxy}}" />
+              <Style.Triggers>
+                <DataTrigger xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib" Value="{x:Type system1:String}" Binding="{Binding Data.CustomContent, Source={StaticResource dropDownButtonProxy}, Converter={StaticResource TypeOfConverter}}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource {x:Type TextBlock}}" TextTrimming="CharacterEllipsis" Text="{Binding Data.CustomContent, Source={StaticResource dropDownButtonProxy}}" />
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </ContentControl>
+        <commonControls:PathControl Grid.Column="1" Width="8" Height="8" HorizontalAlignment="Right" VerticalAlignment="Center" PathType="DownArrow" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+      </Grid>
+    </ContentControl.Content>
+  </commonControls:BorderlessButton>
+</UserControl>

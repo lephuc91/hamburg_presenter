@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Props.PropGridItemTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProPresenter.UI.Props" xmlns:proUiControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:proUiConverters="clr-namespace:ProPresenter.UI.Converters" xmlns:propresenterUiControls="clr-namespace:ProPresenter.UI.Controls" xmlns:propresenterUiConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="propTemplate" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding LISTITEM_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" ToolTip="{Binding Name}">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../GlobalStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <propresenterUiConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <proUiConverters:CustomSlideConverter x:Key="CustomSlideConverter" />
+      <propresenterUiConverters:ValueToVisibilityConverter x:Key="InvertedNonCollapseValueToVisibilityConverter" IsCollapsing="False" IsInverted="True" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border Name="MainBorder" Margin="4" BorderThickness="1">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="#00FFFFFF" />
+        <Style.Triggers>
+          <DataTrigger Value="True" Binding="{Binding IsSelected}">
+            <Setter Property="Background" Value="{Binding SECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <local:PropsThumbnailView Grid.Row="0" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="6" AspectRatio="{Binding ThumbnailAspectRatio}" Thumbnail="{Binding PreviewImage}" ThumbnailSize="{Binding ThumbnailSize, Mode=TwoWay}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type local:PropsThumbnailView}">
+            <Setter Property="local:PropsThumbnailView.IsActiveBrush" Value="#00FFFFFF" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding IsActive}">
+                <Setter Property="local:PropsThumbnailView.IsActiveBrush" Value="{Binding THUMBNAILPRESENTATIONBORDER, Source={x:Static theming:AppTheme.Active}}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid>
+          <StackPanel Margin="4,4,0,0" Orientation="Horizontal" Visibility="{Binding AutoClearEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <proUiControls:ImageMask HorizontalAlignment="Left" VerticalAlignment="Top" ImageSource="{StaticResource {x:Static themes:Icons.PropsAutoClearBadge}}" Fill="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" />
+            <TextBlock Margin="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" Text="{Binding AutoClearDuration, StringFormat={}{0:0.0}s}" />
+          </StackPanel>
+          <propresenterUiControls:TransitionSelectorButton Grid.Row="0" Margin="0,0,2,2" HorizontalAlignment="Right" VerticalAlignment="Bottom" AlwaysActive="True" HideWhenNull="True" SelectedTransition="{Binding SlideAction.Slide.SelectedTransition}" />
+        </Grid>
+      </local:PropsThumbnailView>
+      <local:PropAutoClearProgress Grid.Row="1" />
+      <proUiControls:EditableTextBlock Grid.Row="1" MaxWidth="60" HorizontalAlignment="Center" VerticalAlignment="Top" ClickToEdit="False" Effect="{StaticResource DefaultDropShadowEffect}" Foreground="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" Text="{Binding Name, Mode=TwoWay}" Visibility="{Binding ShowProgress, Converter={StaticResource InvertedNonCollapseValueToVisibilityConverter}}" />
+    </Grid>
+  </Border>
+</UserControl>

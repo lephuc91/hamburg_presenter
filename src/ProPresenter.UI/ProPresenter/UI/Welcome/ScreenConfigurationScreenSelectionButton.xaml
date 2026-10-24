@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Welcome.ScreenConfigurationScreenSelectionButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="screenConfigurationDropDownButton" xmlns:welcome="clr-namespace:ProPresenter.UI.Welcome;assembly=ProPresenter.UI">
+  <Button Height="22" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" ContextMenu="{Binding DeviceSelector, ElementName=screenConfigurationDropDownButton}">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="FrameworkElement.DataContext" Value="{Binding ScreenTargetType, ElementName=screenConfigurationDropDownButton}" />
+        <Setter Property="IsEnabled" Value="True" />
+        <Style.Triggers>
+          <DataTrigger Value="True" Binding="{Binding Configuration.IsComplex, ElementName=screenConfigurationDropDownButton}">
+            <Setter Property="IsEnabled" Value="False" />
+          </DataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="False" Binding="{Binding Configuration.IsComplex, ElementName=screenConfigurationDropDownButton}" />
+              <Condition Value="True" Binding="{Binding Configuration.IsConfigured, ElementName=screenConfigurationDropDownButton}" />
+            </MultiDataTrigger.Conditions>
+            <MultiDataTrigger.Setters>
+              <Setter Property="FrameworkElement.DataContext" Value="{Binding Configuration.MainOutput, ElementName=screenConfigurationDropDownButton}" />
+            </MultiDataTrigger.Setters>
+          </MultiDataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Grid Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Button}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Text" Value="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_SCREEN_NAME_placeholder}" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding Configuration.IsComplex, ElementName=screenConfigurationDropDownButton}">
+                <Setter Property="Text" Value="{mex:Localized WELCOME_WINDOW_SCREEN_CONFIG_COMPLEX_LAYOUT_title}" />
+              </DataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="False" Binding="{Binding Configuration.IsComplex, ElementName=screenConfigurationDropDownButton}" />
+                  <Condition Value="True" Binding="{Binding Configuration.IsConfigured, ElementName=screenConfigurationDropDownButton}" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                  <Setter Property="Text" Value="{Binding Configuration.MainOutput.OutputName, ElementName=screenConfigurationDropDownButton}" />
+                </MultiDataTrigger.Setters>
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+      <commonControls:PathControl Grid.Column="1" Width="8" Height="8" Margin="0,0,8,0" HorizontalAlignment="Right" PathType="DownArrow" Fill="{Binding Foreground, ElementName=screenConfigurationDropDownButton}" Stroke="{Binding Foreground, ElementName=screenConfigurationDropDownButton}" />
+    </Grid>
+  </Button>
+</UserControl>

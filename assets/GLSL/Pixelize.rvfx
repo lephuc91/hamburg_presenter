@@ -1,0 +1,20 @@
+{
+    "description": "Increase pixel size to generate color blocks.",
+    "name": "Pixelize",
+    "numPasses": 1,
+    "shaderFile": "Pixelize",
+    "type": 0,
+    "uuid": "54E8E7F0-2302-4CBE-A63D-02D56915A79A",
+    "variables": [
+        {
+            "name": "pixelSize",
+            "label": "Size",
+            "description": "Size of Pixel",
+            "type": 1,
+            "min": [0.01, 0.01, 0.01, 0.01],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

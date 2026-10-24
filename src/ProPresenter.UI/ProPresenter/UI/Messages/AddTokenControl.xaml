@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Messages.AddTokenControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Messages" xmlns:messagesDO="clr-namespace:ProPresenter.DO.Messages;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="addTokenControl">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="addTokenControlProxy" Data="{Binding ElementName=addTokenControl}" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <local:TokensToNameConverter x:Key="TokensToNameConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Name="addTokenControlGrid">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <commonControls:PlaceholderTextBox Grid.Row="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Foreground="{Binding TEXTBOX_CONTENT, Source={x:Static theming:AppTheme.Active}}" PlaceholderText="{mex:Localized MESSAGES_ADD_TOKEN_title}" Text="{Binding AddTokenText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" KeyDown="TokenName_Keydown">
+      <commonControls:PlaceholderTextBox.AutoCompleteItemsSource>
+        <MultiBinding Converter="{StaticResource TokensToNameConverter}">
+          <Binding ElementName="addTokenControl" Path="DefaultTokens" />
+          <Binding ElementName="addTokenControl" Path="Timers" />
+        </MultiBinding>
+      </commonControls:PlaceholderTextBox.AutoCompleteItemsSource>
+    </commonControls:PlaceholderTextBox>
+    <Button Name="dropButton" Grid.Row="1" Width="17" HorizontalAlignment="Right" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+      <commonControls:PathControl Width="8" Height="8" PathType="DownArrow" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+      <FrameworkElement.ContextMenu>
+        <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" Width="{Binding Data.ActualWidth, Source={StaticResource addTokenControlProxy}}" Opened="ContextMenu_Opened">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type messagesDO:ClockToken}}">
+                <MenuItem Header="{Binding Content}" Click="ClockToken_Click" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type messagesDO:TextToken}}">
+                <MenuItem Header="{Binding Content}" Click="TextToken_Click" />
+              </ItemContainerTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <CollectionContainer Collection="{Binding Data.DefaultTokens, Source={StaticResource addTokenControlProxy}}" />
+              <MenuItem UsesItemContainerTemplate="True" Header="{mex:Localized EDITOR_MENU_INSERT_TIMER_title}" ItemsSource="{Binding Data.Timers, Source={StaticResource addTokenControlProxy}}" Visibility="{Binding Data.Timers.Count, Source={StaticResource addTokenControlProxy}, Converter={StaticResource CountToVisibilityConverter}}">
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type messagesDO:TimerToken}}">
+                      <MenuItem Header="{Binding Timer.Name}" Click="Timer_Click" />
+                    </ItemContainerTemplate>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+              </MenuItem>
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </Button>
+  </Grid>
+</UserControl>

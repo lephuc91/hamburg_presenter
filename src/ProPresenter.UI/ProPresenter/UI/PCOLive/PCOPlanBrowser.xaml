@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.PCOLive.PCOPlanBrowser" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.PCOLive" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="self" Width="500" Height="320" uiUtility:WindowHelper.CanOwnWindows="True" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.HideOnClose="True" uiUtility:WindowHelper.UseGlobalStyle="True" CanMaximize="False" CanMinimize="False" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" Title="{mex:Localized PCO_PLAN_BROWSER_title}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="40" />
+    </Grid.RowDefinitions>
+    <local:PCOTreeView x:Name="PCOTreeView" ItemContainerStyle="{StaticResource {x:Type commonControls:TreeViewItem}}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Style="{StaticResource {x:Type TreeView}}" ItemsSource="{Binding PCOOrganization.Items}" />
+    <Grid Row="1" Margin="10,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Button Grid.Column="0" Height="22" MinWidth="80" Padding="10,0" HorizontalAlignment="Left" Command="{Binding RefreshOrganizationDataCommand}" Content="{mex:Localized PCO_PLAN_BROWSER_REFRESH_BUTTON_title}" />
+      <Button Name="SelectButton" Grid.Column="1" Height="22" MinWidth="80" Padding="10,0" HorizontalAlignment="Right" IsDefault="True" Command="{Binding SelectPCOPlanCommand, ElementName=self}" CommandParameter="{Binding SelectedItem, ElementName=PCOTreeView}" Content="{mex:Localized PCO_PLAN_BROWSER_SELECT_BUTTON_title}" ToolTip="{mex:Localized PCO_PLAN_BROWSER_SELECT_BUTTON_tooltip}" Click="SelectButton_Click" />
+    </Grid>
+  </Grid>
+</windowing:ChromedWindow>

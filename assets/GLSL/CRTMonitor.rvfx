@@ -1,0 +1,30 @@
+{
+    "description": "Old CRT Monitor.",
+    "name": "CRT Monitor",
+    "numPasses": 1,
+    "shaderFile": "CRTMonitor",
+    "type": 0,
+    "uuid": "0AD74569-93D8-4849-8E07-A05CCFB15620",
+    "variables": [
+        {
+            "name": "strength",
+            "label": "Strength",
+            "description": "strength of RGB",
+            "type": 1,
+            "min": [0.5, 0.5, 0.5, 0.5],
+            "max": [1.7, 1, 1, 1],
+            "defValue": [1.2, 0.5, 0.5, 1],
+            "value": [1.2, 1, 1, 1]
+        },
+        {
+            "name": "uPixelSize",
+            "label": "Size",
+            "description": "size of RGB pixel",
+            "type": 1,
+            "min": [1.5, 0.5, 0.5, 0.5],
+            "max": [5, 1, 1, 1],
+            "defValue": [3, 0.5, 0.5, 1],
+            "value": [3, 1, 1, 1]
+        }
+    ]
+}

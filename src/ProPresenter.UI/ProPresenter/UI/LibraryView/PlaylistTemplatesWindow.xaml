@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.LibraryView.PlaylistTemplatesWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.LibraryView" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:playlist="clr-namespace:ProPresenter.DO.Playlists;assembly=ProPresenter.DO" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="playlistTemplatesWindow" Width="450" Height="400" MinWidth="250" MinHeight="250" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.HideOnClose="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" Title="{mex:Localized LIBRARY_PLAYLIST_EDIT_PLAYLIST_TEMPLATE_DIALOG_title}">
+  <Grid Margin="10">
+    <local:PlaylistTemplatesListBox HorizontalContentAlignment="Stretch" DeselectOnLostFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectionMode="Extended" Style="{StaticResource {x:Type ListBox}}" VirtualizingPanel.ScrollUnit="Pixel" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteTemplateCommand}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" ItemsSource="{Binding TemplatesView}" SelectedListItem="{Binding SelectedTemplate, Mode=TwoWay}" SelectedListItems="{Binding SelectedTemplates}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="{x:Type playlist:GeneralPlaylist}">
+          <Border BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+            <commonControls:EditableTextBlock Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Left" Text="{Binding Name, Mode=TwoWay}" />
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemContainerStyle>
+        <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+          <Setter Property="FrameworkElement.ContextMenu">
+            <Setter.Value>
+              <ContextMenu>
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" />
+                <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+              </ContextMenu>
+            </Setter.Value>
+          </Setter>
+          <Setter Property="commonControls:ListBoxItem.FocusOnContextMenuClose" Value="False" />
+          <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+        </Style>
+      </ItemsControl.ItemContainerStyle>
+    </local:PlaylistTemplatesListBox>
+  </Grid>
+</windowing:ChromedWindow>

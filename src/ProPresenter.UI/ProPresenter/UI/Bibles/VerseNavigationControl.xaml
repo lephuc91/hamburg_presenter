@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Bibles.VerseNavigationControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="self" xmlns:bibles="clr-namespace:ProPresenter.UI.Bibles;assembly=ProPresenter.UI">
+  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+    <commonControls:BorderlessButton Height="22" Margin="0,0,8,0" Command="{Binding GoToPreviousVerseCommand, ElementName=self}">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" FontWeight="Bold" Text="{mex:Localized BIBLE_FOOTER_ADD_VERSE_BUTTON_title}" ToolTip="{mex:Localized BIBLE_FOOTER_ADD_PREVIOUS_VERSE_BUTTON_tooltip}" />
+      </StackPanel>
+    </commonControls:BorderlessButton>
+    <commonControls:BorderlessButton Height="22" Command="{Binding GoToNextVerseCommand, ElementName=self}">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontWeight="Bold" Text="{mex:Localized BIBLE_FOOTER_ADD_VERSE_BUTTON_title}" ToolTip="{mex:Localized BIBLE_FOOTER_ADD_NEXT_VERSE_BUTTON_tooltip}" />
+        <commonControls:ImageMask ImageSource="../Resources/Icons/RightArrow.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+      </StackPanel>
+    </commonControls:BorderlessButton>
+  </StackPanel>
+</UserControl>

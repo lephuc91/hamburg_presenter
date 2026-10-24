@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Templates.ThemePicker" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:DO="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Templates" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" x:Name="themePickerUISelf">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="vmProxy" Data="{Binding DataContext, ElementName=themePickerUISelf}" />
+      <commonUtility:BindingProxy x:Key="themePickerUISelfProxy" Data="{Binding ElementName=themePickerUISelf}" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <Style x:Key="{x:Type commonControls:BorderlessButton}" BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+        <Setter Property="Margin" Value="4,0" />
+        <Setter Property="Padding" Value="10,0,0,0" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderThickness="1" CornerRadius="{StaticResource {x:Static themes:Constants.WindowCornerRadius}}" Background="{Binding OUTLINEDETAIL, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+    <Grid>
+      <Grid HorizontalAlignment="Stretch">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Height" Value="450" />
+            <Setter Property="Width" Value="{x:Static local:ThemePicker.WIDTH}" />
+            <Style.Triggers>
+              <DataTrigger Value="0" Binding="{Binding ThemeTree.Children.Count}">
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Width" Value="Auto" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Row="0" HorizontalAlignment="Stretch" Background="#00FFFFFF" Visibility="{Binding ThemeTree.Children.Count, Converter={StaticResource CountToVisibilityConverter}}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+              <Style.Triggers>
+                <DataTrigger Value="Detail" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                  <Setter Property="FrameworkElement.ContextMenu">
+                    <Setter.Value>
+                      <ContextMenu>
+                        <MenuItem Command="{Binding Data.DeleteThemeCommand, Source={StaticResource vmProxy}}" CommandParameter="{Binding Data.CurrentThemeContainer.Theme, Source={StaticResource vmProxy}}" Header="{mex:Localized THEMES_MENU_REMOVE_THEME_title}" />
+                      </ContextMenu>
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".215*" />
+            <ColumnDefinition Width=".57*" />
+            <ColumnDefinition Width=".215*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <commonControls:BorderlessButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Command="{Binding Data.GoBackCommand, Source={StaticResource vmProxy}}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+                <Style.Triggers>
+                  <DataTrigger Value="Main" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                  </DataTrigger>
+                  <DataTrigger Value="Folder" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                  <DataTrigger Value="Detail" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <StackPanel Background="#00FFFFFF" Orientation="Horizontal">
+              <commonControls:PathControl Width="14" Height="14" Fill="#00FFFFFF" PathType="VDownArrow" Stroke="{Binding ONPRIMARY, Source={x:Static theming:AppTheme.Active}}">
+                <FrameworkElement.LayoutTransform>
+                  <RotateTransform Angle="90" CenterX="7" CenterY="7" />
+                </FrameworkElement.LayoutTransform>
+              </commonControls:PathControl>
+            </StackPanel>
+          </commonControls:BorderlessButton>
+          <commonControls:BorderlessButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Command="{Binding BrowseProContentThemesCommand}" ToolTip="{mex:Localized THEMES_POPOVER_BROWSE_PROCONTENT_THEMES_tooltip}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                  <DataTrigger Value="Main" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Image Grid.Column="0" Width="16" Height="16" Margin="0,0,6,0" HorizontalAlignment="Left" Source="{StaticResource {x:Static themes:Icons.ProContent}}">
+              <UIElement.Effect>
+                <DropShadowEffect BlurRadius="8" Direction="270" Opacity="0.7" ShadowDepth="1" Color="{StaticResource {x:Static themes:Colors.Shadow}}" />
+              </UIElement.Effect>
+            </Image>
+          </commonControls:BorderlessButton>
+          <TextBlock Grid.Row="0" Grid.Column="1" Width="Auto" MaxWidth="150" Margin="0,5" HorizontalAlignment="Center" FontSize="13" FontWeight="Bold" TextTrimming="CharacterEllipsis" Foreground="{Binding ONPRIMARY, Source={x:Static theming:AppTheme.Active}}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type TextBlock}">
+                <Style.Triggers>
+                  <DataTrigger Value="Main" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                    <Setter Property="Text" Value="{mex:Localized THEMES_title}" />
+                  </DataTrigger>
+                  <DataTrigger Value="Folder" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                    <Setter Property="Text" Value="{Binding Data.CurrentThemeContainer.Name, Source={StaticResource vmProxy}}" />
+                  </DataTrigger>
+                  <DataTrigger Value="Detail" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                    <Setter Property="Text" Value="{Binding Data.CurrentThemeContainer.Name, Source={StaticResource vmProxy}}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </TextBlock>
+          <commonControls:BorderlessIconToggleButton Grid.Row="0" Grid.Column="2" Width="{StaticResource {x:Static themes:Constants.BorderlessPathButtonPathDefaultSize}}" Height="{StaticResource {x:Static themes:Constants.BorderlessPathButtonPathDefaultSize}}" Margin="0,0,5,0" Padding="0" ActiveBrush="{StaticResource {x:Static themes:Brushes.BadgeActive}}" IconGeometry="{StaticResource {x:Static themes:Geometry.MediaTrackGeometry}}" InactiveBrush="{StaticResource {x:Static themes:Brushes.BadgeInactive}}" Command="{Binding ToggleMediaActionCommand}" IsActive="{Binding PickerSettings.MediaActionEnabled}" ToolTip="{mex:Localized THEMES_POPOVER_MEDIA_ACTION_tooltip}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type commonControls:BorderlessIconToggleButton}">
+                <Style.Triggers>
+                  <DataTrigger Value="False" Binding="{Binding ElementName=themePickerUISelf, Path=ShowMediaActionButton}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </commonControls:BorderlessIconToggleButton>
+          <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,8,0" HorizontalAlignment="Right" Orientation="Horizontal" Visibility="{Binding AllowCreateAndEditTheme, ElementName=themePickerUISelf, Converter={StaticResource ValueToVisibilityConverter}}">
+            <commonControls:BorderlessButton Grid.Column="1" Width="{StaticResource {x:Static themes:Constants.BorderlessPathButtonPathDefaultSize}}" Height="{StaticResource {x:Static themes:Constants.BorderlessPathButtonPathDefaultSize}}" Padding="0" Command="{Binding NewThemeCommand}" ToolTip="{mex:Localized THEMES_NEW_TEMPLATE_name}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+                  <Style.Triggers>
+                    <DataTrigger Value="{x:Static DO:ViewType.Detail}" Binding="{Binding ViewType}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                    <DataTrigger Value="{x:Static DO:ViewType.Main}" Binding="{Binding ViewType}">
+                      <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                    <DataTrigger Value="{x:Static DO:ViewType.Folder}" Binding="{Binding ViewType}">
+                      <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <commonControls:PathControl PathType="Plus" StrokeThickness="2" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+            </commonControls:BorderlessButton>
+            <commonControls:BorderlessButton Grid.Column="1" Width="{StaticResource {x:Static themes:Constants.BorderlessPathButtonPathDefaultSize}}" Height="{StaticResource {x:Static themes:Constants.BorderlessPathButtonPathDefaultSize}}" Padding="0" Command="{Binding EditThemeCommand}" CommandParameter="{Binding CurrentThemeContainer.Theme}" ToolTip="{mex:Localized THEMES_POPOVER_EDIT_THEME_BUTTON_tooltip}" Visibility="{Binding ViewType, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static DO:ViewType.Detail}}">
+              <Image Source="{StaticResource {x:Static themes:Icons.Editor}}" />
+            </commonControls:BorderlessButton>
+          </StackPanel>
+          <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="8,0" />
+        </Grid>
+        <ContentControl Name="ThemesListContentControl" Grid.Row="1" Visibility="{Binding ThemeTree.Children.Count, Converter={StaticResource CountToVisibilityConverter}}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type ContentControl}">
+              <Style.Triggers>
+                <DataTrigger Value="Main" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <local:FolderView CurrentThemeContainer="{Binding Data.CurrentThemeContainer, Source={StaticResource vmProxy}}" DeleteThemeCommand="{Binding Data.DeleteThemeCommand, Source={StaticResource vmProxy}}" EnableContextMenuOptions="{Binding Data.EnableContextMenuOptions, Source={StaticResource themePickerUISelfProxy}}" IsMediaActionEnabled="{Binding Data.IsMediaActionEnabled, Source={StaticResource themePickerUISelfProxy}}" SelectThemeCommand="{Binding Data.SelectThemeCommand, Source={StaticResource vmProxy}}" SelectThemeFolderCommand="{Binding Data.SelectThemeFolderCommand, Source={StaticResource vmProxy}}" SelectedTemplate="{Binding Data.SelectedTemplate, Source={StaticResource themePickerUISelfProxy}}" />
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <DataTrigger Value="Folder" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <local:FolderView ShowRecents="False" CurrentThemeContainer="{Binding Data.CurrentThemeContainer, Source={StaticResource vmProxy}}" DeleteThemeCommand="{Binding Data.DeleteThemeCommand, Source={StaticResource vmProxy}}" EnableContextMenuOptions="{Binding Data.EnableContextMenuOptions, Source={StaticResource themePickerUISelfProxy}}" IsMediaActionEnabled="{Binding Data.IsMediaActionEnabled, Source={StaticResource themePickerUISelfProxy}}" SelectThemeCommand="{Binding Data.SelectThemeCommand, Source={StaticResource vmProxy}}" SelectThemeFolderCommand="{Binding Data.SelectThemeFolderCommand, Source={StaticResource vmProxy}}" SelectedTemplate="{Binding Data.SelectedTemplate, Source={StaticResource themePickerUISelfProxy}}" />
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <DataTrigger Value="Detail" Binding="{Binding Data.ViewType, Source={StaticResource vmProxy}}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <local:DetailView CurrentThemeContainer="{Binding Data.CurrentThemeContainer, Source={StaticResource vmProxy}}" DeleteTemplateSlideCommand="{Binding Data.DeleteTemplateSlideCommand, Source={StaticResource vmProxy}}" EnableContextMenuOptions="{Binding Data.EnableContextMenuOptions, Source={StaticResource themePickerUISelfProxy}}" IsMediaActionEnabled="{Binding Data.IsMediaActionEnabled, Source={StaticResource themePickerUISelfProxy}}" SelectTemplateCommand="{Binding Data.ThemePickerSelectTemplateCommand, Source={StaticResource themePickerUISelfProxy}}" SelectedTemplate="{Binding Data.SelectedTemplate, Source={StaticResource themePickerUISelfProxy}}" TemplateSlideTooltipText="{Binding Data.TemplateSlideTooltipText, Source={StaticResource themePickerUISelfProxy}}" />
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </ContentControl>
+        <Grid Row="2" Margin="0,0,0,4" Visibility="{Binding ElementName=themePickerUISelf, Path=ShowOptions, Converter={StaticResource ValueToVisibilityConverter}}">
+          <Grid Row="1" Visibility="{Binding ViewType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static DO:ViewType.Detail}}">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Separator Grid.Row="0" Margin="8,0">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type Separator}}" TargetType="{x:Type Separator}">
+                  <Setter Property="Visibility" Value="{Binding ThemeTree.Children.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+                  <Style.Triggers>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Value="Collapsed" Binding="{Binding Visibility, ElementName=RemoveTemplateBorder}" />
+                        <Condition Value="Collapsed" Binding="{Binding Visibility, ElementName=AddBlankSlideButton}" />
+                      </MultiDataTrigger.Conditions>
+                      <Setter Property="Visibility" Value="Collapsed" />
+                    </MultiDataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </Separator>
+            <Border Name="RemoveTemplateBorder" Grid.Row="1" Visibility="{Binding ElementName=themePickerUISelf, Path=SelectedTemplate, Converter={commonConverters:IsNotNullToVisibilityConverter}}">
+              <Button Height="22" Margin="8,4" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Left" Background="#00FFFFFF" Style="{StaticResource {x:Static themes:Styles.TextButton}}" Command="{Binding ElementName=themePickerUISelf, Path=ThemePickerSelectTemplateCommand}" CommandParameter="{x:Null}" Content="{Binding ElementName=themePickerUISelf, Path=RemoveSelectedTemplateHeader}" Foreground="{Binding ONPRIMARY, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding ElementName=themePickerUISelf, Path=CanRemoveSelectedTemplate, Converter={StaticResource ValueToVisibilityConverter}}" />
+            </Border>
+            <Border Grid.Row="2" Visibility="{Binding ThemeTree.Children.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}">
+              <Separator Margin="0" Visibility="{Binding ElementName=themePickerUISelf, Path=SelectedTemplate, Converter={commonConverters:IsNotNullToVisibilityConverter}}" />
+            </Border>
+            <Button Name="AddBlankSlideButton" Grid.Row="3" Height="22" Margin="8,4" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Left" Background="#00FFFFFF" Style="{StaticResource {x:Static themes:Styles.TextButton}}" Command="{Binding ElementName=themePickerUISelf, Path=ThemePickerSelectTemplateCommand}" CommandParameter="{Binding ElementName=themePickerUISelf, Path=AddNewSlideTemplate}" Content="{mex:Localized THEMES_MENU_ADD_NEW_BLANK_SLIDE}" Foreground="{Binding ONPRIMARY, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding ElementName=themePickerUISelf, Path=AddNewSlideTemplate, Converter={commonConverters:IsNotNullToVisibilityConverter}}" />
+          </Grid>
+        </Grid>
+        <Grid Visibility="{Binding ThemeTree.Children.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Button Grid.Row="1" Height="22" Margin="8,4" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Left" Background="#00FFFFFF" Style="{StaticResource {x:Static themes:Styles.TextButton}}" Command="{Binding NewThemeCommand}" Content="{mex:Localized THEMES_MENU_NEW_THEME_title}" Foreground="{Binding ONPRIMARY, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding ThemeTree.Children.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}" />
+        </Grid>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

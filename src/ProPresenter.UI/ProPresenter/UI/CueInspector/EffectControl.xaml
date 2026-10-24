@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.EffectControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:description="clr-namespace:Pro.DO.Effects.Descriptions;assembly=Pro.DO" xmlns:effectsDO="clr-namespace:Pro.DO.Effects;assembly=Pro.DO" xmlns:effectsParams="clr-namespace:ProPresenter.UI.CueInspector.EffectParametersControl" xmlns:local="clr-namespace:ProPresenter.UI.CueInspector" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../SourceDetailListResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="effectsproxy" Data="{Binding ElementName=self}" />
+      <commonUtility:BindingProxy x:Key="effectsVMProxy" Data="{Binding}" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <ContextMenu x:Key="EditEffectsContextMenu" UsesItemContainerTemplate="True" Style="{StaticResource {x:Type ContextMenu}}" Width="{Binding Data.ActualWidth, Source={StaticResource effectsproxy}}" Height="{Binding Data.ActualHeight, Source={StaticResource effectsproxy}}" Opened="EffectsMenu_Opened">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type description:EffectDescription}}">
+              <MenuItem Header="{Binding DisplayName}" Click="UpdateEffect" />
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <MenuItem DataContext="{x:Null}" Header="{mex:Localized CUE_INSPECTOR_EFFECTS_TAB_MENU_REMOVE_EFFECT_title}" Click="RemoveEffect" />
+            <Separator />
+            <CollectionContainer Collection="{Binding Data.AvailableEffects, Source={StaticResource effectsVMProxy}}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <ContextMenu x:Key="AddEffectContextMenu" UsesItemContainerTemplate="True" Style="{StaticResource {x:Type ContextMenu}}" Width="{Binding Data.ActualWidth, Source={StaticResource effectsproxy}}" Height="{Binding Data.ActualHeight, Source={StaticResource effectsproxy}}" ItemsSource="{Binding Data.AvailableEffects, Source={StaticResource effectsVMProxy}}" Opened="EffectsMenu_Opened">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type description:EffectDescription}}">
+              <MenuItem Header="{Binding DisplayName}" Click="UpdateEffect" />
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ContextMenu>
+      <Style x:Key="MenuItemHasEffectsStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+          <DataTrigger Value="0" Binding="{Binding MediaEffects.Count}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="SeparatorHasEffectsStyle" BasedOn="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}" TargetType="{x:Type Separator}">
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+          <DataTrigger Value="0" Binding="{Binding MediaEffects.Count}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="RemoveAllEffectStyle" BasedOn="{StaticResource MenuItemHasEffectsStyle}" TargetType="{x:Type MenuItem}">
+        <EventSetter Event="Click" Handler="RemoveAllEffects" />
+      </Style>
+      <Style x:Key="UnlinkPresetStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.UnlinkPresetCommand, Source={StaticResource effectsVMProxy}}" />
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding MediaEffects.ID}" Value="{x:Null}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="SaveStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding MediaEffects.ID}" Value="{x:Null}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+          <DataTrigger Value="False" Binding="{Binding MediaEffects.HasChanges}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+        </Style.Triggers>
+        <EventSetter Event="Click" Handler="SaveToSelectedEffectsPreset" />
+      </Style>
+      <Style x:Key="SaveAsStyle" BasedOn="{StaticResource MenuItemHasEffectsStyle}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.SaveAsNewEffectPresetCommand, Source={StaticResource effectsVMProxy}}" />
+      </Style>
+      <Style x:Key="EffectParamsStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Header" Value="{Binding EffectDescription.Name}" />
+        <Setter Property="IsEnabled" Value="False" />
+      </Style>
+      <ContextMenu x:Key="EffectPresetMenu" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <CollectionViewSource x:Key="PresetCollection" Source="{Binding Data.PresetCollection, Source={StaticResource effectsVMProxy}}" />
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type media:EffectsCollection}}">
+              <MenuItem HorizontalAlignment="Stretch" VerticalAlignment="Center" uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" Command="{Binding Data.SetEffectsPresetCommand, Source={StaticResource effectsVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}" ItemContainerStyleSelector="{Binding Data.EffectParamsStyleSelector, Source={StaticResource effectsproxy}}">
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="ID" />
+                    <Binding Path="Data.MediaEffects.ID" Source="{StaticResource effectsVMProxy}" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <commonUtility:BindingProxy x:Key="effectParamsProxy" Data="{Binding}" />
+                    <CollectionViewSource x:Key="effectParams" Source="{Binding Data, Source={StaticResource effectParamsProxy}}" />
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <ItemsControl.ItemsSource>
+                  <CompositeCollection>
+                    <CollectionContainer Collection="{Binding Source={StaticResource effectParams}}" />
+                    <Separator />
+                    <MenuItem Command="{Binding Data.RemoveEffectsPresetCommand, Source={StaticResource effectsVMProxy}}" CommandParameter="{Binding Data, Source={StaticResource effectParamsProxy}}" Header="{mex:Localized GLOBAL_DELETE_title}" />
+                    <MenuItem Command="{Binding Data.RenameEffectsPresetCommand, Source={StaticResource effectsVMProxy}}" CommandParameter="{Binding Data, Source={StaticResource effectParamsProxy}}" Header="{mex:Localized GLOBAL_RENAME_MENU_ITEM_title}" />
+                  </CompositeCollection>
+                </ItemsControl.ItemsSource>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <MenuItem Style="{StaticResource RemoveAllEffectStyle}" Header="{mex:Localized CUE_INSPECTOR_EFFECTS_TAB_PRESET_MENU_CLEAR_EFFECTS_title}" />
+            <Separator Style="{StaticResource SeparatorHasEffectsStyle}" />
+            <MenuItem Style="{StaticResource UnlinkPresetStyle}" Header="{mex:Localized CUE_INSPECTOR_EFFECTS_TAB_PRESET_MENU_UNLINK_PRESET_title}" />
+            <MenuItem Style="{StaticResource SaveStyle}" Header="{mex:Localized GLOBAL_SAVE}" />
+            <MenuItem Style="{StaticResource SaveAsStyle}" Header="{mex:Localized CUE_INSPECTOR_EFFECTS_TAB_PRESET_MENU_SAVE_AS_title}" />
+            <Separator Style="{StaticResource SeparatorHasEffectsStyle}" />
+            <CollectionContainer Collection="{Binding Source={StaticResource PresetCollection}}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" MinWidth="80" MaxWidth="200" SharedSizeGroup="CIPropertiesLabelColumnGroup" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized CUE_INSPECTOR_EFFECTS_TAB_PRESET_label}" />
+    <Button Name="EffectsPresetBtn" Grid.Row="0" Grid.Column="1" Height="22" Margin="0,0,0,10" HorizontalAlignment="Stretch" VerticalAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+      <ContentControl.Content>
+        <TextBlock TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Text" Value="{Binding MediaEffects.Name}" />
+              <Style.Triggers>
+                <DataTrigger Value="True" Binding="{Binding MediaEffects.HasChanges}">
+                  <Setter Property="Text" Value="{Binding MediaEffects.Name, StringFormat={}{0}*}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding MediaEffects.ID}" Value="{x:Null}">
+                  <Setter Property="Text" Value="{mex:Localized CUE_INSPECTOR_EFFECTS_TAB_PRESET_NO_SELECTION_label}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+      </ContentControl.Content>
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+          <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource EffectPresetMenu}" />
+          <Style.Triggers>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Value="0" Binding="{Binding MediaEffects.Count}" />
+                <Condition Value="0" Binding="{Binding PresetCollection.Count}" />
+              </MultiDataTrigger.Conditions>
+              <Setter Property="FrameworkElement.ContextMenu" Value="{x:Null}" />
+            </MultiDataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Button>
+    <commonControls:LastItemExpander Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,3">
+      <local:EffectsListBox x:Name="EffectsList" RequestBringIntoView="EffectsList_RequestBringIntoView" Margin="0,0,0,3" HorizontalContentAlignment="Stretch" BorderThickness="0" DeselectOnLostFocus="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Extended" Style="{StaticResource {x:Type ListBox}}" VirtualizingPanel.ScrollUnit="Pixel" Effects="{Binding MediaEffects}" ItemsSource="{Binding MediaEffects}" SelectedListItems="{Binding SelectedEffects}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type effectsDO:EffectParameters}}" DataType="{x:Type effectsDO:EffectParameters}">
+              <Border BorderThickness="1" CornerRadius="2">
+                <Grid HorizontalAlignment="Stretch">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                  </Grid.RowDefinitions>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <CheckBox Name="EffectControlVisibilityCheckBox" Margin="2" VerticalContentAlignment="Center" Content="{Binding EffectDescription.DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                  <Button Grid.Column="1" Margin="0,0,3,0" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Cursor="Hand" ContextMenu="{StaticResource EditEffectsContextMenu}">
+                    <Control.Template>
+                      <ControlTemplate>
+                        <commonControls:PathControl Width="8" HorizontalAlignment="Right" Fill="{TemplateBinding Control.Foreground}" PathType="DownArrow" Stroke="{TemplateBinding Control.Foreground}" />
+                      </ControlTemplate>
+                    </Control.Template>
+                  </Button>
+                  <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                    <FrameworkElement.Style>
+                      <Style BasedOn="{StaticResource {x:Type Separator}}" TargetType="{x:Type Separator}">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                          <DataTrigger Value="True" Binding="{Binding IsChecked, ElementName=EffectControlVisibilityCheckBox}">
+                            <Setter Property="Margin" Value="5,5,5,2" />
+                            <Setter Property="Visibility" Value="Visible" />
+                          </DataTrigger>
+                          <DataTrigger Value="0" Binding="{Binding EffectDescription.Parameters.Count}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </Separator>
+                  <effectsParams:EffectParametersCollectionControl Grid.Row="2" Grid.ColumnSpan="2" EffectParameters="{Binding}">
+                    <FrameworkElement.Style>
+                      <Style TargetType="{x:Type effectsParams:EffectParametersCollectionControl}">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                          <DataTrigger Value="True" Binding="{Binding IsChecked, ElementName=EffectControlVisibilityCheckBox}">
+                            <Setter Property="Margin" Value="4,0,10,0" />
+                            <Setter Property="Visibility" Value="Visible" />
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </effectsParams:EffectParametersCollectionControl>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemContainerStyle>
+          <Style BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+            <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+        <Control.Template>
+          <ControlTemplate TargetType="{x:Type ListBox}">
+            <Border Name="Bd" Padding="{TemplateBinding Control.Padding}" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" SnapsToDevicePixels="True">
+              <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+            </Border>
+          </ControlTemplate>
+        </Control.Template>
+      </local:EffectsListBox>
+      <commonControls:BorderlessPathButton MinHeight="16" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" ContextMenu="{StaticResource AddEffectContextMenu}" Cursor="Hand" PathType="Plus" Background="{Binding Background, ElementName=EffectsList}" ToolTip="{mex:Localized CUE_INSPECTOR_EFFECTS_TAB_ADD_EFFECT_tooltip}" />
+    </commonControls:LastItemExpander>
+  </Grid>
+</UserControl>

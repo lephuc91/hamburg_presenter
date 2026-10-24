@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MenuItem x:Class="ProPresenter.UI.Preview.WindowedOutputMenuItem" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:components="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:vms="clr-namespace:ProPresenter.UI.ViewModels.Preview" x:Name="windowedOutputMenuItem" Style="{StaticResource {x:Type MenuItem}}" xmlns:preview="clr-namespace:ProPresenter.UI.Preview" DataContext="{Binding Source={di:DIMarkup {x:Type vms:IWindowedOutputVM}}}" Header="{mex:Localized NEW_WINDOWED_OUTPUT_title}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="WindowedOutputVMProxy" Data="{Binding}" />
+      <Style x:Key="PreviewHeaderMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="MenuItem.IsCheckable" Value="False" />
+        <Setter Property="IsEnabled" Value="False" />
+      </Style>
+      <Style x:Key="ScreenMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type controls:RoutedMenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Command}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="Header" Value="{Binding Name}" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ItemsControl.ItemsSource>
+    <components:FrameworkCollection>
+      <MenuItem Style="{StaticResource PreviewHeaderMenuItemStyle}" Header="{mex:Localized GLOBAL_AUDIENCE_title}" />
+      <components:FrameworkCollectionWrapper BoundCollection="{Binding Path=Data.AudienceScreens, Source={StaticResource WindowedOutputVMProxy}}">
+        <components:FrameworkCollectionWrapper.BoundDataTemplate>
+          <DataTemplate>
+            <controls:RoutedMenuItem Style="{StaticResource ScreenMenuItemStyle}" />
+          </DataTemplate>
+        </components:FrameworkCollectionWrapper.BoundDataTemplate>
+      </components:FrameworkCollectionWrapper>
+      <MenuItem Style="{StaticResource PreviewHeaderMenuItemStyle}" Header="{mex:Localized GLOBAL_STAGE_title}" />
+      <components:FrameworkCollectionWrapper BoundCollection="{Binding Path=Data.StageScreens, Source={StaticResource WindowedOutputVMProxy}}">
+        <components:FrameworkCollectionWrapper.BoundDataTemplate>
+          <DataTemplate>
+            <controls:RoutedMenuItem Style="{StaticResource ScreenMenuItemStyle}" />
+          </DataTemplate>
+        </components:FrameworkCollectionWrapper.BoundDataTemplate>
+      </components:FrameworkCollectionWrapper>
+    </components:FrameworkCollection>
+  </ItemsControl.ItemsSource>
+</MenuItem>

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ThumbnailOverlay.CloudMissingMedia" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.ThumbnailOverlay" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=Propresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:thumbnails="clr-namespace:ProPresenter.UI.ViewModels.Thumbnails" x:Name="cloudMissingMedia" Background="#00FFFFFF">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+      <local:ShouldShowTextValueConverter x:Key="ShouldShowTextValueConverter" />
+      <Style x:Key="{x:Type local:CloudMissingMedia}" TargetType="{x:Type local:CloudMissingMedia}">
+        <Setter Property="local:CloudMissingMedia.Command" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="FrameworkElement.ToolTip" Value="{x:Null}" />
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Local}" Binding="{Binding InvalidMediaType.Value}" />
+              <Condition Value="{x:Static media:MediaAvailability.Missing}" Binding="{Binding CloudMediaAvailability.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="local:CloudMissingMedia.Command" Value="{Binding RelinkCommand}" />
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_CONTEXT_MENU_LINK_MEDIA_win_title}" />
+          </MultiDataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="False" Binding="{Binding Path=AllowOpenVideoInputSetup, RelativeSource={RelativeSource Self}}" />
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Device}" Binding="{Binding InvalidMediaType.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="FrameworkElement.ToolTip" Value="{x:Null}" />
+          </MultiDataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding Path=AllowOpenVideoInputSetup, RelativeSource={RelativeSource Self}}" />
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Device}" Binding="{Binding InvalidMediaType.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="local:CloudMissingMedia.Command" Value="{Binding ReconnectVideoInputCommand}" />
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_MEDIA_ACTION_CONFIGURE_VIDEO_INPUT_tooltip}" />
+          </MultiDataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Self}}" />
+              <Condition Value="True" Binding="{Binding Path=Command, RelativeSource={RelativeSource Self}, Converter={StaticResource IsNotNullToBoolConverter}}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Foreground" Value="{Binding BORDERLESSBUTTON_HOVER_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+          </MultiDataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Remote}" Binding="{Binding InvalidMediaType.Value}" />
+              <Condition Value="{x:Static media:MediaAvailability.Missing}" Binding="{Binding CloudMediaAvailability.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_IN_PROGRESS_title}" />
+          </MultiDataTrigger>
+          <DataTrigger Value="{x:Static media:MediaAvailability.Downloading}" Binding="{Binding CloudMediaAvailability.Value}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_IN_PROGRESS_title}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="{x:Type local:MissingMediaRing}" TargetType="{x:Type local:MissingMediaRing}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Local}" Binding="{Binding InvalidMediaType.Value}" />
+              <Condition Value="{x:Static media:MediaAvailability.Missing}" Binding="{Binding CloudMediaAvailability.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Visibility" Value="Visible" />
+          </MultiDataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="False" Binding="{Binding IsValid.Value}" />
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Device}" Binding="{Binding InvalidMediaType.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Visibility" Value="Visible" />
+          </MultiDataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="{x:Type commonControls:DownloadInProgressIndicator}" TargetType="{x:Type commonControls:DownloadInProgressIndicator}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Remote}" Binding="{Binding InvalidMediaType.Value}" />
+              <Condition Value="{x:Static media:MediaAvailability.Missing}" Binding="{Binding CloudMediaAvailability.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Visibility" Value="Visible" />
+          </MultiDataTrigger>
+          <DataTrigger Value="{x:Static media:MediaAvailability.Downloading}" Binding="{Binding CloudMediaAvailability.Value}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="StatusTextStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="UIElement.Effect" Value="{StaticResource DefaultDropShadowEffect}" />
+        <Setter Property="Foreground" Value="{Binding LIGHTCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Local}" Binding="{Binding InvalidMediaType.Value}" />
+              <Condition Value="{x:Static media:MediaAvailability.Missing}" Binding="{Binding CloudMediaAvailability.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_RELINK_MEDIA_title}" />
+          </MultiDataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="{x:Static thumbnails:InvalidMediaType.Remote}" Binding="{Binding InvalidMediaType.Value}" />
+              <Condition Value="{x:Static media:MediaAvailability.Missing}" Binding="{Binding CloudMediaAvailability.Value}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_IN_PROGRESS_title}" />
+          </MultiDataTrigger>
+          <DataTrigger Value="{x:Static media:MediaAvailability.Downloading}" Binding="{Binding CloudMediaAvailability.Value}">
+            <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_IN_PROGRESS_title}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition local:RingGridRowHelper.RingRowMargin="{Binding Path=RingSize, RelativeSource={RelativeSource AncestorType={x:Type local:CloudMissingMedia}}}" />
+      <RowDefinition local:RingGridRowHelper.RingRow="{Binding Path=RingSize, RelativeSource={RelativeSource AncestorType={x:Type local:CloudMissingMedia}}}" />
+      <RowDefinition>
+        <FrameworkContentElement.Style>
+          <Style TargetType="{x:Type RowDefinition}">
+            <Setter Property="Height" Value="{x:Static local:OverlayGridHeightConstants.RingTextRowHeight}" />
+            <Style.Triggers>
+              <DataTrigger Value="False">
+                <DataTrigger.Binding>
+                  <MultiBinding Converter="{StaticResource ShouldShowTextValueConverter}">
+                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Grid}" />
+                    <Binding ElementName="cloudMissingMedia" Path="ShowText" />
+                    <Binding Path="InvalidMediaType.Value" />
+                  </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter Property="Height" Value="0" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkContentElement.Style>
+      </RowDefinition>
+      <RowDefinition local:RingGridRowHelper.RingRowMargin="{Binding Path=RingSize, RelativeSource={RelativeSource AncestorType={x:Type local:CloudMissingMedia}}}" />
+    </Grid.RowDefinitions>
+    <Grid Name="IconGrid" Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Border Name="BackgroundBorder" Opacity="0.2">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:CloudMissingMedia}}}" />
+          </Style>
+        </FrameworkElement.Style>
+      </Border>
+      <Grid Name="ContentGrid" SizeChanged="ContentGrid_SizeChanged">
+        <local:MissingMediaRing Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:CloudMissingMedia}}}" />
+        <commonControls:DownloadInProgressIndicator ContentMargin="20" />
+      </Grid>
+    </Grid>
+    <Viewbox Grid.Row="2" Stretch="Uniform" StretchDirection="Both">
+      <TextBlock Margin="0,8,0,0" Style="{StaticResource StatusTextStyle}" TextOptions.TextFormattingMode="Ideal" />
+    </Viewbox>
+  </Grid>
+</UserControl>

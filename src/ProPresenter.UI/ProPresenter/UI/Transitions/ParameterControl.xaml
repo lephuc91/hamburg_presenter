@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Transitions.ParameterControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Transitions" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:parameters="clr-namespace:ProPresenter.UI.Transitions.Parameters" x:Name="parameterControlSelf" Background="#00FFFFFF">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:TimeSliceToDoubleSecondConverter x:Key="TimeSliceToDoubleSecondConverter" RoundDecimalPlace="1" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <ItemsControl Grid.Row="0" HorizontalAlignment="Stretch">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ItemsControl}">
+            <Setter Property="ItemsSource" Value="{Binding TransitionHandler.ActiveParameters.EffectDescription.Parameters, ElementName=parameterControlSelf}" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding TransitionHandler.ActiveTransition, ElementName=parameterControlSelf}" Value="{x:Null}">
+                <Setter Property="ItemsSource" Value="{x:Null}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <ItemsControl.ItemTemplateSelector>
+          <local:ParameterControlTemplateSelector />
+        </ItemsControl.ItemTemplateSelector>
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <DataTemplate x:Key="IntParamControlTemplate">
+              <parameters:IntParameterControl Margin="0,0,0,5" Description="{Binding}" Parameters="{Binding TransitionHandler.ActiveParameters, ElementName=parameterControlSelf}" />
+            </DataTemplate>
+            <DataTemplate x:Key="FloatParamControlTemplate">
+              <parameters:FloatParameterControl Margin="0,0,0,5" Description="{Binding}" Parameters="{Binding TransitionHandler.ActiveParameters, ElementName=parameterControlSelf}" />
+            </DataTemplate>
+            <DataTemplate x:Key="ColorParamControlTemplate">
+              <parameters:ColorParameterControl Margin="0,0,0,5" Description="{Binding}" Parameters="{Binding TransitionHandler.ActiveParameters, ElementName=parameterControlSelf}" />
+            </DataTemplate>
+            <DataTemplate x:Key="DirectionParamControlTemplate">
+              <parameters:DirectionParameterControl Margin="0,0,0,5" Description="{Binding}" Parameters="{Binding TransitionHandler.ActiveParameters, ElementName=parameterControlSelf}" />
+            </DataTemplate>
+            <DataTemplate x:Key="DoubleParamControlTemplate">
+              <parameters:DoubleParameterControl Margin="0,0,0,5" Description="{Binding}" Parameters="{Binding TransitionHandler.ActiveParameters, ElementName=parameterControlSelf}" />
+            </DataTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ItemsControl>
+      <Grid Row="1">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Value="false" Binding="{Binding TransitionHandler.ActiveParameters.SupportsDuration, ElementName=parameterControlSelf}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="100" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized TRANSITIONS_DURATION_label}" />
+        <Slider Name="DurationSlider" Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontSize="8" Maximum="5.0" Minimum="0" TickFrequency="0.1" TickPlacement="None" Value="{Binding TransitionHandler.ActiveParameters.Duration, ElementName=parameterControlSelf, Mode=TwoWay, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" />
+        <commonControls:DoubleUpDown Grid.Column="2" Width="50" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" FormatString="F1" Increment="0.1" Maximum="30.0" Minimum="0" ShowButtonSpinner="True" Value="{Binding TransitionHandler.ActiveParameters.Duration, ElementName=parameterControlSelf, Mode=TwoWay, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" />
+      </Grid>
+    </Grid>
+    <Button Grid.Row="1" Width="180" Height="22" Margin="0,5" Padding="5,0" Content="{mex:Localized GLOBAL_RESET_TO_DEFAULT_title}" Visibility="{Binding TransitionHandler.ActiveParameters.SupportsDuration, ElementName=parameterControlSelf, Converter={StaticResource ValueToVisibilityConverter}}" Click="ResetParamBtn_Click" />
+  </Grid>
+</UserControl>

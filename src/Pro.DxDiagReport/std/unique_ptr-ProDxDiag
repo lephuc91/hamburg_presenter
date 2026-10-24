@@ -1,0 +1,26 @@
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+namespace std;
+
+[StructLayout(LayoutKind.Sequential, Size = 8)]
+[NativeCppClass]
+internal struct unique_ptr_003CProDxDiag_003A_003ADxDataReader_002Cstd_003A_003Adefault_delete_003CProDxDiag_003A_003ADxDataReader_003E_0020_003E
+{
+	private long _003Calignment_0020member_003E;
+
+	[SpecialName]
+	public unsafe static void _003CMarshalCopy_003E(unique_ptr_003CProDxDiag_003A_003ADxDataReader_002Cstd_003A_003Adefault_delete_003CProDxDiag_003A_003ADxDataReader_003E_0020_003E* A_0, unique_ptr_003CProDxDiag_003A_003ADxDataReader_002Cstd_003A_003Adefault_delete_003CProDxDiag_003A_003ADxDataReader_003E_0020_003E* A_1)
+	{
+		if (A_0 != null)
+		{
+			global::_003CModule_003E.std_002Eunique_ptr_003CProDxDiag_003A_003ADxDataReader_002Cstd_003A_003Adefault_delete_003CProDxDiag_003A_003ADxDataReader_003E_0020_003E_002E_007Bctor_007D_003Cstruct_0020std_003A_003Adefault_delete_003Cclass_0020ProDxDiag_003A_003ADxDataReader_003E_002C0_003E(A_0, A_1);
+		}
+	}
+
+	[SpecialName]
+	public unsafe static void _003CMarshalDestroy_003E(unique_ptr_003CProDxDiag_003A_003ADxDataReader_002Cstd_003A_003Adefault_delete_003CProDxDiag_003A_003ADxDataReader_003E_0020_003E* A_0)
+	{
+		global::_003CModule_003E.std_002Eunique_ptr_003CProDxDiag_003A_003ADxDataReader_002Cstd_003A_003Adefault_delete_003CProDxDiag_003A_003ADxDataReader_003E_0020_003E_002E_007Bdtor_007D(A_0);
+	}
+}

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Bibles.BibleKeywordSearchResult" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:localConverters="clr-namespace:ProPresenter.UI.Bibles.Converters" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="bibleSearch" xmlns:bibles="clr-namespace:ProPresenter.UI.Bibles" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="bibleSearchVMProxy" Data="{Binding}" />
+      <localConverters:VerseContentToFormattedContentConverter x:Key="VerseContentToFormattedContentConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Border>
+      <ListView Width="500" Height="400" Margin="2" HorizontalContentAlignment="Stretch" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding LIST_BORDER, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding LISTITEM_CONTENT, Source={x:Static theming:AppTheme.Active}}" ItemsSource="{Binding SearchResults}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <VirtualizingStackPanel />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                  <ContentPresenter />
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border HorizontalAlignment="Stretch" BorderThickness="0,1,0,0" BorderBrush="{Binding BUTTON_BORDER, Source={x:Static theming:AppTheme.Active}}">
+              <Grid Name="ContentGrid" Margin="4" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Row="0" HorizontalAlignment="Stretch">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="{Binding PassageText}" />
+                  <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Height="22" Margin="0,0,4,0" Padding="10,0" Command="{Binding Data.SelectSearchVerseCommand, Source={StaticResource bibleSearchVMProxy}}" CommandParameter="{Binding}" Content="{mex:Localized BIBLE_VERSE_title}" />
+                    <Button Height="22" Margin="4,0,0,0" Padding="10,0" Command="{Binding Data.SelectSearchChapterCommand, Source={StaticResource bibleSearchVMProxy}}" CommandParameter="{Binding}" Content="{mex:Localized BIBLE_CHAPTER_title}" />
+                  </StackPanel>
+                </Grid>
+                <commonControls:BindableTextBlock Grid.Row="1" Margin="15,0,0,0" HorizontalAlignment="Stretch" TextWrapping="WrapWithOverflow" Runs="{Binding Converter={StaticResource VerseContentToFormattedContentConverter}}" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ListView>
+    </Border>
+    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" TextAlignment="Center" Text="{mex:Localized BIBLE_HEADER_NO_SEARCH_RESULTS_label}" Visibility="{Binding AnySearchResults, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+    <commonControls:LoadingIndicator Width="100" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center" DisplayMode="Spinner" Visibility="{Binding SearchInProgress, Converter={StaticResource ValueToVisibilityConverter}}" />
+  </Grid>
+</UserControl>

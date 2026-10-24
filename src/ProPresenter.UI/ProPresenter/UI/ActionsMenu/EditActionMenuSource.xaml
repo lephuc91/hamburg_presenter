@@ -1,0 +1,546 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<components:FrameworkCollection x:Class="ProPresenter.UI.ActionsMenu.EditActionMenuSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actions="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" xmlns:actionsDO="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:analytics="clr-namespace:ProPresenter.DO.Analytics;assembly=ProPresenter.DO" xmlns:audioDO="clr-namespace:ProPresenter.DO.Audio;assembly=ProPresenter.DO" xmlns:capture="clr-namespace:ProPresenter.UI.ActionsMenu.Capture" xmlns:captureActions="clr-namespace:ProPresenter.DO.Actions.Capture;assembly=ProPresenter.DO" xmlns:captureAnalytics="clr-namespace:ProPresenter.DO.Analytics.Events.Capture;assembly=ProPresenter.DO" xmlns:captureDO="clr-namespace:ProPresenter.DO.Capture;assembly=ProPresenter.DO" xmlns:clearGroups="clr-namespace:ProPresenter.DO.ClearGroups;assembly=ProPresenter.DO" xmlns:clearGroupsUI="clr-namespace:ProPresenter.UI.ClearGroups" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:communication="clr-namespace:ProPresenter.DO.Communication;assembly=ProPresenter.DO" xmlns:components="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:controller="clr-namespace:ProPresenter.Controller.Outputs;assembly=ProPresenter.Controller" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:deviceDO="clr-namespace:ProPresenter.DO.Communication.Devices;assembly=ProPresenter.DO" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:liveVideoDO="clr-namespace:ProPresenter.DO.LiveVideo;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.ActionsMenu" xmlns:looksDO="clr-namespace:ProPresenter.DO.Looks;assembly=ProPresenter.DO" xmlns:macroGroups="clr-namespace:ProPresenter.DO.MacroGroups;assembly=ProPresenter.DO" xmlns:macros="clr-namespace:ProPresenter.DO.Macros;assembly=ProPresenter.DO" xmlns:mediaLibrary="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:messagesDO="clr-namespace:ProPresenter.DO.Messages;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:props="clr-namespace:ProPresenter.UI.Props" xmlns:propsDO="clr-namespace:ProPresenter.DO.Props;assembly=ProPresenter.DO" xmlns:system="clr-namespace:System;assembly=System.Runtime" xmlns:timersDO="clr-namespace:ProPresenter.DO.Timer;assembly=ProPresenter.DO" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="editActionMenuSource">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="ActionTargetCollectionResource.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="actionMenuVMProxy" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="editActionMenuSourceProxy" Data="{Binding ElementName=editActionMenuSource}" />
+      <local:ActionDataIsCheckedConverter x:Key="ActionDataIsCheckedConverter" />
+      <converters:PlaylistMenuItemConverter x:Key="PlaylistMenuItemConverter" />
+      <mediaLibrary:MediaActionMenuSource x:Key="MediaActionMenuSource" MediaAction="{Binding Data.MediaAction, Source={StaticResource editActionMenuSourceProxy}}" SetAlphaTypeCommand="{Binding Data.SetAlphaTypeCommand, Source={StaticResource actionMenuVMProxy}}" SetEndBehaviorTypeCommand="{Binding Data.SetEndBehaviorTypeCommand, Source={StaticResource actionMenuVMProxy}}" SetMediaScaleBehaviorCommand="{Binding Data.SetMediaScaleBehaviorCommand, Source={StaticResource actionMenuVMProxy}}" SetMediaTargetLayerCommand="{Binding Data.ChangeMediaCueBehaviorCommand, Source={StaticResource actionMenuVMProxy}}" SetPlaybackBehaviorCommand="{Binding Data.SetPlaybackBehaviorCommand, Source={StaticResource actionMenuVMProxy}}" SetSoftLoopDurationCommand="{Binding Data.SetSoftLoopDurationCommand, Source={StaticResource actionMenuVMProxy}}" />
+      <CompositeCollection x:Key="EditMediaActionSource">
+        <commonControls:RoutedMenuItem Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.MediaAction, Source={StaticResource editActionMenuSourceProxy}, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" Visibility="{Binding Data.MediaActionPresent, Source={StaticResource actionMenuVMProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <Separator />
+        <CollectionContainer Collection="{StaticResource MediaActionMenuSource}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.ConvertMediaCueCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_CONVERT_MEDIA_title}" Visibility="{Binding Data.CanConvertMediaToSlideElement, Source={StaticResource actionMenuVMProxy}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <MenuItem Command="{Binding Data.RelinkCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_LINK_MEDIA_win_title}" Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <MenuItem Command="{Binding Data.DownloadCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_DOWNLOAD_MEDIA_title}" Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <MenuItem Command="{Binding Data.CancelDownloadCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_CANCEL_DOWNLOAD_title}" Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.ShowInFileExplorerCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding Data.MediaAction, Source={StaticResource editActionMenuSourceProxy}}" Header="{mex:Localized GLOBAL_SHOW_IN_FINDER_MENU_ITEM_windows_title}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="Visibility" Value="Visible" />
+              <Style.Triggers>
+                <DataTrigger Value="LiveVideo" Binding="{Binding Data.MediaAction.Media.MediaType, Source={StaticResource editActionMenuSourceProxy}}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Value="False" Binding="{Binding Data.MediaAction.Media.IsValid, Source={StaticResource editActionMenuSourceProxy}}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Value="False" Binding="{Binding Data.MediaAction.Media.IsValid, Source={StaticResource editActionMenuSourceProxy}}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </MenuItem>
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding Data.MediaAction, Source={StaticResource editActionMenuSourceProxy}}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+              <Binding Path="Data.RefreshActionData" Source="{StaticResource actionMenuVMProxy}" />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+      </CompositeCollection>
+      <CompositeCollection x:Key="AvailableVideoInputCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource AvailableVideoInputs}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding Data.MediaAction, Source={StaticResource editActionMenuSourceProxy}}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator Visibility="{Binding Count, Source={StaticResource AvailableVideoInputs}, Converter={StaticResource CountToVisibilityConverter}}" />
+        <MenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding ProMenu.Input.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized GLOBAL_VIDEO_INPUT_SETUP_BUTTON_title}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="AudioInputCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource AudioInputs}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator />
+        <MenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding ProMenu.Input.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized AUDIO_INPUT_ACTION_POPOVER_OPEN_INPUTS_MENU_ITEM_title}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="DeviceCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource Devices}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator />
+        <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ProMenu.Devices.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_DEVICES_title}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="PropGroupCollectionEdit">
+        <CollectionContainer Collection="{Binding PropGroupCollection, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator Visibility="{Binding PropGroupCollection.Count, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}, Converter={StaticResource CountToVisibilityConverter}}" />
+        <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Props.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_PROPS_title}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="AudioPlaylistsCollectionEdit">
+        <CollectionContainer Collection="{Binding AudioPlaylists, Source={di:DIMarkup {x:Type do:IProPresenterResourceService}}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+      </CompositeCollection>
+      <CompositeCollection x:Key="VisualPlaylistCollectionEdit">
+        <CollectionContainer Collection="{Binding Data.MediaPlaylists, Source={StaticResource actionMenuVMProxy}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+      </CompositeCollection>
+      <CompositeCollection x:Key="MacroGroupCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource MacroGroups}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator Visibility="{Binding Count, Source={StaticResource MacroGroups}, Converter={StaticResource CountToVisibilityConverter}}" />
+        <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Macros.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_MACROS_title}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="ClearGroupCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource ClearGroups}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator />
+        <Separator Visibility="{Binding Count, Source={StaticResource ClearGroups}, Converter={StaticResource CountToVisibilityConverter}}" />
+        <MenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" CommandParameter="{x:Static analytics:ClearGroupShownSource.ActionMenu}" Command="{Binding PresentationMenu.OpenClearGroups.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" />
+      </CompositeCollection>
+      <ObjectDataProvider x:Key="CaptureType" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="captureActions:CaptureType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <CompositeCollection x:Key="CaptureTypeCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource CaptureType}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator />
+        <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" CommandParameter="{x:Static captureAnalytics:CaptureShownSource.ActionContextMenu}" Command="{Binding ScreensMenu.CaptureSettings.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized RECORDING_BUTTON_CONTEXT_MENU_CAPTURE_SETTINGS_title}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="TimerCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource Timers}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator Visibility="{Binding Count, Source={StaticResource Timers}, Converter={StaticResource CountToVisibilityConverter}}" />
+        <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Timers.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_TIMER_OPEN_TIMERS_title}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="StageCollectionEdit">
+        <MenuItem Command="{Binding Data.EditActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Edit}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+      </CompositeCollection>
+      <CompositeCollection x:Key="AudienceLookCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource AudienceLooks}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator Visibility="{Binding Count, Source={StaticResource AudienceLooks}, Converter={StaticResource CountToVisibilityConverter}}" />
+        <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding ScreensMenu.EditLooks.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="SlideDestinationCollectionEdit">
+        <actionsDO:SlideDestinationType>StageOnly</actionsDO:SlideDestinationType>
+        <actionsDO:SlideDestinationType>All</actionsDO:SlideDestinationType>
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+      </CompositeCollection>
+      <CompositeCollection x:Key="MessagesCollectionEdit">
+        <CollectionContainer Collection="{Binding Source={StaticResource Messages}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+        <Separator Visibility="{Binding Count, Source={StaticResource Messages}, Converter={StaticResource CountToVisibilityConverter}}" />
+        <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Messages.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" DataContext="{x:Null}" Header="{mex:Localized ACTION_PALETTE_OPEN_MESSAGES_title}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="VideoInputActionSource">
+        <commonControls:RoutedMenuItem Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.MediaAction, Source={StaticResource editActionMenuSourceProxy}, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" />
+        <Separator />
+        <CollectionContainer Collection="{StaticResource MediaActionMenuSource}" />
+        <Separator />
+        <CollectionContainer Collection="{StaticResource AvailableVideoInputCollectionEdit}" />
+      </CompositeCollection>
+      <CompositeCollection x:Key="AudioInputActionSource">
+        <commonControls:RoutedMenuItem Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.MediaAction, Source={StaticResource editActionMenuSourceProxy}, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" />
+        <Separator />
+        <MenuItem Command="{Binding Data.RemoveActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding ConverterParameter="{x:Static local:MenuItemHeaderType.Remove}" Mode="OneWay" Converter="{StaticResource ActionToHeaderConverter}">
+              <Binding />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+        </MenuItem>
+      </CompositeCollection>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <components:FrameworkCollectionWrapper BoundCollection="{Binding Path=Data.EditableActions, Source={StaticResource actionMenuVMProxy}}">
+    <components:FrameworkCollectionWrapper.BoundDataTemplate>
+      <DataTemplate>
+        <local:EditActionMenuItem UsesItemContainerTemplate="True" Action="{Binding}" Command="{Binding Data.EditActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" DataContext="{Binding}">
+          <HeaderedItemsControl.Header>
+            <MultiBinding Converter="{StaticResource ActionToHeaderConverter}" ConverterParameter="{x:Static local:MenuItemHeaderType.Edit}" Mode="OneWay">
+              <Binding />
+              <Binding Path="Data.RefreshActionData" Source="{StaticResource actionMenuVMProxy}" />
+            </MultiBinding>
+          </HeaderedItemsControl.Header>
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <Style x:Key="DataItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                <Setter Property="MenuItem.Command" Value="{Binding Data.AssignActionDataCommand, Source={StaticResource actionMenuVMProxy}}" />
+                <Setter Property="MenuItem.CommandParameter">
+                  <Setter.Value>
+                    <MultiBinding Converter="{StaticResource ActionDataCommandParameterConverter}">
+                      <Binding Path="Action" RelativeSource="{RelativeSource AncestorType={x:Type local:EditActionMenuItem}}" />
+                      <Binding />
+                    </MultiBinding>
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="MenuItem.IsChecked">
+                  <Setter.Value>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource ActionDataIsCheckedConverter}">
+                      <Binding Path="Action" RelativeSource="{RelativeSource AncestorType={x:Type local:EditActionMenuItem}}" />
+                      <Binding />
+                      <Binding Path="Data.RefreshActionData" Source="{StaticResource actionMenuVMProxy}" />
+                    </MultiBinding>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+              <Style x:Key="EditMacroMenuItemStyle" BasedOn="{StaticResource DataItemStyle}" TargetType="{x:Type MenuItem}">
+                <Style.Triggers>
+                  <DataTrigger Value="True" Binding="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
+                    <Setter Property="IsEnabled" Value="False" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+              <Style x:Key="EditPlaylistMenuItemStyle" BasedOn="{StaticResource DataItemStyle}" TargetType="{x:Type MenuItem}">
+                <Setter Property="HeaderTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <TextBlock Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}" Text="{Binding Name}" />
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="IsEnabled" Value="True" />
+                <Style.Triggers>
+                  <DataTrigger Value="Group" Binding="{Binding Type}">
+                    <Setter Property="IsEnabled" Value="False" />
+                  </DataTrigger>
+                  <DataTrigger Value="LiveVideo" Binding="{Binding Type}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+              <Style x:Key="EditAudioPlaylistMenuItemStyle" BasedOn="{StaticResource DataItemStyle}" TargetType="{x:Type MenuItem}">
+                <Setter Property="HeaderTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <TextBlock Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}" Text="{Binding Converter={StaticResource PlaylistMenuItemConverter}}" />
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+              <Style x:Key="EditVisualPlaylistMenuItemStyle" BasedOn="{StaticResource DataItemStyle}" TargetType="{x:Type MenuItem}">
+                <Setter Property="HeaderTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <TextBlock Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}" Text="{Binding Converter={StaticResource PlaylistMenuItemConverter}}" />
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type looksDO:AudienceLook}}">
+                <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding Name}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type actionsDO:SlideDestinationType}}">
+                <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding Converter={StaticResource EnumToContentConverter}}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type timersDO:TimerData}}">
+                <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding Name}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type messagesDO:Message}}">
+                <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding Name}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type propsDO:PropCue}}">
+                <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" UsesItemContainerTemplate="True" Style="{StaticResource DataItemStyle}" Header="{Binding Name}" ItemsSource="{mex:EnumerationItemSource {x:Type actionsDO:PropTriggerType}}">
+                  <FrameworkElement.Resources>
+                    <props:SelectEditPropCommandParamConverter x:Key="SelectEditPropCommandParamConverter" />
+                    <converters:PropCueTriggerTypeCheckedConverter x:Key="PropCueTriggerTypeCheckedConverter" />
+                    <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type mex:EnumerationMember}}">
+                      <MenuItem Command="{Binding Data.EditPropActionTriggerTypeCommand, Source={StaticResource actionMenuVMProxy}}" Header="{Binding Description}">
+                        <MenuItem.CommandParameter>
+                          <MultiBinding Converter="{StaticResource SelectEditPropCommandParamConverter}">
+                            <Binding Path="Action" RelativeSource="{RelativeSource AncestorType={x:Type local:EditActionMenuItem}}" />
+                            <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=MenuItem}" />
+                            <Binding Path="Value" />
+                          </MultiBinding>
+                        </MenuItem.CommandParameter>
+                        <MenuItem.IsChecked>
+                          <MultiBinding Mode="OneWay" Converter="{StaticResource PropCueTriggerTypeCheckedConverter}">
+                            <Binding Path="Action" RelativeSource="{RelativeSource AncestorType={x:Type local:EditActionMenuItem}}" />
+                            <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=MenuItem}" />
+                            <Binding Path="Value" />
+                          </MultiBinding>
+                        </MenuItem.IsChecked>
+                      </MenuItem>
+                    </ItemContainerTemplate>
+                  </FrameworkElement.Resources>
+                </MenuItem>
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type propsDO:PropGroup}}">
+                <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding}">
+                  <MenuItem.IsChecked>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource PropGroupCheckedConverter}">
+                      <Binding />
+                      <Binding Path="Action" RelativeSource="{RelativeSource AncestorType={x:Type local:EditActionMenuItem}}" />
+                      <Binding Path="Data.RefreshActionData" Source="{StaticResource actionMenuVMProxy}" />
+                    </MultiBinding>
+                  </MenuItem.IsChecked>
+                </MenuItem>
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type deviceDO:MIDIDevice}}">
+                <MenuItem UsesItemContainerTemplate="True" Style="{StaticResource DataItemStyle}" Header="{Binding Label}" ItemsSource="{Binding Source={StaticResource MIDICommand}}">
+                  <FrameworkElement.Resources>
+                    <ResourceDictionary>
+                      <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type communication:MIDICommand}}">
+                        <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding Converter={StaticResource EnumToContentConverter}}" />
+                      </ItemContainerTemplate>
+                    </ResourceDictionary>
+                  </FrameworkElement.Resources>
+                </MenuItem>
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type audioDO:AudioInput}}">
+                <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding LongName}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type liveVideoDO:LiveVideoInput}}">
+                <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding LongName}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type macros:ProPresenterMacro}}">
+                <MenuItem Style="{StaticResource EditMacroMenuItemStyle}" Header="{Binding Name}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type clearGroups:ClearGroup}}">
+                <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding Name}">
+                  <MenuItem.Icon>
+                    <clearGroupsUI:ClearGroupImageControl ClearGroup="{Binding}" />
+                  </MenuItem.Icon>
+                </MenuItem>
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type captureDO:CapturePreset}}">
+                <MenuItem Style="{StaticResource DataItemStyle}" Header="{Binding Name}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type captureActions:CaptureType}}">
+                <capture:EditCaptureMenuItem AssignActionDataCommand="{Binding Data.AssignActionDataCommand, Source={StaticResource actionMenuVMProxy}}" CapturePresets="{Binding Data.CapturePresets, Source={StaticResource actionMenuVMProxy}}" EditAction="{Binding Action, RelativeSource={RelativeSource AncestorType={x:Type local:EditActionMenuItem}}}" RefreshActionData="{Binding Data.RefreshActionData, Source={StaticResource actionMenuVMProxy}}" />
+              </ItemContainerTemplate>
+              <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type macroGroups:MacroGroup}}">
+                <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding}">
+                  <MenuItem.IsChecked>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource MacroGroupCheckedConverter}">
+                      <Binding />
+                      <Binding Path="Action" RelativeSource="{RelativeSource AncestorType={x:Type local:EditActionMenuItem}}" />
+                      <Binding Path="Data.RefreshActionData" Source="{StaticResource actionMenuVMProxy}" />
+                    </MultiBinding>
+                  </MenuItem.IsChecked>
+                </MenuItem>
+              </ItemContainerTemplate>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Icon" Value="{StaticResource ActionRemoveEditIconStyle}" />
+              <Setter Property="uiUtility:MenuItemHelper.InvokeCommandWithChildren" Value="True" />
+              <Style.Triggers>
+                <DataTrigger Value="StageLayout" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource StageCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="AudienceLook" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource AudienceLookCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="Timer" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource TimerCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="SlideDestination" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource SlideDestinationCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="Message" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource MessagesCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="Prop" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource PropGroupCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="VisualPlaylist" Binding="{Binding ActionType}">
+                  <Setter Property="ItemContainerStyle" Value="{StaticResource EditVisualPlaylistMenuItemStyle}" />
+                  <Setter Property="ItemsSource" Value="{StaticResource VisualPlaylistCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="AudioPlaylist" Binding="{Binding ActionType}">
+                  <Setter Property="ItemContainerStyle" Value="{StaticResource EditAudioPlaylistMenuItemStyle}" />
+                  <Setter Property="ItemsSource" Value="{StaticResource AudioPlaylistsCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="Communication" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource DeviceCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="AudioInput" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource AudioInputCollectionEdit}" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Macro" Binding="{Binding ActionType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="ItemsSource" Value="{StaticResource MacroCollection}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Macro" Binding="{Binding ActionType}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="ItemsSource" Value="{StaticResource MacroGroupCollectionEdit}" />
+                </MultiDataTrigger>
+                <DataTrigger Value="ClearGroup" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource ClearGroupCollectionEdit}" />
+                </DataTrigger>
+                <DataTrigger Value="Capture" Binding="{Binding ActionType}">
+                  <Setter Property="ItemsSource" Value="{StaticResource CaptureTypeCollectionEdit}" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Media" Binding="{Binding ActionType}" />
+                    <Condition Value="LiveVideo">
+                      <Condition.Binding>
+                        <PriorityBinding>
+                          <Binding Path="Media.MediaType" />
+                        </PriorityBinding>
+                      </Condition.Binding>
+                    </Condition>
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="ItemsSource" Value="{StaticResource VideoInputActionSource}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Media" Binding="{Binding ActionType}" />
+                    <Condition Value="Image">
+                      <Condition.Binding>
+                        <PriorityBinding>
+                          <Binding Path="Media.MediaType" />
+                        </PriorityBinding>
+                      </Condition.Binding>
+                    </Condition>
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="ItemsSource" Value="{StaticResource EditMediaActionSource}" />
+                  <Setter Property="uiUtility:MenuItemHelper.InvokeCommandWithChildren" Value="False" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Media" Binding="{Binding ActionType}" />
+                    <Condition Value="Video">
+                      <Condition.Binding>
+                        <PriorityBinding>
+                          <Binding Path="Media.MediaType" />
+                        </PriorityBinding>
+                      </Condition.Binding>
+                    </Condition>
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="ItemsSource" Value="{StaticResource EditMediaActionSource}" />
+                  <Setter Property="uiUtility:MenuItemHelper.InvokeCommandWithChildren" Value="False" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Media" Binding="{Binding ActionType}" />
+                    <Condition Value="Audio">
+                      <Condition.Binding>
+                        <PriorityBinding>
+                          <Binding Path="Media.MediaType" />
+                        </PriorityBinding>
+                      </Condition.Binding>
+                    </Condition>
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="ItemsSource" Value="{StaticResource AudioInputActionSource}" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+              <EventSetter Event="SubmenuOpened" Handler="MenuItem_SubmenuOpened" />
+              <EventSetter Event="Unloaded" Handler="MenuItem_Unloaded" />
+            </Style>
+          </FrameworkElement.Style>
+        </local:EditActionMenuItem>
+      </DataTemplate>
+    </components:FrameworkCollectionWrapper.BoundDataTemplate>
+  </components:FrameworkCollectionWrapper>
+</components:FrameworkCollection>

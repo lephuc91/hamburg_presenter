@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.DialogService.CheckboxDialogContent" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Pro.UI.DialogService" x:Name="self">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <local:MessageContent Grid.Row="0" Heading="{Binding Heading, ElementName=self}" Message="{Binding Message, ElementName=self}" />
+    <CheckBox Grid.Row="1" Margin="0,10,0,0" Content="{Binding CheckboxText, ElementName=self}" IsChecked="{Binding Checked, ElementName=self}" />
+  </Grid>
+</UserControl>

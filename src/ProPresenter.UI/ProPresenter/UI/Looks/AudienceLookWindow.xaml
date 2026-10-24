@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Looks.AudienceLookWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonResources="clr-namespace:Pro.UI.Resources;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Looks" xmlns:looks="clr-namespace:ProPresenter.UI.ViewModels.LooksDialog" xmlns:masks="clr-namespace:ProPresenter.UI.Mask" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:templates="clr-namespace:ProPresenter.UI.Templates" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="self" Width="550" Height="380" MinWidth="550" MinHeight="420" uiUtility:WindowHelper.CanOwnWindows="True" uiUtility:WindowHelper.HideOnClose="True" uiUtility:WindowHelper.SendKeyEventsToMainWindow="True" uiUtility:WindowHelper.UseGlobalStyle="True" RenderOptions.BitmapScalingMode="Fant" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterScreen" Title="{mex:Localized AUDIENCE_LOOKS_title}">
+  <windowing:Caption>
+    <Border BorderThickness="0,1,0,0" BorderBrush="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}">
+      <Grid>
+        <FrameworkElement.Resources>
+          <ui:SharedResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+              <ui:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <commonUtility:BindingProxy x:Key="audienceLookProxy" Data="{Binding}" />
+            <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+            <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+            <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+            <commonConverters:TimeSliceToDoubleSecondConverter x:Key="TimeSliceToDoubleSecondConverter" RoundDecimalPlace="1" />
+            <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <ContextMenu x:Key="LiveLookContextMenu" Placement="Bottom">
+              <MenuItem Command="{Binding Data.SaveCommand, Source={StaticResource audienceLookProxy}}" Header="{mex:Localized AUDIENCE_LOOKS_SAVE_MENU_SAVE_title}" Visibility="{Binding Data.LiveAudienceLook.HasChanges, Source={StaticResource audienceLookProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+              <MenuItem Command="{Binding Data.ResetToDefaultCommand, Source={StaticResource audienceLookProxy}}" Header="{mex:Localized AUDIENCE_LOOKS_SAVE_MENU_RESET_title}" Visibility="{Binding Data.LiveAudienceLook.HasChanges, Source={StaticResource audienceLookProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+              <Separator Visibility="{Binding Data.LiveAudienceLook.HasChanges, Source={StaticResource audienceLookProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+              <MenuItem Command="{Binding Data.SaveAsCommand, Source={StaticResource audienceLookProxy}}" Header="{mex:Localized AUDIENCE_LOOKS_SAVE_MENU_SAVE_AS_title}" />
+            </ContextMenu>
+            <DataTemplate x:Key="LiveAudienceLookTemplate" DataType="{x:Type looks:LiveAudienceLookVM}">
+              <Grid Margin="4,2,0,2">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized AUDIENCE_LOOKS_LIVE_title}" />
+                <commonControls:EditableTextBlock Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{Binding AudienceLook.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                  <FrameworkElement.Style>
+                    <Style TargetType="{x:Type commonControls:EditableTextBlock}">
+                      <Setter Property="commonControls:EditableTextBlock.DisplayStringFormat" Value="{x:Null}" />
+                      <Style.Triggers>
+                        <MultiDataTrigger>
+                          <MultiDataTrigger.Conditions>
+                            <Condition Value="True" Binding="{Binding HasChanges}" />
+                          </MultiDataTrigger.Conditions>
+                          <Setter Property="commonControls:EditableTextBlock.DisplayStringFormat" Value="{}{0}*" />
+                        </MultiDataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </commonControls:EditableTextBlock>
+              </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="AudienceLookTemplate" DataType="{x:Type looks:AudienceLookVM}">
+              <commonControls:EditableTextBlock Grid.Column="1" Margin="4,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </DataTemplate>
+          </ui:SharedResourceDictionary>
+        </FrameworkElement.Resources>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="150" MinWidth="150" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <local:LiveLookListBox Grid.Row="0" HorizontalContentAlignment="Stretch" ItemTemplate="{StaticResource LiveAudienceLookTemplate}" Style="{StaticResource {x:Type ListBox}}" ActiveItem="{Binding SelectedLiveLook}" ItemsSource="{Binding LiveLooks}" SelectedListItem="{Binding SelectedLiveLook}">
+              <ItemsControl.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource LiveLookContextMenu}" />
+                  <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+                </Style>
+              </ItemsControl.ItemContainerStyle>
+            </local:LiveLookListBox>
+            <Grid Row="1" Height="22" Margin="5,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="{mex:Localized AUDIENCE_LOOKS_PRESETS_title}" />
+              <commonControls:BorderlessPathButton Grid.Column="1" HorizontalAlignment="Right" PathType="Plus" Command="{Binding Data.AddLookCommand, Source={StaticResource audienceLookProxy}}" ToolTip="{mex:Localized AUDIENCE_LOOKS_ADD_PRESET_BUTTON_tooltip}" />
+            </Grid>
+            <local:LookListBox Grid.Row="2" ItemTemplate="{StaticResource AudienceLookTemplate}" Style="{StaticResource {x:Type ListBox}}" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyLookCommand}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding CutLookCommand}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding RemoveLookCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicateLookCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteLookCommand}" ActiveItem="{Binding SelectedLook}" ItemsSource="{Binding AudienceLooks}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedListItem="{Binding SelectedLook}" SelectedListItems="{Binding SelectedLooks}">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <ContextMenu x:Key="LookItemContextMenu">
+                    <MenuItem Command="{Binding Data.MakeLiveCommand, Source={StaticResource audienceLookProxy}}" Header="{mex:Localized AUDIENCE_LOOKS_MAKE_LIVE_BUTTON_title}" />
+                    <Separator />
+                    <MenuItem Command="{x:Static commands:CommonApplicationCommands.Duplicate}" />
+                    <MenuItem Command="{x:Static commands:CommonApplicationCommands.Rename}" />
+                    <MenuItem Command="{x:Static commands:CommonApplicationCommands.Delete}" />
+                  </ContextMenu>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+              <ItemsControl.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type ListBoxItem}}" TargetType="{x:Type ListBoxItem}">
+                  <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource LookItemContextMenu}" />
+                  <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+                </Style>
+              </ItemsControl.ItemContainerStyle>
+            </local:LookListBox>
+          </Grid>
+        </Border>
+        <GridSplitter Grid.Column="1" Width="{x:Static commonResources:LayoutConstants.GridSplitterThickness}" />
+        <Grid Column="2">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid Row="0" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <commonControls:EditableTextBlock Grid.Column="0" Margin="10,10,0,10" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="{Binding ActiveLook.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ToggleButton Grid.Column="1" Height="22" MinWidth="104" Margin="0,0,10,0" Padding="10,0" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding EnableIdentify}" Visibility="{Binding SelectedLiveLook, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type ToggleButton}">
+                  <Setter Property="Content" Value="{mex:Localized AUDIENCE_LOOKS_ENABLE_IDENTIFY_BUTTON_title}" />
+                  <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding EnableIdentify}">
+                      <Setter Property="Content" Value="{mex:Localized AUDIENCE_LOOKS_DISABLE_IDENTIFY_BUTTON_title}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </ToggleButton>
+            <Button Grid.Column="2" Height="22" Margin="0,0,10,0" Padding="10,0" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Command="{Binding MakeLiveCommand}" Content="{mex:Localized AUDIENCE_LOOKS_MAKE_LIVE_BUTTON_title}" Visibility="{Binding SelectedLiveLook, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+            <Button Grid.Column="2" Height="22" Margin="0,0,10,0" Padding="10,0" HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" ContextMenu="{StaticResource LiveLookContextMenu}" ContextMenuService.Placement="Bottom" Content="{mex:Localized AUDIENCE_LOOKS_SAVE_MENU_SAVE_title}" Visibility="{Binding SelectedLiveLook, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+          </Grid>
+          <Border Grid.Row="1" BorderThickness="0,1,0,1" Grid.IsSharedSizeScope="True" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+            <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+              <ItemsControl AlternationCount="2" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <DataTemplate x:Key="{DataTemplateKey {x:Type looks:ScreenLookVM}}" DataType="{x:Type looks:ScreenLookVM}">
+                      <Grid Name="LookPropertyGrid" Width="70">
+                        <FrameworkElement.Resources>
+                          <ResourceDictionary>
+                            <Style x:Key="{x:Type CheckBox}" BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+                              <Setter Property="HorizontalAlignment" Value="Center" />
+                            </Style>
+                          </ResourceDictionary>
+                        </FrameworkElement.Resources>
+                        <Grid.RowDefinitions>
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_A" />
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_B" />
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_C" />
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_D" />
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_E" />
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_F" />
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_G" />
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_H" />
+                          <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_I" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Margin="0,3,0,5" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding ScreenName}" />
+                        <masks:MaskButton Grid.Row="1" Width="50" Height="30" AddNewMaskCommand="{Binding Data.AddNewMaskCommand, Source={StaticResource audienceLookProxy}}" EditMasksCommand="{Binding Data.EditMasksCommand, Source={StaticResource audienceLookProxy}}" Masks="{Binding Data.Masks, Source={StaticResource audienceLookProxy}}" SelectedMask="{Binding Mask, Mode=TwoWay}">
+                          <Control.Template>
+                            <ControlTemplate>
+                              <Border Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Button}}}">
+                                <Image Width="24" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                  <FrameworkElement.Style>
+                                    <Style TargetType="{x:Type Image}">
+                                      <Setter Property="Source" Value="../Resources/Icons/MaskIcon.png" />
+                                      <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Mask}" Value="{x:Null}">
+                                          <Setter Property="Source" Value="../Resources/Icons/NoneIcon.png" />
+                                        </DataTrigger>
+                                      </Style.Triggers>
+                                    </Style>
+                                  </FrameworkElement.Style>
+                                </Image>
+                              </Border>
+                            </ControlTemplate>
+                          </Control.Template>
+                        </masks:MaskButton>
+                        <CheckBox Grid.Row="2" IsChecked="{Binding MessagesEnabled}" />
+                        <CheckBox Grid.Row="3" IsChecked="{Binding PropsEnabled}" />
+                        <CheckBox Grid.Row="4" IsChecked="{Binding AnnouncementEnabled}" />
+                        <templates:TemplateButton Grid.Row="5" Width="50" Height="30" HorizontalAlignment="Center" ContextGroup="AudienceLook" ShowMediaActionButton="False" ShowNoneOption="True" TemplateButtonType="Small" DefaultTemplateHeader="{mex:Localized THEMES_MENU_REMOVE_ALTERNATE_THEME}" SelectedTemplate="{Binding Template, Mode=TwoWay}" TemplateSlideTooltipText="{mex:Localized THEMES_POPOVER_SELECT_THEME_SLIDE_tooltip}" />
+                        <CheckBox Grid.Row="6" IsChecked="{Binding ForegroundEnabled}" />
+                        <CheckBox Grid.Row="7" IsChecked="{Binding BackgroundEnabled}" />
+                        <CheckBox Grid.Row="8" IsChecked="{Binding LiveVideoEnabled}" />
+                      </Grid>
+                      <DataTemplate.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                          <Setter TargetName="LookPropertyGrid" Property="Panel.Background" Value="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" />
+                        </Trigger>
+                      </DataTemplate.Triggers>
+                    </DataTemplate>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemsSource>
+                  <CompositeCollection>
+                    <Grid Margin="10,0,0,0">
+                      <FrameworkElement.Resources>
+                        <ResourceDictionary>
+                          <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                          </Style>
+                        </ResourceDictionary>
+                      </FrameworkElement.Resources>
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_A" />
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_B" />
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_C" />
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_D" />
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_E" />
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_F" />
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_G" />
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_H" />
+                        <RowDefinition Height="Auto" SharedSizeGroup="AudienceLookWindow_I" />
+                      </Grid.RowDefinitions>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="20" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Grid.Row="1" Margin="0,7" Text="{mex:Localized AUDIENCE_LOOKS_MASK_label}" />
+                      <TextBlock Grid.Row="2" Margin="0,10" Text="{mex:Localized AUDIENCE_LOOKS_MESSAGES_label}" />
+                      <TextBlock Grid.Row="3" Margin="0,10" Text="{mex:Localized AUDIENCE_LOOKS_PROPS_label}" />
+                      <TextBlock Grid.Row="4" Margin="0,9" Text="{mex:Localized AUDIENCE_LOOKS_ANNOUNCEMENTS_label}" />
+                      <Image Grid.Row="4" Grid.Column="1" Margin="6,2,0,0" Source="../Resources/Icons/TargetGreen.png" />
+                      <TextBlock Grid.Row="5" Margin="0,5" Text="{mex:Localized AUDIENCE_LOOKS_PRESENTATION_label}" />
+                      <Image Grid.Row="5" Grid.Column="1" Margin="6,2,0,0" Source="../Resources/Icons/TargetOrange.png" />
+                      <TextBlock Grid.Row="6" Margin="0,12" Text="{mex:Localized AUDIENCE_LOOKS_SLIDE_label}" />
+                      <TextBlock Grid.Row="7" Margin="0,7" Text="{mex:Localized AUDIENCE_LOOKS_MEDIA_label}" />
+                      <TextBlock Grid.Row="8" Margin="0,10" Text="{mex:Localized AUDIENCE_LOOKS_VIDEO_INPUT_label}" />
+                    </Grid>
+                    <CollectionContainer Collection="{Binding Data.ActiveLook.ScreenLooks, Source={StaticResource audienceLookProxy}}" />
+                  </CompositeCollection>
+                </ItemsControl.ItemsSource>
+              </ItemsControl>
+            </ScrollViewer>
+          </Border>
+          <Grid Row="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Height="29" Background="#00FFFFFF" Orientation="Horizontal">
+              <Image Width="19" Margin="9,0,0,0">
+                <Image.Source>
+                  <DrawingImage>
+                    <DrawingImage.Drawing>
+                      <GeometryDrawing Geometry="{StaticResource Dissolve}" Brush="{Binding CONTENTHELPER, Source={x:Static theming:AppTheme.Active}}" />
+                    </DrawingImage.Drawing>
+                  </DrawingImage>
+                </Image.Source>
+              </Image>
+              <commonControls:DoubleUpDown Width="35" Height="22" Margin="6,0,0,0" VerticalAlignment="Center" Background="#00FFFFFF" BorderThickness="0" FormatString="{}{0:F1}s" Increment="0.1" ShowButtonSpinner="False" Maximum="{Binding Data.ActiveLook.MaximumTransitionDuration, Source={StaticResource audienceLookProxy}, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" Minimum="{Binding Data.ActiveLook.MinimumTransitionDuration, Source={StaticResource audienceLookProxy}, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" Value="{Binding Data.ActiveLook.TransitionDuration, Source={StaticResource audienceLookProxy}, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" />
+              <Slider Width="80" Margin="2,0,0,0" VerticalAlignment="Center" Maximum="{Binding Data.ActiveLook.MaximumTransitionDuration, Source={StaticResource audienceLookProxy}, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" Minimum="{Binding Data.ActiveLook.MinimumTransitionDuration, Source={StaticResource audienceLookProxy}, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" Value="{Binding Data.ActiveLook.TransitionDuration, Source={StaticResource audienceLookProxy}, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" />
+            </StackPanel>
+            <commonControls:HelpButton Grid.Column="1" Width="20" Height="20" Margin="0,0,7,0" HelpResource="/pro/resource/looks_window" />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Border>
+  </windowing:Caption>
+</windowing:ChromedWindow>

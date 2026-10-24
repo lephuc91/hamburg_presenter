@@ -1,0 +1,20 @@
+{
+    "description": "Picasso effect.",
+    "name": "Picasso",
+    "numPasses": 1,
+    "shaderFile": "Picasso",
+    "type": 0,
+    "uuid": "9A5ED7A4-8339-43C2-BABB-180AC20D4C07",
+    "variables": [
+        {
+            "name": "speed",
+            "label": "Animate",
+            "description": "Speed of animation",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0, 0, 0, 0],
+            "value": [0, 0, 0, 0]
+        }
+    ]
+}

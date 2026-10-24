@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.PresentationTimeline.TimelineViewer" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actionsMenu="clr-namespace:ProPresenter.UI.ActionsMenu" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:cueInspector="clr-namespace:ProPresenter.UI.CueInspector" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.PresentationView.PresentationTimeline" xmlns:mediaBin="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:presentationTimeline="clr-namespace:ProPresenter.UI.PresentationView.PresentationTimeline" xmlns:themes="clr-namespace:ProPresenter.UI.Themes" xmlns:themes1="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:triggering="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="timelineViewer" AllowDrop="True" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteCommand}" Background="{Binding HEADER, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+      </Style>
+      <commonUtility:BindingProxy x:Key="BindingProxy_TimelineViewModel" Data="{Binding}" />
+      <actionsMenu:AddEditActionMenuSource x:Key="ActionsMenuSource" CanAddCaptureAction="False" CanAddMediaAction="False" CanAddPlaylistAction="False" DataContext="{Binding Data.ActionsMenuVM, Source={StaticResource BindingProxy_TimelineViewModel}}" />
+      <mediaBin:MediaActionMenuSource x:Key="MediaActionMenuSource" CanSetTargetLayer="False" MediaAction="{Binding Data.SelectedMediaItem, Source={StaticResource BindingProxy_TimelineViewModel}}" SetEndBehaviorTypeCommand="{Binding Data.SetEndBehaviorTypeCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" SetMediaScaleBehaviorCommand="{Binding Data.SetMediaScaleBehaviorCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" SetPlaybackBehaviorCommand="{Binding Data.SetPlaybackCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" SetSoftLoopDurationCommand="{Binding Data.SetSoftLoopDurationCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" />
+      <commonConverters:TimeSliceToDoubleSecondConverter x:Key="TimeSliceToDoubleSecondConverter" RoundDecimalPlace="1" />
+      <commonConverters:TimeSliceToTimeFormatConverter x:Key="TimeSliceToTimeFormatConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBoolConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <ContextMenu x:Key="MediaActionContextMenu">
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <CollectionContainer Collection="{StaticResource MediaActionMenuSource}" />
+            <Separator />
+            <commonControls:RoutedMenuItem Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding Data.SelectedMediaItem, Source={StaticResource BindingProxy_TimelineViewModel}, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" Header="{mex:Localized MEDIA_BIN_CONTEXT_MENU_INSPECTOR_title}" />
+            <MenuItem Click="OnMediaRowTransitionClicked">
+              <HeaderedItemsControl.Header>
+                <TextBlock Foreground="{Binding SUBHEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized MEDIA_BIN_CONTEXT_MENU_TRANSITIONS_title}" />
+              </HeaderedItemsControl.Header>
+            </MenuItem>
+            <Separator />
+            <MenuItem Command="{Binding Data.DeleteCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" Header="{mex:Localized GLOBAL_DELETE_title}" />
+            <Separator />
+            <MenuItem Command="{Binding Data.ShowInFileExplorerCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" CommandParameter="{Binding Data.SelectedMediaItem, Source={StaticResource BindingProxy_TimelineViewModel}}" Header="{mex:Localized GLOBAL_SHOW_IN_FINDER_MENU_ITEM_windows_title}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <ContextMenu x:Key="ActionContextMenu" Opened="OnActionsContextMenuOpened">
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <CollectionContainer Collection="{StaticResource ActionsMenuSource}" />
+            <Separator />
+            <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.CutCommand}" />
+            <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Copy}" />
+            <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <ContextMenu x:Key="ActionRowContextMenu" Opened="OnActionsContextMenuOpened">
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <CollectionContainer Collection="{StaticResource ActionsMenuSource}" />
+            <Separator />
+            <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <ContextMenu x:Key="AudioContextMenu">
+        <MenuItem Command="{Binding Data.ShowInFileExplorerCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" CommandParameter="{Binding Data.SelectedAudioItem, Source={StaticResource BindingProxy_TimelineViewModel}}" Header="{mex:Localized GLOBAL_SHOW_IN_FINDER_MENU_ITEM_windows_title}" />
+        <MenuItem Header="{mex:Localized PLAYLIST_ITEM_GLOBAL_PLAYBACK_BEHAVIOR_MENU_ITEM_title}">
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <triggering:AudioBehaviorType>Stop</triggering:AudioBehaviorType>
+              <triggering:AudioBehaviorType>Loop</triggering:AudioBehaviorType>
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <ContentPresenter Content="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <ItemsControl.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Command" Value="{Binding Data.UpdateAudioBehaviorCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" />
+              <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+              <Setter Property="MenuItem.IsChecked">
+                <Setter.Value>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding />
+                    <Binding Path="Data.SelectedAudioBehaviorType" Source="{StaticResource BindingProxy_TimelineViewModel}" />
+                  </MultiBinding>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </MenuItem>
+        <Separator />
+        <commonControls:RoutedMenuItem Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized MEDIA_BIN_CONTEXT_MENU_INSPECTOR_title}">
+          <MenuItem.CommandParameter>
+            <MultiBinding Mode="OneWay" Converter="{di:DIMarkup {x:Type converters:MediaInspectorConverter}}">
+              <Binding Path="Data.SelectedAudioItem" Source="{StaticResource BindingProxy_TimelineViewModel}" />
+              <Binding Source="{x:Static cueInspector:InspectorOptions.None}" />
+            </MultiBinding>
+          </MenuItem.CommandParameter>
+        </commonControls:RoutedMenuItem>
+        <Separator />
+        <MenuItem Command="{Binding Data.DeleteCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" Header="{mex:Localized GLOBAL_DELETE_title}" />
+      </ContextMenu>
+      <presentationTimeline:TimelineSectionStyleSelector x:Key="ItemTemplateSelector_TimelineRow">
+        <presentationTimeline:TimelineSectionStyleSelector.CueSectionStyle>
+          <Style BasedOn="{StaticResource {x:Static themes:Styles.TimelineSection}}" TargetType="{x:Type local:TimelineSection}">
+            <Setter Property="FrameworkElement.ContextMenu">
+              <Setter.Value>
+                <ContextMenu>
+                  <MenuItem Command="{Binding Data.DeleteCommand, Source={StaticResource BindingProxy_TimelineViewModel}}" Header="{mex:Localized GLOBAL_DELETE_title}" />
+                </ContextMenu>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </presentationTimeline:TimelineSectionStyleSelector.CueSectionStyle>
+        <presentationTimeline:TimelineSectionStyleSelector.MediaSectionStyle>
+          <Style BasedOn="{StaticResource {x:Static themes:Styles.TimelineSection}}" TargetType="{x:Type local:TimelineSection}">
+            <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource MediaActionContextMenu}" />
+          </Style>
+        </presentationTimeline:TimelineSectionStyleSelector.MediaSectionStyle>
+        <presentationTimeline:TimelineSectionStyleSelector.AudioSectionStyle>
+          <Style BasedOn="{StaticResource {x:Static themes:Styles.TimelineSection}}" TargetType="{x:Type local:TimelineSection}">
+            <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource AudioContextMenu}" />
+          </Style>
+        </presentationTimeline:TimelineSectionStyleSelector.AudioSectionStyle>
+        <presentationTimeline:TimelineSectionStyleSelector.OtherActionSectionStyle>
+          <Style BasedOn="{StaticResource {x:Static themes:Styles.TimelineSection}}" TargetType="{x:Type local:TimelineSection}">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate>
+                  <Grid>
+                    <presentationTimeline:ActionItemTemplate Loaded="OnActionItemTemplateLoaded" HorizontalAlignment="Left" VerticalContentAlignment="Stretch" ContextMenu="{StaticResource ActionContextMenu}" DataContext="{Binding}" IsSelected="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=local:TimelineSection}}" />
+                    <Popup Name="PART_CurrentTimeToolTip" Placement="Relative" StaysOpen="True" PlacementTarget="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TimelineSection}}}">
+                      <Border Background="#424242" BorderBrush="#6B6A6E" BorderThickness="1" CornerRadius="3">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding StartTime}" />
+                      </Border>
+                    </Popup>
+                  </Grid>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </presentationTimeline:TimelineSectionStyleSelector.OtherActionSectionStyle>
+      </presentationTimeline:TimelineSectionStyleSelector>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border Padding="4">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <presentationTimeline:TimelineControl x:Name="TimelineControl" CanFollowTimecode="{Binding CanFollowTimecode}" CurrentPlayheadTime="{Binding CurrentTime, Mode=TwoWay}" EndScrubCommand="{Binding EndScrubCommand}" IsPlaying="{Binding IsPlaying}" ItemDoubleClickedCommand="{Binding OpenInspectorCommand}" JumpToTimeCommand="{Binding JumpToTimeCommand}" SelectedItems="{Binding SelectedItems}" StartScrubCommand="{Binding StartScrubCommand}" TimelineItemDroppedCommand="{Binding TimelineItemDroppedCommand}" ZoomValue="{Binding ZoomValue, Mode=TwoWay}" Duration="{Binding Timeline.Duration, Mode=TwoWay}">
+          <presentationTimeline:TimelineRow AllowFill="True" AllowGrouping="True" Background="{StaticResource {x:Static themes1:Brushes.TimelineCuesRow}}" Icon="{StaticResource {x:Static themes1:Icons.SlideTrack}}" ItemContainerStyleSelector="{StaticResource ItemTemplateSelector_TimelineRow}" ItemsSource="{Binding CuesView}" />
+          <presentationTimeline:TimelineRow Background="{StaticResource {x:Static themes1:Brushes.TimelineMediaRow}}" Icon="{StaticResource {x:Static themes1:Icons.MediaTrack}}" ItemContainerStyleSelector="{StaticResource ItemTemplateSelector_TimelineRow}" ItemsSource="{Binding MediaView}">
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Opened="OnMediaRowContextMenuOpened">
+                <MenuItem Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_MEDIA_ACTION_title}" Click="OnAddMediaActionClicked" />
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </presentationTimeline:TimelineRow>
+          <presentationTimeline:TimelineRow Background="{StaticResource {x:Static themes1:Brushes.TimelineAudioRow}}" Icon="{StaticResource {x:Static themes1:Icons.AudioTrack}}" ItemContainerStyleSelector="{StaticResource ItemTemplateSelector_TimelineRow}" ItemsSource="{Binding AudioView}">
+            <FrameworkElement.ContextMenu>
+              <ContextMenu Opened="OnMediaRowContextMenuOpened">
+                <MenuItem Header="{mex:Localized PRESENTATION_HEADER_TIMELINE_AUDIO_TRACK_MENU_ADD_title}" Click="OnAddAudioActionClicked" />
+              </ContextMenu>
+            </FrameworkElement.ContextMenu>
+          </presentationTimeline:TimelineRow>
+          <presentationTimeline:ActionTimelineRow AllowFill="False" AllowGrouping="False" Background="{StaticResource {x:Static themes1:Brushes.TimelineActionRow}}" ContextMenu="{StaticResource ActionRowContextMenu}" Icon="{StaticResource {x:Static themes1:Icons.ActionTrack}}" ItemContainerStyleSelector="{StaticResource ItemTemplateSelector_TimelineRow}" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyCommand}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding CutCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteCommand}" ItemsSource="{Binding ActionsView}" />
+        </presentationTimeline:TimelineControl>
+      </Grid>
+      <UniformGrid Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Stretch" Columns="4">
+        <Border HorizontalAlignment="Left">
+          <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" IsEnabled="{Binding CanFollowTimecode, Converter={StaticResource InvertedBoolConverter}}">
+            <Button Name="resetButton" Width="40" Height="22" BorderThickness="1,1,0,1" Command="{Binding ResetCommand}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_HEADER_TIMELINE_GO_TO_BEGINNING_tooltip}" />
+                  <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding IsPlaying}">
+                      <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_HEADER_TIMELINE_STOP_tooltip}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <commonControls:PathControl Width="12" Height="12" PathType="Beginning" Fill="{Binding Foreground, ElementName=resetButton}" Stroke="{Binding Foreground, ElementName=resetButton}" />
+            </Button>
+            <ToggleButton Name="playButton" Width="40" Height="22" BorderThickness="1,1,0,1" Command="{Binding PlayCommand}" IsChecked="{Binding IsPlaying}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type ToggleButton}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_HEADER_TIMELINE_PLAY_tooltip}" />
+                  <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding IsPlaying}">
+                      <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_HEADER_TIMELINE_PAUSE_tooltip}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <commonControls:PathControl Width="12" Height="12" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type commonControls:PathControl}}" TargetType="{x:Type commonControls:PathControl}">
+                    <Setter Property="commonControls:PathControl.PathType" Value="Play" />
+                    <Style.Triggers>
+                      <DataTrigger Value="True" Binding="{Binding IsPlaying}">
+                        <Setter Property="commonControls:PathControl.PathType" Value="Stop" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </commonControls:PathControl>
+            </ToggleButton>
+            <ToggleButton Width="40" Height="22" BorderThickness="1,1,0,1" Command="{Binding RecordCommand}" IsChecked="{Binding IsRecording}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type ToggleButton}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_HEADER_TIMELINE_RECORD_tooltip}" />
+                  <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding IsRecording}">
+                      <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_HEADER_TIMELINE_STOP_RECORD_tooltip}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+              <Ellipse Width="14" Height="14" Fill="#FFFF0000" />
+            </ToggleButton>
+            <ToggleButton Name="repeatButton" Width="40" Height="22" BorderThickness="1" IsChecked="{Binding IsSetToLoop, Mode=TwoWay}" ToolTip="{mex:Localized PRESENTATION_HEADER_TIMELINE_LOOP_tooltip}">
+              <commonControls:ImageMask ImageSource="../../Resources/Icons/CycleIcon.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}" />
+            </ToggleButton>
+          </StackPanel>
+        </Border>
+        <StackPanel VerticalAlignment="Center" commonControls:ItemSpacingHelper.ItemSpacing="4" Orientation="Horizontal">
+          <CheckBox IsChecked="{Binding Data.IsTimecodeEnabled, Source={StaticResource BindingProxy_TimelineViewModel}}" />
+          <TextBlock Text="{mex:Localized TIMECODE_WINDOW_title}" />
+          <commonControls:TimeFrameTextBox Grid.Column="1" Width="70" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource {x:Type TextBox}}" UpdateTextOnEnterKey="True" FramesPerSecond="{Binding Fps}" TimeValue="{Binding Timeline.TimecodeOffset, Mode=TwoWay}" />
+        </StackPanel>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{mex:Localized PRESENTATION_FOOTER_TIMELINE_DURATION_label}" />
+          <controls:SecondsInput Grid.Column="1" Width="40" Margin="5,0,0,0" InputScope="Number" IsEnabled="{Binding CanFollowTimecode, Converter={StaticResource InvertedBoolConverter}}" Value="{Binding Timeline.Duration, Converter={StaticResource TimeSliceToDoubleSecondConverter}}" />
+        </Grid>
+        <StackPanel Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+          <commonControls:PathControl Width="20" PathType="DoubleArrow" StrokeThickness="1.5" Fill="{Binding Foreground, ElementName=timelineViewer}" Stroke="{Binding Foreground, ElementName=timelineViewer}" />
+          <Slider Name="Zoom" Grid.Column="2" Width="80" Height="22" Margin="5,0,0,0" IsDirectionReversed="True" IsMoveToPointEnabled="True" TickFrequency="1" TickPlacement="None" Maximum="{Binding ActualDuration.TotalSeconds, ElementName=TimelineControl}" Minimum="{Binding ZoomMinimum}" ToolTip="{mex:Localized PRESENTATION_HEADER_TIMELINE_ZOOM_tooltip}" Value="{Binding ZoomValue, Mode=TwoWay, Delay=200}" />
+        </StackPanel>
+      </UniformGrid>
+    </Grid>
+  </Border>
+</UserControl>

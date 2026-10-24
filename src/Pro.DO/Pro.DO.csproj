@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Pro.DO</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>netcoreapp9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Pro.Common">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <HintPath>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\9.0.13\PresentationCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Entity">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.SerializationInterop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.SerializationInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Serialization">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Text">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Localization">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.ssAPI">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.ssAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Common.Standard">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Reporting">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="ProCore.Interop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProCore.Interop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

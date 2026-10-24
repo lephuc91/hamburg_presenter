@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ui:SharedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI">
+  <ResourceDictionary.MergedDictionaries>
+    <ui:SharedResourceDictionary Source="../Resources/Paths/ClearGroups/ClearGroupIcons.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <Style x:Key="IconPathStyle" TargetType="{x:Type commonControls:PathControl}">
+    <Style.Triggers>
+      <DataTrigger Value="Zero" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Zero}" />
+      </DataTrigger>
+      <DataTrigger Value="One" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource One}" />
+      </DataTrigger>
+      <DataTrigger Value="Two" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Two}" />
+      </DataTrigger>
+      <DataTrigger Value="Three" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Three}" />
+      </DataTrigger>
+      <DataTrigger Value="Four" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Four}" />
+      </DataTrigger>
+      <DataTrigger Value="Five" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Five}" />
+      </DataTrigger>
+      <DataTrigger Value="Six" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Six}" />
+      </DataTrigger>
+      <DataTrigger Value="Seven" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Seven}" />
+      </DataTrigger>
+      <DataTrigger Value="Eight" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Eight}" />
+      </DataTrigger>
+      <DataTrigger Value="Nine" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Nine}" />
+      </DataTrigger>
+      <DataTrigger Value="All" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource All}" />
+      </DataTrigger>
+      <DataTrigger Value="Megahorn" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource MegaHorn}" />
+      </DataTrigger>
+      <DataTrigger Value="Play" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Play}" />
+      </DataTrigger>
+      <DataTrigger Value="Bulb" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Bulb}" />
+      </DataTrigger>
+      <DataTrigger Value="Sunglasses" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Sunglasses}" />
+      </DataTrigger>
+      <DataTrigger Value="Arrow" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Arrow}" />
+      </DataTrigger>
+      <DataTrigger Value="Target" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Target}" />
+      </DataTrigger>
+      <DataTrigger Value="Star" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Star}" />
+      </DataTrigger>
+      <DataTrigger Value="Sun" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Sun}" />
+      </DataTrigger>
+      <DataTrigger Value="Bell" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Bell}" />
+      </DataTrigger>
+      <DataTrigger Value="Paperclip" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Paperclip}" />
+      </DataTrigger>
+      <DataTrigger Value="Flask" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Flask}" />
+      </DataTrigger>
+      <DataTrigger Value="Eyeglasses" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Eyeglasses}" />
+      </DataTrigger>
+      <DataTrigger Value="Cupcake" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Cupcake}" />
+      </DataTrigger>
+      <DataTrigger Value="Slide" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Slide}" />
+      </DataTrigger>
+      <DataTrigger Value="Hat" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Hat}" />
+      </DataTrigger>
+      <DataTrigger Value="Flower" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Flower}" />
+      </DataTrigger>
+      <DataTrigger Value="Heart" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Heart}" />
+      </DataTrigger>
+      <DataTrigger Value="Message" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Message}" />
+      </DataTrigger>
+      <DataTrigger Value="Audio" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Audio}" />
+      </DataTrigger>
+      <DataTrigger Value="Cloud" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Cloud}" />
+      </DataTrigger>
+      <DataTrigger Value="Exclamation" Binding="{Binding}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Exclamation}" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+  <Style x:Key="ClearGroupIconPathStyle" TargetType="{x:Type commonControls:PathControl}">
+    <Style.Triggers>
+      <DataTrigger Value="Zero" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Zero}" />
+      </DataTrigger>
+      <DataTrigger Value="One" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource One}" />
+      </DataTrigger>
+      <DataTrigger Value="Two" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Two}" />
+      </DataTrigger>
+      <DataTrigger Value="Three" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Three}" />
+      </DataTrigger>
+      <DataTrigger Value="Four" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Four}" />
+      </DataTrigger>
+      <DataTrigger Value="Five" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Five}" />
+      </DataTrigger>
+      <DataTrigger Value="Six" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Six}" />
+      </DataTrigger>
+      <DataTrigger Value="Seven" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Seven}" />
+      </DataTrigger>
+      <DataTrigger Value="Eight" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Eight}" />
+      </DataTrigger>
+      <DataTrigger Value="Nine" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Nine}" />
+      </DataTrigger>
+      <DataTrigger Value="All" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource All}" />
+      </DataTrigger>
+      <DataTrigger Value="Megahorn" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource MegaHorn}" />
+      </DataTrigger>
+      <DataTrigger Value="Play" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Play}" />
+      </DataTrigger>
+      <DataTrigger Value="Bulb" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Bulb}" />
+      </DataTrigger>
+      <DataTrigger Value="Sunglasses" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Sunglasses}" />
+      </DataTrigger>
+      <DataTrigger Value="Arrow" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Arrow}" />
+      </DataTrigger>
+      <DataTrigger Value="Target" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Target}" />
+      </DataTrigger>
+      <DataTrigger Value="Star" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Star}" />
+      </DataTrigger>
+      <DataTrigger Value="Sun" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Sun}" />
+      </DataTrigger>
+      <DataTrigger Value="Bell" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Bell}" />
+      </DataTrigger>
+      <DataTrigger Value="Paperclip" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Paperclip}" />
+      </DataTrigger>
+      <DataTrigger Value="Flask" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Flask}" />
+      </DataTrigger>
+      <DataTrigger Value="Eyeglasses" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Eyeglasses}" />
+      </DataTrigger>
+      <DataTrigger Value="Cupcake" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Cupcake}" />
+      </DataTrigger>
+      <DataTrigger Value="Slide" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Slide}" />
+      </DataTrigger>
+      <DataTrigger Value="Hat" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Hat}" />
+      </DataTrigger>
+      <DataTrigger Value="Flower" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Flower}" />
+      </DataTrigger>
+      <DataTrigger Value="Heart" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Heart}" />
+      </DataTrigger>
+      <DataTrigger Value="Message" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Message}" />
+      </DataTrigger>
+      <DataTrigger Value="Audio" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Audio}" />
+      </DataTrigger>
+      <DataTrigger Value="Cloud" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Cloud}" />
+      </DataTrigger>
+      <DataTrigger Value="Exclamation" Binding="{Binding ImageType}">
+        <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Exclamation}" />
+      </DataTrigger>
+    </Style.Triggers>
+  </Style>
+</ui:SharedResourceDictionary>

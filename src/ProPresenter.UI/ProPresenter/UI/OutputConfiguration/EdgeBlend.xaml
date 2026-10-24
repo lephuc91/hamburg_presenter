@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.OutputConfiguration.EdgeBlend" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO.OutputConfiguration;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.OutputConfiguration" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" x:Name="edgeBlend">
+  <FrameworkElement.Resources>
+    <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    <ObjectDataProvider x:Key="BlendModeEnum" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+      <ObjectDataProvider.MethodParameters>
+        <x:TypeExtension TypeName="do:BlendMode" />
+      </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <Style BasedOn="{StaticResource {x:Type Slider}}" TargetType="{x:Type Slider}">
+      <Setter Property="Slider.IsMoveToPointEnabled" Value="True" />
+    </Style>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="3*" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized GLOBAL_WIDTH}" />
+    <Slider Name="size" Grid.Row="1" Grid.Column="2" Margin="0,0,5,0" VerticalAlignment="Center" Minimum="0" Maximum="{Binding MaxBlendWidth, ElementName=edgeBlend}" Value="{Binding BlendWidth, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:IntegerUpDown Grid.Row="1" Grid.Column="3" Height="22" MinWidth="60" VerticalAlignment="Center" Minimum="0" Maximum="{Binding Maximum, ElementName=size}" Value="{Binding Value, ElementName=size, Mode=TwoWay}" />
+    <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_EDGE_BLEND_TAB_LEFT_SCREEN_label}" />
+    <TextBlock Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_EDGE_BLEND_TAB_RIGHT_SCREEN_label}" />
+    <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,0,5,5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_EDGE_BLEND_TAB_CURVE_label}" />
+    <local:EdgeBlendCurveSelector Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Center" BlendMode="{Binding EdgeBlendOptions.FirstScreen.BlendMode, ElementName=edgeBlend, Mode=TwoWay}" />
+    <local:EdgeBlendCurveSelector Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2" Margin="0,0,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Center" BlendMode="{Binding EdgeBlendOptions.SecondScreen.BlendMode, ElementName=edgeBlend, Mode=TwoWay}" />
+    <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,0,5,5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_EDGE_BLEND_TAB_RADIUS_label}" />
+    <Slider Name="firstRadius" Grid.Row="4" Grid.Column="2" Margin="0,0,5,5" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding EdgeBlendOptions.FirstScreen.Radius, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:DoubleUpDown Grid.Row="4" Grid.Column="3" Height="22" MinWidth="60" Margin="0,0,0,5" VerticalAlignment="Center" FormatString="{}{0:0.##}" Increment=".01" Minimum="0" Maximum="{Binding Maximum, ElementName=firstRadius}" Value="{Binding Value, ElementName=firstRadius, Mode=TwoWay}" />
+    <Slider Name="secondRadius" Grid.Row="4" Grid.Column="6" Margin="0,0,5,5" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding EdgeBlendOptions.SecondScreen.Radius, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:DoubleUpDown Grid.Row="4" Grid.Column="7" Height="22" MinWidth="60" Margin="0,0,0,5" VerticalAlignment="Center" FormatString="{}{0:0.##}" Increment=".01" Minimum="0" Maximum="{Binding Maximum, ElementName=secondRadius}" Value="{Binding Value, ElementName=secondRadius, Mode=TwoWay}" />
+    <TextBlock Grid.Row="5" Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_EDGE_BLEND_TAB_GAMMA_label}" />
+    <Slider Name="firstGamma" Grid.Row="5" Grid.Column="2" Margin="0,0,5,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding EdgeBlendOptions.FirstScreen.Gamma, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:DoubleUpDown Grid.Row="5" Grid.Column="3" Height="22" MinWidth="60" VerticalAlignment="Center" FormatString="{}{0:0.##}" Increment=".01" Minimum="0" Maximum="{Binding Maximum, ElementName=firstGamma}" Value="{Binding Value, ElementName=firstGamma, Mode=TwoWay}" />
+    <Slider Name="secondGamma" Grid.Row="5" Grid.Column="6" Margin="0,0,5,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding EdgeBlendOptions.SecondScreen.Gamma, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:DoubleUpDown Grid.Row="5" Grid.Column="7" Height="22" MinWidth="60" VerticalAlignment="Center" FormatString="{}{0:0.##}" Increment=".01" Minimum="0" Maximum="{Binding Maximum, ElementName=secondGamma}" Value="{Binding Value, ElementName=secondGamma, Mode=TwoWay}" />
+    <TextBlock Grid.Row="6" Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_EDGE_BLEND_TAB_INTENSITY_label}" />
+    <Slider Name="firstIntensity" Grid.Row="6" Grid.Column="2" Margin="0,0,5,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding EdgeBlendOptions.FirstScreen.Intensity, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:DoubleUpDown Grid.Row="6" Grid.Column="3" Height="22" MinWidth="60" VerticalAlignment="Center" FormatString="{}{0:0.##}" Increment=".01" Minimum="0" Maximum="{Binding Maximum, ElementName=firstIntensity}" Value="{Binding Value, ElementName=firstIntensity, Mode=TwoWay}" />
+    <Slider Name="secondIntensity" Grid.Row="6" Grid.Column="6" Margin="0,0,5,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding EdgeBlendOptions.SecondScreen.Intensity, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:DoubleUpDown Grid.Row="6" Grid.Column="7" Height="22" MinWidth="60" VerticalAlignment="Center" FormatString="{}{0:0.##}" Increment=".01" Minimum="0" Maximum="{Binding Maximum, ElementName=secondIntensity}" Value="{Binding Value, ElementName=secondIntensity, Mode=TwoWay}" />
+    <TextBlock Grid.Row="7" Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_EDGE_BLEND_TAB_BLACK_label}" />
+    <Slider Name="firstBlackLevel" Grid.Row="7" Grid.Column="2" Margin="0,0,5,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding EdgeBlendOptions.FirstScreen.Screen.BlendCompensation.BlackLevel, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:DoubleUpDown Grid.Row="7" Grid.Column="3" Height="22" MinWidth="60" VerticalAlignment="Center" FormatString="{}{0:0.##}" Increment=".01" Minimum="0" Maximum="{Binding Maximum, ElementName=firstBlackLevel}" Value="{Binding Value, ElementName=firstBlackLevel, Mode=TwoWay}" />
+    <Slider Name="secondBlackLevel" Grid.Row="7" Grid.Column="6" Margin="0,0,5,0" VerticalAlignment="Center" Maximum="1" Minimum="0" Value="{Binding EdgeBlendOptions.SecondScreen.Screen.BlendCompensation.BlackLevel, ElementName=edgeBlend, Mode=TwoWay}" />
+    <commonControls:DoubleUpDown Grid.Row="7" Grid.Column="7" Height="22" MinWidth="60" VerticalAlignment="Center" FormatString="{}{0:0.##}" Increment=".01" Minimum="0" Maximum="{Binding Maximum, ElementName=secondBlackLevel}" Value="{Binding Value, ElementName=secondBlackLevel, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

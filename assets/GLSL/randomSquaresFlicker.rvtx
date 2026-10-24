@@ -1,0 +1,11 @@
+{
+    "category": "Objects",
+    "description": "Random Squares Flicker",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Random Squares Flicker",
+    "numPasses": 1,
+    "shaderFile": "randomSquaresFlicker",
+    "type": 1,
+    "uuid": "E4650E1F-B42E-4492-9824-BE4D8E27E833"
+}

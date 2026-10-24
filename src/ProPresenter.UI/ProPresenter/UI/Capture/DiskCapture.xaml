@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Capture.DiskCapture" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:captureDO="clr-namespace:ProPresenter.DO.Capture;assembly=ProPresenter.DO" xmlns:captureUI="clr-namespace:ProPresenter.UI.Capture" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:doStorage="clr-namespace:Pro.DO.Storage;assembly=Pro.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="disk">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="diskVMProxy" Data="{Binding}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <captureUI:DirectoryToNameConverter x:Key="DirectoryToNameConverter" />
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <ContextMenu x:Key="SaveToLocationMenu" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <CollectionViewSource x:Key="SaveToDefaultLocations" Source="{Binding Data.DefaultSaveToLocations, Source={StaticResource diskVMProxy}}" />
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type doStorage:RelativePath}}">
+              <MenuItem Command="{Binding Data.SelectDefaultLocationCommand, Source={StaticResource diskVMProxy}}" CommandParameter="{Binding}" ToolTip="{Binding FullPath}">
+                <HeaderedItemsControl.Header>
+                  <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Mode=OneWay, Converter={StaticResource DirectoryToNameConverter}}" />
+                </HeaderedItemsControl.Header>
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="Data.SaveToLocation" Source="{StaticResource diskVMProxy}" />
+                    <Binding />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <MenuItem IsEnabled="False" Header="{mex:Localized RECORDING_WINDOW_SAVE_TO_HEADER_title}" />
+            <CollectionContainer Collection="{Binding Source={StaticResource SaveToDefaultLocations}}" />
+            <MenuItem Command="{Binding Data.SaveToOtherLocationCommand, Source={StaticResource diskVMProxy}}" Header="{mex:Localized RECORDING_WINDOW_SAVE_TO_OTHER_LOCATION_title}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <Style x:Key="ResolutionMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.SelectResolutionCommand, Source={StaticResource diskVMProxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="Header">
+          <Setter.Value>
+            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" DataContext="{Binding}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}">
+              <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} x {1}">
+                  <Binding Path="X" />
+                  <Binding Path="Y" />
+                </MultiBinding>
+              </TextBlock.Text>
+            </TextBlock>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <ContextMenu x:Key="ResolutionMenu" Placement="Bottom" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" Margin="0,0,0,5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Text="{mex:Localized RECORDING_WINDOW_SAVE_TO_label}" />
+      <commonControls:DropDownButton Grid.Column="1" Height="24" CustomContextMenu="{StaticResource SaveToLocationMenu}" ToolTip="{Binding SaveToLocation.FullPath}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Margin" Value="0" />
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type commonControls:DropDownButton}">
+            <Setter Property="commonControls:DropDownButton.CustomContent" Value="{Binding SaveToLocation, Converter={StaticResource DirectoryToNameConverter}}" />
+            <Setter Property="IsEnabled" Value="True" />
+            <Style.Triggers>
+              <DataTrigger xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib" Value="{x:Static system1:String.Empty}" Binding="{Binding SaveToLocation.FullPath}">
+                <Setter Property="commonControls:DropDownButton.CustomContent" Value="{mex:Localized RECORDING_WINDOW_BUTTON_SELECT_A_LOCATION_title}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:DropDownButton>
+    </Grid>
+    <Grid Row="1" Margin="0,0,0,5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Text="{mex:Localized RECORDING_WINDOW_DISK_CODEC_label}" />
+      <ComboBox Grid.Column="1" ItemsSource="{Binding Codecs}" SelectedItem="{Binding Codec, Mode=TwoWay}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Margin="0" HorizontalAlignment="Left" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+    </Grid>
+    <Grid Row="2" Margin="0,0,0,5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Text="{mex:Localized RECORDING_WINDOW_RTMP_ENCODING_label}" />
+      <captureUI:EncoderSelectionControl Grid.Column="1" Destination="{x:Static captureDO:DestinationType.Disk}" SelectCustomEncoderCommand="{Binding Data.SelectCustomEncoderCommand, Source={StaticResource diskVMProxy}}" SelectEncoderCommand="{Binding Data.SelectEncoderCommand, Source={StaticResource diskVMProxy}}" SelectedEncoder="{Binding Data.Encoder, Source={StaticResource diskVMProxy}}" />
+    </Grid>
+    <Grid Row="3" Margin="0,0,0,5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Text="{mex:Localized RECORDING_WINDOW_AUDIO_label}" />
+      <Button Grid.Column="1" Padding="5,0" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Content="{mex:Localized RECORDING_WINDOW_AUDIO_BUTTON_title}">
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Placement="Bottom">
+            <Control.Template>
+              <ControlTemplate>
+                <captureUI:StreamAudioChannelControl xmlns:audio="clr-namespace:Pro.UI.Controls.Audio;assembly=Pro.UI" AutoOnly="True" BorderThickness="1" ShowInputAudioControls="False" ShowMuteAndSoloButtons="False" ShowOutputAudioControls="False" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" AudioMap="{Binding Data.AudioOutputMap, Source={StaticResource diskVMProxy}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" BorderBrush="{Binding (uiUtility:UIElementHelper.Palette).Standard.Border, RelativeSource={RelativeSource Self}}" ColumnHeaderText="{mex:Localized RECORDING_WINDOW_AUDIO_ROUTING_OUTPUT_CHANNEL_label}" RowHeaderText="{mex:Localized AUDIO_PREFERENCES_ROUTING_PROPRESENTER_CHANNEL_label}" TextElement.Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}" />
+              </ControlTemplate>
+            </Control.Template>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+      </Button>
+    </Grid>
+  </Grid>
+</UserControl>

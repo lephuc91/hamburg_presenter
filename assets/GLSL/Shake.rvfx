@@ -1,0 +1,30 @@
+{
+    "description": "Random shake.",
+    "name": "Shake",
+    "numPasses": 1,
+    "shaderFile": "Shake",
+    "type": 0,
+    "uuid": "5472C6A3-59A0-4ED5-AE13-0059E2D185C9",
+    "variables": [
+        {
+            "name": "frequency",
+            "label": "Frequency",
+            "description": "Frequency of shake",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "intensity",
+            "label": "Intensity",
+            "description": "Frequency of shake",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.Footer.SignedInFooter" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.Footer" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Button VerticalAlignment="Center" Command="{Binding SignOutCommand}" Content="{mex:Localized SETTINGS_ACCOUNT_SIGN_OUT_BUTTON_title}" />
+    <Button Grid.Column="2" VerticalAlignment="Center" Command="{Binding ManageAccountCommand}" Content="{mex:Localized SETTINGS_ACCOUNT_MANAGE_ACCOUNT_BUTTON_title}" />
+    <commonControls:HelpButton Grid.Column="3" Margin="8,0,0,0" VerticalAlignment="Center" HelpCommand="{Binding HelpCommand}" />
+  </Grid>
+</UserControl>

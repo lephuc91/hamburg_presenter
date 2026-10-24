@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Media.MediaSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:pages="clr-namespace:ProPresenter.UI.Settings.PageTemplates" xmlns:settings="clr-namespace:ProPresenter.UI.Settings" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Media" xmlns:media="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Media">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="mediaSettingsVMProxy" Data="{Binding}" />
+      <converters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <ObjectDataProvider x:Key="ForegroundMediaBehavior" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="vm:ForegroundMediaAudioBehaviorInternal" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <Style x:Key="ForegroundMediaBehaviorStyle" BasedOn="{StaticResource {x:Type commonControls:BorderlessComboBox}}" TargetType="{x:Type commonControls:BorderlessComboBox}">
+        <Setter Property="ItemTemplate">
+          <Setter.Value>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Left" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <Grid Margin="{Binding Source={x:Static settings:PageConstants.PAGE_MARGIN}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" Margin="0,0,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Text="{mex:Localized SETTINGS_MEDIA_MEDIA_MANAGEMENT_SECTION_title}" />
+      <commonControls:GroupedControl Grid.Row="1">
+        <Grid DataContext="{Binding Data, Source={StaticResource mediaSettingsVMProxy}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_MEDIA_MANAGE_MEDIA_AUTOMATICALLY_title}" />
+          <commonControls:ToggleSwitch Grid.Row="0" Grid.Column="1" IsChecked="{Binding ManageMediaAutomatically, Mode=TwoWay}" />
+          <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_MEDIA_MANAGE_MEDIA_AUTOMATICALLY_description}" />
+        </Grid>
+        <Grid DataContext="{Binding Data, Source={StaticResource mediaSettingsVMProxy}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_MEDIA_MISSING_MEDIA_AUTO_RELINK_title}" />
+          <commonControls:ToggleSwitch Grid.Row="0" Grid.Column="1" IsChecked="{Binding AutoRelink, Mode=TwoWay}" />
+          <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_MEDIA_MISSING_MEDIA_AUTO_RELINK_description}" />
+        </Grid>
+      </commonControls:GroupedControl>
+      <commonControls:GroupedControl Grid.Row="2" Margin="0,10,0,0">
+        <pages:ChildPageButton ChildPageVM="{Binding Data.SearchPathsSettingsVM, Source={StaticResource mediaSettingsVMProxy}}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Width="40" Height="40" Margin="0,0,8,0" CornerRadius="8" Background="{Binding SOURCELIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+              <Image Width="24" Source="{StaticResource {x:Static themes:Icons.SettingsMediaSearch}}" Stretch="Uniform" />
+            </Border>
+            <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_MEDIA_MISSING_MEDIA_SEARCH_PATHS_title}" />
+          </Grid>
+        </pages:ChildPageButton>
+      </commonControls:GroupedControl>
+      <commonControls:GroupedControl Grid.Row="3" Margin="0,10,0,0">
+        <Grid DataContext="{Binding Data.MediaCleanupVM, Source={StaticResource mediaSettingsVMProxy}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_MEDIA_CLEANUP_UNLINKED_MEDIA_title}" />
+          <commonControls:LoadingIndicator Grid.Row="0" Grid.Column="1" Width="20" Height="20" Margin="0,0,8,8" HorizontalAlignment="Center" VerticalAlignment="Center" DisplayMode="Spinner" Fill="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding CleanupInProgress, Converter={StaticResource ValueToVisibilityConverter}}" />
+          <Button Grid.Row="0" Grid.Column="2" Margin="0,0,0,8" VerticalAlignment="Center" Command="{Binding CleanupCommand}" Content="{mex:Localized SETTINGS_MEDIA_CLEANUP_BUTTON_title}" />
+          <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_MEDIA_CLEANUP_UNLINKED_MEDIA_description}" />
+        </Grid>
+      </commonControls:GroupedControl>
+      <TextBlock Grid.Row="4" Margin="0,25,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Text="{mex:Localized SETTINGS_MEDIA_VIDEO_PLAYBACK_SECTION_title}" />
+      <commonControls:GroupedControl Grid.Row="5">
+        <Grid DataContext="{Binding Data, Source={StaticResource mediaSettingsVMProxy}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_MEDIA_SUPPRESS_AUTO_START_VIDEO_windows_title}" />
+          <commonControls:ToggleSwitch Grid.Row="0" Grid.Column="1" IsChecked="{Binding SuppressVideoStart, Mode=TwoWay}" />
+          <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_MEDIA_SUPPRESS_AUTO_START_VIDEO_description}" />
+        </Grid>
+      </commonControls:GroupedControl>
+      <TextBlock Grid.Row="6" Margin="0,25,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Text="{mex:Localized SETTINGS_MEDIA_FOREGROUND_MEDIA_BEHAVIOR_SECTION_title}" />
+      <commonControls:GroupedControl Grid.Row="7" Margin="0,0,0,15">
+        <Grid DataContext="{Binding Data, Source={StaticResource mediaSettingsVMProxy}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_MEDIA_PRESENTATION_MEDIA_BEHAVIOR_title}" />
+          <commonControls:BorderlessComboBox Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource ForegroundMediaBehaviorStyle}" ItemsSource="{Binding Source={StaticResource ForegroundMediaBehavior}}" SelectedItem="{Binding PresentationForegroundMediaAudioBehavior, Mode=TwoWay}" />
+        </Grid>
+        <Grid DataContext="{Binding Data, Source={StaticResource mediaSettingsVMProxy}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_MEDIA_ANNOUNCEMENT_MEDIA_BEHAVIOR_title}" />
+          <commonControls:BorderlessComboBox Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource ForegroundMediaBehaviorStyle}" ItemsSource="{Binding Source={StaticResource ForegroundMediaBehavior}}" SelectedItem="{Binding AnnouncementForegroundMediaAudioBehavior, Mode=TwoWay}" />
+        </Grid>
+      </commonControls:GroupedControl>
+      <commonControls:HelpButton Grid.Row="8" HorizontalAlignment="Right" VerticalAlignment="Bottom" HelpCommand="{Binding HelpCommand}" />
+    </Grid>
+  </ScrollViewer>
+</UserControl>

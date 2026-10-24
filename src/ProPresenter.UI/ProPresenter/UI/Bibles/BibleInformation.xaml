@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Bibles.BibleInformation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="self" Width="450" xmlns:bibles="clr-namespace:ProPresenter.UI.Bibles" Background="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding POPUPCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderThickness="1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+    <Grid Margin="20">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Opacity="0.5" Text="{mex:Localized BIBLE_INFO_VIEW_NAME_label}" />
+      <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" Text="{Binding Name}" />
+      <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Opacity="0.5" Text="{mex:Localized BIBLE_INFO_VIEW_ABBREVIATION_label}" />
+      <TextBlock Grid.Row="1" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" Text="{Binding DisplayAbbreviation}" />
+      <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Opacity="0.5" Text="{mex:Localized BIBLE_INFO_VIEW_VERSION_label}" />
+      <TextBlock Grid.Row="2" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" Text="{Binding Version}" />
+      <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Opacity="0.5" Text="{mex:Localized BIBLE_INFO_VIEW_REVISION_label}" />
+      <TextBlock Grid.Row="3" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" Text="{Binding Revision}" />
+      <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Opacity="0.5" Text="{mex:Localized BIBLE_INFO_VIEW_COPYRIGHT_label}" />
+      <TextBlock Grid.Row="4" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" Text="{Binding Copyright}" />
+    </Grid>
+  </Border>
+</UserControl>

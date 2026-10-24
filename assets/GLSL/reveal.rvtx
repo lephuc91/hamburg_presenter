@@ -1,0 +1,22 @@
+{
+    "category": "Wipes",
+    "description": "Reveal",
+    "duration": 0.6,
+    "name": "Reveal",
+    "numPasses": 1,
+    "shaderFile": "reveal",
+    "type": 1,
+    "uuid": "3EA3BC78-9A06-480D-8E6E-3A51A47BD0D6",
+    "variables": [
+        {
+            "name": "direction",
+            "label": "Direction",
+            "description": "Direction of Reveal",
+            "type": 3,
+            "min": [495, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

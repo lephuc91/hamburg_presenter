@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ThumbnailOverlay.MissingMedia" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.ThumbnailOverlay" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="missingMedia" Background="#00FFFFFF">
+  <FrameworkElement.Style>
+    <Style TargetType="{x:Type local:MissingMedia}">
+      <Setter Property="local:MissingMedia.Command" Value="{x:Null}" />
+      <Setter Property="Foreground" Value="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+      <Setter Property="Visibility" Value="Visible" />
+      <Style.Triggers>
+        <MultiDataTrigger>
+          <MultiDataTrigger.Conditions>
+            <Condition Value="True" Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Self}}" />
+            <Condition Value="Collapsed" Binding="{Binding Mode=OneTime, Source={mex:FeatureFlag Cloud}}" />
+          </MultiDataTrigger.Conditions>
+          <Setter Property="Foreground" Value="{Binding BORDERLESSBUTTON_HOVER_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        </MultiDataTrigger>
+        <MultiDataTrigger>
+          <MultiDataTrigger.Conditions>
+            <Condition Value="True" Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Self}}" />
+            <Condition Value="Collapsed" Binding="{Binding Mode=OneTime, Source={mex:FeatureFlag Cloud}}" />
+          </MultiDataTrigger.Conditions>
+          <Setter Property="Foreground" Value="{Binding BORDERLESSBUTTON_HOVER_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        </MultiDataTrigger>
+        <DataTrigger Value="Local" Binding="{Binding InvalidMediaType.Value}">
+          <Setter Property="local:MissingMedia.Command" Value="{Binding RelinkCommand}" />
+          <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_CONTEXT_MENU_LINK_MEDIA_win_title}" />
+        </DataTrigger>
+        <DataTrigger Value="Remote" Binding="{Binding InvalidMediaType.Value}">
+          <Setter Property="local:MissingMedia.Command" Value="{Binding DownloadCommand}" />
+          <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_MEDIA_ACTION_DOWNLOAD_PROCONTENT_tooltip}" />
+        </DataTrigger>
+        <MultiDataTrigger>
+          <MultiDataTrigger.Conditions>
+            <Condition Value="False" Binding="{Binding Path=AllowOpenVideoInputSetup, RelativeSource={RelativeSource Self}}" />
+            <Condition Value="Device" Binding="{Binding InvalidMediaType.Value}" />
+          </MultiDataTrigger.Conditions>
+          <Setter Property="local:MissingMedia.Command" Value="{x:Null}" />
+          <Setter Property="Foreground" Value="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        </MultiDataTrigger>
+        <MultiDataTrigger>
+          <MultiDataTrigger.Conditions>
+            <Condition Value="True" Binding="{Binding Path=AllowOpenVideoInputSetup, RelativeSource={RelativeSource Self}}" />
+            <Condition Value="Device" Binding="{Binding InvalidMediaType.Value}" />
+          </MultiDataTrigger.Conditions>
+          <Setter Property="local:MissingMedia.Command" Value="{Binding ReconnectVideoInputCommand}" />
+          <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PRESENTATION_MEDIA_ACTION_CONFIGURE_VIDEO_INPUT_tooltip}" />
+        </MultiDataTrigger>
+        <DataTrigger Value="Active" Binding="{Binding DownloadProgress.Value.Status}">
+          <Setter Property="local:MissingMedia.Command" Value="{Binding CancelDownloadCommand}" />
+          <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized CUE_INSPECTOR_CANCEL_PROCONTENT_DOWNLOAD_title}" />
+        </DataTrigger>
+        <DataTrigger Value="CenterIconOnly" Binding="{Binding Type}">
+          <Setter Property="local:MissingMedia.Command" Value="{x:Null}" />
+          <Setter Property="Foreground" Value="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        </DataTrigger>
+        <DataTrigger Value="True" Binding="{Binding IsValid.Value}">
+          <Setter Property="FrameworkElement.ToolTip" Value="{x:Null}" />
+        </DataTrigger>
+        <DataTrigger Value="Visible" Binding="{Binding Mode=OneTime, Source={mex:FeatureFlag Cloud}}">
+          <Setter Property="local:MissingMedia.Command" Value="{x:Null}" />
+          <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_IN_PROGRESS_title}" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Style>
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+      <local:ShouldShowTextValueConverter x:Key="ShouldShowTextValueConverter" />
+      <Style x:Key="StatusTextStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="UIElement.Effect" Value="{StaticResource DefaultDropShadowEffect}" />
+        <Setter Property="Foreground" Value="{Binding LIGHTCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="{Binding IsValid.Value, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <Style.Triggers>
+          <DataTrigger Value="Local" Binding="{Binding InvalidMediaType.Value}">
+            <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_RELINK_MEDIA_title}" />
+          </DataTrigger>
+          <DataTrigger Value="Remote" Binding="{Binding InvalidMediaType.Value}">
+            <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_MEDIA_title}" />
+          </DataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding DownloadProgress.Value, Converter={StaticResource IsNotNullToBoolConverter}}" />
+              <Condition Value="Active" Binding="{Binding DownloadProgress.Value.Status}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_DOWNLOAD_IN_PROGRESS_title}" />
+          </MultiDataTrigger>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type local:MissingMedia}}}" />
+              <Condition Value="True" Binding="{Binding DownloadProgress.Value, Converter={StaticResource IsNotNullToBoolConverter}}" />
+              <Condition Value="Active" Binding="{Binding DownloadProgress.Value.Status}" />
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Text" Value="{mex:Localized THUMBNAIL_OVERLAY_CANCEL_DOWNLOAD_MEDIA_title}" />
+          </MultiDataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition local:RingGridRowHelper.RingRowMargin="{Binding Path=RingSize, RelativeSource={RelativeSource AncestorType={x:Type local:MissingMedia}}}" />
+      <RowDefinition local:RingGridRowHelper.RingRow="{Binding Path=RingSize, RelativeSource={RelativeSource AncestorType={x:Type local:MissingMedia}}}" />
+      <RowDefinition>
+        <FrameworkContentElement.Style>
+          <Style TargetType="{x:Type RowDefinition}">
+            <Setter Property="Height" Value="{x:Static local:OverlayGridHeightConstants.RingTextRowHeight}" />
+            <Style.Triggers>
+              <DataTrigger Value="False">
+                <DataTrigger.Binding>
+                  <MultiBinding Converter="{StaticResource ShouldShowTextValueConverter}">
+                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Grid}" />
+                    <Binding ElementName="missingMedia" Path="ShowText" />
+                    <Binding Path="InvalidMediaType.Value" />
+                  </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter Property="Height" Value="0" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkContentElement.Style>
+      </RowDefinition>
+      <RowDefinition local:RingGridRowHelper.RingRowMargin="{Binding Path=RingSize, RelativeSource={RelativeSource AncestorType={x:Type local:MissingMedia}}}" />
+    </Grid.RowDefinitions>
+    <Grid Name="IconGrid" Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Grid>
+        <Border Name="BackgroundBorder" Opacity="0.2">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Border}">
+              <Setter Property="Background" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:MissingMedia}}}" />
+            </Style>
+          </FrameworkElement.Style>
+        </Border>
+        <Grid Name="ContentGrid" SizeChanged="ContentGrid_SizeChanged">
+          <local:MissingMediaRing Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:MissingMedia}}}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type local:MissingMediaRing}">
+                <Setter Property="Visibility" Value="{Binding IsValid.Value, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                <Style.Triggers>
+                  <DataTrigger Value="Active" Binding="{Binding DownloadProgress.Value.Status}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                  </DataTrigger>
+                  <DataTrigger Value="Visible" Binding="{Binding Mode=OneTime, Source={mex:FeatureFlag Cloud}}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </local:MissingMediaRing>
+          <local:ProContentDownloadProgress FontSize="30" DownloadProgress="{Binding DownloadProgress.Value}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type local:ProContentDownloadProgress}">
+                <Setter Property="local:ProContentDownloadProgress.ShowValue" Value="True" />
+                <Setter Property="Visibility" Value="Visible" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="Active" Binding="{Binding DownloadProgress.Value.Status}" />
+                      <Condition Value="True" Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource AncestorType=local:MissingMedia}}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="local:ProContentDownloadProgress.ShowValue" Value="False" />
+                  </MultiDataTrigger>
+                  <DataTrigger Value="True" Binding="{Binding IsValid.Value}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </local:ProContentDownloadProgress>
+        </Grid>
+      </Grid>
+    </Grid>
+    <Viewbox Grid.Row="2" Stretch="Uniform" StretchDirection="Both">
+      <TextBlock Margin="0,8,0,0" Style="{StaticResource StatusTextStyle}" TextOptions.TextFormattingMode="Ideal" />
+    </Viewbox>
+  </Grid>
+</UserControl>

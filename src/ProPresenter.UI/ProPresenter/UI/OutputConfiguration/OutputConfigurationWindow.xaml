@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.OutputConfiguration.OutputConfigurationWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.OutputConfiguration" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:testPatternUI="clr-namespace:ProPresenter.UI.TestPattern" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="outputConfiguration" Height="690" uiUtility:WindowHelper.CanOwnWindows="True" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.SendKeyEventsToMainWindow="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="Width" Style="{StaticResource {x:Type windowing:ChromedWindow}}" UseLayoutRounding="True" WindowStartupLocation="CenterOwner" Title="{mex:Localized SCREEN_CONFIGURATION_title}" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" Closing="OutputConfigurationWindow_Closing">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="outputConfigurationProxy" Data="{Binding ElementName=outputConfiguration}" />
+      <commonUtility:BindingProxy x:Key="screenConfigVM" Data="{Binding}" />
+      <commonConverters:TypeOfConverter x:Key="TypeOfConverter" />
+      <Style x:Key="TabItemContentStyle" TargetType="{x:Type FrameworkElement}">
+        <Setter Property="Margin" Value="10" />
+      </Style>
+      <Style x:Key="TabItemHeaderStyle" BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+        <Setter Property="MinWidth" Value="80" />
+      </Style>
+      <Style x:Key="TabItemStyle" BasedOn="{StaticResource TabItemHeaderStyle}" TargetType="{x:Type TabItem}">
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+          <DataTrigger Value="Stage" Binding="{Binding SelectedScreenArrangement.ScreenTargetType}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <local:DeviceSelector x:Key="deviceSelector" HorizontalAlignment="Right" Placement="Bottom" AddCombinedScreenCommand="{Binding Data.AddCombinedScreenCommand, Source={StaticResource screenConfigVM}}" AddEdgeBlendScreenCommand="{Binding Data.AddEdgeBlendScreenCommand, Source={StaticResource screenConfigVM}}" AssignDeviceCommand="{Binding Data.AssignDeviceCommand, Source={StaticResource screenConfigVM}}" AttachedPhysicalDevices="{Binding Data.AttachedPhysicalDevices, Source={StaticResource screenConfigVM}}" ClearScreenIdentifyCommand="{Binding Data.ClearScreenIdentifyCommand, Source={StaticResource screenConfigVM}}" Devices="{Binding Data.OutputConfiguration.Devices, Source={StaticResource screenConfigVM}}" IdentifyScreenCommand="{Binding Data.IdentifyScreenCommand, Source={StaticResource screenConfigVM}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="240" />
+      <ColumnDefinition Width="600" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <local:ScreenSelectionControl Grid.Column="0" DeviceSelector="{StaticResource deviceSelector}" ActivateScreenArrangementCommand="{Binding ActivateScreenArrangementCommand}" AudienceArrangementScreens="{Binding AudienceArrangementScreens}" AudienceEnable="{Binding AudienceEnable}" CanAddMoreScreens="{Binding CanAddMoreScreens}" RemoveScreenArrangementCommand="{Binding RemoveScreenArrangementCommand}" SelectedAudienceScreenArrangement="{Binding SelectedAudienceScreenArrangement}" SelectedStageScreenArrangement="{Binding SelectedStageScreenArrangement}" StageArrangementScreens="{Binding StageArrangementScreens}" StageEnable="{Binding StageEnable}" />
+    <Grid Row="1" Width="240" uiUtility:UIElementHelper.Palette="{Binding DETAILHEADER_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0" Margin="8" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{mex:Localized SCREEN_CONFIGURATION_IDENTIFY_SCREENS_title}" />
+      <commonControls:ToggleSwitch Grid.Row="0" Grid.Column="1" Height="22" Margin="8" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding IdentifyScreensActive, Mode=TwoWay}" />
+      <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+      <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Height="22" MinWidth="200" Margin="0,8" HorizontalAlignment="Center" uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:UIElementHelper.CornerRadius="4" CommandParameter="{x:Static testPatternUI:TestPatternUIShownSource.ScreenConfiguration}" Command="{Binding ViewMenu.TestPatterns.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Content="{Binding ViewMenu.TestPatterns.Label, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" />
+    </Grid>
+    <Border Grid.RowSpan="2" Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}">
+      <Grid>
+        <Grid>
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+              <Setter Property="Visibility" Value="Visible" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedScreenArrangement}" Value="{x:Null}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="220" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <local:ScreenControlHeader ChangeArrangementTypeCommand="{Binding ChangeArrangementTypeCommand}" RemoveScreenArrangementCommand="{Binding RemoveScreenArrangementCommand}" SelectedScreenArrangement="{Binding SelectedScreenArrangement}" />
+          <Grid Row="1" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}">
+            <local:ScreenGridSelector x:Name="screenGridSelector" BackgroundColor="{Binding MAINCONTENT_COLOR, Source={x:Static theming:AppTheme.Active}}" BorderColor="{Binding (uiUtility:UIElementHelper.Palette).Standard.ContentColor, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" RectFillColor="{Binding PANEL_COLOR, Source={x:Static theming:AppTheme.Active}}" ScreenArrangement="{Binding SelectedScreenArrangement}" SelectedScreen="{Binding SelectedScreen, ElementName=outputConfiguration, Mode=OneWayToSource}" TextColor="{Binding (uiUtility:UIElementHelper.Palette).Standard.ContentColor, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type local:ScreenGridSelector}">
+                  <Setter Property="local:ScreenGridSelector.ShowCornerPinning" Value="False" />
+                  <Style.Triggers>
+                    <DataTrigger Value="2" Binding="{Binding SelectedIndex, ElementName=hardwareTabControl}">
+                      <Setter Property="local:ScreenGridSelector.ShowCornerPinning" Value="True" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </local:ScreenGridSelector>
+          </Grid>
+          <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="{Binding CONTAINER, Source={x:Static theming:AppTheme.Active}}">
+            <Grid uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" MinHeight="20" />
+              </Grid.RowDefinitions>
+              <TextBlock Grid.Row="0" Margin="10,10,0,5" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                    <Setter Property="Text" Value="" />
+                    <Style.Triggers>
+                      <DataTrigger Value="Screen" Binding="{Binding ActiveSelectionMode, ElementName=screenGridSelector}">
+                        <Setter Property="Text" Value="{Binding SelectedScreen.OutputName, ElementName=screenGridSelector}" />
+                      </DataTrigger>
+                      <DataTrigger Value="Blend" Binding="{Binding ActiveSelectionMode, ElementName=screenGridSelector}">
+                        <Setter Property="Text">
+                          <Setter.Value>
+                            <MultiBinding StringFormat="{}{0} + {1}">
+                              <Binding ElementName="screenGridSelector" Path="SelectedBlend.FirstScreen.Screen.OutputName" />
+                              <Binding ElementName="screenGridSelector" Path="SelectedBlend.SecondScreen.Screen.OutputName" />
+                            </MultiBinding>
+                          </Setter.Value>
+                        </Setter>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+              <TabControl Name="hardwareTabControl" Grid.Row="1" Margin="20,0,20,0" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <Style x:Key="{x:Type TabPanel}" TargetType="{x:Type TabPanel}">
+                      <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <TabItem Style="{StaticResource TabItemHeaderStyle}" Header="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_title}">
+                  <local:Hardware DeviceSelector="{StaticResource deviceSelector}" Style="{StaticResource TabItemContentStyle}" HardwareRectangle="{Binding SelectedScreen.MainOutput, ElementName=screenGridSelector}" />
+                </TabItem>
+                <TabItem Style="{StaticResource TabItemStyle}" Header="{mex:Localized SCREEN_CONFIGURATION_COLOR_TAB_title}">
+                  <local:ColorPropertiesControl Style="{StaticResource TabItemContentStyle}" ColorAdjustmentOptions="{Binding SelectedScreen.ColorAdjustment, ElementName=screenGridSelector}" HardwareRectangle="{Binding SelectedScreen.MainOutput, ElementName=screenGridSelector}" />
+                </TabItem>
+                <TabItem Style="{StaticResource TabItemStyle}" Header="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_title}">
+                  <local:CornerPinning Style="{StaticResource TabItemContentStyle}" Screen="{Binding SelectedScreen, ElementName=screenGridSelector}" />
+                </TabItem>
+                <TabItem Style="{StaticResource TabItemStyle}" Header="{mex:Localized SCREEN_CONFIGURATION_ALPHA_KEY_TAB_title}">
+                  <local:AlphaKey DeviceSelector="{StaticResource deviceSelector}" Style="{StaticResource TabItemContentStyle}" Context="{Binding AlphaSettingsVM, ElementName=outputConfiguration}" />
+                </TabItem>
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type TabControl}">
+                    <Setter Property="Selector.SelectedIndex" Value="0" />
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                      <DataTrigger Value="Screen" Binding="{Binding ActiveSelectionMode, ElementName=screenGridSelector}">
+                        <Setter Property="Visibility" Value="Visible" />
+                      </DataTrigger>
+                      <DataTrigger Value="Stage" Binding="{Binding SelectedScreenArrangement.ScreenTargetType}">
+                        <Setter Property="Selector.SelectedIndex" Value="0" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TabControl>
+              <TabControl Grid.Row="1" Margin="20,0,20,0" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+                <FrameworkElement.Resources>
+                  <ResourceDictionary>
+                    <Style x:Key="{x:Type TabPanel}" TargetType="{x:Type TabPanel}">
+                      <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                  </ResourceDictionary>
+                </FrameworkElement.Resources>
+                <TabItem Style="{StaticResource TabItemHeaderStyle}" Header="{mex:Localized SCREEN_CONFIGURATION_EDGE_BLEND_TAB_title}">
+                  <local:EdgeBlend Style="{StaticResource TabItemContentStyle}" EdgeBlendOptions="{Binding SelectedBlend, ElementName=screenGridSelector}" />
+                </TabItem>
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type TabControl}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                      <DataTrigger Value="Blend" Binding="{Binding ActiveSelectionMode, ElementName=screenGridSelector}">
+                        <Setter Property="Visibility" Value="Visible" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TabControl>
+              <commonControls:HelpButton Grid.Row="2" Width="20" Height="20" Margin="0,10,16,10" HorizontalAlignment="Right" HelpCommand="{Binding ShowHelpCommand}" />
+            </Grid>
+          </Border>
+        </Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type StackPanel}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedScreenArrangement}" Value="{x:Null}">
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <TextBlock HorizontalAlignment="Center" FontSize="30" FontWeight="Bold" TextOptions.TextFormattingMode="Ideal" Text="{mex:Localized SCREEN_CONFIGURATION_NO_SCREEN_SELECTED_label}" />
+          <TextBlock HorizontalAlignment="Center" FontSize="15" TextOptions.TextFormattingMode="Ideal" Text="{mex:Localized SCREEN_CONFIGURATION_ADD_SCREEN_explanation}" />
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Grid>
+</windowing:ChromedWindow>

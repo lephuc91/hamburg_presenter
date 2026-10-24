@@ -1,0 +1,30 @@
+{
+    "description": "Divides the images up into repeating tiles.",
+    "name": "Tile",
+    "numPasses": 1,
+    "shaderFile": "Tile",
+    "type": 0,
+    "uuid": "4FF40112-9D47-43BA-A381-B685D13F5A89",
+    "variables": [
+        {
+            "name": "cells",
+            "label": "Cells",
+            "description": "Number of divisions",
+            "type": 1,
+            "min": [1, 1, 1, 1],
+            "max": [32, 32, 32, 32],
+            "defValue": [2, 2, 2, 2],
+            "value": [1, 1, 1, 1]
+        },
+        {
+            "name": "gridSize",
+            "label": "Size",
+            "description": "Size of grid",
+            "type": 0,
+            "min": [0, 0, 0, 0],
+            "max": [20, 20, 20, 20],
+            "defValue": [5, 5, 5, 5],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

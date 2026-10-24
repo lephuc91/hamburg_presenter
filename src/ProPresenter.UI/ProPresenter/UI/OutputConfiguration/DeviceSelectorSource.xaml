@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commonComponents:FrameworkCollection x:Class="ProPresenter.UI.OutputConfiguration.DeviceSelectorSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonComponents="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO.OutputConfiguration;assembly=ProPresenter.DO" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.OutputConfiguration" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="sourceSelf">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="sourceSelfProxy" Data="{Binding ElementName=sourceSelf}" />
+      <commonConverters:TypeOfConverter x:Key="TypeOfConverter" />
+      <local:DeviceTypeFilterConverter x:Key="DeviceTypeFilterConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <Style x:Key="showNewScreenStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="{x:Static do:ScreenTargetType.Audience}" Binding="{Binding Data.PlacementTarget.DataContext, Source={StaticResource sourceSelfProxy}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="showSeparatorNewScreenStyle" BasedOn="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}" TargetType="{x:Type Separator}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="{x:Static do:ScreenTargetType.Audience}" Binding="{Binding Data.PlacementTarget.DataContext, Source={StaticResource sourceSelfProxy}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="showUnconfiguredStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="{x:Type do:CombinedScreenArrangement}" Binding="{Binding Data.PlacementTarget.Tag, Source={StaticResource sourceSelfProxy}, Converter={StaticResource TypeOfConverter}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Type do:EdgeBlendScreenArrangement}" Binding="{Binding Data.PlacementTarget.Tag, Source={StaticResource sourceSelfProxy}, Converter={StaticResource TypeOfConverter}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="showSeparatorUnconfiguredStyle" BasedOn="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}" TargetType="{x:Type Separator}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="{x:Type do:CombinedScreenArrangement}" Binding="{Binding Data.PlacementTarget.Tag, Source={StaticResource sourceSelfProxy}, Converter={StaticResource TypeOfConverter}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Type do:EdgeBlendScreenArrangement}" Binding="{Binding Data.PlacementTarget.Tag, Source={StaticResource sourceSelfProxy}, Converter={StaticResource TypeOfConverter}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="deviceTypeHeaderStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="#FFD3D3D3" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <MenuItem Command="{Binding Data.RemoveDeviceCommand, Source={StaticResource sourceSelfProxy}}" Header="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_SELECT_DEVICE_title}" Visibility="{Binding Data.ShowSelectDevice, Source={StaticResource sourceSelfProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+  <Separator Visibility="{Binding Data.ShowSelectDevice, Source={StaticResource sourceSelfProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+  <MenuItem IsEnabled="False">
+    <HeaderedItemsControl.Header>
+      <TextBlock Style="{StaticResource deviceTypeHeaderStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_SYSTEM_title}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <commonComponents:FrameworkCollectionWrapper BoundCollection="{Binding Data.AttachedPhysicalDevices, Source={StaticResource sourceSelfProxy}, Converter={StaticResource DeviceTypeFilterConverter}, ConverterParameter={x:Static do:DeviceType.Screen}}" />
+  <MenuItem IsEnabled="False">
+    <UIElement.Visibility>
+      <Binding Source="{x:Static do:PhysicalDevice.AnySDIDevicesAttached}">
+        <Binding.Converter>
+          <BooleanToVisibilityConverter />
+        </Binding.Converter>
+      </Binding>
+    </UIElement.Visibility>
+    <HeaderedItemsControl.Header>
+      <TextBlock Style="{StaticResource deviceTypeHeaderStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_SDI_title}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <commonComponents:FrameworkCollectionWrapper BoundCollection="{Binding Data.AttachedPhysicalDevices, Source={StaticResource sourceSelfProxy}, Converter={StaticResource DeviceTypeFilterConverter}, ConverterParameter={x:Static do:DeviceType.BlackmagicCard}}" />
+  <MenuItem IsEnabled="False">
+    <HeaderedItemsControl.Header>
+      <TextBlock Style="{StaticResource deviceTypeHeaderStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_NDI_title}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <commonComponents:FrameworkCollectionWrapper BoundCollection="{Binding Data.TemporaryDevices, Source={StaticResource sourceSelfProxy}, Converter={StaticResource DeviceTypeFilterConverter}, ConverterParameter={x:Static do:DeviceType.NDI}}" />
+  <commonComponents:FrameworkCollectionWrapper BoundCollection="{Binding Data.Devices, Source={StaticResource sourceSelfProxy}, Converter={StaticResource DeviceTypeFilterConverter}, ConverterParameter={x:Static do:DeviceType.NDI}}" />
+  <local:NDIDeviceSource AssignDeviceCommand="{Binding Data.AssignDeviceCommand, Source={StaticResource sourceSelfProxy}}" Header="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_NEW_NDI_title}" PlacementTarget="{Binding Data.PlacementTarget, Source={StaticResource sourceSelfProxy}}" />
+  <MenuItem IsEnabled="False">
+    <HeaderedItemsControl.Header>
+      <TextBlock Style="{StaticResource deviceTypeHeaderStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_PLACEHOLDER_title}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <commonComponents:FrameworkCollectionWrapper BoundCollection="{Binding Data.TemporaryDevices, Source={StaticResource sourceSelfProxy}, Converter={StaticResource DeviceTypeFilterConverter}, ConverterParameter={x:Static do:DeviceType.Placeholder}}" />
+  <commonComponents:FrameworkCollectionWrapper BoundCollection="{Binding Data.Devices, Source={StaticResource sourceSelfProxy}, Converter={StaticResource DeviceTypeFilterConverter}, ConverterParameter={x:Static do:DeviceType.Placeholder}}" />
+  <local:PlaceholderDeviceSource AssignDeviceCommand="{Binding Data.AssignDeviceCommand, Source={StaticResource sourceSelfProxy}}" Header="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_NEW_PLACEHOLDER_title}" PlacementTarget="{Binding Data.PlacementTarget, Source={StaticResource sourceSelfProxy}}" />
+  <Separator Style="{StaticResource showSeparatorNewScreenStyle}" />
+  <MenuItem Style="{StaticResource showNewScreenStyle}" Command="{Binding Data.AddCombinedScreenCommand, Source={StaticResource sourceSelfProxy}}">
+    <HeaderedItemsControl.Header>
+      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" Text="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_GROUPED_title}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <MenuItem Style="{StaticResource showNewScreenStyle}" Command="{Binding Data.AddEdgeBlendScreenCommand, Source={StaticResource sourceSelfProxy}}">
+    <HeaderedItemsControl.Header>
+      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" Text="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_EDGE_BLEND_title}" />
+    </HeaderedItemsControl.Header>
+  </MenuItem>
+  <Separator Style="{StaticResource showSeparatorUnconfiguredStyle}" />
+  <MenuItem Style="{StaticResource showUnconfiguredStyle}" Header="{mex:Localized SCREEN_CONFIGURATION_HARDWARE_TAB_DEVICE_MENU_UNCONFIGURED_title}" Click="Unconfigure_Click" />
+  <Separator Visibility="{Binding Data.CanOpenScreenConfig, Source={StaticResource sourceSelfProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+  <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding ScreensMenu.ConfigureScreens.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Visibility="{Binding Data.CanOpenScreenConfig, Source={StaticResource sourceSelfProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+</commonComponents:FrameworkCollection>

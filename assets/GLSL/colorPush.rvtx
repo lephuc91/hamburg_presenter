@@ -1,0 +1,11 @@
+{
+    "category": "Color",
+    "description": "Color Push",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Color Push",
+    "numPasses": 1,
+    "shaderFile": "colorPush",
+    "type": 1,
+    "uuid": "E958E7B0-E5C2-4C10-9B22-D1FE4FEA1E49"
+}

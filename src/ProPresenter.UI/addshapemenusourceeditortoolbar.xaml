@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ui:SharedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:enum="clr-namespace:ProPresenter.UI.ViewModels.Editor;assembly=ProPresenter.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:shapes="clr-namespace:ProPresenter.DO.Slide.Custom.Elements.Shapes;assembly=ProPresenter.DO" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI">
+  <ResourceDictionary.MergedDictionaries>
+    <ui:SharedResourceDictionary Source="pack://application:,,,/ProPresenter.UI;component/Resources/Paths/Paths.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <x:StaticExtension x:Key="Toolbar" Member="enum:InsertEditorObjectSourceType.EditorToolbar" />
+  <converters:AddElementCommandParameterConverter x:Key="AddElementCommandParametersConverter" />
+  <CompositeCollection x:Key="Source">
+    <MenuItem FontStyle="Italic" IsEnabled="False" Header="{markupExtensions:Localized TOOLBAR_EDITOR_MENU_INSERT_SHAPE_title}" />
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeRoundedRectangle.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}">
+          <Path.Data>
+            <RectangleGeometry RadiusX="3" RadiusY="3" Rect="2 2 14 14" />
+          </Path.Data>
+        </Path>
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.RoundedRectangle}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeRectangle.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Data="{StaticResource Rectangle}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.Rectangle}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeEllipse.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.Ellipse}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+      <MenuItem.Icon>
+        <Path Data="{StaticResource Ellipse}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeIsoscelesTriangle.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Data="{StaticResource Triagle}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.IsoscelesTriangle}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeRightTriangle.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Data="{StaticResource RightTriangle}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.RightTriangle}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeRhombus.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Data="{StaticResource Rhombus}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.Rhombus}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapePolygon.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Data="{StaticResource Polygon}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.Polygon}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeStar.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Data="{StaticResource Star}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.Star}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeDoubleArrow.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Data="{StaticResource DoubleArrow}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.DoubleArrow}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+    <commonControls:RoutedMenuItem Command="{Binding EditorMenu.InsertShapeArrow.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}">
+      <MenuItem.Icon>
+        <Path Data="{StaticResource Arrow}" Fill="{Binding MENU_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </MenuItem.Icon>
+      <MenuItem.CommandParameter>
+        <MultiBinding Converter="{StaticResource AddElementCommandParametersConverter}">
+          <Binding Source="{x:Static shapes:ShapeType.RightArrow}" />
+          <Binding Source="{StaticResource Toolbar}" />
+        </MultiBinding>
+      </MenuItem.CommandParameter>
+    </commonControls:RoutedMenuItem>
+  </CompositeCollection>
+</ui:SharedResourceDictionary>

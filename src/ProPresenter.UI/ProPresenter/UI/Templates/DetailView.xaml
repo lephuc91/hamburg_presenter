@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Templates.DetailView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProPresenter.UI.Templates" x:Name="detailView">
+  <Grid Margin="0,4,0,0">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <ScrollViewer Grid.Row="1" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+      <local:ThemeSlideList DeleteTemplateSlideCommand="{Binding ElementName=detailView, Path=DeleteTemplateSlideCommand}" EnableContextMenuOptions="{Binding ElementName=detailView, Path=EnableContextMenuOptions}" FocusVisualStyle="{x:Null}" IsMediaActionEnabled="{Binding ElementName=detailView, Path=IsMediaActionEnabled}" SelectTemplateSlideCommand="{Binding ElementName=detailView, Path=SelectTemplateCommand}" SelectedTemplate="{Binding ElementName=detailView, Path=SelectedTemplate}" TemplateSlideTooltipText="{Binding ElementName=detailView, Path=TemplateSlideTooltipText}" Theme="{Binding CurrentThemeContainer.Theme, ElementName=detailView}" />
+    </ScrollViewer>
+  </Grid>
+</UserControl>

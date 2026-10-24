@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PCOLive.PCOLiveViewer" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" x:Name="self" xmlns:pcolive="clr-namespace:ProPresenter.UI.PCOLive" Background="{Binding CANVAS, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <utility:BindingProxy x:Key="selfProxy" Data="{Binding ElementName=self}" />
+      <wpf:CoreWebView2CreationProperties x:Key="CreationProperties" UserDataFolder="{Binding Data.UserDataFolder, Source={StaticResource selfProxy}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized PCO_LIVE_WINDOW_NO_PLAN_SELECTED_WARNING_label}" Visibility="{Binding LivePlan, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+    <wpf:WebView2 Name="PCOWebView" CreationProperties="{StaticResource CreationProperties}" Visibility="{Binding LivePlan, ElementName=self, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}" />
+  </Grid>
+</UserControl>

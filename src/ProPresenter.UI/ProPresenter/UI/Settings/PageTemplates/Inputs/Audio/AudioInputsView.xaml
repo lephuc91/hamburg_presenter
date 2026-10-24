@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Inputs.Audio.AudioInputsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:input="clr-namespace:ProPresenter.UI.Input" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Inputs.Audio" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source=" /ProPresenter.UI;component/SourceDetailListResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid Visibility="{Binding AudioInputs.Count, Converter={StaticResource CountToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Border Grid.Row="0" BorderThickness="1" CornerRadius="4" Background="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+        <Grid ClipToBounds="True">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <input:AudioInputList Grid.Row="0" Background="#00FFFFFF" BorderThickness="0" ClipToBounds="True" DeselectOnLostFocus="False" SelectionMode="Single" Style="{StaticResource {x:Type ListBox}}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding RemoveAudioInputCommand}" ActiveItem="{Binding SelectedAudioInput}" ItemsSource="{Binding AudioInputs}">
+            <ItemsControl.ItemContainerStyle>
+              <Style BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+                <Setter Property="FrameworkElement.ContextMenu">
+                  <Setter.Value>
+                    <ContextMenu>
+                      <MenuItem Command="{x:Static commands:CommonApplicationCommands.Delete}" />
+                    </ContextMenu>
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+              </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <local:AudioInputItemTemplate Style="{DynamicResource AudioInputIconStyle}" DataContext="{Binding}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </input:AudioInputList>
+          <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" CornerRadius="0 0 4 4" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+            <local:AddAudioInput DataContext="{Binding}" />
+          </Border>
+        </Grid>
+      </Border>
+      <local:AudioInputSettings Grid.Row="1" />
+    </Grid>
+    <local:AddAudioInputOnEmpty DataContext="{Binding}" Visibility="{Binding AudioInputs.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}" />
+  </Grid>
+</UserControl>

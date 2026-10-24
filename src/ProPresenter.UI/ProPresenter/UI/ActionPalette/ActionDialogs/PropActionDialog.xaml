@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ActionPalette.ActionDialogs.PropActionDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actionsDO="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:actionsMenu="clr-namespace:ProPresenter.UI.ActionsMenu" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Props" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:props="clr-namespace:ProPresenter.DO.Props;assembly=ProPresenter.DO" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" Width="250" xmlns:actiondialogs="clr-namespace:ProPresenter.UI.ActionPalette.ActionDialogs">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="TextStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+        <Setter Property="Margin" Value="0,5" />
+      </Style>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonConverters:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <converters:PropGroupCheckedConverter x:Key="PropGroupCheckedConverter" />
+      <commonConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type props:PropCue}}">
+        <MenuItem uiUtility:CommandHelper.CommandParameter="{Binding}" Command="{Binding Data.SelectPropCommand, Source={StaticResource proxy}}" Header="{Binding Name}">
+          <MenuItem.IsChecked>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+              <Binding Path="Data.Action.PropID" Source="{StaticResource proxy}" />
+              <Binding Path="ID" />
+            </MultiBinding>
+          </MenuItem.IsChecked>
+        </MenuItem>
+      </ItemContainerTemplate>
+      <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type props:PropGroup}}">
+        <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding}">
+          <MenuItem.IsChecked>
+            <MultiBinding Mode="OneWay" Converter="{StaticResource PropGroupCheckedConverter}">
+              <Binding />
+              <Binding Path="Data.Action.PropID" Source="{StaticResource proxy}" />
+            </MultiBinding>
+          </MenuItem.IsChecked>
+        </MenuItem>
+      </ItemContainerTemplate>
+      <MenuItem x:Key="NoPropMenuItem" IsChecked="True" Header="{mex:Localized GLOBAL_NO_SELECTION}" Visibility="{Binding Data.Action.PropID, ConverterParameter={x:Static system1:Guid.Empty}, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+      <MenuItem x:Key="OpenPropsMenuItem" uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ViewMenu.Props.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized ACTION_PALETTE_OPEN_PROPS_title}" />
+      <ContextMenu x:Key="PropGroupsMenu" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <CollectionViewSource x:Key="PropGroups" Source="{Binding Data.PropGroups, Source={StaticResource proxy}}" />
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <StaticResourceExtension ResourceKey="NoPropMenuItem" xmlns="" />
+            <Separator Visibility="{Binding Data.Action.PropID, ConverterParameter={x:Static Guid.Empty}, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+            <CollectionContainer Collection="{Binding Source={StaticResource PropGroups}}" />
+            <Separator />
+            <StaticResourceExtension ResourceKey="OpenPropsMenuItem" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <ContextMenu x:Key="PropsMenuTriggerStyle" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <actionsDO:PropTriggerType>Trigger</actionsDO:PropTriggerType>
+            <actionsDO:PropTriggerType>Clear</actionsDO:PropTriggerType>
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <commonUtility:BindingProxy x:Key="vmProxy" Data="{Binding}" />
+            <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+            <actionsMenu:ActionDataIsCheckedConverter x:Key="ActionDataIsCheckedConverter" />
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type actionsDO:PropTriggerType}}">
+              <MenuItem Command="{Binding Data.ChangePropTriggerTypeCommand, Source={StaticResource vmProxy}}" CommandParameter="{Binding}" Header="{Binding Converter={StaticResource EnumToContentConverter}}">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                    <Setter Property="MenuItem.IsChecked">
+                      <Setter.Value>
+                        <MultiBinding Mode="OneWay" Converter="{StaticResource ActionDataIsCheckedConverter}">
+                          <Binding Path="Data.Action" Source="{StaticResource vmProxy}" />
+                          <Binding />
+                        </MultiBinding>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </FrameworkElement.Style>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ContextMenu>
+      <ContextMenu x:Key="PropGroupAutoClear" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <ItemsControl.ItemsSource>
+          <local:AutoClearDurationMenuSource IsAutoClearCommandToDefaultAvailable="True" AutoClearDuration="{Binding Data.AutoClearDuration, Source={StaticResource proxy}}" AutoClearFollowsPropDuration="{Binding Data.AutoClearFollowsPropDuration, Source={StaticResource proxy}}" DefaultAutoClearDuration="{Binding Data.DefaultAutoClearDuration, Source={StaticResource proxy}}" SetAutoClearCommand="{Binding Data.SetAutoClearCommand, Source={StaticResource proxy}}" SetAutoClearCommandToDefault="{Binding Data.SetAutoClearCommandToDefault, Source={StaticResource proxy}}" SetCustomAutoClearCommand="{Binding Data.PopupAutoClearCustomCommand, Source={StaticResource proxy}}" />
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Row="1" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <TextBlock VerticalAlignment="Center" Style="{StaticResource TextStyle}" Text="{mex:Localized ACTION_PALETTE_PROP_SELECTION_FIELD_title}" />
+      <commonControls:DropDownButton Grid.Row="1" Margin="0,5" CustomContextMenu="{StaticResource PropGroupsMenu}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type commonControls:DropDownButton}">
+            <Setter Property="commonControls:DropDownButton.CustomContent" Value="{Binding Action.PropName}" />
+            <Style.Triggers>
+              <DataTrigger Value="{x:Static Guid.Empty}" Binding="{Binding Action.PropID}">
+                <Setter Property="commonControls:DropDownButton.CustomContent" Value="{mex:Localized GLOBAL_NO_SELECTION}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:DropDownButton>
+      <Border Grid.Row="2">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <commonControls:DropDownButton Grid.Row="0" Margin="0,5" CustomContextMenu="{StaticResource PropsMenuTriggerStyle}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type commonControls:DropDownButton}">
+                <Setter Property="commonControls:DropDownButton.CustomContent" Value="{Binding Action.PropTriggerType}" />
+              </Style>
+            </FrameworkElement.Style>
+          </commonControls:DropDownButton>
+          <Grid Row="1" Margin="0,5" Visibility="{Binding TriggerItemsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Margin="0,0,6,0" VerticalAlignment="Center" Style="{StaticResource TextStyle}" Text="{mex:Localized PROP_EDITOR_AUTO_CLEAR_INSPECTOR_title}" />
+            <commonControls:DropDownButton Grid.Column="1" HorizontalAlignment="Stretch" CustomContextMenu="{StaticResource PropGroupAutoClear}">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <system1:Double x:Key="0" xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib">0.0</system1:Double>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type commonControls:DropDownButton}">
+                  <Setter Property="commonControls:DropDownButton.CustomContent" Value="{Binding Action.AutoClearDuration, ConverterParameter=PROP_CONTROL_DECK_CONTEXTUAL_MENU_AUTO_CLEAR_SECONDS_title, Converter={StaticResource FormattedLocalizedStringConverter}}" />
+                  <Style.Triggers>
+                    <DataTrigger Value="{StaticResource 0}" Binding="{Binding Action.AutoClearDuration}">
+                      <Setter Property="commonControls:DropDownButton.CustomContent" Value="{mex:Localized PROP_CONTROL_DECK_CONTEXTUAL_MENU_AUTO_CLEAR_NEVER_title}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </commonControls:DropDownButton>
+          </Grid>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.MediaLibrary.MediaBinHeaderNavigator" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:math="http://hexinnovation.com/math" xmlns:settings="clr-namespace:ProPresenter.DO.Settings;assembly=ProPresenter.DO" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="mediaBinHeaderNavigator" Focusable="True">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="mediaBinHeaderNavigatorVMProxy" Data="{Binding}" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <Style x:Key="DisplayNameStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="#FFFFFFFF" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Margin" Value="0,0,5,0" />
+        <Setter Property="MaxWidth" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="FrameworkElement.ToolTip" Value="{Binding Path=Text, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <Image x:Key="FirstItemMenuIconStyle" Width="18" Height="18" RenderOptions.BitmapScalingMode="Fant" Source="{Binding Icon}" />
+      <commonControls:ImageMask x:Key="ItemMenuIconStyle" Width="16" Height="16" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" ImageSource="{Binding Icon}" />
+      <Style x:Key="FirstItemMenuStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.SelectItemCommand, Source={StaticResource mediaBinHeaderNavigatorVMProxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="Header" Value="{Binding Name}" />
+        <Setter Property="MenuItem.Icon" Value="{StaticResource FirstItemMenuIconStyle}" />
+        <Setter Property="ItemsSource" Value="{Binding Children}" />
+      </Style>
+      <Style x:Key="ItemMenuStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.SelectItemCommand, Source={StaticResource mediaBinHeaderNavigatorVMProxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="Header" Value="{Binding Name}" />
+        <Setter Property="MenuItem.Icon" Value="{StaticResource ItemMenuIconStyle}" />
+        <Setter Property="ItemsSource" Value="{Binding Children}" />
+      </Style>
+      <DataTemplate x:Key="{x:Static local:MediaBinHeaderNavigator.FirstItemButton}">
+        <commonControls:BorderlessButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+          <ContentControl.Content>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Image Grid.Column="0" Height="18" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="Fant" Source="{Binding Icon}" />
+              <TextBlock Grid.Column="1" Style="{StaticResource DisplayNameStyle}" Text="{Binding Name}" />
+              <commonControls:PathControl Grid.Column="2" Width="12" Height="12" Fill="#FFFFFFFF" PathType="RightArrow" StrokeThickness="0" />
+            </Grid>
+          </ContentControl.Content>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" ItemContainerStyle="{StaticResource FirstItemMenuStyle}" ItemsSource="{Binding Parent.Children}" Visibility="{Binding Parent.Children.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+          </FrameworkElement.ContextMenu>
+        </commonControls:BorderlessButton>
+      </DataTemplate>
+      <DataTemplate x:Key="{x:Static local:MediaBinHeaderNavigator.LastItemButton}">
+        <commonControls:BorderlessButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+          <ContentControl.Content>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <commonControls:ImageMask Grid.Column="0" Width="16" Height="16" Margin="0,0,5,0" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:MediaBinHeaderNavigator}}" ImageSource="{Binding Icon}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type commonControls:ImageMask}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </commonControls:ImageMask>
+              <TextBlock Grid.Column="1" MaxWidth="300" Style="{StaticResource DisplayNameStyle}" Text="{Binding Name}" />
+            </Grid>
+          </ContentControl.Content>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" ItemContainerStyle="{StaticResource ItemMenuStyle}" ItemsSource="{Binding Parent.Children}" Visibility="{Binding Parent.Children.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+          </FrameworkElement.ContextMenu>
+        </commonControls:BorderlessButton>
+      </DataTemplate>
+      <DataTemplate x:Key="{x:Static local:MediaBinHeaderNavigator.ItemButton}">
+        <commonControls:BorderlessButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+          <ContentControl.Content>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <commonControls:ImageMask Grid.Column="0" Width="16" Height="16" Margin="0,0,5,0" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=local:MediaBinHeaderNavigator}}" ImageSource="{Binding Icon}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type commonControls:ImageMask}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </commonControls:ImageMask>
+              <TextBlock Grid.Column="1" Style="{StaticResource DisplayNameStyle}" Text="{Binding Name}" />
+              <commonControls:PathControl Grid.Column="2" Width="12" Height="12" Fill="#FFFFFFFF" PathType="RightArrow" />
+            </Grid>
+          </ContentControl.Content>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" ItemContainerStyle="{StaticResource ItemMenuStyle}" ItemsSource="{Binding Parent.Children}" Visibility="{Binding Parent.Children.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+          </FrameworkElement.ContextMenu>
+        </commonControls:BorderlessButton>
+      </DataTemplate>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <commonControls:BorderlessToggleButton Grid.Column="0" Height="20" Margin="8,0,0,0" VerticalAlignment="Center" SnapsToDevicePixels="True" IsChecked="{Binding MediaPlaylistsCollapsed, Source={x:Static settings:Layout.Settings}, Converter={StaticResource InvertedBooleanConverter}, Mode=TwoWay}">
+      <commonControls:ImageMask Height="18" ImageSource="../Resources/Icons/Outline/CollapseOutline.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessToggleButton}}}" />
+    </commonControls:BorderlessToggleButton>
+    <commonControls:BorderlessButton Grid.Column="1" Width="12" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding NavigateBackwardCommand}" Click="Navigate_Click">
+      <commonControls:PathControl Fill="#00FFFFFF" PathType="VLeftArrow" StrokeThickness="1.5" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+    </commonControls:BorderlessButton>
+    <commonControls:BorderlessButton Grid.Column="2" Width="12" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding NavigateForwardCommand}" Click="Navigate_Click">
+      <commonControls:PathControl Fill="#00FFFFFF" PathType="VRightArrow" StrokeThickness="1.5" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+    </commonControls:BorderlessButton>
+    <ItemsControl Name="PathItemsControl" Grid.Column="3" Margin="8,0,0,0" ItemsSource="{Binding SelectedPath}">
+      <FrameworkElement.MaxWidth>
+        <ConvertExtension p13:ConvertExtension.x="{Binding ActualWidth, ElementName=mediaBinHeaderNavigator}" xmlns:p13="clr-namespace:HexInnovation;assembly=MathConverter" xmlns="clr-namespace:HexInnovation;assembly=MathConverter">
+          <Ctor xmlns="https://github.com/icsharpcode/ILSpy">Max(0,x-38)</Ctor>
+        </ConvertExtension>
+      </FrameworkElement.MaxWidth>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <DockPanel />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ItemsControl>
+  </Grid>
+</UserControl>

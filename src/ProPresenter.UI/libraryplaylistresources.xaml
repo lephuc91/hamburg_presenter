@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ui:SharedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:librarian="clr-namespace:ProPresenter.DO.Librarian;assembly=ProPresenter.DO" xmlns:localConverters="clr-namespace:ProPresenter.UI.Converters" xmlns:playlist="clr-namespace:ProPresenter.DO.Playlists;assembly=ProPresenter.DO" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <localConverters:FlattenPlaylistsConverter x:Key="FlattenPlaylistsConverter" />
+  <localConverters:PlaylistMarginConverter x:Key="PlaylistMarginConverter" StartingLevel="1" />
+  <Image x:Key="PlaylistIcon">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Image}">
+        <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.LibraryPlaylist}}" />
+        <Style.Triggers>
+          <DataTrigger Value="Group">
+            <DataTrigger.Binding>
+              <PriorityBinding>
+                <Binding Path="Type" />
+              </PriorityBinding>
+            </DataTrigger.Binding>
+            <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.PlaylistFolder}}" />
+          </DataTrigger>
+          <DataTrigger Value="PCO">
+            <DataTrigger.Binding>
+              <PriorityBinding>
+                <Binding Path="Type" />
+              </PriorityBinding>
+            </DataTrigger.Binding>
+            <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.PCOPlaylist}}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </Image>
+  <Style x:Key="HeaderStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Margin" Value="8,0,0,0" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="uiUtility:TextHelper.Capitalize" Value="True" />
+  </Style>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type librarian:ILibrary}}" DataType="{x:Type librarian:ILibrary}">
+    <StackPanel Margin="8,0,0,0" Orientation="Horizontal">
+      <Image Width="18" Height="18" RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.Library}}" />
+      <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding Name}" />
+    </StackPanel>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:GeneralPlaylist}}" DataType="{x:Type playlist:GeneralPlaylist}">
+    <StackPanel Orientation="Horizontal" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}">
+      <ContentPresenter Content="{DynamicResource PlaylistIcon}" />
+      <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding Name}" />
+    </StackPanel>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:PCOPlaylist}}" DataType="{x:Type playlist:PCOPlaylist}">
+    <StackPanel Orientation="Horizontal" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}">
+      <ContentPresenter Content="{DynamicResource PlaylistIcon}" />
+      <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding Name}" />
+    </StackPanel>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type playlist:GeneralGroupPlaylist}}" DataType="{x:Type playlist:GeneralGroupPlaylist}">
+    <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}" Text="{Binding Name}" />
+  </DataTemplate>
+</ui:SharedResourceDictionary>

@@ -1,0 +1,23 @@
+{
+    "category": "Movements",
+    "description": "Push",
+    "duration": 0.6,
+    "name": "Push",
+    "numPasses": 1,
+    "shaderFile": "push",
+    "type": 1,
+    "uuid": "B400F82E-CF9D-4700-89FD-F3889DAA06C5",
+    "variables": [
+        {
+            "name": "direction",
+            "label": "Direction",
+            "description": "Direction of Push",
+            "type": 3,
+            "min": [170, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [2, 2, 2, 2],
+            "value": [2, 2, 2, 2]
+        }
+    ]
+}
+

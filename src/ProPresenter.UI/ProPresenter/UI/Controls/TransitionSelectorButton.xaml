@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Controls.TransitionSelectorButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters1="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="self" xmlns:controls="clr-namespace:ProPresenter.UI.Controls">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <converters1:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <commonControls:BorderlessPathButton Name="transitionSelectorButton">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessPathButton}}" TargetType="{x:Type commonControls:BorderlessPathButton}">
+        <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSITIONS_ADVANCED_toolip}" />
+        <Style.Triggers>
+          <DataTrigger Value="Cut" Binding="{Binding SelectedTransition.Name, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSITIONS_CUT_toolip}" />
+          </DataTrigger>
+          <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.Name, ElementName=self}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSITIONS_DISSOLVE_toolip}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <Path Width="18" Height="18">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Path}">
+          <Setter Property="Data" Value="{StaticResource Advanced}" />
+          <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessPathButton}}" />
+          <Style.Triggers>
+            <DataTrigger Value="Cut" Binding="{Binding SelectedTransition.Name, ElementName=self}">
+              <Setter Property="Data" Value="{StaticResource Cut}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding SelectedTransition.Name, ElementName=self}" Value="{x:Null}">
+              <Setter Property="Data" Value="{StaticResource Cut}" />
+            </DataTrigger>
+            <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.Name, ElementName=self}">
+              <Setter Property="Data" Value="{StaticResource Dissolve}" />
+            </DataTrigger>
+            <DataTrigger Value="True" Binding="{Binding AlwaysActive, ElementName=self}">
+              <Setter Property="Fill" Value="{Binding TRANSITIONFOREGROUND_CHECKED_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Path>
+  </commonControls:BorderlessPathButton>
+</UserControl>

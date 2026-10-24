@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.ListItemTemplates.SettingsItemTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.ListItemTemplates" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" x:Name="settingsItemTemplate">
+  <Grid Margin="0,3">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Border Grid.Column="0" Width="20" Height="20" Margin="12,0,0,0" CornerRadius="4" Background="{Binding Background}">
+      <commonControls:ImageMask HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ImageSource.Width, RelativeSource={RelativeSource Self}}" Height="{Binding ImageSource.Height, RelativeSource={RelativeSource Self}}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:SettingsItemTemplate}}}" ImageSource="{Binding Icon}" />
+      <UIElement.Effect>
+        <DropShadowEffect BlurRadius="5" Direction="270" Opacity="0.7" ShadowDepth="1" Color="{StaticResource {x:Static themesUI:Colors.Shadow}}" />
+      </UIElement.Effect>
+    </Border>
+    <TextBlock Grid.Column="1" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Name}" />
+  </Grid>
+</UserControl>

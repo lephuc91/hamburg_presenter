@@ -1,0 +1,835 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.TextInspector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:elements="clr-namespace:ProPresenter.DO.Slide.Custom.Elements;assembly=ProPresenter.DO" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:links="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Links" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:scroller="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.ScrollingText" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:text="clr-namespace:Pro.Text;assembly=Pro.Text" xmlns:text1="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Text" xmlns:textLinks="clr-namespace:ProPresenter.DO.Slide.Links;assembly=ProPresenter.DO" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels" x:Name="textInspector">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="selfTextInspector" Data="{Binding Source={x:Reference textInspector}}" />
+      <commonUtility:BindingProxy x:Key="dataContext" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+      <ObjectDataProvider x:Key="ObjectDataProvider_TextFillType" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:TextFillType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <CollectionViewSource x:Key="CollectionViewSource_TextFills" Source="{StaticResource ObjectDataProvider_TextFillType}" Filter="OnFilterTextFillTypes" />
+      <ObjectDataProvider x:Key="LineMaskStyles" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="elements:LineMaskStyle" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="NumberingSchemes" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:NumberingScheme" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="BulletTypes" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:BulletType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="FollowTypes" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:FollowType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="CapitalizationTypes" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:CapitalizationType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="FontScaleBehaviorTypes" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:ScaleMode" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="TextTransformTypes" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:TextTransform" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="ChordProNotationTypes" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="text:ChordProNotationType" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <Style x:Key="DoubleUpdownControlStyle" BasedOn="{StaticResource {x:Type commonControls:DoubleUpDown}}" TargetType="{x:Type commonControls:DoubleUpDown}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="MinWidth" Value="60" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <Style x:Key="IntegerUpdownControlStyle" BasedOn="{StaticResource {x:Type commonControls:IntegerUpDown}}" TargetType="{x:Type commonControls:IntegerUpDown}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="60" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:ColorPicker}" BasedOn="{StaticResource {x:Type commonControls:ColorPicker}}" TargetType="{x:Type commonControls:ColorPicker}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="60" />
+      </Style>
+      <Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+        <Setter Property="Height" Value="22" />
+      </Style>
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{Binding TEXTBOX_PALETTE.Standard.HelperContent, Source={x:Static theming:AppTheme.Active}}" />
+      </Style>
+      <Style x:Key="MarginRowStyle" TargetType="{x:Type RowDefinition}">
+        <Setter Property="Height" Value="Auto" />
+        <Style.Triggers>
+          <DataTrigger Value="SlideNotes" Binding="{Binding Data.InspectorType, Source={StaticResource selfTextInspector}}">
+            <Setter Property="Height" Value="0" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <links:SlideText x:Key="SlideText" DataContext="{Binding Data.TextLinkVM.SlideTextLinkVM, Source={StaticResource dataContext}}" />
+      <links:VideoCountdown x:Key="VideoCountdown" DataContext="{Binding Data.TextLinkVM.VideoCountdownLinkVM, Source={StaticResource dataContext}}" />
+      <links:AudioCountdown x:Key="AudioCountdown" DataContext="{Binding Data.TextLinkVM.AudioCountdownLinkVM, Source={StaticResource dataContext}}" />
+      <StackPanel x:Key="GearControl" Orientation="Horizontal">
+        <commonControls:ImageMask Width="12" Height="12" ImageSource="/ProPresenter.UI;component/Resources/Icons/GearIcon.png" Fill="{Binding TEXTBOX_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+        <commonControls:PathControl Width="6" Height="6" Margin="1,0,0,0" Fill="#00FFFFFF" PathType="VDownArrow" Stroke="{Binding TEXTBOX_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" />
+      </StackPanel>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Margin="0,7,0,0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding ShowTextStyleControls, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}}">
+        <Button Width="110" Height="22" CommandParameter="{x:Static vm:TargetStrategy.SelectedElements}" Command="{Binding EditMenu.CopyTextStyle.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_COPY_STYLE_BUTTON_title}" Loaded="InvalidateCommand" />
+        <Button Width="110" Height="22" Margin="14,0,0,0" CommandParameter="{x:Static vm:TargetStrategy.SelectedElements}" Command="{Binding EditMenu.PasteTextStyle.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_PASTE_STYLE_BUTTON_title}" Loaded="InvalidateCommand" />
+      </StackPanel>
+      <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="-10,10" IsEnabled="{Binding PreserveFormat, Converter={StaticResource InvertedBooleanConverter}, ElementName=textInspector}" Visibility="{Binding ShowTextStyleControls, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}}" />
+      <commonControls:FontSelector Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,7" IsEditorMode="True" FontFamilyDropDownOpen="{Binding IsFontFamilySelectionOpen, ElementName=textInspector, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding PreserveFormat, Converter={StaticResource InvertedBooleanConverter}, ElementName=textInspector}" MissingFont="{Binding MissingFont, ElementName=textInspector, Mode=OneWay}" SelectedCharacterSize="{Binding CharacterSize, Mode=TwoWay, ElementName=textInspector}" SelectedFontGroup="{Binding FontGroup, ElementName=textInspector, Mode=TwoWay}" SelectedFontInfo="{Binding Font, ElementName=textInspector, Mode=TwoWay}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type commonControls:FontSelector}">
+            <Style.Triggers>
+              <DataTrigger Value="UpOrDown" Binding="{Binding ScaleBehavior, ElementName=textInspector}">
+                <Setter Property="commonControls:FontSelector.CharacterSizeEnabled" Value="False" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:FontSelector>
+      <Grid Row="3" Margin="0,0,0,7" IsEnabled="{Binding PreserveFormat, Converter={StaticResource InvertedBooleanConverter}, ElementName=textInspector}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <ToggleButton Height="22" BorderThickness="1,1,0,1" Content="B" FontWeight="Bold" IsChecked="{Binding IsBoldEnabled, Mode=TwoWay, ElementName=textInspector}" IsEnabled="{Binding CanToggleBold, ElementName=textInspector}" />
+          <ToggleButton Grid.Column="1" Height="22" Content="I" FontStyle="Italic" FontWeight="SemiBold" IsChecked="{Binding IsItalicEnabled, Mode=TwoWay, ElementName=textInspector}" IsEnabled="{Binding CanToggleItalic, ElementName=textInspector}" />
+          <ToggleButton Grid.Column="2" Height="22" IsChecked="{Binding IsUnderlineEnabled, Mode=TwoWay, ElementName=textInspector}">
+            <TextBlock FontWeight="SemiBold" Text="U" TextDecorations="Underline" />
+          </ToggleButton>
+          <ToggleButton Grid.Column="3" Height="22" BorderThickness="0,1,1,1" IsChecked="{Binding IsStrikethroughEnabled, Mode=TwoWay, ElementName=textInspector}">
+            <TextBlock FontWeight="SemiBold" Text="S" TextDecorations="Strikethrough" />
+          </ToggleButton>
+        </Grid>
+        <Button Name="UnderlineButtonColorPicker" Grid.Column="1" Width="60" Height="22" HorizontalAlignment="Right" HorizontalContentAlignment="Center" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Content="{StaticResource GearControl}">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom" Style="{StaticResource {x:Type ContextMenu}}">
+              <Control.Template>
+                <ControlTemplate>
+                  <Border BorderThickness="1" Background="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding POPUPBORDER, Source={x:Static theming:AppTheme.Active}}" TextElement.Foreground="{Binding POPUPCONTENT, Source={x:Static theming:AppTheme.Active}}">
+                    <Grid Margin="7">
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                      </Grid.RowDefinitions>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                      </Grid.ColumnDefinitions>
+                      <CheckBox Grid.ColumnSpan="2" Margin="0,0,0,7" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_UNDERLINE_COLOR_BUTTON_title}" IsChecked="{Binding Data.IsUnderlineColorEnabled, Source={StaticResource selfTextInspector}, Mode=TwoWay}" Visibility="{Binding Data.IsUnderlineEnabled, Source={StaticResource selfTextInspector}, Converter={StaticResource ValueToVisibilityConverter}}" />
+                      <commonControls:ColorPicker Grid.Column="2" Margin="7,0,0,7" IsEnabled="{Binding Data.IsUnderlineColorEnabled, Source={StaticResource selfTextInspector}}" SelectedColor="{Binding Data.UnderlineColor, Source={StaticResource selfTextInspector}, Mode=TwoWay}" Visibility="{Binding Data.IsUnderlineEnabled, Source={StaticResource selfTextInspector}, Converter={StaticResource ValueToVisibilityConverter}}" />
+                      <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,7" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_TEXT_BACKGROUND_label}" />
+                      <commonControls:ColorPicker Grid.Row="1" Grid.Column="2" Margin="7,0,0,7" SelectedColor="{Binding Data.HighlightColor, Source={StaticResource selfTextInspector}, Mode=TwoWay}" />
+                      <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,0,7" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_BASELINE_label}" />
+                      <Grid Row="2" Column="2" Margin="7,0,0,7" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition />
+                          <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton IsChecked="{Binding Data.IsSubscript, Source={StaticResource selfTextInspector}}" Click="Subscript_Click">
+                          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="A" />
+                            <TextBlock Typography.Variants="Subscript" Text="{Binding Data.SubscriptLevel, Source={StaticResource selfTextInspector}}" />
+                          </StackPanel>
+                        </ToggleButton>
+                        <ToggleButton Grid.Column="1" BorderThickness="0,1,1,1" IsChecked="{Binding Data.IsSuperscript, Source={StaticResource selfTextInspector}}" Click="Superscript_Click">
+                          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="A" />
+                            <TextBlock Typography.Variants="Superscript" Text="{Binding Data.SuperscriptLevel, Source={StaticResource selfTextInspector}}" />
+                          </StackPanel>
+                        </ToggleButton>
+                      </Grid>
+                      <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,0,7" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_CHARACTER_SPACING_label}" />
+                      <commonControls:DoubleUpDown Grid.Row="3" Grid.Column="2" Margin="0,0,0,7" Increment="0.5" Maximum="400" Minimum="-40" RoundToDigits="2" Style="{StaticResource DoubleUpdownControlStyle}" UpdateValueOnEnterKey="True" Value="{Binding Data.CharacterSpacing, Source={StaticResource selfTextInspector}}" />
+                      <TextBlock Grid.Row="4" Grid.ColumnSpan="2" Margin="0,0,0,7" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_LINE_HEIGHT_label}" />
+                      <commonControls:DoubleUpDown Grid.Row="4" Grid.Column="2" Margin="0,0,0,7" FormatString="F1" Increment="0.5" Maximum="10" Minimum="0.1" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding Data.LineSpacing, Source={StaticResource selfTextInspector}, Mode=TwoWay}" />
+                      <TextBlock Grid.Row="5" Grid.ColumnSpan="2" Margin="0,0,0,7" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_LINE_SPACING_label}" />
+                      <commonControls:DoubleUpDown Grid.Row="5" Grid.Column="2" Margin="0,0,0,7" FormatString="F1" Increment="0.5" Maximum="100" Minimum="0.0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding Data.AdditionalLineSpacing, Source={StaticResource selfTextInspector}}" />
+                      <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Margin="0,0,0,7" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_PARAGRAPH_SPACING_label}" />
+                      <commonControls:DoubleUpDown Grid.Row="6" Grid.Column="2" Margin="0,0,0,7" FormatString="F1" Increment="1" LargeIncrement="10" Maximum="500" Minimum="0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding Data.ParagraphSpacing, Source={StaticResource selfTextInspector}}" />
+                      <TextBlock Grid.Row="7" Margin="0,0,7,7" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_MARGINS_label}" />
+                      <commonControls:DoubleUpDown Grid.Row="7" Grid.Column="1" FormatString="F1" Increment="1.0" Maximum="300" Minimum="0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding Data.MarginLeft, Source={StaticResource selfTextInspector}}" />
+                      <commonControls:DoubleUpDown Grid.Row="7" Grid.Column="2" FormatString="F1" Increment="1.0" Maximum="300" Minimum="0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding Data.MarginTop, Source={StaticResource selfTextInspector}}" />
+                      <TextBlock Grid.Row="8" Grid.Column="1" Width="60" Margin="0,0,0,7" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="10" TextAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_MARGINS_LEFT_label}" />
+                      <TextBlock Grid.Row="8" Grid.Column="2" Width="60" Margin="0,0,0,7" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="10" TextAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_MARGINS_TOP_label}" />
+                      <commonControls:DoubleUpDown Grid.Row="9" Grid.Column="1" FormatString="F1" Increment="1.0" Maximum="300" Minimum="0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding Data.MarginBottom, Source={StaticResource selfTextInspector}}" />
+                      <commonControls:DoubleUpDown Grid.Row="9" Grid.Column="2" FormatString="F1" Increment="1.0" Maximum="300" Minimum="0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding Data.MarginRight, Source={StaticResource selfTextInspector}}" />
+                      <TextBlock Grid.Row="10" Grid.Column="1" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="10" TextAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_MARGINS_BOTTOM_label}" />
+                      <TextBlock Grid.Row="10" Grid.Column="2" Width="60" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="10" TextAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_MARGINS_RIGHT_label}" />
+                    </Grid>
+                  </Border>
+                </ControlTemplate>
+              </Control.Template>
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </Button>
+      </Grid>
+      <Grid Row="4" ColumnSpan="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="2*" />
+          <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_POPOVER_CAPITALIZATION_label}" />
+        <ComboBox Grid.Column="1" VerticalAlignment="Center" SelectedItem="{Binding Data.Capitalization, Source={StaticResource selfTextInspector}, Mode=TwoWay}">
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <text:CapitalizationType>None</text:CapitalizationType>
+              <text:CapitalizationType>AllCaps</text:CapitalizationType>
+              <text:CapitalizationType>TitleCase</text:CapitalizationType>
+              <text:CapitalizationType>StartCase</text:CapitalizationType>
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+      </Grid>
+      <Separator Grid.Row="5" Margin="-10,10" Visibility="{Binding InspectorType, ElementName=textInspector, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static local:TextInspectorType.Element}}" />
+      <Grid Row="6" ColumnSpan="2" Visibility="{Binding InspectorType, ElementName=textInspector, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static local:TextInspectorType.Element}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="3*" />
+          <ColumnDefinition Width="5*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock VerticalAlignment="Center" Foreground="{Binding TEXTBOX_PALETTE.Standard.Content, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_TEXT_FILL_SOLID_COLOR_title}" />
+        <local:SolidColor Grid.Column="1" HorizontalAlignment="Right" IsEnabled="{Binding PreserveFormat, Converter={StaticResource InvertedBooleanConverter}, ElementName=textInspector}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type local:SolidColor}">
+              <Setter Property="local:SolidColor.Fill" Value="{x:Null}" />
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static text:TextFillType.SolidColor}" Binding="{Binding FillType, ElementName=textInspector}">
+                  <Setter Property="local:SolidColor.Fill" Value="{Binding Fill, ElementName=textInspector}" />
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </local:SolidColor>
+      </Grid>
+    </Grid>
+    <Grid Row="1" Visibility="{Binding InspectorType, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:TextInspectorType.Element}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <UIElement.IsEnabled>
+        <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+          <MultiBinding.Bindings>
+            <Binding>
+              <Binding.Source>
+                <system1:Boolean xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib">True</system1:Boolean>
+              </Binding.Source>
+            </Binding>
+            <Binding Converter="{StaticResource InvertedBooleanConverter}" ElementName="textInspector" Path="PreserveFormat" />
+            <Binding ElementName="textInspector" Path="AllowTextFill" />
+          </MultiBinding.Bindings>
+        </MultiBinding>
+      </UIElement.IsEnabled>
+      <Separator Margin="-10,10" />
+      <Grid Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="5*" />
+          <ColumnDefinition Width="5*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <commonControls:DropDownButton Margin="0,15,0,0" CustomContent="{Binding FillType, Converter={StaticResource EnumToContentConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TextInspector}}}">
+          <commonControls:DropDownButton.CustomContextMenu>
+            <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" ItemsSource="{Binding Source={StaticResource CollectionViewSource_TextFills}}">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type text:TextFillType}}">
+                    <MenuItem Click="TextFillType_Click">
+                      <HeaderedItemsControl.HeaderTemplate>
+                        <DataTemplate>
+                          <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+                        </DataTemplate>
+                      </HeaderedItemsControl.HeaderTemplate>
+                      <MenuItem.IsChecked>
+                        <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                          <Binding />
+                          <Binding Path="Data.FillType" Source="{StaticResource selfTextInspector}" />
+                        </MultiBinding>
+                      </MenuItem.IsChecked>
+                    </MenuItem>
+                  </ItemContainerTemplate>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+            </ContextMenu>
+          </commonControls:DropDownButton.CustomContextMenu>
+        </commonControls:DropDownButton>
+        <local:SolidColor x:Name="SolidTextFill" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="0,15,0,0" HorizontalAlignment="Right">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type local:SolidColor}">
+              <Setter Property="local:SolidColor.Fill" Value="{x:Null}" />
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static text:TextFillType.SolidColor}" Binding="{Binding FillType, ElementName=textInspector}">
+                  <Setter Property="local:SolidColor.Fill" Value="{Binding Fill, ElementName=textInspector}" />
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </local:SolidColor>
+        <local:Gradient x:Name="GradientTextFill" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type local:Gradient}">
+              <Setter Property="local:Gradient.Fill" Value="{x:Null}" />
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static text:TextFillType.Gradient}" Binding="{Binding FillType, ElementName=textInspector}">
+                  <Setter Property="local:Gradient.Fill" Value="{Binding Fill, ElementName=textInspector}" />
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </local:Gradient>
+        <local:TextMediaFill x:Name="TextMediaFill" Grid.Row="1" Grid.ColumnSpan="2" MediaContainerIdSource="{Binding ElementName=textInspector, Path=TextInspectorVM.SelectedSlide}" MediaProvider="{Binding ElementName=textInspector, Path=MediaProvider}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type local:TextMediaFill}">
+              <Setter Property="local:TextMediaFill.Fill" Value="{x:Null}" />
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static text:TextFillType.Media}" Binding="{Binding FillType, ElementName=textInspector}">
+                  <Setter Property="local:TextMediaFill.Fill" Value="{Binding Fill, ElementName=textInspector}" />
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </local:TextMediaFill>
+        <text1:TextBackgroundBlurFill x:Name="TextBlurFill" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,8,0,0" Fill="{Binding Fill, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TextInspector}}, FallbackValue={x:Null}}" SelectedSlide="{Binding SelectedSlide}" Visibility="{Binding FillType, ConverterParameter={x:Static text:TextFillType.BackgroundBlur}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TextInspector}}, Converter={commonConverters:EqualityToVisibilityConverter}}" />
+      </Grid>
+    </Grid>
+    <Grid Row="2" Visibility="{Binding InspectorType, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:TextInspectorType.Element}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Separator Grid.ColumnSpan="2" Margin="-10,10" />
+      <TextBlock Grid.Row="1" Margin="0,0,7,7" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_SCALING_MODE_label}" />
+      <ComboBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,7" ItemsSource="{Binding Source={StaticResource FontScaleBehaviorTypes}}" SelectedItem="{Binding ScaleBehavior, ElementName=textInspector}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+      <TextBlock Grid.Row="2" Margin="0,0,7,7" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINE_TRANSFORM_label}" />
+      <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,7" ItemsSource="{Binding Source={StaticResource TextTransformTypes}}" SelectedItem="{Binding TextTransform, ElementName=textInspector}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+      <ComboBox Grid.Row="3" Grid.Column="1" Margin="0,0,0,7" IsEditable="True" IsSynchronizedWithCurrentItem="True" ItemsSource="{x:Static text:Delimiters.Default}" Text="{Binding TextTransformDelimiter, Mode=TwoWay, ElementName=textInspector}" Visibility="{Binding TextTransform, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static text:TextTransform.ReplaceLineReturns}}" />
+      <commonControls:ParagraphAlignmentSelector Grid.Row="4" Grid.ColumnSpan="2" Width="Auto" Margin="0,0,0,7" SelectedAlignment="{Binding ParagraphAlignment, ElementName=textInspector}" />
+      <commonControls:DocumentAlignmentSelector Grid.Row="5" Grid.ColumnSpan="2" Width="Auto" SelectedAlignment="{Binding DocumentAlignment, ElementName=textInspector}" />
+    </Grid>
+    <StackPanel Grid.Row="3">
+      <Separator Margin="-10,10" />
+      <Grid IsEnabled="{Binding PreserveFormat, Converter={StaticResource InvertedBooleanConverter}, ElementName=textInspector}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <CheckBox Name="strokeEnable" HorizontalAlignment="Left" VerticalAlignment="Top" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_STROKE_label}" IsChecked="{Binding IsStrokeVisible, ElementName=textInspector}" />
+        <commonControls:DoubleUpDown Grid.Column="1" Margin="0,0,7,0" Maximum="{x:Static text:ArrangedText.MAXIMUM_STROKE_THICKNESS}" Minimum="1" Style="{StaticResource DoubleUpdownControlStyle}" Visibility="{Binding IsChecked, ElementName=strokeEnable, Converter={StaticResource ValueToVisibilityConverter}}" Value="{Binding StrokeThickness, ElementName=textInspector}" />
+        <commonControls:ColorPicker Grid.Column="2" SelectedColor="{Binding StrokeColor, ElementName=textInspector}" Visibility="{Binding IsChecked, ElementName=strokeEnable, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,7,0" FontSize="10" TextAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_STROKE_WIDTH_label}" Visibility="{Binding IsChecked, ElementName=strokeEnable, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </Grid>
+      <Separator Margin="-10,10" Visibility="{Binding InspectorType, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:TextInspectorType.Element}}" />
+      <Grid>
+        <CheckBox Name="elementShadowCheckBox" VerticalAlignment="Top" Content="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_label}" IsChecked="{Binding ShadowEnabled, ElementName=textInspector}" Visibility="{Binding InspectorType, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:TextInspectorType.Element}}" />
+        <Grid HorizontalAlignment="Right">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Element" Binding="{Binding ElementName=textInspector, Path=InspectorType}" />
+                    <Condition Value="True" Binding="{Binding ElementName=elementShadowCheckBox, Path=IsChecked}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <commonControls:DoubleUpDown Grid.Column="1" Margin="0,0,7,0" FormatString="P0" Increment=".05" Maximum="1" Minimum="0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding ShadowOpacity, ElementName=textInspector}" />
+          <commonControls:ColorPicker Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" SelectedColor="{Binding ShadowColor, ElementName=textInspector}" />
+          <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,7,7" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_OPACITY_label}" />
+          <commonControls:RotatorUpDownPicker Grid.Row="2" Height="22" Margin="0,0,7,0" Angle="{Binding ShadowAngle, ElementName=textInspector, Mode=TwoWay}" />
+          <commonControls:DoubleUpDown Grid.Row="2" Grid.Column="1" Margin="0,0,7,0" FormatString="F0" Maximum="100" Minimum="0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding ShadowOffset, ElementName=textInspector}" />
+          <commonControls:DoubleUpDown Grid.Row="2" Grid.Column="2" FormatString="F0" Maximum="100" Minimum="0" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding ShadowBlurRadius, ElementName=textInspector}" />
+          <TextBlock Grid.Row="3" Margin="0,0,7,0" VerticalAlignment="Center" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_ANGLE_label}" />
+          <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,0,7,0" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_OFFSET_label}" />
+          <TextBlock Grid.Row="3" Grid.Column="2" Margin="0,0,7,0" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_SHADOW_BLUR_label}" />
+        </Grid>
+      </Grid>
+      <Separator Margin="-10,10" Visibility="{Binding InspectorType, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:TextInspectorType.Element}}" />
+      <Grid>
+        <CheckBox VerticalAlignment="Top" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINES_ONLY_label}" IsChecked="{Binding IsTextLineMaskEnabled, ElementName=textInspector}" Visibility="{Binding InspectorType, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static local:TextInspectorType.Element}}" />
+        <Grid>
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Element" Binding="{Binding ElementName=textInspector, Path=InspectorType}" />
+                    <Condition Value="True" Binding="{Binding ElementName=textInspector, Path=IsTextLineMaskEnabled}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition>
+              <FrameworkContentElement.Style>
+                <Style TargetType="{x:Type RowDefinition}">
+                  <Setter Property="Height" Value="Auto" />
+                  <Style.Triggers>
+                    <DataTrigger Value="FullWidth" Binding="{Binding TextLineMaskStyle, ElementName=textInspector}">
+                      <Setter Property="Height" Value="0" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkContentElement.Style>
+            </RowDefinition>
+            <RowDefinition>
+              <FrameworkContentElement.Style>
+                <Style TargetType="{x:Type RowDefinition}">
+                  <Setter Property="Height" Value="Auto" />
+                  <Style.Triggers>
+                    <DataTrigger Value="FullWidth" Binding="{Binding TextLineMaskStyle, ElementName=textInspector}">
+                      <Setter Property="Height" Value="0" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkContentElement.Style>
+            </RowDefinition>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <ComboBox Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,7" ItemsSource="{Binding Source={StaticResource LineMaskStyles}}" SelectedItem="{Binding TextLineMaskStyle, ElementName=textInspector}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ComboBox>
+          <TextBlock Grid.Row="1" Margin="0,0,7,0" HorizontalAlignment="Right" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINES_ONLY_VERTICAL_label}" />
+          <commonControls:DoubleUpDown Grid.Row="1" Grid.Column="1" Margin="0,0,7,0" FormatString="F0" Maximum="999" Minimum="-999" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding TextLineMaskHeightOffset, ElementName=textInspector}" />
+          <commonControls:DoubleUpDown Grid.Row="1" Grid.Column="2" FormatString="F0" Maximum="999" Minimum="-999" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding TextLineMaskVerticalOffset, ElementName=textInspector}" />
+          <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,7,0" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINES_ONLY_VERTICAL_PADDING_label}" />
+          <TextBlock Grid.Row="2" Grid.Column="2" Margin="0,0,7,0" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINES_ONLY_VERTICAL_ALIGNMENT_label}" />
+          <TextBlock Grid.Row="3" Margin="0,7,7,0" HorizontalAlignment="Right" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINES_ONLY_HORIZONTAL_label}" />
+          <commonControls:DoubleUpDown Grid.Row="3" Grid.Column="1" Margin="0,7,7,0" FormatString="F0" Maximum="999" Minimum="-999" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding TextLineMaskWidthOffset, ElementName=textInspector}" />
+          <commonControls:DoubleUpDown Grid.Row="3" Grid.Column="2" Margin="0,7,0,0" FormatString="F0" Maximum="999" Minimum="-999" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding TextLineMaskHorizontalOffset, ElementName=textInspector}" />
+          <TextBlock Grid.Row="5" Grid.Column="1" Margin="0,0,7,0" HorizontalAlignment="Center" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINES_ONLY_HORIZONTAL_PADDING_label}" />
+          <TextBlock Grid.Row="5" Grid.Column="2" Margin="0,0,7,0" HorizontalAlignment="Center" FontSize="10" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINES_ONLY_HORIZONTAL_ALIGNMENT_label}" />
+        </Grid>
+      </Grid>
+      <Separator Margin="-10,10">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type Separator}}" TargetType="{x:Type Separator}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Value="Mask" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="SlideNotes" Binding="{Binding InspectorType, ElementName=textInspector}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Separator>
+      <Grid>
+        <CheckBox Name="scrollingEnable" HorizontalAlignment="Left" VerticalAlignment="Top" Content="{mex:Localized TEXT_INSPECTOR_SCROLLING_title}" IsChecked="{Binding TextInspectorVM.ScrollingTextInspectorVM.ShouldScrollText}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+              <Setter Property="Visibility" Value="Visible" />
+              <Style.Triggers>
+                <DataTrigger Value="Mask" Binding="{Binding EditMode}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Value="SlideNotes" Binding="{Binding InspectorType, ElementName=textInspector}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </CheckBox>
+        <Grid>
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Value="Mask" Binding="{Binding EditMode}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="Element" Binding="{Binding ElementName=textInspector, Path=InspectorType}" />
+                    <Condition Value="True" Binding="{Binding ElementName=scrollingEnable, Path=IsChecked}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <scroller:ScrollingTextInspector DataContext="{Binding TextInspectorVM.ScrollingTextInspectorVM}" />
+        </Grid>
+      </Grid>
+      <Separator Margin="-10,10" />
+      <Grid>
+        <CheckBox VerticalAlignment="Top" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LIST_label}" IsChecked="{Binding IsListEnabled, ElementName=textInspector}" IsEnabled="{Binding PreserveFormat, Converter={StaticResource InvertedBooleanConverter}, ElementName=textInspector}" />
+        <Grid HorizontalAlignment="Right" IsEnabled="{Binding PreserveFormat, Converter={StaticResource InvertedBooleanConverter}, ElementName=textInspector}" Visibility="{Binding IsListEnabled, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}}">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <ComboBox Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,7" ItemsSource="{Binding AvailableListPresets, ElementName=textInspector}" SelectedItem="{Binding ListPreset, ElementName=textInspector}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ComboBox>
+          <commonControls:DoubleUpDown Name="BulletSizeUpDown" Grid.Row="1" Grid.Column="1" Margin="0,0,7,0" FormatString="P0" Increment="0.01" Maximum="9.99" Minimum="0.01" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding BulletScalar, ElementName=textInspector}" />
+          <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,7,7" HorizontalAlignment="Center" FontSize="10" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LIST_SIZE_label}" />
+          <commonControls:ColorPicker Grid.Row="1" Grid.Column="2" SelectedColor="{Binding BulletColor, ElementName=textInspector}" />
+          <TextBlock Grid.Row="3" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LIST_INDENT_label}" />
+          <commonControls:DoubleUpDown Grid.Row="3" Grid.Column="1" Margin="0,0,7,0" FormatString="F0" Minimum="1" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding ListBulletIndent, ElementName=textInspector}" />
+          <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,0,7,0" HorizontalAlignment="Center" FontSize="10" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LIST_INDENT_BULLET_label}" />
+          <commonControls:DoubleUpDown Grid.Row="3" Grid.Column="2" FormatString="F0" Minimum="1" Style="{StaticResource DoubleUpdownControlStyle}" Value="{Binding ListTextIndent, ElementName=textInspector}" />
+          <TextBlock Grid.Row="4" Grid.Column="2" Margin="0,0,7,0" HorizontalAlignment="Center" FontSize="10" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LIST_INDENT_TEXT_label}" />
+        </Grid>
+      </Grid>
+      <Separator Margin="-10,10" />
+      <Grid>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Style.Triggers>
+              <DataTrigger Value="Mask" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="Prop" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="CCLITemplate" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="Presentation" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="Template" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="SlideNotes" Binding="{Binding ElementName=textInspector, Path=InspectorType}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <CheckBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="true" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_CHORD_PRO_label}" IsChecked="{Binding ChordsEnabled, ElementName=textInspector}" />
+        <Image Grid.Row="0" Grid.Column="1" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Source="../../Resources/Icons/Inspector Assets/Text/Chords/MultiTracksPill.png" />
+        <commonControls:ColorPicker Grid.Row="0" Grid.Column="2" SelectedColor="{Binding ChordColor, ElementName=textInspector}" Visibility="{Binding ChordsEnabled, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,7,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_CHORD_PRO_NOTATION_label}" Visibility="{Binding ChordsEnabled, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <ComboBox Grid.Row="1" Grid.Column="2" Margin="0,7,0,0" VerticalAlignment="Center" ItemsSource="{Binding Source={StaticResource ChordProNotationTypes}}" SelectedItem="{Binding ChordNotation, ElementName=textInspector}" Visibility="{Binding ChordsEnabled, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+      </Grid>
+      <Separator Margin="-10,10">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type Separator}}" TargetType="{x:Type Separator}">
+            <Style.Triggers>
+              <DataTrigger Value="Mask" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="Prop" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="CCLITemplate" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="Presentation" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="Template" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="SlideNotes" Binding="{Binding ElementName=textInspector, Path=InspectorType}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Separator>
+      <Grid>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Value="Mask" Binding="{Binding EditMode}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Value="SlideNotes" Binding="{Binding ElementName=textInspector, Path=InspectorType}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="2*" />
+          <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <CheckBox HorizontalAlignment="Left" VerticalAlignment="Top" Content="{mex:Localized EDITOR_PRESENTATION_TEXT_INSPECTOR_LINKED_TEXT_label}" IsChecked="{Binding IsTextLinkEnabled, ElementName=textInspector}" IsEnabled="{Binding TextLinkVM.CanModifyTextLink}" />
+        <local:LinkedTextTypeSelector Grid.Column="1" Height="22" Margin="0,0,0,7" VerticalAlignment="Center" VerticalContentAlignment="Center" AvailableElementsCollection="{Binding TextLinkVM.AvailableElementsCollection}" AvailableLinkedTextTypes="{Binding TextLinkVM.AvailableLinkedTextTypes}" AvailableTimerCollection="{Binding TextLinkVM.AvailableTimerCollection}" ElementTextLinkCommand="{Binding TextLinkVM.ElementTextLinkCommand}" LinkedTextType="{Binding TextLinkVM.LinkedTextType}" SelectedElementTextLink="{Binding TextLinkVM.SelectedElementTextLink}" SelectedTimerTextLink="{Binding TextLinkVM.SelectedTimerTextLink}" SlideTargetSourceMode="{Binding TextLinkVM.SlideTextLinkVM.SlideTargetSourceMode}" SlideTextSourceMode="{Binding TextLinkVM.SlideTextLinkVM.SlideTextSourceMode}" TextLinkCommand="{Binding TextLinkVM.TextLinkCommand}" TimerTextLinkCommand="{Binding TextLinkVM.TimerTextLinkCommand}" Visibility="{Binding IsTextLinkEnabled, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <Grid Row="1" ColumnSpan="2" Visibility="{Binding IsTextLinkEnabled, ElementName=textInspector, Converter={StaticResource ValueToVisibilityConverter}}">
+          <ContentControl>
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type ContentControl}">
+                <Style.Triggers>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.Clock}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:SystemClock DataContext="{Binding Data.TextLinkVM.ClockTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.Timer}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:Timer DataContext="{Binding Data.TextLinkVM.TimerTextLinkVM.FormatDataVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.StageMessage}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:StageMessage FlashColor="{Binding TextLinkVM.StageMessageTextLinkVM.FlashColor}" ShouldFlash="{Binding TextLinkVM.StageMessageTextLinkVM.ShouldFlash}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.CurrentSlide}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content" Value="{StaticResource SlideText}" />
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.NextSlide}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content" Value="{StaticResource SlideText}" />
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.VideoCountdown}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content" Value="{StaticResource VideoCountdown}" />
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.AudioCountdown}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content" Value="{StaticResource AudioCountdown}" />
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.GroupName}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:GroupName DataContext="{Binding Data.TextLinkVM.GroupNameTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.PlaylistItem}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:PlaylistItem DataContext="{Binding Data.TextLinkVM.PlaylistItemTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.Capture}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:CaptureText DataContext="{Binding Data.TextLinkVM.CaptureTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.AutoAdvanceTimeRemaing}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:AutoAdvance DataContext="{Binding Data.TextLinkVM.AutoAdvanceTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.SlideCount}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:SlideCount DataContext="{Binding Data.TextLinkVM.SlideCountTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.SlideLabel}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:SlideLabelText DataContext="{Binding Data.TextLinkVM.SlideLabelTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.PresentationName}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:PresentationName DataContext="{Binding Data.TextLinkVM.PresentationNameTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.FileFeed}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:FileFeed HorizontalAlignment="Stretch" DataContext="{Binding Data.TextLinkVM.FileFeedLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.RssFeed}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:RssFeed Margin="45,0,0,0" HorizontalAlignment="Stretch" DataContext="{Binding Data.TextLinkVM.RssFeedLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                  <DataTrigger Value="{x:Static textLinks:LinkedTextType.PlaybackMarkerText}" Binding="{Binding TextLinkVM.LinkedTextType}">
+                    <Setter Property="Content">
+                      <Setter.Value>
+                        <links:PlaybackMarker Margin="45,0,0,0" HorizontalAlignment="Stretch" IsText="True" DataContext="{Binding Data.TextLinkVM.PlaybackMarkerTextLinkVM, Source={StaticResource dataContext}}" />
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </ContentControl>
+        </Grid>
+      </Grid>
+    </StackPanel>
+  </Grid>
+</UserControl>

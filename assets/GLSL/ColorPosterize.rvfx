@@ -1,0 +1,30 @@
+{
+    "description": "Limits number of colors.",
+    "name": "Color Posterize",
+    "numPasses": 1,
+    "shaderFile": "ColorPosterize",
+    "type": 0,
+    "uuid": "F888F8FF-605A-4B2E-A20D-6FFA7C3E6E00",
+    "variables": [
+        {
+            "name": "numOfColors",
+            "label": "Color Count",
+            "description": "Adjust number of colors",
+            "type": 1,
+            "min": [1, 1, 1, 1],
+            "max": [14, 14, 14, 14],
+            "defValue": [7, 7, 7, 7],
+            "value": [7, 7, 7, 7]
+        },
+        {
+            "name": "gammaValue",
+            "label": "Gamma",
+            "description": "Adjust Gamma",
+            "type": 1,
+            "min": [0.1, 0.1, 0.1, 0.1],
+            "max": [1.1, 1.1, 1.1, 1.1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

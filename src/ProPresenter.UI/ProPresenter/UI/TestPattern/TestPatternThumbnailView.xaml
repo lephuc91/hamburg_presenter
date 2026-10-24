@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.TestPattern.TestPatternThumbnailView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:testPatternViewSettings="clr-namespace:ProPresenter.DO.PanelViewSettings;assembly=ProPresenter.DO" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:thumbnail="clr-namespace:ProPresenter.UI.Thumbnails" x:Name="thumbnailView" xmlns:testpattern="clr-namespace:ProPresenter.UI.TestPattern">
+  <UIElement.OpacityMask>
+    <VisualBrush Stretch="None">
+      <VisualBrush.Visual>
+        <Rectangle Fill="#FF000000" RadiusX="4" RadiusY="4" Width="{Binding ActualWidth, ElementName=thumbnailView}" Height="{Binding ActualHeight, ElementName=thumbnailView}" />
+      </VisualBrush.Visual>
+    </VisualBrush>
+  </UIElement.OpacityMask>
+  <UIElement.Effect>
+    <DropShadowEffect BlurRadius="8" Direction="270" Opacity="0.7" ShadowDepth="1" Color="{StaticResource {x:Static themesUI:Colors.Shadow}}" />
+  </UIElement.Effect>
+  <thumbnail:PreviewContainer AspectRatio="{Binding ElementName=thumbnailView, Path=AspectRatio}" ViewSettings="{di:DIMarkup {x:Type testPatternViewSettings:ThumbnailViewSettings}}">
+    <Grid>
+      <commonControls:Checkerboard PrimaryBrush="{Binding CHECKERBOARDPRIMARY, Source={x:Static theming:AppTheme.Active}}" SecondaryBrush="{Binding CHECKERBOARDSECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+      <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderOptions.BitmapScalingMode="Fant" StretchDirection="Both" Source="{Binding ElementName=thumbnailView, Path=Thumbnail}" />
+    </Grid>
+  </thumbnail:PreviewContainer>
+</UserControl>

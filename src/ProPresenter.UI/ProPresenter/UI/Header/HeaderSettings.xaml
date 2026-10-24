@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Header.HeaderSettings" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:timerui="clr-namespace:ProPresenter.UI.Timer" x:Name="headerSettings" Width="300" xmlns:header="clr-namespace:ProPresenter.UI.Header" Background="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding POPUPCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <Border BorderThickness="1" BorderBrush="{Binding POPUPBORDER, Source={x:Static theming:AppTheme.Active}}">
+    <Grid Margin="15">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid Row="0" Margin="0,0,0,5" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <commonControls:PlaceholderTextBox Grid.Column="0" Height="22" MinWidth="220" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" PlaceholderText="{mex:Localized GLOBAL_NAME}" Text="{Binding HeaderAction.Name, UpdateSourceTrigger=PropertyChanged, ElementName=headerSettings}" KeyUp="TextBox_KeyUp" />
+        <commonControls:ColorPicker Grid.Column="1" Width="38" HorizontalAlignment="Right" VerticalAlignment="Center" SelectedColor="{Binding HeaderAction.Color, ElementName=headerSettings}" />
+      </Grid>
+      <TextBlock Grid.Row="1" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized CONTIGUOUS_VIEW_HEADER_LINKED_TIMER_label}" />
+      <timerui:TimerActionContent Grid.Row="2" CanDeSelectTimer="True" ChangeConfigurationCommand="{Binding ChangeConfigurationCommand, ElementName=headerSettings}" SelectTimerCommand="{Binding SelectTimerCommand, ElementName=headerSettings}" TimerAction="{Binding HeaderAction.Timer, ElementName=headerSettings}" Timers="{Binding Timers, ElementName=headerSettings}" />
+    </Grid>
+  </Border>
+</UserControl>

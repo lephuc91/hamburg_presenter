@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ThumbnailOverlay.ProContentDownloadProgress" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.ThumbnailOverlay" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" x:Name="downloadInProgress" Background="#00FFFFFF">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Grid}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="Active" Binding="{Binding DownloadProgress.Value.Status}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <commonControls:ImageRingProgress Name="imageRingProgress" FontSize="{Binding ElementName=downloadInProgress, Path=FontSize}" Foreground="{Binding LIGHTCONTENT, Source={x:Static theming:AppTheme.Active}}" ShowValue="{Binding ElementName=downloadInProgress, Path=ShowValue}" Value="{Binding ElementName=downloadInProgress, Path=DownloadProgress.PercentComplete}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type commonControls:ImageRingProgress}">
+          <Setter Property="commonControls:ImageRingProgress.RingWidthPercentage" Value="11.111111111" />
+          <Setter Property="commonControls:ImageRingProgress.Source" Value="{StaticResource {x:Static themesUI:Icons.ProContentRingLarge}}" />
+          <Style.Triggers>
+            <DataTrigger Value="True" Binding="{Binding UseSmallRing, ElementName=downloadInProgress}">
+              <Setter Property="commonControls:ImageRingProgress.RingWidthPercentage" Value="15" />
+              <Setter Property="commonControls:ImageRingProgress.Source" Value="{StaticResource {x:Static themesUI:Icons.ProContentRingSmall}}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </commonControls:ImageRingProgress>
+    <Grid Visibility="{Binding ElementName=downloadInProgress, Path=ShowValue, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="{x:Static local:OverlayGridHeightConstants.RingCenterMarginRowHeight}" />
+        <RowDefinition Height="{x:Static local:OverlayGridHeightConstants.RingCenterRowHeight}" />
+        <RowDefinition Height="{x:Static local:OverlayGridHeightConstants.RingCenterMarginRowHeight}" />
+      </Grid.RowDefinitions>
+      <commonControls:ImageMask Grid.Row="1" ImageSource="{StaticResource {x:Static themesUI:Icons.CancelDownload}}" Fill="{Binding LIGHTCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+    </Grid>
+  </Grid>
+</UserControl>

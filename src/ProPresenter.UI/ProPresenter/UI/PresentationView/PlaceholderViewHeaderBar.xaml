@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.PlaceholderViewHeaderBar" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:doActions="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.PresentationView" x:Name="self">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="PlaceholderBarViewSelfProxy" Data="{Binding ElementName=self}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ContentPresenter>
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type ContentPresenter}">
+        <Style.Triggers>
+          <DataTrigger Value="{x:Static doActions:LinkState.Unlinked}" Binding="{Binding Data.LinkState, Source={StaticResource PlaceholderBarViewSelfProxy}}">
+            <Setter Property="Content">
+              <Setter.Value>
+                <local:UnlinkedViewHeaderBar Cue="{Binding Data.Cue, Source={StaticResource PlaceholderBarViewSelfProxy}}" ItemActivatedCommand="{Binding Data.ItemActivatedCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" LinkDocumentCommand="{Binding Data.LinkDocumentCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" LinkDropFilesCommand="{Binding Data.LinkDropFilesCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" LinkImportCommand="{Binding Data.LinkImportCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" LinkMediaCommand="{Binding Data.LinkMediaCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" LinkMultiTracksItemCommand="{Binding Data.LinkMultiTracksItemCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" LinkNewPresentationCommand="{Binding Data.LinkNewPresentationCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" LinkSongSelectItemCommand="{Binding Data.LinkSongSelectItemCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" OpenAttachmentsCommand="{Binding Data.OpenAttachmentsCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" OpenSearchCommand="{Binding Data.OpenSearchCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" />
+              </Setter.Value>
+            </Setter>
+          </DataTrigger>
+          <DataTrigger Value="{x:Static doActions:LinkState.DocumentLinked}" Binding="{Binding Data.LinkState, Source={StaticResource PlaceholderBarViewSelfProxy}}">
+            <Setter Property="Content">
+              <Setter.Value>
+                <local:PresentationViewHeaderBar Cue="{Binding Data.Cue, Source={StaticResource PlaceholderBarViewSelfProxy}}" TimelineActionsMenuVM="{Binding Data.PresentationVM.TimelineActionsMenuVM, Source={StaticResource PlaceholderBarViewSelfProxy}}">
+                  <local:PresentationViewHeaderBar.AdditionalContent>
+                    <DataTemplate>
+                      <local:LinkedItemButton DataContext="{Binding Data.Cue, Source={StaticResource PlaceholderBarViewSelfProxy}}" Label="{Binding Data.ItemButtonLabel, Source={StaticResource PlaceholderBarViewSelfProxy}}" UnlinkCommand="{Binding Data.UnlinkCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" UploadCommand="{Binding Data.UploadCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" />
+                    </DataTemplate>
+                  </local:PresentationViewHeaderBar.AdditionalContent>
+                </local:PresentationViewHeaderBar>
+              </Setter.Value>
+            </Setter>
+          </DataTrigger>
+          <DataTrigger Value="{x:Static doActions:LinkState.MediaLinked}" Binding="{Binding Data.LinkState, Source={StaticResource PlaceholderBarViewSelfProxy}}">
+            <Setter Property="Content">
+              <Setter.Value>
+                <local:MediaViewHeaderBar MediaItem="{Binding Data.Cue, Source={StaticResource PlaceholderBarViewSelfProxy}}" OutputController="{Binding Data.PresentationVM.OutputController, Source={StaticResource PlaceholderBarViewSelfProxy}}">
+                  <local:MediaViewHeaderBar.AdditionalContent>
+                    <DataTemplate>
+                      <local:LinkedItemButton DataContext="{Binding Data.Cue, Source={StaticResource PlaceholderBarViewSelfProxy}}" Label="{Binding Data.ItemButtonLabel, Source={StaticResource PlaceholderBarViewSelfProxy}}" UnlinkCommand="{Binding Data.UnlinkCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" UploadCommand="{Binding Data.UploadCommand, Source={StaticResource PlaceholderBarViewSelfProxy}}" />
+                    </DataTemplate>
+                  </local:MediaViewHeaderBar.AdditionalContent>
+                </local:MediaViewHeaderBar>
+              </Setter.Value>
+            </Setter>
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </ContentPresenter>
+</UserControl>

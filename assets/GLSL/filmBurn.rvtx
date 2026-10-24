@@ -1,0 +1,11 @@
+{
+    "category": "Color",
+    "description": "Film Burn",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Film Burn",
+    "numPasses": 1,
+    "shaderFile": "filmBurn",
+    "type": 1,
+    "uuid": "2CB0361E-5E77-4E7F-AEDB-EA6673F743EF"
+}

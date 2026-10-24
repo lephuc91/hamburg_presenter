@@ -1,0 +1,23 @@
+{
+    "category": "Wipes",
+    "description": "Square Wipe",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Square Wipe",
+    "numPasses": 1,
+    "shaderFile": "squareWipe",
+    "type": 1,
+    "uuid": "DF000B14-0F80-4A8B-86A5-903564032437",
+    "variables": [
+        {
+            "name": "direction",
+            "label": "Direction",
+            "description": "Direction of Wipe",
+            "type": 3,
+            "min": [495, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

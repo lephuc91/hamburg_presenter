@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ui:SharedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actions="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" xmlns:actionsDO="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:clearGroupsUI="clr-namespace:ProPresenter.UI.ClearGroups" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:gotonextControl="clr-namespace:ProPresenter.UI.PresentationView.GoToNext" xmlns:local="clr-namespace:ProPresenter.UI.Thumbnails" xmlns:macros="clr-namespace:ProPresenter.UI.Macros" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:proDO="clr-namespace:Pro.DO;assembly=Pro.DO" xmlns:propresenterDO="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:slideDO="clr-namespace:ProPresenter.DO.Slide;assembly=ProPresenter.DO" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transitions="clr-namespace:ProPresenter.DO.Transition;assembly=ProPresenter.DO" xmlns:transitionsui="clr-namespace:ProPresenter.UI.Transitions" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI">
+  <ResourceDictionary.MergedDictionaries>
+    <ui:SharedResourceDictionary Source="../ActionPalette/ActionPaletteItemStyle.xaml" />
+    <ui:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <converters:KeyToStringConverter x:Key="KeyToStringConverter" />
+  <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+  <commonConverters:ColorInverterConverter x:Key="ColorInverterConverter" />
+  <commonConverters:TimeSliceToStringConverter x:Key="TimeSliceToStringConverter" />
+  <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+  <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+  <Style x:Key="HotkeyStyle" TargetType="{x:Type Border}">
+    <Setter Property="Background" Value="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
+    <Setter Property="UIElement.Effect" Value="{DynamicResource ScrimItemDropShadowEffect}" />
+  </Style>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type actions:ActionBase}}" DataType="{x:Type actions:ActionBase}">
+    <commonControls:ImageMask Width="16" Height="16" Effect="{DynamicResource ScrimItemDropShadowEffect}" Fill="#FFFFFFFF" Stroke="{DynamicResource ScrimItemBorder}" StrokeThickness="{DynamicResource ScrimItemBorderThickness}" Style="{StaticResource ActionBaseImageMaskStyle}" DataContext="{Binding}" ToolTip="{Binding Name}" />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type actionsDO:MacroAction}}" DataType="{x:Type actionsDO:MacroAction}">
+    <Grid ToolTip="{Binding Name}">
+      <macros:MacroActionImageControl Action="{Binding}" Visibility="{Binding IsValid, Converter={StaticResource ValueToVisibilityConverter}}" />
+      <commonControls:ImageMask Width="16" Height="16" Effect="{DynamicResource ScrimItemDropShadowEffect}" Fill="#FFFFFFFF" ImageSource="../Resources/Icons/Macro.png" Stroke="{DynamicResource ScrimItemBorder}" Visibility="{Binding IsValid, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type actionsDO:ClearGroupAction}}" DataType="{x:Type actionsDO:ClearGroupAction}">
+    <Grid Effect="{DynamicResource ScrimItemDropShadowEffect}" ToolTip="{Binding Name}">
+      <clearGroupsUI:ClearGroupImageControl ClearGroup="{Binding Target}" Visibility="{Binding IsValid, Converter={StaticResource ValueToVisibilityConverter}}" />
+      <commonControls:ImageMask Width="16" Height="16" Effect="{DynamicResource ScrimItemDropShadowEffect}" Fill="#FFFFFFFF" ImageSource="{StaticResource {x:Static themes:Icons.ActionClearAll}}" Visibility="{Binding IsValid, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+    </Grid>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type proDO:Hotkey}}" DataType="{x:Type proDO:Hotkey}">
+    <Border Width="16" Height="16" Margin="1" CornerRadius="3" Style="{StaticResource HotkeyStyle}">
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding Color, Converter={StaticResource ColorInverterConverter}}" Text="{Binding Key, Converter={StaticResource KeyToStringConverter}}" />
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type transitions:TransitionScrimItem}}" DataType="{x:Type transitions:TransitionScrimItem}">
+    <transitionsui:ScrimControl Effect="{DynamicResource ScrimItemDropShadowEffect}" IsMediaTransition="{Binding IsMediaTransition, Mode=OneTime}" Transition="{Binding TransitionParameters, Mode=OneTime}" />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type slideDO:GotoNext}}" DataType="{x:Type slideDO:GotoNext}">
+    <gotonextControl:SlideSettingsIndicatorControl Effect="{DynamicResource ScrimItemDropShadowEffect}" GotoNext="{Binding}" />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type propresenterDO:WarningScrimItem}}" DataType="{x:Type propresenterDO:WarningScrimItem}">
+    <Image Width="16" Height="16" Effect="{DynamicResource ScrimItemDropShadowEffect}" Source="../Resources/Icons/WarningIcon.png" DataContext="{Binding}" ToolTip="{Binding Message, Mode=OneTime}" />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type media:VideoDurationScrimItem}}" DataType="{x:Type media:VideoDurationScrimItem}">
+    <Border Background="#FF000000" Effect="{DynamicResource ScrimItemDropShadowEffect}" Opacity="0.5">
+      <TextBlock Margin="2,0" Foreground="#FFFFFFFF" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding Duration, Converter={StaticResource TimeSliceToStringConverter}}" />
+    </Border>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type media:MediaScrimItem}}" DataType="{x:Type media:MediaScrimItem}">
+    <commonControls:ImageMask Width="15" Height="15" Margin="0,0,2,0" Effect="{DynamicResource ScrimItemDropShadowEffect}" Stroke="{DynamicResource ScrimItemBorder}" StrokeThickness="{DynamicResource ScrimItemBorderThickness}" Fill="{Binding Foreground, ElementName=RootScrimView}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type commonControls:ImageMask}">
+          <Setter Property="commonControls:ImageMask.ImageSource" Value="{x:Null}" />
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="Foreground" Binding="{Binding TriggerLayer, Mode=OneTime}">
+              <Setter Property="commonControls:ImageMask.ImageSource" Value="{StaticResource {x:Static themes:Icons.ActionForegroundMedia}}" />
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </commonControls:ImageMask>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type media:PlaybackScrimItem}}" DataType="{x:Type media:PlaybackScrimItem}">
+    <commonControls:ImageMask Width="12" Height="12" Margin="0,0,2,0" Effect="{DynamicResource ScrimItemDropShadowEffect}" ImageSource="../Resources/Icons/Playback/mediaPlaybackBehaviorLoop.png" Stroke="{DynamicResource ScrimItemBorder}" StrokeThickness="{DynamicResource ScrimItemBorderThickness}" Fill="{Binding Foreground, ElementName=RootScrimView}" />
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type media:NextCueScrimItem}}" DataType="{x:Type media:NextCueScrimItem}">
+    <commonControls:ImageMask Width="12" Height="12" Effect="{DynamicResource ScrimItemDropShadowEffect}" Stroke="{DynamicResource ScrimItemBorder}" StrokeThickness="{DynamicResource ScrimItemBorderThickness}" Fill="{Binding Foreground, ElementName=RootScrimView}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type commonControls:ImageMask}">
+          <Setter Property="commonControls:ImageMask.ImageSource" Value="../Resources/Icons/Playback/mediaPlaybackBehaviorNext.png" />
+          <Style.Triggers>
+            <DataTrigger Value="First" Binding="{Binding Type, Mode=OneTime}">
+              <Setter Property="commonControls:ImageMask.ImageSource" Value="../Resources/Icons/Playback/playbackCompletionFirst.png" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </commonControls:ImageMask>
+  </DataTemplate>
+  <DataTemplate x:Key="{DataTemplateKey {x:Type media:SoftLoopPlaybackScrimItem}}" DataType="{x:Type media:SoftLoopPlaybackScrimItem}">
+    <commonControls:ImageMask Width="12" Height="12" Margin="0,0,2,0" Effect="{DynamicResource ScrimItemDropShadowEffect}" ImageSource="../Resources/Icons/Playback/mediaPlaybackBehaviorSoftLoop.png" Stroke="{DynamicResource ScrimItemBorder}" StrokeThickness="{DynamicResource ScrimItemBorderThickness}" Fill="{Binding Foreground, ElementName=RootScrimView}" />
+  </DataTemplate>
+</ui:SharedResourceDictionary>

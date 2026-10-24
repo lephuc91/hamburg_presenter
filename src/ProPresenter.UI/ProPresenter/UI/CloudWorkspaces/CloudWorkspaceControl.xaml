@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CloudWorkspaces.CloudWorkspaceControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:viewModels="clr-namespace:ProPresenter.UI.ViewModels.Workspaces" xmlns:workspaceTypes="clr-namespace:ProPresenter.UI.ViewModels.Workspaces" x:Name="cloudWorkspaceControl" xmlns:cloudworkspaces="clr-namespace:ProPresenter.UI.CloudWorkspaces" DataContext="{di:DIMarkup {x:Type viewModels:IWorkspacesVM}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ui:InterfaceItemContainerTemplateSelector x:Key="WorkspaceTemplateSelector" />
+      <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <converters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <utility:BindingProxy x:Key="proxy" Data="{Binding DataContext, ElementName=cloudWorkspaceControl}" />
+      <utility:BindingProxy x:Key="dependencyProperties" Data="{Binding ElementName=cloudWorkspaceControl}" />
+      <Style x:Key="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <controls:BorderlessDropDownButton>
+    <controls:BorderlessDropDownButton.CustomContent>
+      <StackPanel Orientation="Horizontal">
+        <Image Width="15" Height="10">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="Source" Value="{x:Null}" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static viewModels:WorkspaceType.Cloud}" Binding="{Binding SelectedWorkspace.WorkspaceType}">
+                  <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.SyncAvailableCloudWorkspace}}" />
+                </DataTrigger>
+                <DataTrigger Value="{x:Static viewModels:WorkspaceType.Synced}" Binding="{Binding SelectedWorkspace.WorkspaceType}">
+                  <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.SyncCloudWorkspace}}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+        <TextBlock MaxWidth="170" Margin="2,0,5,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding SelectedWorkspace.Name}" />
+      </StackPanel>
+    </controls:BorderlessDropDownButton.CustomContent>
+    <controls:BorderlessDropDownButton.CustomContextMenu>
+      <ContextMenu ItemContainerTemplateSelector="{StaticResource WorkspaceTemplateSelector}" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <CollectionContainer Collection="{Binding Data.Workspaces, Source={StaticResource proxy}}" />
+            <Separator Visibility="{Binding Data.ShowExtraMenuItems, Source={StaticResource dependencyProperties}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <MenuItem Command="{Binding ManageCloudWorkspacesCommand}" Header="{markupExtensions:Localized LOCALWORKSPACE_MANAGER_WORKSPACES_MENU_ITEM_title}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type viewModels:IWorkspaceItemVM}}" DataType="{x:Type viewModels:IWorkspaceItemVM}">
+              <MenuItem HorizontalContentAlignment="Stretch" Command="{Binding Data.SelectWorkspaceCommand, Source={StaticResource proxy}}" CommandParameter="{Binding}" Header="{Binding}">
+                <HeaderedItemsControl.HeaderTemplate>
+                  <DataTemplate>
+                    <Grid MinWidth="150" HorizontalAlignment="Stretch">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Grid.Column="0" MaxWidth="200" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding Name}" />
+                      <Image Grid.Row="0" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Right">
+                        <FrameworkElement.Style>
+                          <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="{x:Null}" />
+                            <Style.Triggers>
+                              <DataTrigger Value="{x:Static viewModels:WorkspaceType.Local}" Binding="{Binding WorkspaceType}">
+                                <Setter Property="Source" Value="{x:Null}" />
+                              </DataTrigger>
+                              <DataTrigger Value="{x:Static viewModels:WorkspaceType.Cloud}" Binding="{Binding WorkspaceType}">
+                                <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.SyncAvailableCloudWorkspace}}" />
+                              </DataTrigger>
+                              <DataTrigger Value="{x:Static viewModels:WorkspaceType.Synced}" Binding="{Binding WorkspaceType}">
+                                <Setter Property="Source" Value="{StaticResource {x:Static themes:Icons.SyncCloudWorkspace}}" />
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </Image>
+                    </Grid>
+                  </DataTemplate>
+                </HeaderedItemsControl.HeaderTemplate>
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding />
+                    <Binding Path="Data.SelectedWorkspace" Source="{StaticResource proxy}" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </DataTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ContextMenu>
+    </controls:BorderlessDropDownButton.CustomContextMenu>
+  </controls:BorderlessDropDownButton>
+</UserControl>

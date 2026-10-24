@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.FeatheringControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:Pro.UI.Controls" xmlns:uiUtility="clr-namespace:Pro.UI.Utility" x:Name="self">
+  <Grid>
+    <FrameworkElement.Resources>
+      <ResourceDictionary>
+        <commonUtility:BindingProxy x:Key="proxy" Data="{Binding ElementName=self}" />
+      </ResourceDictionary>
+    </FrameworkElement.Resources>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <local:RangeSlider x:Name="RangeSlider" HigherValue="{Binding HigherValue, ElementName=self}" LowerValue="{Binding LowerValue, ElementName=self}" Maximum="{Binding Maximum, ElementName=self}" Minimum="{Binding Minimum, ElementName=self}" ValueLinked="{Binding ValueLinked, ElementName=self}" />
+    <TextBlock Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="9" Text="{Binding LowerValueLabel, ElementName=self}" />
+    <local:BorderlessToggleButton Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Center" IsChecked="{Binding ValueLinked, ElementName=self}">
+      <local:PathControl Stroke="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource AncestorType=Grid}}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type local:PathControl}">
+            <Setter Property="local:PathControl.PathType" Value="Unlinked" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding ValueLinked, ElementName=self}">
+                <Setter Property="local:PathControl.PathType" Value="Linked" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </local:PathControl>
+    </local:BorderlessToggleButton>
+    <TextBlock Grid.Row="1" Margin="0,5,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="9" Text="{Binding HigherValueLabel, ElementName=self}" />
+  </Grid>
+</UserControl>

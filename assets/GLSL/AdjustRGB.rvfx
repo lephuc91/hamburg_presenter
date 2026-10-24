@@ -1,0 +1,40 @@
+{
+    "description": "Filters based on color.",
+    "name": "RGB Adjust",
+    "numPasses": 1,
+    "shaderFile": "AdjustRGB",
+    "type": 0,
+    "uuid": "453B8725-AAB6-427A-8FCE-570B8AB52790",
+    "variables": [
+        {
+            "name": "red",
+            "label": "Red",
+            "description": "Adjust Red",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        },
+        {
+            "name": "green",
+            "label": "Green",
+            "description": "Adjust Green",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        },
+        {
+            "name": "blue",
+            "label": "Blue",
+            "description": "Adjust Blue",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

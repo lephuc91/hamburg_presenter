@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Registration.Banners.Banner" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Registration.Banners" xmlns:theming="clr-namespace:ProPresenter.UI.Theming;assembly=ProPresenter.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <local:ButtonStyleToBackgroundBrushConverter x:Key="ButtonStyleToBackgroundBrushConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <commonControls:BorderlessButton Height="20" Padding="5,0" HorizontalAlignment="Right" uiUtility:UIElementHelper.Palette="{Binding REGISTRATIONBUTTON_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding BannerStyle, Converter={StaticResource ButtonStyleToBackgroundBrushConverter}}" Command="{Binding ClickCommand}" Content="{Binding TextContent}" />
+</UserControl>

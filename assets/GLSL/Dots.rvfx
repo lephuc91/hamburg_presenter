@@ -1,0 +1,30 @@
+{
+    "description": "Blurs the edges.",
+    "name": "Dots",
+    "numPasses": 1,
+    "shaderFile": "Dots",
+    "type": 0,
+    "uuid": "A6FD4AC9-6C4C-47C5-9FC0-AAD551C4642E",
+    "variables": [
+        {
+            "name": "outlineAmount",
+            "label": "Intensity",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        },
+        {
+            "name": "colorLevel",
+            "label": "Color",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 0.5],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

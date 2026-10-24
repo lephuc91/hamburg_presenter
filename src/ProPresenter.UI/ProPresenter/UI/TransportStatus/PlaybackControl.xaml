@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.TransportStatus.PlaybackControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ciUI="clr-namespace:ProPresenter.UI.CueInspector" xmlns:commonComponents="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtilities="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.TransportStatus" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="playbackControl" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyMarkersCommand}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding CutMarkersCommand}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteMarkersCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicateMarkersCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteMarkersCommand}" GotFocus="PlaybackControl_GotFocus">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsCollapsing="False" />
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonUtilities:BindingProxy x:Key="playbackStatusVMProxy" Data="{Binding}" />
+      <commonUtilities:BindingProxy x:Key="playbackControlProxy" Data="{Binding ElementName=playbackControl}" />
+      <ContextMenu x:Key="StepForwardButtonContextMenu" Placement="Right" ItemsSource="{Binding Data.StepPositionIntervals, Source={StaticResource playbackStatusVMProxy}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" />
+            </Style>
+            <Style x:Key="{x:Type MenuItem}" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Command" Value="{Binding Data.SetStepForwardPositionCommand, Source={StaticResource playbackStatusVMProxy}}" />
+              <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+              <Setter Property="HeaderedItemsControl.HeaderStringFormat" Value="-{0}" />
+              <Setter Property="MenuItem.IsChecked">
+                <Setter.Value>
+                  <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                    <Binding Mode="OneWay" Path="Data.StepForwardPosition" Source="{StaticResource playbackStatusVMProxy}" />
+                  </MultiBinding>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </ContextMenu>
+      <CollectionViewSource x:Key="FilteredMarkerItems" Source="{Binding Data.PlaybackMarkers, Source={StaticResource playbackStatusVMProxy}}" Filter="MarkerItem_OnFilter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Row="1" Margin="8,10" Background="#00FFFFFF" IsEnabled="{Binding IsEnabled}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ui:PlaybackScrubber Grid.Row="1" VerticalAlignment="Center" Style="{StaticResource CondensedPlaybackScrubber}" uiUtility:UIElementHelper.Palette="{Binding PLAYBACKSLIDER_PALETTE, Source={x:Static theming:AppTheme.Active}}" BeginScrubCommand="{Binding BeginScrubCommand}" EndScrubCommand="{Binding EndScrubCommand}" PlaybackMarkers="{Binding PlaybackMarkers}" Playhead="{Binding CurrentTime}" ScrubCommand="{Binding ScrubCommand}" SelectMarkerCommand="{Binding SelectMarkerCommand}" SetContextMenuPositionCommand="{Binding SetContextMenuPositionCommand}" TotalDuration="{Binding Duration}" TriggeredMedia="{Binding TriggeredCue.MediaAction.Media}">
+      <ui:PlaybackScrubber.LoopDuration>
+        <PriorityBinding>
+          <Binding Path="TriggeredMedia.Transport.InOutDuration" />
+        </PriorityBinding>
+      </ui:PlaybackScrubber.LoopDuration>
+      <ui:PlaybackScrubber.MarkerOffset>
+        <PriorityBinding>
+          <Binding Path="TriggeredMedia.Transport.InPoint" />
+        </PriorityBinding>
+      </ui:PlaybackScrubber.MarkerOffset>
+      <ui:PlaybackScrubber.OutPoint>
+        <PriorityBinding>
+          <Binding Mode="OneWay" Path="TriggeredMedia.Transport.InOutDuration" />
+        </PriorityBinding>
+      </ui:PlaybackScrubber.OutPoint>
+      <ui:PlaybackScrubber.MarkerContextMenu>
+        <ContextMenu Closed="MarkerMenu_Closed" Opened="MarkerMenu_Opened">
+          <ItemsControl.ItemsSource>
+            <ciUI:PlaybackMarkerContextMenuSource UsePopupRename="True" ActionsMenuVM="{Binding Data.ActionsMenuVM, Source={StaticResource playbackStatusVMProxy}}" ContextMenuTarget="{Binding Data.ContextMenuTarget, Source={StaticResource playbackControlProxy}}" MarkerColor="{Binding Data.SelectedMarkerColor, Source={StaticResource playbackStatusVMProxy}, Mode=TwoWay}" MarkerName="{Binding Data.SelectedMarkerName, Source={StaticResource playbackStatusVMProxy}, Mode=TwoWay}" MoveToPlayheadCommand="{Binding Data.MoveToPlayheadCommand, Source={StaticResource playbackStatusVMProxy}}" />
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </ui:PlaybackScrubber.MarkerContextMenu>
+      <FrameworkElement.ContextMenu>
+        <ContextMenu>
+          <ItemsControl.ItemsSource>
+            <ciUI:PlaybackScrubberContextMenuSource AddPlaybackMarkerCommand="{Binding Data.AddPlaybackMarkerCommand, Source={StaticResource playbackStatusVMProxy}}" />
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </ui:PlaybackScrubber>
+    <local:PlaybackMarkerTimeTextblock Grid.Row="2" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12" AltFill="{Binding PreviousMarkerColor, Converter={StaticResource ColorToBrushConverter}}" AltText="{Binding PreviousMarkerTimeStr}" PrimaryText="{Binding CurrentTimeStr}" Visibility="{Binding IsEnabled, Converter={StaticResource ValueToVisibilityConverter}}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type local:PlaybackMarkerTimeTextblock}">
+          <Setter Property="local:PlaybackMarkerTimeTextblock.CanUseAlt" Value="True" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding PreviousMarkerTimeStr}" Value="{x:Null}">
+              <Setter Property="local:PlaybackMarkerTimeTextblock.CanUseAlt" Value="False" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:PlaybackMarkerTimeTextblock>
+    <local:PlaybackMarkerTimeTextblock Grid.Row="2" Margin="0,0,4,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12" AltFill="{Binding NextMarkerColor, Converter={StaticResource ColorToBrushConverter}}" AltText="{Binding NextMarkerTimeStr, StringFormat=-{0}}" PrimaryText="{Binding RemainingTimeStr, StringFormat=-{0}}" Visibility="{Binding IsEnabled, Converter={StaticResource ValueToVisibilityConverter}}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type local:PlaybackMarkerTimeTextblock}">
+          <Setter Property="local:PlaybackMarkerTimeTextblock.CanUseAlt" Value="True" />
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding NextMarkerTimeStr}" Value="{x:Null}">
+              <Setter Property="local:PlaybackMarkerTimeTextblock.CanUseAlt" Value="False" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:PlaybackMarkerTimeTextblock>
+    <StackPanel Grid.Row="3" Margin="0,-5,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+      <commonControls:BorderlessButton Grid.Column="5" Margin="0,0,8,0" Command="{Binding JumpBack15SecondsCommand}" ToolTip="{mex:Localized TRANSPORT_SKIP_BACKWARD_15_tooltip}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/TransportControls/JumpBack_15.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      </commonControls:BorderlessButton>
+      <Button Name="PlayPauseButton" Width="18" Height="18" Margin="0,0,8,0" VerticalAlignment="Center" Background="#00FFFFFF" BorderThickness="0">
+        <ContentControl.Content>
+          <commonControls:PathControl Fill="{Binding Foreground, ElementName=PlayPauseButton}" Stroke="{Binding Foreground, ElementName=PlayPauseButton}">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type commonControls:PathControl}">
+                <Setter Property="commonControls:PathControl.PathType" Value="Play" />
+                <Style.Triggers>
+                  <DataTrigger Value="Play" Binding="{Binding PlaybackStatus}">
+                    <Setter Property="commonControls:PathControl.PathType" Value="Pause" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </commonControls:PathControl>
+        </ContentControl.Content>
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+            <Setter Property="Command" Value="{Binding PlayCommand}" />
+            <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_PLAY_tooltip}" />
+            <Style.Triggers>
+              <DataTrigger Value="Play" Binding="{Binding PlaybackStatus}">
+                <Setter Property="Command" Value="{Binding PauseCommand}" />
+                <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TRANSPORT_PAUSE_tooltip}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Button>
+      <commonControls:BorderlessButton Grid.Column="6" Margin="0,0,8,0" Command="{Binding JumpForward15SecondsCommand}" ToolTip="{mex:Localized TRANSPORT_SKIP_FORWARD_15_tooltip}">
+        <commonControls:ImageMask ImageSource="../Resources/Icons/TransportControls/JumpForward_15.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      </commonControls:BorderlessButton>
+      <local:JumpEndButton Grid.Column="7" ContextMenu="{StaticResource StepForwardButtonContextMenu}" Command="{Binding GotoPositionCommand}" JumpTime="{Binding StepForwardPosition}" />
+      <commonControls:BorderlessButton Width="26" Height="26" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+        <FrameworkElement.ContextMenu>
+          <ContextMenu>
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ciUI:PlaybackMarkerTimestampToStringConverter x:Key="PlaybackMarkerTimestampToStringConverter" Data="{Binding Data.TriggeredMedia, Source={StaticResource playbackStatusVMProxy}}">
+                  <ciUI:PlaybackMarkerTimestampToStringConverter.MarkerOffset>
+                    <PriorityBinding>
+                      <Binding Path="Data.TriggeredMedia.Transport.InPoint" Source="{StaticResource playbackStatusVMProxy}" />
+                    </PriorityBinding>
+                  </ciUI:PlaybackMarkerTimestampToStringConverter.MarkerOffset>
+                </ciUI:PlaybackMarkerTimestampToStringConverter>
+                <Ellipse x:Key="MarkerItem_Icon" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" />
+                <StackPanel x:Key="MarkerItem_Header" Orientation="Horizontal">
+                  <TextBlock Margin="0,0,-10,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" Text="{Binding Timestamp, Converter={StaticResource PlaybackMarkerTimestampToStringConverter}}" />
+                  <TextBlock MaxWidth="300" HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" Text="{Binding Name}">
+                    <FrameworkElement.Style>
+                      <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                        <Setter Property="Margin" Value="30,0,-10,0" />
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                          <DataTrigger Value="" Binding="{Binding Name}">
+                            <Setter Property="Margin" Value="0,0,0,0" />
+                            <Setter Property="Visibility" Value="Collapsed" />
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </FrameworkElement.Style>
+                  </TextBlock>
+                </StackPanel>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+            <ItemsControl.ItemsSource>
+              <commonComponents:FrameworkCollection>
+                <commonComponents:FrameworkCollectionWrapper BoundCollection="{Binding Source={StaticResource FilteredMarkerItems}}">
+                  <commonComponents:FrameworkCollectionWrapper.BoundDataTemplate>
+                    <DataTemplate>
+                      <MenuItem Header="{StaticResource MarkerItem_Header}" Icon="{StaticResource MarkerItem_Icon}" Command="{Binding Data.JumpToPlaybackMarkerCommand, Source={StaticResource playbackStatusVMProxy}}" CommandParameter="{Binding}" />
+                    </DataTemplate>
+                  </commonComponents:FrameworkCollectionWrapper.BoundDataTemplate>
+                </commonComponents:FrameworkCollectionWrapper>
+                <MenuItem IsEnabled="False" Header="{mex:Localized PLAYBACK_MARKERS_NO_MARKERS_label}">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                      <Style.Triggers>
+                        <DataTrigger Value="0" Binding="{Binding Count, Source={StaticResource FilteredMarkerItems}}">
+                          <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </MenuItem>
+                <Separator />
+                <MenuItem Command="{Binding Data.AddPlaybackMarkerCommand, Source={StaticResource playbackStatusVMProxy}}" Header="{mex:Localized PLAYBACK_MARKERS_ADD_MARKER_AT_PLAYHEAD_title}" />
+                <MenuItem Command="{Binding Data.OpenPlaybackMarkersCommand, Source={StaticResource playbackStatusVMProxy}}" Header="{mex:Localized PLAYBACK_MARKERS_EDIT_MARKERS_title}" />
+              </commonComponents:FrameworkCollection>
+            </ItemsControl.ItemsSource>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+        <Path Data="M13,2 C13.55,2 14,2.45 14,3 C14,3 14,9.37 14,9.37 C14,9.84 13.83,10.3 13.53,10.66 C13.53,10.66 9.38,15.55 9.38,15.55 C9.2,15.76 8.89,15.79 8.68,15.61 C8.66,15.59 8.64,15.57 8.62,15.55 C8.62,15.55 4.47,10.66 4.47,10.66 C4.17,10.3 4,9.84 4,9.37 C4,9.37 4,3 4,3 C4,2.45 4.45,2 5,2 C5,2 13,2 13,2 M12.25,8 C12.25,8 7.5,8 7.5,8 C7.22,8 7,8.22 7,8.5 C7,8.78 7.22,9 7.5,9 C7.5,9 7.5,9 7.5,9 C7.5,9 12.25,9 12.25,9 C12.53,9 12.75,8.78 12.75,8.5 C12.75,8.22 12.53,8 12.25,8 C12.25,8 12.25,8 12.25,8 M5.75,8 C5.47,8 5.25,8.22 5.25,8.5 C5.25,8.78 5.47,9 5.75,9 C6.03,9 6.25,8.78 6.25,8.5 C6.25,8.22 6.03,8 5.75,8 M12.25,6 C12.25,6 7.5,6 7.5,6 C7.22,6 7,6.22 7,6.5 C7,6.78 7.22,7 7.5,7 C7.5,7 7.5,7 7.5,7 C7.5,7 12.25,7 12.25,7 C12.53,7 12.75,6.78 12.75,6.5 C12.75,6.22 12.53,6 12.25,6 C12.25,6 12.25,6 12.25,6 M5.75,6 C5.47,6 5.25,6.22 5.25,6.5 C5.25,6.78 5.47,7 5.75,7 C6.03,7 6.25,6.78 6.25,6.5 C6.25,6.22 6.03,6 5.75,6 M12.25,4 C12.25,4 7.5,4 7.5,4 C7.22,4 7,4.22 7,4.5 C7,4.78 7.22,5 7.5,5 C7.5,5 7.5,5 7.5,5 C7.5,5 12.25,5 12.25,5 C12.53,5 12.75,4.78 12.75,4.5 C12.75,4.22 12.53,4 12.25,4 C12.25,4 12.25,4 12.25,4 M5.75,4 C5.47,4 5.25,4.22 5.25,4.5 C5.25,4.78 5.47,5 5.75,5 C6.03,5 6.25,4.78 6.25,4.5 C6.25,4.22 6.03,4 5.75,4" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      </commonControls:BorderlessButton>
+    </StackPanel>
+  </Grid>
+</UserControl>

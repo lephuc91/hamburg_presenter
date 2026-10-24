@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.PresentationViewer" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:bibles="clr-namespace:ProPresenter.UI.Bibles" xmlns:commonComponents="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:cues="clr-namespace:ProPresenter.DO.Cues;assembly=ProPresenter.DO" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:floatingHeaders="clr-namespace:ProPresenter.UI.FloatingHeaders" xmlns:headerview="clr-namespace:ProPresenter.UI.Header" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.PresentationView" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:pcoUI="clr-namespace:ProPresenter.UI.PCO" xmlns:playlists="clr-namespace:ProPresenter.UI.Playlist" xmlns:slidemenu="clr-namespace:ProPresenter.UI.SlideMenu" xmlns:templates="clr-namespace:ProPresenter.UI.Templates" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:uiThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="presentationviewerself" uiUtility:UIElementHelper.Palette="{Binding PRESENTATION_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="dataContext" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="mainLayoutVM" Data="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:MainLayout}}}" />
+      <commonUtility:BindingProxy x:Key="presentationviewerproxy" Data="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:PresentationViewer}}}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" IsInverted="True" />
+      <playlists:PlaylistItemEqualityConverter x:Key="PlaylistItemEqualityConverter" />
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+      <slidemenu:CustomSlideMenu x:Key="SlideMenu" DataContext="{Binding Data.PresentationVM.CustomSlideMenuVM, Source={StaticResource mainLayoutVM}}" />
+      <Style x:Key="ItemSelectionStyle" TargetType="{x:Type UserControl}">
+        <Style.Triggers>
+          <MultiDataTrigger>
+            <MultiDataTrigger.Conditions>
+              <Condition Value="True" Binding="{Binding Data.IsContiguousViewFocused, Source={StaticResource dataContext}}" />
+              <Condition Value="True">
+                <Condition.Binding>
+                  <MultiBinding Converter="{StaticResource PlaylistItemEqualityConverter}">
+                    <Binding />
+                    <Binding Path="Data.ActivePlaylistItem" Source="{StaticResource dataContext}" />
+                  </MultiBinding>
+                </Condition.Binding>
+              </Condition>
+            </MultiDataTrigger.Conditions>
+            <Setter Property="Background" Value="{Binding PRESENTATIONVIEWACTIVEITEM, Source={x:Static theming:AppTheme.Active}}" />
+          </MultiDataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="HeaderItemBorderStyle" TargetType="{x:Type UserControl}">
+        <Setter Property="Margin" Value="0,0,0,1" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="27" />
+    </Grid.RowDefinitions>
+    <floatingHeaders:PlaylistItemFloatingHeaderControl x:Name="PresentationFloatingHeaderControl" Grid.Row="1" xmlns:controls1="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" ExpandLastItem="True" ActivePlaylistItem="{Binding ActivePlaylistItem}" ActiveSlide="{Binding Data.PresentationVM.ActiveSlide, Source={StaticResource mainLayoutVM}}" CanScrollToCue="{Binding Data.PresentationVM.ScrollToCue, Source={StaticResource mainLayoutVM}}" CanScrollToSlide="{Binding Data.PresentationVM.ScrollToSlide, Source={StaticResource mainLayoutVM}}" Items="{Binding Items, ElementName=presentationviewerself}" ViewSettings="{Binding Data.PresentationVM.PresentationViewSettings, Source={StaticResource mainLayoutVM}, Delay=750}">
+      <controls1:FloatingHeaderControl.HeaderTemplates>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.Header}">
+          <headerview:HeaderView Style="{StaticResource HeaderItemBorderStyle}" HeaderAction="{Binding HeaderAction}" Timers="{Binding Data.Timers, Source={StaticResource dataContext}}" TriggerHeaderItemCommand="{Binding Data.TriggerHeaderItemCommand, Source={StaticResource dataContext}}" />
+        </commonComponents:TaggedDataTemplate>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.Document}">
+          <local:PresentationViewHeaderBar Style="{StaticResource HeaderItemBorderStyle}" Cue="{Binding}" IsHeaderContentEnabled="{Binding PresentationHeaderVM.DocumentAction.Presentation.IsAvailable, FallbackValue=true, TargetNullValue=true, RelativeSource={RelativeSource Mode=Self}}" PresentationVM="{Binding Data, Source={StaticResource dataContext}}" TimelineActionsMenuVM="{Binding Data.PresentationVM.TimelineActionsMenuVM, Source={StaticResource mainLayoutVM}}" />
+        </commonComponents:TaggedDataTemplate>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.Media}">
+          <local:MediaViewHeaderBar Style="{StaticResource HeaderItemBorderStyle}" MediaItem="{Binding}" OutputController="{Binding Data.OutputController, Source={StaticResource dataContext}}" />
+        </commonComponents:TaggedDataTemplate>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.Placeholder}">
+          <local:PlaceholderViewHeaderBar Style="{StaticResource HeaderItemBorderStyle}" Cue="{Binding}" ItemActivatedCommand="{Binding Data.ItemActivatedCommand, Source={StaticResource dataContext}}" ItemButtonLabel="{Binding PlaceholderName}" LinkDocumentCommand="{Binding Data.LinkDocumentCommand, Source={StaticResource dataContext}}" LinkDropFilesCommand="{Binding Data.LinkDropFilesCommand, Source={StaticResource dataContext}}" LinkImportCommand="{Binding Data.LinkImportCommand, Source={StaticResource dataContext}}" LinkMediaCommand="{Binding Data.LinkMediaCommand, Source={StaticResource dataContext}}" LinkMultiTracksItemCommand="{Binding Data.LinkMultiTracksItemCommand, Source={StaticResource dataContext}}" LinkNewPresentationCommand="{Binding Data.LinkNewPresentationCommand, Source={StaticResource dataContext}}" LinkSongSelectItemCommand="{Binding Data.LinkSongSelectItemCommand, Source={StaticResource dataContext}}" LinkState="{Binding PlaceholderAction.State}" OpenSearchCommand="{Binding Data.OpenSearchCommand, Source={StaticResource dataContext}}" PresentationVM="{Binding Data, Source={StaticResource dataContext}}" UnlinkCommand="{Binding Data.UnlinkItemCommand, Source={StaticResource dataContext}}" />
+        </commonComponents:TaggedDataTemplate>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.PCO}">
+          <pcoUI:HeaderBarView Style="{StaticResource HeaderItemBorderStyle}" Cue="{Binding}" ItemActivatedCommand="{Binding Data.ItemActivatedCommand, Source={StaticResource dataContext}}" LinkDocumentCommand="{Binding Data.PCOLiveVM.LinkDocumentCommand, Source={StaticResource mainLayoutVM}}" LinkDropFilesCommand="{Binding Data.PCOLiveVM.LinkDropFilesCommand, Source={StaticResource mainLayoutVM}}" LinkImportCommand="{Binding Data.PCOLiveVM.LinkImportCommand, Source={StaticResource mainLayoutVM}}" LinkMediaCommand="{Binding Data.PCOLiveVM.LinkMediaCommand, Source={StaticResource mainLayoutVM}}" LinkMultiTracksItemCommand="{Binding Data.LinkMultiTracksItemCommand, Source={StaticResource dataContext}}" LinkNewPresentationCommand="{Binding Data.PCOLiveVM.LinkNewPresentationCommand, Source={StaticResource mainLayoutVM}}" LinkSongSelectItemCommand="{Binding Data.PCOLiveVM.LinkSongSelectItemCommand, Source={StaticResource mainLayoutVM}}" OpenAttachmentsCommand="{Binding Data.PCOLiveVM.OpenAttachmentsCommand, Source={StaticResource mainLayoutVM}}" OpenSearchCommand="{Binding Data.PCOLiveVM.OpenSearchCommand, Source={StaticResource mainLayoutVM}}" PresentationVM="{Binding Data, Source={StaticResource dataContext}}" UnlinkCommand="{Binding Data.PCOLiveVM.UnlinkItemCommand, Source={StaticResource mainLayoutVM}}" UploadCommand="{Binding Data.LibraryVM.PCOUploadCommand, Source={StaticResource mainLayoutVM}}" />
+        </commonComponents:TaggedDataTemplate>
+      </controls1:FloatingHeaderControl.HeaderTemplates>
+      <controls1:FloatingHeaderControl.ItemTemplates>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.Document}">
+          <local:PresentationView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ItemSelectionStyle}" ThumbnailContextMenu="{StaticResource SlideMenu}" Cue="{Binding}" DataContext="{Binding}" PresentationVM="{Binding Data, Source={StaticResource dataContext}}" />
+        </commonComponents:TaggedDataTemplate>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.Media}">
+          <local:MediaView HorizontalAlignment="Stretch" VerticalAlignment="Top" Style="{StaticResource ItemSelectionStyle}" ActiveItem="{Binding Data.ActivePlaylistItem, Source={StaticResource dataContext}, Mode=TwoWay}" MediaItem="{Binding}" TriggerMediaItemCommand="{Binding Data.TriggerMediaItemCommand, Source={StaticResource presentationviewerproxy}}" />
+        </commonComponents:TaggedDataTemplate>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.Placeholder}">
+          <local:PlaceholderView Style="{StaticResource ItemSelectionStyle}" ThumbnailContextMenu="{StaticResource SlideMenu}" Cue="{Binding}" ItemActivatedCommand="{Binding Data.ItemActivatedCommand, Source={StaticResource dataContext}}" LinkState="{Binding PlaceholderAction.State}" PresentationVM="{Binding Data, Source={StaticResource dataContext}}" TriggerMediaItemCommand="{Binding Data.TriggerMediaItemCommand, Source={StaticResource presentationviewerproxy}}" />
+        </commonComponents:TaggedDataTemplate>
+        <commonComponents:TaggedDataTemplate Tag="{x:Static cues:CueType.PCO}">
+          <local:PlaceholderView Style="{StaticResource ItemSelectionStyle}" ThumbnailContextMenu="{StaticResource SlideMenu}" Cue="{Binding}" ItemActivatedCommand="{Binding Data.ItemActivatedCommand, Source={StaticResource dataContext}}" LinkState="{Binding PCOAction.LinkedObjectType}" PresentationVM="{Binding Data, Source={StaticResource dataContext}}" TriggerMediaItemCommand="{Binding Data.TriggerMediaItemCommand, Source={StaticResource presentationviewerproxy}}" />
+        </commonComponents:TaggedDataTemplate>
+      </controls1:FloatingHeaderControl.ItemTemplates>
+    </floatingHeaders:PlaylistItemFloatingHeaderControl>
+    <controls:ImageTextButton Grid.Row="0" Grid.RowSpan="3" ImageSource="{StaticResource {x:Static uiThemes:Icons.EmptyAdd}}" Command="{Binding FileMenu.NewPresentation.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Text="{mex:Localized MAIN_MENU_FILE_NEW_PRESENTATION_title}" Visibility="{Binding LibrariesContainPresentations, Converter={StaticResource InvertedBooleanToVisibilityConverter}}" />
+    <Grid Row="2" uiUtility:UIElementHelper.Palette="{Binding PRESENTATION_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <templates:TemplateButton x:Name="AddSlideTemplateButton" Grid.Column="0" Margin="8,0,0,0" VerticalAlignment="Center" ContextGroup="Presentation" TemplateButtonType="AddSlide" DefaultTemplate="{Binding DefaultTheme[0], Source={x:Static do:DataVault.Themes}}" DefaultTemplateHeader="{mex:Localized THEMES_MENU_ADD_NEW_BLANK_SLIDE}" IsEnabled="{Binding CanAddNewSlide, Mode=OneWay}" SelectTemplateCommand="{Binding Data.PresentationVM.AddTemplateSlideCommand, Source={StaticResource mainLayoutVM}}" TemplateSlideTooltipText="{mex:Localized THEMES_POPOVER_ADD_NEW_SLIDE_tooltip}" ToolTip="{mex:Localized PRESENTATION_TOOLBAR_ADD_BUTTON_tooltip}" />
+      <StackPanel Grid.Column="1" Margin="6,0,5,0" Orientation="Horizontal">
+        <Separator Margin="0,7" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+      </StackPanel>
+      <local:ViewerStatusBar x:Name="viewStatusBar" Grid.Column="2" VerticalAlignment="Center" IsEasySettingsAvailable="True" IsEasyViewAvailable="True" IsListSettingsAvailable="True" IsListViewAvailable="True" IsThumbnailSettingsAvailable="True" IsThumbnailViewAvailable="True" IsViewOptionPopupAvailable="True" TransitionDisplayMode="Foreground" ForceFlipView="{Binding ForceFlipView}" IsSecondaryTransitionVisible="{Binding IsSecondaryTransitionVisible}" RowCapacity="{Binding PresentationRowCapacity}" SelectedViewSettings="{Binding PresentationViewSettings}" TransitionControl="{Binding MediaLibraryVM}">
+        <bibles:VerseNavigationControl GoToNextVerseCommand="{Binding GoToNextVerseCommand}" GoToPreviousVerseCommand="{Binding GoToPreviousVerseCommand}" Visibility="{Binding ShowVerseNavigation, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </local:ViewerStatusBar>
+    </Grid>
+  </Grid>
+</UserControl>

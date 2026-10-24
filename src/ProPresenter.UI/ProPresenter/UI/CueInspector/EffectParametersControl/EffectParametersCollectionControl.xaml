@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.CueInspector.EffectParametersControl.EffectParametersCollectionControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProPresenter.UI.CueInspector.EffectParametersControl" x:Name="self">
+  <ItemsControl ItemsSource="{Binding EffectParameters.EffectDescription.Parameters, ElementName=self}">
+    <ItemsControl.ItemTemplateSelector>
+      <local:EffectParameterControlTemplateSelector />
+    </ItemsControl.ItemTemplateSelector>
+    <FrameworkElement.Resources>
+      <ResourceDictionary>
+        <DataTemplate x:Key="EffectIntParamControlTemplate">
+          <local:EffectIntParameterControl Margin="0,5" Description="{Binding}" Parameters="{Binding EffectParameters, ElementName=self}" />
+        </DataTemplate>
+        <DataTemplate x:Key="EffectFloatParamControlTemplate">
+          <local:EffectFloatParameterControl Margin="0,5" Description="{Binding}" Parameters="{Binding EffectParameters, ElementName=self}" />
+        </DataTemplate>
+        <DataTemplate x:Key="EffectColorParamControlTemplate">
+          <local:EffectColorParameterControl Margin="0,5" Description="{Binding}" Parameters="{Binding EffectParameters, ElementName=self}" />
+        </DataTemplate>
+        <DataTemplate x:Key="EffectDirectionParamControlTemplate">
+          <local:EffectDirectionParameterControl Margin="0,5" Description="{Binding}" Parameters="{Binding EffectParameters, ElementName=self}" />
+        </DataTemplate>
+        <DataTemplate x:Key="EffectDoubleParamControlTemplate">
+          <local:EffectDoubleParameterControl Margin="0,5" Description="{Binding}" Parameters="{Binding EffectParameters, ElementName=self}" />
+        </DataTemplate>
+      </ResourceDictionary>
+    </FrameworkElement.Resources>
+  </ItemsControl>
+</UserControl>

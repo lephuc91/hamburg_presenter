@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MenuItem x:Class="ProPresenter.UI.OutputConfiguration.NDIDeviceSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:do="clr-namespace:ProPresenter.DO.OutputConfiguration;assembly=ProPresenter.DO" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:outputConfiguration="clr-namespace:ProPresenter.UI.OutputConfiguration" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="ndiDeviceSource" Style="{StaticResource {x:Type MenuItem}}">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <commonUtility:BindingProxy x:Key="ndiDeviceSourceProxy" Data="{Binding ElementName=ndiDeviceSource}" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <ItemsControl.ItemContainerStyle>
+    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+      <EventSetter Event="Click" Handler="Mode_Click" />
+    </Style>
+  </ItemsControl.ItemContainerStyle>
+  <ItemsControl.ItemsSource>
+    <CompositeCollection>
+      <CollectionContainer Collection="{Binding Source={x:Static do:SoftDevice.AvailableNDIModes}}" />
+      <Separator />
+      <outputConfiguration:DynamicDeviceMode />
+    </CompositeCollection>
+  </ItemsControl.ItemsSource>
+</MenuItem>

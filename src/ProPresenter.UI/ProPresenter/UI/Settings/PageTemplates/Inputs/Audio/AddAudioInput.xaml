@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Inputs.Audio.AddAudioInput" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:input="clr-namespace:ProPresenter.UI.Input" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Inputs.Audio" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="AudioInputsSettingsVMProxy" Data="{Binding}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+    <commonControls:BorderlessPathButton Margin="4,4,0,4" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" PathType="Plus">
+      <FrameworkElement.ContextMenu>
+        <ContextMenu Placement="Bottom" MinWidth="{Binding Path=PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <CollectionContainer>
+                <CollectionContainer.Collection>
+                  <input:AudioSourceDeviceSelectorSource AddAirCastDeviceCommand="{Binding Data.AddAirCastDeviceCommand, Source={StaticResource AudioInputsSettingsVMProxy}}" AudioDevices="{Binding Data.AudioDevices, Source={StaticResource AudioInputsSettingsVMProxy}}" ClearDeviceCommand="{Binding Data.AddAudioInputCommand, Source={StaticResource AudioInputsSettingsVMProxy}}" SelectAudioDeviceCommand="{Binding Data.AddAudioDeviceCommand, Source={StaticResource AudioInputsSettingsVMProxy}}" SelectVideoDeviceCommand="{Binding Data.AddVideoDeviceCommand, Source={StaticResource AudioInputsSettingsVMProxy}}" VideoDevices="{Binding Data.VideoDevices, Source={StaticResource AudioInputsSettingsVMProxy}}" />
+                </CollectionContainer.Collection>
+              </CollectionContainer>
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </commonControls:BorderlessPathButton>
+    <Border Width="1" Margin="8" BorderThickness="1,0,0,0" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+    <commonControls:BorderlessPathButton Margin="0,4" PathType="Minus" Command="{Binding RemoveAudioInputCommand}" />
+  </StackPanel>
+</UserControl>

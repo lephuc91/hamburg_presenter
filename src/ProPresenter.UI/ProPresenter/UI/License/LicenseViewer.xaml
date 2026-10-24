@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.License.LicenseViewer" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="licenseViewerSelf" Width="480" Height="300" xmlns:license="clr-namespace:ProPresenter.UI.License" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <TextBox AcceptsReturn="True" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding LicenseContent, ElementName=licenseViewerSelf, Mode=OneWay}" />
+  </ScrollViewer>
+</UserControl>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameworkElement x:Class="Pro.UI.Controls.FormattedTextBox" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commands="clr-namespace:Pro.UI.Commands" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:system="clr-namespace:System;assembly=mscorlib" x:Name="Self" AllowDrop="True" Cursor="IBeam" Focusable="True" KeyboardNavigation.TabNavigation="None" SnapsToDevicePixels="True" xmlns:controls="clr-namespace:Pro.UI.Controls" FocusVisualStyle="{x:Null}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="SelfProxy" Data="{Binding ElementName=Self}" />
+      <CollectionViewSource x:Key="Suggestions" Source="{Binding Data.SpellErrorSuggestions, Source={StaticResource SelfProxy}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <FrameworkElement.ContextMenu>
+    <ContextMenu UsesItemContainerTemplate="True" Closed="TextMenu_Closed" Opened="TextMenu_Opened">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type system:String}}">
+            <MenuItem Header="{Binding}" Click="ReplaceText_Click" />
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <ItemsControl.ItemsSource>
+        <CompositeCollection>
+          <CollectionContainer Collection="{Binding Source={StaticResource Suggestions}}" />
+          <Separator />
+          <MenuItem Command="{x:Static commands:CommonApplicationCommands.CutCommand}" />
+          <MenuItem Command="{x:Static commands:CommonApplicationCommands.Copy}" />
+          <MenuItem Command="{x:Static commands:CommonApplicationCommands.Paste}" />
+          <MenuItem Command="{x:Static commands:CommonApplicationCommands.PasteAndMatchStyle}" />
+        </CompositeCollection>
+      </ItemsControl.ItemsSource>
+    </ContextMenu>
+  </FrameworkElement.ContextMenu>
+  <FrameworkElement.LayoutTransform>
+    <ScaleTransform CenterX="0" CenterY="0" ScaleX="{Binding ZoomLevel, ElementName=Self}" ScaleY="{Binding ZoomLevel, ElementName=Self}" />
+  </FrameworkElement.LayoutTransform>
+</FrameworkElement>

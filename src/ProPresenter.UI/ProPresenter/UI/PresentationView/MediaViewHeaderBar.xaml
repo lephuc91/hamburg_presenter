@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.MediaViewHeaderBar" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:mediaDO="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transitions="clr-namespace:ProPresenter.UI.Transitions" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="mediaViewHeaderBar" xmlns:presentationview="clr-namespace:ProPresenter.UI.PresentationView" Background="{Binding HEADER, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../CueIconResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToHideVisibilityConverter" IsCollapsing="False" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Height="27">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Image Grid.Column="0" Margin="6,6,0,6" Style="{StaticResource CueIconStyle}" DataContext="{Binding MediaItem, ElementName=mediaViewHeaderBar}" />
+    <TextBlock Grid.Column="1" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{Binding HEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{Binding ElementName=mediaViewHeaderBar, Path=MediaAction.Name}" />
+    <StackPanel Grid.Column="2" Margin="0,0,8,0" HorizontalAlignment="Right" Orientation="Horizontal">
+      <ContentPresenter ContentTemplate="{Binding AdditionalContent, ElementName=mediaViewHeaderBar}" />
+      <Separator Margin="6,5" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding AdditionalContent, Converter={StaticResource InvertedValueToVisibilityConverter}, ElementName=mediaViewHeaderBar, ConverterParameter={x:Null}}" />
+      <commonControls:BorderlessButton Grid.Column="1" Height="22" Padding="5,0" Command="{Binding ProCommon.OpenMediaInspector.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" CommandParameter="{Binding MediaAction, ElementName=mediaViewHeaderBar, Converter={di:DIMarkup {x:Type converters:MediaInspectorConverter}}}" Content="{mex:Localized CONTIGUOUS_VIEW_MEDIA_INSPECTOR_BUTTON_title}" Visibility="{Binding MediaAction.Media.MediaType, ElementName=mediaViewHeaderBar, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static mediaDO:MediaType.Web}}" />
+      <StackPanel Margin="6,5" Orientation="Horizontal">
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+      </StackPanel>
+      <transitions:ButtonSelector Margin="8,0,0,0" IsGlobalAllowed="True" SelectorButtonContentType="Short" OutputController="{Binding OutputController, ElementName=mediaViewHeaderBar}" SelectedTransition="{Binding ElementName=mediaViewHeaderBar, Path=MediaAction.SelectedTransition}" TransitionHandler="{Binding ElementName=mediaViewHeaderBar, Path=TransitionHandler}" Visibility="{Binding ElementName=mediaViewHeaderBar, Path=MediaAction.IsTransitionSupported, Converter={StaticResource ValueToHideVisibilityConverter}}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

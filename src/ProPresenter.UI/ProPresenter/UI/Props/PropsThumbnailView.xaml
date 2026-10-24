@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Props.PropsThumbnailView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:proPresenterControls="clr-namespace:ProPresenter.UI.Controls" xmlns:propsViewSettings="clr-namespace:ProPresenter.DO.PanelViewSettings;assembly=ProPresenter.DO" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="propsThumbnailView" xmlns:props="clr-namespace:ProPresenter.UI.Props">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+      <converters:CustomSlideConverter x:Key="CustomSlideConverter" />
+      <commonUtility:BindingProxy x:Key="propsThumbnailViewProxy" Data="{Binding ElementName=propsThumbnailView}" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <UIElement.Effect>
+    <DropShadowEffect BlurRadius="8" Direction="270" Opacity="0.7" ShadowDepth="1" Color="{StaticResource {x:Static themesUI:Colors.Shadow}}" />
+  </UIElement.Effect>
+  <proPresenterControls:CenteredContentPreviewContainer AspectRatio="{Binding AspectRatio, ElementName=propsThumbnailView}" ViewSettings="{di:DIMarkup {x:Type propsViewSettings:ThumbnailViewSettings}}">
+    <Grid>
+      <Grid>
+        <Border BorderThickness="1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" CornerRadius="{Binding CornerRadius, ElementName=propsThumbnailView}">
+          <Grid Name="previewGrid">
+            <UIElement.OpacityMask>
+              <VisualBrush Stretch="None">
+                <VisualBrush.Visual>
+                  <Rectangle Fill="#FF000000" Width="{Binding ActualWidth, ElementName=previewGrid}" Height="{Binding ActualHeight, ElementName=previewGrid}" RadiusX="{Binding Data.CornerRadius, Source={StaticResource propsThumbnailViewProxy}}" RadiusY="{Binding Data.CornerRadius, Source={StaticResource propsThumbnailViewProxy}}" />
+                </VisualBrush.Visual>
+              </VisualBrush>
+            </UIElement.OpacityMask>
+            <commonControls:Checkerboard Width="{Binding ActualWidth, ElementName=PreviewImage}" Height="{Binding ActualHeight, ElementName=PreviewImage}" PrimaryBrush="{Binding CHECKERBOARDPRIMARY, Source={x:Static theming:AppTheme.Active}}" SecondaryBrush="{Binding CHECKERBOARDSECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+            <Image Name="PreviewImage" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="Fant" Stretch="Uniform" Source="{Binding Thumbnail, ElementName=propsThumbnailView}" />
+          </Grid>
+        </Border>
+        <Border BorderThickness="2" BorderBrush="{Binding Data.IsActiveBrush, Source={StaticResource propsThumbnailViewProxy}}" CornerRadius="{Binding CornerRadius, ElementName=propsThumbnailView}" />
+      </Grid>
+      <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" uiUtility:UIElementHelper.HideWhenHeightLessThan="30" Width="{Binding ElementName=previewGrid, Path=ActualWidth}" Height="{Binding ElementName=previewGrid, Path=ActualHeight}" Content="{Binding Data.Child, Source={StaticResource propsThumbnailViewProxy}}" />
+    </Grid>
+  </proPresenterControls:CenteredContentPreviewContainer>
+</UserControl>

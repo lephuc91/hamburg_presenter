@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:captureAnalytics="clr-namespace:ProPresenter.DO.Analytics.Events.Capture;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.ActionsMenu" xmlns:macros="clr-namespace:ProPresenter.UI.Macros" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="../ActionPalette/ActionPaletteItemStyle.xaml" />
+    <ResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <converters:PlaylistMarginConverter x:Key="PlaylistMarginConverter" />
+  <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+  <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+  <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+  <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+  <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+  <converters:MacroIconToImageSource x:Key="MacroIconToImageSource" />
+  <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+  <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+  <local:ActionToHeaderConverter x:Key="ActionToHeaderConverter" />
+  <local:ActionDataIsCheckedConverter x:Key="ActionDataIsCheckedConverter" />
+  <local:RemoveActionTypeToHeaderConverter x:Key="RemoveActionTypeToHeaderConverter" />
+  <local:ActionDataCommandParameterConverter x:Key="ActionDataCommandParameterConverter" />
+  <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+  <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+  <converters:MacroGroupCheckedConverter x:Key="MacroGroupCheckedConverter" />
+  <converters:PropGroupCheckedConverter x:Key="PropGroupCheckedConverter" />
+  <Image x:Key="ActionIconStyle" Style="{StaticResource ActionPaletteItemStyle}" />
+  <Grid x:Key="ActionRemoveEditIconStyle">
+    <ContentControl Content="{Binding}" Visibility="{Binding IsValid, Converter={StaticResource ValueToVisibilityConverter}}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary Source="../Thumbnails/ScrimTemplates.xaml" />
+      </FrameworkElement.Resources>
+    </ContentControl>
+    <Image Source="../Resources/Icons/WarningIcon.png" Visibility="{Binding IsValid, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+  </Grid>
+  <Style x:Key="CueMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+    <Setter Property="Header" Value="{Binding Converter={StaticResource EnumToContentConverter}}" />
+    <Setter Property="MenuItem.Icon" Value="{StaticResource ActionIconStyle}" />
+  </Style>
+  <Style x:Key="ModifiyActionMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+    <Setter Property="Header" Value="{Binding Name}" />
+    <Setter Property="MenuItem.Icon" Value="{StaticResource ActionRemoveEditIconStyle}" />
+  </Style>
+  <macros:MacroActionImageControl x:Key="MacroIcon" Macro="{Binding}" />
+  <macros:MacroActionImageControl x:Key="MacroActionIcon" Action="{Binding}" />
+</ResourceDictionary>

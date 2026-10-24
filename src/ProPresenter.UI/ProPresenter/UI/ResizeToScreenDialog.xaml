@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ResizeToScreenDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="self" xmlns:ui="clr-namespace:ProPresenter.UI" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+  <StackPanel Margin="10,0,10,10">
+    <TextBlock Margin="0,0,0,10" Text="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_SELECT_SCREEN_SIZE_label}" />
+    <ComboBox MinWidth="300" ItemTemplate="{StaticResource ResolutionFormatTemplate}" Style="{StaticResource {x:Type ComboBox}}" ItemsSource="{Binding TargetScreens, ElementName=self}" SelectedValue="{Binding SelectedScreen, ElementName=self}" />
+  </StackPanel>
+</UserControl>

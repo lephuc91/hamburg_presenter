@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Button x:Class="Pro.UI.Controls.CloseButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="closeButton" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RenderTransformOrigin="0.5 0.5" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI">
+  <UIElement.RenderTransform>
+    <RotateTransform Angle="45" />
+  </UIElement.RenderTransform>
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <GeometryDrawing x:Key="geometrysource" Brush="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Button}}}">
+        <GeometryDrawing.Geometry>
+          <CombinedGeometry GeometryCombineMode="Exclude">
+            <CombinedGeometry.Geometry1>
+              <EllipseGeometry Center="0.603 0.603" RadiusX="0.603" RadiusY="0.603" />
+            </CombinedGeometry.Geometry1>
+            <CombinedGeometry.Geometry2>
+              <CombinedGeometry>
+                <CombinedGeometry.Geometry1>
+                  <RectangleGeometry Rect="0.569 0.103                                                            0.069 1" />
+                </CombinedGeometry.Geometry1>
+                <CombinedGeometry.Geometry2>
+                  <RectangleGeometry Rect="0.103 0.569                                                            1 0.068" />
+                </CombinedGeometry.Geometry2>
+              </CombinedGeometry>
+            </CombinedGeometry.Geometry2>
+          </CombinedGeometry>
+        </GeometryDrawing.Geometry>
+      </GeometryDrawing>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Control.Template>
+    <ControlTemplate TargetType="{x:Type Button}">
+      <Grid>
+        <Border Width="{TemplateBinding FrameworkElement.Width}" Height="{TemplateBinding FrameworkElement.Height}" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <Border.Background>
+            <DrawingBrush Drawing="{StaticResource geometrysource}">
+              <Brush.Transform>
+                <ScaleTransform ScaleX="{TemplateBinding FrameworkElement.Width}" ScaleY="{TemplateBinding FrameworkElement.Height}" />
+              </Brush.Transform>
+            </DrawingBrush>
+          </Border.Background>
+        </Border>
+      </Grid>
+    </ControlTemplate>
+  </Control.Template>
+</Button>

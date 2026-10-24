@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Transitions.SelectorControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Transitions" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="selectorControlSelf" Background="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonUtility:BindingProxy x:Key="proxyTransitionPaletteControl" Data="{Binding ElementName=selectorControlSelf}" />
+      <x:StaticExtension x:Key="emptyResultSetMsg" Member="system.String.Empty" xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib" MemberType="{x:Type system1:String}" />
+      <x:ArrayExtension x:Key="defaultEmptyItemValue" Type="{x:Type String}">
+        <String xmlns="clr-namespace:System;assembly=System.Private.CoreLib">system.String.Empty</String>
+      </x:ArrayExtension>
+      <ObjectDataProvider x:Key="TransitionCategoryType" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="local:TransitionCategory" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ItemsPanelTemplate x:Key="ListBoxWrapTemplate">
+        <WrapPanel />
+      </ItemsPanelTemplate>
+      <ItemsPanelTemplate x:Key="ListBoxStackPanelTemplate">
+        <StackPanel />
+      </ItemsPanelTemplate>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <commonControls:BorderlessButton Name="GlobalTransitionButton" Grid.Column="0" Height="22" MinWidth="50" Margin="5,0,0,0" HorizontalAlignment="Left" Content="{mex:Localized GLOBAL_DEFAULT}" Visibility="{Binding IsGlobalAllowed, ElementName=selectorControlSelf, Converter={StaticResource ValueToVisibilityConverter}}" Click="GlobalTransitionOn">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+            <Setter Property="Foreground" Value="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}" />
+            <Style.Triggers>
+              <DataTrigger Value="False" Binding="{Binding Data.TransitionHandler.IsActive, Source={StaticResource proxyTransitionPaletteControl}}">
+                <Setter Property="Foreground" Value="{Binding SECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessComboBox Name="CategoryComboBox" Grid.Column="1" Width="150" Height="22" Margin="5,0" HorizontalContentAlignment="Right" SelectedItem="{Binding Category, ElementName=selectorControlSelf}" />
+      <commonControls:SearchBox Name="TransitionSearchTextBox" Grid.Column="2" Width="150" Height="22" Margin="0,0,5,0" PlaceholderText="{mex:Localized GLOBAL_FILTER_FIELD_placeholder}" Text="{Binding Data.SearchText, Source={StaticResource proxyTransitionPaletteControl}, Mode=TwoWay}" />
+    </Grid>
+    <Grid Row="1" Visibility="{Binding IsCategorizedListVisible, ElementName=selectorControlSelf, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+      <local:TransitionsFloatingHeaderControl x:Name="TransitionFloatingHeader" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <commonControls:FloatingHeaderControl.HeaderTemplates>
+          <DataTemplate DataType="{x:Type local:FavoriteTransitionListBox}">
+            <Border Height="30" BorderThickness="0" Background="{Binding DETAILHEADER_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding Data.IsHeaderVisible, Source={StaticResource proxyTransitionPaletteControl}, Converter={StaticResource ValueToVisibilityConverter}}">
+              <TextBlock Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="{Binding SUBHEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized TRANSITIONS_FAVORITES_label}" />
+            </Border>
+          </DataTemplate>
+          <DataTemplate DataType="{x:Type local:RecentTransitionListBox}">
+            <Border Height="30" BorderThickness="0" Background="{Binding DETAILHEADER_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding Data.IsHeaderVisible, Source={StaticResource proxyTransitionPaletteControl}, Converter={StaticResource ValueToVisibilityConverter}}">
+              <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="{Binding SUBHEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized TRANSITIONS_RECENTS_label}" />
+                <Button Grid.Column="1" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#00FFFFFF" BorderThickness="0" Content="{mex:Localized TRANSITIONS_CLEAR_label}" Click="ClearRecentTransitions">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+                      <Setter Property="Foreground" Value="{Binding SECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+                      <Style.Triggers>
+                        <DataTrigger Value="0" Binding="{Binding Data.RecentTransitions.Count, Source={StaticResource proxyTransitionPaletteControl}}">
+                          <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </Button>
+              </Grid>
+            </Border>
+          </DataTemplate>
+          <DataTemplate DataType="{x:Type local:StandardTransitionListBox}">
+            <Border Height="30" BorderThickness="0" Background="{Binding DETAILHEADER_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding Data.IsHeaderVisible, Source={StaticResource proxyTransitionPaletteControl}, Converter={StaticResource ValueToVisibilityConverter}}">
+              <TextBlock Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="{Binding SUBHEADERCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized TRANSITIONS_ALL_label}" />
+            </Border>
+          </DataTemplate>
+        </commonControls:FloatingHeaderControl.HeaderTemplates>
+        <commonControls:FloatingHeaderControl.Items>
+          <local:FavoriteTransitionListBox x:Name="FavoriteListBox" IsSynchronizedWithCurrentItem="False" ScrollViewer.CanContentScroll="False" OutputController="{Binding Data.OutputController, Source={StaticResource proxyTransitionPaletteControl}}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type local:FavoriteTransitionListBox}">
+                <Setter Property="local:TransitionListBox.IsInstructionVisible" Value="False" />
+                <Setter Property="ItemsPanel" Value="{StaticResource ListBoxWrapTemplate}" />
+                <Setter Property="ItemsSource" Value="{Binding Data.FavoriteTransitions, Source={StaticResource proxyTransitionPaletteControl}}" />
+                <Setter Property="local:TransitionListBox.NoResultsText" Value="{mex:Localized TRANSITIONS_NO_SEARCH_RESULTS_label}" />
+                <Setter Property="Selector.SelectedItem" Value="{Binding Data.SelectedFavorite, Source={StaticResource proxyTransitionPaletteControl}}" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="0" Binding="{Binding Data.FavoriteTransitions.Count, Source={StaticResource proxyTransitionPaletteControl}}" />
+                      <Condition Value="True" Binding="{Binding Data.IsSearching, Source={StaticResource proxyTransitionPaletteControl}}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="ItemsPanel" Value="{StaticResource ListBoxStackPanelTemplate}" />
+                    <Setter Property="ItemsSource" Value="{Binding Source={StaticResource defaultEmptyItemValue}}" />
+                    <Setter Property="Selector.SelectedItem" Value="{x:Null}" />
+                  </MultiDataTrigger>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="0" Binding="{Binding Data.FavoriteTransitions.Count, Source={StaticResource proxyTransitionPaletteControl}}" />
+                      <Condition Value="False" Binding="{Binding Data.IsSearching, Source={StaticResource proxyTransitionPaletteControl}}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="local:TransitionListBox.IsInstructionVisible" Value="True" />
+                    <Setter Property="ItemsPanel" Value="{StaticResource ListBoxStackPanelTemplate}" />
+                    <Setter Property="ItemsSource" Value="{Binding Source={StaticResource defaultEmptyItemValue}}" />
+                    <Setter Property="local:TransitionListBox.NoResultsText" Value="{mex:Localized TRANSITIONS_NO_FAVORITES_label}" />
+                    <Setter Property="Selector.SelectedItem" Value="{x:Null}" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </local:FavoriteTransitionListBox>
+          <local:RecentTransitionListBox x:Name="RecentListBox" IsSynchronizedWithCurrentItem="False" ScrollViewer.CanContentScroll="False" OutputController="{Binding Data.OutputController, Source={StaticResource proxyTransitionPaletteControl}}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type local:RecentTransitionListBox}">
+                <Setter Property="ItemsPanel" Value="{StaticResource ListBoxWrapTemplate}" />
+                <Setter Property="ItemsSource" Value="{Binding Data.RecentTransitions, Source={StaticResource proxyTransitionPaletteControl}}" />
+                <Setter Property="local:TransitionListBox.NoResultsText" Value="{mex:Localized TRANSITIONS_NO_SEARCH_RESULTS_label}" />
+                <Setter Property="Selector.SelectedItem" Value="{Binding Data.SelectedRecent, Source={StaticResource proxyTransitionPaletteControl}}" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="0" Binding="{Binding Data.RecentTransitions.Count, Source={StaticResource proxyTransitionPaletteControl}}" />
+                      <Condition Value="True" Binding="{Binding Data.IsSearching, Source={StaticResource proxyTransitionPaletteControl}}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="ItemsPanel" Value="{StaticResource ListBoxStackPanelTemplate}" />
+                    <Setter Property="ItemsSource" Value="{Binding Source={StaticResource defaultEmptyItemValue}}" />
+                    <Setter Property="Selector.SelectedItem" Value="{x:Null}" />
+                  </MultiDataTrigger>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="0" Binding="{Binding Data.RecentTransitions.Count, Source={StaticResource proxyTransitionPaletteControl}}" />
+                      <Condition Value="False" Binding="{Binding Data.IsSearching, Source={StaticResource proxyTransitionPaletteControl}}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="ItemsPanel" Value="{StaticResource ListBoxStackPanelTemplate}" />
+                    <Setter Property="ItemsSource" Value="{Binding Source={StaticResource defaultEmptyItemValue}}" />
+                    <Setter Property="local:TransitionListBox.NoResultsText" Value="{mex:Localized TRANSITIONS_NO_RECENTS_label}" />
+                    <Setter Property="Selector.SelectedItem" Value="{x:Null}" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </local:RecentTransitionListBox>
+          <local:StandardTransitionListBox x:Name="StandardListBox" IsSynchronizedWithCurrentItem="False" ScrollViewer.CanContentScroll="False" NoResultsText="{mex:Localized TRANSITIONS_NO_SEARCH_RESULTS_label}" OutputController="{Binding Data.OutputController, Source={StaticResource proxyTransitionPaletteControl}}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type local:StandardTransitionListBox}">
+                <Setter Property="ItemsPanel" Value="{StaticResource ListBoxWrapTemplate}" />
+                <Setter Property="ItemsSource" Value="{Binding Data.StandardTransitions, Source={StaticResource proxyTransitionPaletteControl}}" />
+                <Setter Property="Selector.SelectedItem" Value="{Binding Data.SelectedStandard, Source={StaticResource proxyTransitionPaletteControl}}" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="0" Binding="{Binding Data.StandardTransitions.Count, Source={StaticResource proxyTransitionPaletteControl}}" />
+                      <Condition Value="True" Binding="{Binding Data.IsSearching, Source={StaticResource proxyTransitionPaletteControl}}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="ItemsPanel" Value="{StaticResource ListBoxStackPanelTemplate}" />
+                    <Setter Property="ItemsSource" Value="{Binding Source={StaticResource defaultEmptyItemValue}}" />
+                    <Setter Property="Selector.SelectedItem" Value="{x:Null}" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </local:StandardTransitionListBox>
+        </commonControls:FloatingHeaderControl.Items>
+      </local:TransitionsFloatingHeaderControl>
+    </Grid>
+    <Grid Row="1" Visibility="{Binding IsCategorizedListVisible, ElementName=selectorControlSelf, Converter={StaticResource ValueToVisibilityConverter}}">
+      <local:TransitionListBox x:Name="CategorizedTransitions" IsSynchronizedWithCurrentItem="False" Background="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" NoResultsText="{mex:Localized TRANSITIONS_NO_SEARCH_RESULTS_label}" OutputController="{Binding Data.OutputController, Source={StaticResource proxyTransitionPaletteControl}}" SelectedItem="{Binding SelectedCategorized, ElementName=selectorControlSelf}" />
+    </Grid>
+  </Grid>
+</UserControl>

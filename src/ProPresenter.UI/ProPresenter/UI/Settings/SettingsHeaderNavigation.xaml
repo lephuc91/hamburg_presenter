@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.SettingsHeaderNavigation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" Focusable="False" xmlns:settings="clr-namespace:ProPresenter.UI.Settings;assembly=ProPresenter.UI">
+  <Grid Margin="20,0,0,0">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <commonControls:BorderlessButton Grid.Column="0" Width="12" Height="18" Margin="8,0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding GoBackCommand}" Click="Navigate_Click">
+      <commonControls:PathControl Fill="#00FFFFFF" PathType="VLeftArrow" StrokeThickness="1.5" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+    </commonControls:BorderlessButton>
+    <commonControls:BorderlessButton Grid.Column="1" Width="12" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding GoForwardCommand}" Click="Navigate_Click">
+      <commonControls:PathControl Fill="#00FFFFFF" PathType="VRightArrow" StrokeThickness="1.5" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+    </commonControls:BorderlessButton>
+    <TextBlock Grid.Column="2" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Text="{Binding ActiveItem.Name}" />
+  </Grid>
+</UserControl>

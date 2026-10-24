@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SelectAllNoneControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="self" xmlns:ui="clr-namespace:ProPresenter.UI;assembly=ProPresenter.UI">
+  <TextBlock>
+    <Run Text="{mex:Localized GLOBAL_SELECT}" /> <Hyperlink Command="{Binding SelectAllCommand, ElementName=self}"><TextBlock Text="{mex:Localized GLOBAL_ALL}" /></Hyperlink> <Run Text="/" /> <Hyperlink Command="{Binding SelectNoneCommand, ElementName=self}"><TextBlock Text="{mex:Localized GLOBAL_NONE}" /></Hyperlink></TextBlock>
+</UserControl>

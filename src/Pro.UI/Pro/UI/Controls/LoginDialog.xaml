@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="Pro.UI.Controls.LoginDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:Pro.UI.Converters" xmlns:uiUtility="clr-namespace:Pro.UI.Utility" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing" Title="LoginDialog" Width="670" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.SendKeyEventsToMainWindow="False" CanMaximize="False" CanMinimize="False" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" xmlns:controls="clr-namespace:Pro.UI.Controls">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converters:ValueToVisibilityConverter x:Key="ValuetoVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <ContentPresenter Name="WebViewContentPresenter" />
+</windowing:ChromedWindow>

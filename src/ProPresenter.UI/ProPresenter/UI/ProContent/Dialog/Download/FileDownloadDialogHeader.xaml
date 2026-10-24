@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ProContent.Dialog.Download.FileDownloadDialogHeader" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:proContent="clr-namespace:ProPresenter.UI.ProContent" x:Name="FileHeader" xmlns:download="clr-namespace:ProPresenter.UI.ProContent.Dialog.Download">
+  <proContent:ProContentThumbnail Width="300" Margin="{x:Static proContent:ProContentAssetList.THUMBNAIL_MARGIN}" HorizontalAlignment="Center" ShouldShowPreviewIfAvailable="True" AspectRatio="{Binding Context.ThumbnailAspectRatio, ElementName=FileHeader}" Preview="{Binding Context.Preview, ElementName=FileHeader}" Thumbnail="{Binding Context.Thumbnail, ElementName=FileHeader}" />
+</UserControl>

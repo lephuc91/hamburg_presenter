@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Hotkeys.HotkeyDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="self" xmlns:hotkeys="clr-namespace:ProPresenter.UI.Hotkeys" Loaded="HotkeyDialog_Loaded">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converters:KeyToStringConverter x:Key="KeyToStringConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <StackPanel>
+    <TextBlock VerticalAlignment="Center" FontSize="14" Text="{mex:Localized PRESENTATION_HOTKEY_DIALOG_HOTKEY_label}" />
+    <StackPanel Margin="0,10" Orientation="Horizontal">
+      <TextBox Name="HotkeyTextBox" Width="24" Height="22" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CharacterCasing="Upper" MaxLength="1" Text="{Binding Key, ElementName=self, Converter={StaticResource KeyToStringConverter}, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="ValidateTextInput" />
+      <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="{mex:Localized PRESENTATION_HOTKEY_DIALOG_VALID_CHARACTERS_label}" />
+    </StackPanel>
+  </StackPanel>
+</UserControl>

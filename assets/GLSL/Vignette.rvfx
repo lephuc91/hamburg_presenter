@@ -1,0 +1,20 @@
+{
+    "description": "Reduction of an image's brightness or saturation at the periphery.",
+    "name": "Vignette",
+    "numPasses": 1,
+    "shaderFile": "Vignette",
+    "type": 0,
+    "uuid": "42E83016-41DC-43AB-8061-9A93256DDA46",
+    "variables": [
+        {
+            "name": "radius",
+            "label": "Radius",
+            "description": "Radius to darken",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [100, 100, 100, 100],
+            "defValue": [50, 50, 50, 50],
+            "value": [50, 50, 50, 50]
+        }
+    ]
+}

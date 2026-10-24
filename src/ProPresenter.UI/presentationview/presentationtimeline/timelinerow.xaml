@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.PresentationView.PresentationTimeline" xmlns:themes="clr-namespace:ProPresenter.UI.Themes">
+  <Style x:Key="{x:Static themes:Styles.TimelineRow}" TargetType="{x:Type local:TimelineRow}">
+    <Style.Resources>
+      <ResourceDictionary>
+        <converters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      </ResourceDictionary>
+    </Style.Resources>
+    <Setter Property="ClipToBounds" Value="True" />
+    <Setter Property="Height" Value="30" />
+    <Setter Property="ItemsPanel">
+      <Setter.Value>
+        <ItemsPanelTemplate>
+          <Canvas IsItemsHost="True" />
+        </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="ItemsSource">
+      <Setter.Value>
+        <PriorityBinding>
+          <Binding Path="Items" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:TimelineControl}}" />
+        </PriorityBinding>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type local:TimelineRow}">
+          <Grid Name="PART_RootPanel" Height="{TemplateBinding FrameworkElement.Height}" Background="{TemplateBinding Control.Background}">
+            <ItemsPresenter Name="PART_Sections" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+            <ItemsControl Name="PART_GroupsItemsControl" IsHitTestVisible="False" ItemsSource="{Binding Groups, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TimelineRow}}}" Visibility="{Binding AllowGrouping, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TimelineRow}}, Converter={StaticResource ValueToVisibilityConverter}}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <Canvas IsItemsHost="True" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+            </ItemsControl>
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="local:TimelineRow.AllowGrouping" Value="True">
+        <Setter Property="Height" Value="45" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+</ResourceDictionary>

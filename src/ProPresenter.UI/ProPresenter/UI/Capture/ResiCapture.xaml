@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Capture.ResiCapture" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:captureUI="clr-namespace:ProPresenter.UI.Capture" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:destination="clr-namespace:ProPresenter.UI.Capture.Destination" xmlns:icons="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:resi="clr-namespace:ProPresenter.DO.Resi;assembly=ProPresenter.DO" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="recordingVMProxy" Data="{Binding}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <captureUI:DestinationGroupIDToNameConverter x:Key="DestinationGroupIDToNameConverter" />
+      <captureUI:EncoderProfileIDToFormatConverter x:Key="EncoderProfileIDToFormatConverter" />
+      <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <Style x:Key="{x:Type commonControls:DropDownButton}" TargetType="{x:Type commonControls:DropDownButton}">
+        <Setter Property="Height" Value="22" />
+      </Style>
+      <Style x:Key="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="22" />
+      </Style>
+      <ContextMenu x:Key="ResiResolutionsMenu" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <CollectionViewSource x:Key="EncoderProfiles" Source="{Binding Data.ResiEncoderProfiles, Source={StaticResource recordingVMProxy}}" />
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type resi:EncoderProfile}}">
+              <MenuItem Command="{Binding Data.ResiSelectEncoderProfileCommand, Source={StaticResource recordingVMProxy}}" CommandParameter="{Binding}">
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="Data.SelectedResiEncoderProfile" Source="{StaticResource recordingVMProxy}" />
+                    <Binding Path="ID" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+                <HeaderedItemsControl.Header>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Margin="0,0,5,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding Format}" />
+                    <TextBlock Grid.Column="1" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" Text="{Binding VideoBitRate, StringFormat=({0} Mbps)}" />
+                  </Grid>
+                </HeaderedItemsControl.Header>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <MenuItem Name="NoResolutionMenuItem" IsChecked="True" Header="{mex:Localized RECORDING_WINDOW_RESI_NO_RESOLUTION_label}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                  <Style.Triggers>
+                    <DataTrigger Value="{mex:Localized RECORDING_WINDOW_RESI_NO_RESOLUTION_label}">
+                      <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource EncoderProfileIDToFormatConverter}">
+                          <Binding Path="Data.SelectedResiEncoderProfile" Source="{StaticResource recordingVMProxy}" />
+                          <Binding Path="Data.ResiEncoderProfiles" Source="{StaticResource recordingVMProxy}" />
+                        </MultiBinding>
+                      </DataTrigger.Binding>
+                      <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </MenuItem>
+            <Separator Visibility="{Binding Visibility, Source={x:Reference Name=NoResolutionMenuItem}}" />
+            <CollectionContainer Collection="{Binding Source={StaticResource EncoderProfiles}}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+      <ContextMenu x:Key="ResiDestinationMenu" Placement="Bottom" UsesItemContainerTemplate="True" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <CollectionViewSource x:Key="DestinationGroups" Source="{Binding Data.ResiDestinationGroups, Source={StaticResource recordingVMProxy}}" />
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type resi:DestinationGroup}}">
+              <MenuItem Command="{Binding Data.ResiSelectDestinationGroupCommand, Source={StaticResource recordingVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                <MenuItem.IsChecked>
+                  <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="Data.SelectedResiDestinationGroup" Source="{StaticResource recordingVMProxy}" />
+                    <Binding Path="ID" />
+                  </MultiBinding>
+                </MenuItem.IsChecked>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <MenuItem Name="NoDestinationMenuItem" IsChecked="True" Header="{mex:Localized RECORDING_WINDOW_RESI_SELECT_GROUP_label}">
+              <FrameworkElement.Style>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                  <Style.Triggers>
+                    <DataTrigger Value="{mex:Localized RECORDING_WINDOW_RESI_SELECT_GROUP_label}">
+                      <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource DestinationGroupIDToNameConverter}">
+                          <Binding Path="Data.SelectedResiDestinationGroup" Source="{StaticResource recordingVMProxy}" />
+                          <Binding Path="Data.ResiDestinationGroups" Source="{StaticResource recordingVMProxy}" />
+                        </MultiBinding>
+                      </DataTrigger.Binding>
+                      <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </MenuItem>
+            <Separator Visibility="{Binding Visibility, Source={x:Reference Name=NoDestinationMenuItem}}" />
+            <CollectionContainer Collection="{Binding Source={StaticResource DestinationGroups}}" />
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid Visibility="{Binding CanResiStartStream, Converter={StaticResource ValueToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid Row="0" Margin="0,0,0,5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized RESI_EVENT_NAME_title}" />
+        <commonControls:PlaceholderTextBox Grid.Column="1" Width="360" Height="22" MaxLength="128" Background="{Binding TEXTBOX_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" PlaceholderText="{mex:Localized RESI_EVENT_OPTIONAL_NAME_title}" Text="{Binding ResiEventName, Mode=TwoWay}" />
+      </Grid>
+      <Grid Row="1" Margin="0,0,0,5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized RESI_SOCIAL_DESCRIPTION_title}" />
+        <commonControls:PlaceholderTextBox Grid.Column="1" Width="360" Height="55" AcceptsReturn="True" MaxLength="256" MinLines="3" TextContentVerticalAlignment="Top" TextWrapping="Wrap" Background="{Binding TEXTBOX_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" PlaceholderText="{mex:Localized RESI_SOCIAL_DESCRIPTION_OPTIONAL_NAME_title}" Text="{Binding ResiSocialDescription, Mode=TwoWay}" />
+      </Grid>
+      <Grid Row="2" Margin="0,0,0,5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized RECORDING_WINDOW_RESI_DEST_GROUP_label}" />
+        <Grid Column="1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <commonControls:DropDownButton CustomContextMenu="{StaticResource ResiDestinationMenu}">
+            <commonControls:DropDownButton.CustomContent>
+              <MultiBinding Converter="{StaticResource DestinationGroupIDToNameConverter}">
+                <Binding Path="SelectedResiDestinationGroup" />
+                <Binding Path="ResiDestinationGroups" />
+              </MultiBinding>
+            </commonControls:DropDownButton.CustomContent>
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                  <Setter Property="Margin" Value="0" />
+                </Style>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+          </commonControls:DropDownButton>
+          <commonControls:BorderlessButton Grid.Column="1" Width="22" Height="22" Command="{Binding ResiRefreshDestinationGroupCommand}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="True" Binding="{Binding CanResiStartStream}" />
+                      <Condition Value="False" Binding="{Binding FetchingDestinationGroups}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Visible" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <commonControls:ImageMask ImageSource="../../Resources/Icons/Reset.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+          </commonControls:BorderlessButton>
+          <commonControls:LoadingIndicator Grid.Column="1" Width="22" Height="22" HorizontalAlignment="Right" DisplayMode="Spinner">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type commonControls:LoadingIndicator}">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                  <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                      <Condition Value="True" Binding="{Binding CanResiStartStream}" />
+                      <Condition Value="True" Binding="{Binding FetchingDestinationGroups}" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Visible" />
+                  </MultiDataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </commonControls:LoadingIndicator>
+        </Grid>
+      </Grid>
+      <Grid Row="3" Margin="0,0,0,5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized RECORDING_WINDOW_RESI_RESOLUTION_label}" />
+        <commonControls:DropDownButton Grid.Row="14" Grid.Column="1" CustomContextMenu="{StaticResource ResiResolutionsMenu}">
+          <commonControls:DropDownButton.CustomContent>
+            <MultiBinding Converter="{StaticResource EncoderProfileIDToFormatConverter}">
+              <Binding Path="SelectedResiEncoderProfile" />
+              <Binding Path="ResiEncoderProfiles" />
+            </MultiBinding>
+          </commonControls:DropDownButton.CustomContent>
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <Style x:Key="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0" />
+              </Style>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+        </commonControls:DropDownButton>
+      </Grid>
+      <Grid Row="4" Margin="0,0,0,5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="CaptureLabelColumn" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized RECORDING_WINDOW_AUDIO_label}" />
+        <Button Grid.Column="1" Padding="5,0" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Content="{mex:Localized RECORDING_WINDOW_AUDIO_BUTTON_title}">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom">
+              <Control.Template>
+                <ControlTemplate>
+                  <captureUI:StreamAudioChannelControl xmlns:audio="clr-namespace:Pro.UI.Controls.Audio;assembly=Pro.UI" AutoOnly="True" BorderThickness="1" ShowInputAudioControls="False" ShowMuteAndSoloButtons="False" ShowOutputAudioControls="False" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" AudioMap="{Binding Data.AudioOutputMap, Source={StaticResource recordingVMProxy}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" BorderBrush="{Binding (uiUtility:UIElementHelper.Palette).Standard.Border, RelativeSource={RelativeSource Self}}" ColumnHeaderText="{mex:Localized RECORDING_WINDOW_AUDIO_ROUTING_OUTPUT_CHANNEL_label}" RowHeaderText="{mex:Localized AUDIO_PREFERENCES_ROUTING_PROPRESENTER_CHANNEL_label}" TextElement.Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}" />
+                </ControlTemplate>
+              </Control.Template>
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </Button>
+      </Grid>
+      <Separator Grid.Row="5" Margin="0,0,0,5" />
+      <Grid Row="6" Margin="0,0,0,5" HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <destination:ResiSettingsButton Grid.Row="0" Margin="0,0,0,5" Padding="30,0" HorizontalAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource {x:Type Button}}" Command="{Binding ResiPreferencesCommand}" Content="{mex:Localized RECORDING_WINDOW_RESI_PREFERENCES_label}" Visibility="{Binding ResiLoggedIn, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,5" HorizontalAlignment="Center" Text="{Binding ResiAccountName}" Visibility="{Binding ResiLoggedIn, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Text="{Binding ResiEncoderID}" Visibility="{Binding ResiLoggedIn, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </Grid>
+    </Grid>
+    <Grid Margin="0,0,0,5" Visibility="{Binding ResiLoggedIn, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Image Grid.Row="0" Width="100" Margin="0,0,0,10" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static icons:Icons.ResiBrandLogo}}" Stretch="Uniform" />
+      <TextBlock Grid.Row="1" Width="280" Margin="0,0,0,10" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" Text="{mex:Localized RESI_CAPTURE_SETTINGS_MARKETING_label}" />
+      <Grid Row="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Margin="0,0,5,0" Command="{Binding ResiMoreInfoCommand}" Content="{mex:Localized RESI_CAPTURE_SETTINGS_MORE_INFO_BUTTON_title}" />
+        <Button Grid.Column="1" Margin="5,0,0,0" Command="{Binding ResiLoginCommand}" Content="{mex:Localized RESI_CAPTURE_SETTINGS_LOGIN_BUTTON_title}" />
+      </Grid>
+    </Grid>
+    <Grid Margin="0,0,0,5">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Grid}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Value="True" Binding="{Binding ResiLoggedIn}" />
+                <Condition Value="False" Binding="{Binding ResiPluginInstalled}" />
+              </MultiDataTrigger.Conditions>
+              <Setter Property="Visibility" Value="Visible" />
+            </MultiDataTrigger>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Value="True" Binding="{Binding ResiLoggedIn}" />
+                <Condition Value="False" Binding="{Binding ResiPluginStarted}" />
+              </MultiDataTrigger.Conditions>
+              <Setter Property="Visibility" Value="Visible" />
+            </MultiDataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Image Grid.Row="0" Width="100" Margin="0,0,0,10" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static icons:Icons.ResiBrandLogo}}" Stretch="Uniform" />
+      <TextBlock Grid.Row="1" HorizontalAlignment="Center" TextAlignment="Center" Text="{mex:Localized RESI_CAPTURE_SETTINGS_PLUGIN_NOT_FOUND_label}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <DataTrigger Value="None" Binding="{Binding ResiUpdateStatus}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+      <Button Grid.Row="2" Margin="0,5" Padding="30,0" HorizontalAlignment="Center" Command="{Binding ResiInstallPluginCommand}" Content="{mex:Localized RESI_CAPTURE_SETTINGS_INSTALL_PLUGIN_BUTTON_title}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <DataTrigger Value="None" Binding="{Binding ResiUpdateStatus}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </Button>
+      <Grid Row="1" Height="70" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Value="None" Binding="{Binding ResiUpdateStatus}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <StackPanel VerticalAlignment="Center">
+          <TextBlock Margin="0,0,0,5" HorizontalAlignment="Center" Text="{Binding ResiUpdateStatus, Converter={StaticResource EnumToContentConverter}}" />
+          <ProgressBar Width="200" Height="12" Maximum="100" Value="{Binding ResiDownloadProgress, Mode=OneWay}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource {x:Type ProgressBar}}" TargetType="{x:Type ProgressBar}">
+                <Setter Property="ProgressBar.IsIndeterminate" Value="False" />
+                <Style.Triggers>
+                  <DataTrigger Value="Installing" Binding="{Binding ResiUpdateStatus}">
+                    <Setter Property="ProgressBar.IsIndeterminate" Value="True" />
+                  </DataTrigger>
+                  <DataTrigger Value="Starting" Binding="{Binding ResiUpdateStatus}">
+                    <Setter Property="ProgressBar.IsIndeterminate" Value="True" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </ProgressBar>
+        </StackPanel>
+      </Grid>
+      <TextBlock Grid.Row="3" HorizontalAlignment="Center">
+        <Hyperlink NavigateUri="https://resi.io/support" RequestNavigate="OnNavigate">
+          <FrameworkContentElement.Style>
+            <Style BasedOn="{StaticResource {x:Type Hyperlink}}" TargetType="{x:Type Hyperlink}">
+              <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type TextBlock}}}" />
+            </Style>
+          </FrameworkContentElement.Style>resi.io/support</Hyperlink>
+      </TextBlock>
+    </Grid>
+  </Grid>
+</UserControl>

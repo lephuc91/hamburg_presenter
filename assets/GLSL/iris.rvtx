@@ -1,0 +1,11 @@
+{
+    "category": "Movements",
+    "description": "Iris",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Iris",
+    "numPasses": 1,
+    "shaderFile": "iris",
+    "type": 1,
+    "uuid": "F694B97E-2C1C-4888-B6AE-0619617A16CF"
+}

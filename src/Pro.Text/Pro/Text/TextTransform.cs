@@ -1,0 +1,17 @@
+using Pro.Localization;
+
+namespace Pro.Text;
+
+public enum TextTransform
+{
+	[LocalizedString("EDITOR_PRESENTATION_TEXT_INSPECTOR_LINE_TRANSFORM_NONE_title")]
+	None,
+	[LocalizedString("EDITOR_PRESENTATION_TEXT_INSPECTOR_LINE_TRANSFORM_REMOVE_LINE_RETURNS_title")]
+	RemoveLineReturns,
+	[LocalizedString("EDITOR_PRESENTATION_TEXT_INSPECTOR_LINE_TRANSFORM_REPLACE_LINE_RETURNS_title")]
+	ReplaceLineReturns,
+	[LocalizedString("EDITOR_PRESENTATION_TEXT_INSPECTOR_LINE_TRANSFORM_ONE_WORD_PER_LINE_title")]
+	SingleWordPerLine,
+	[LocalizedString("EDITOR_PRESENTATION_TEXT_INSPECTOR_LINE_TRANSFORM_ONE_CHARACTER_PER_LINE_title")]
+	SingleCharacterPerLine
+}

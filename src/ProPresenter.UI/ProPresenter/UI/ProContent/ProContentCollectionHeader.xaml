@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ProContent.ProContentCollectionHeader" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:proUIThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:procontent="clr-namespace:ProPresenter.UI.ProContent">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:LocalizedStringConverter x:Key="LocalizedStringConverter" />
+      <commonConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" CountTarget="1" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Height="40">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="0" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Text="{Binding DisplayName}" />
+    <commonControls:BorderlessButton Grid.Column="1" Margin="8,4,25,0" HorizontalAlignment="Left" VerticalAlignment="Center" Command="{Binding DownloadCommand}" Visibility="{Binding Path=IsEnabled, Converter={StaticResource ValueToVisibilityConverter}, RelativeSource={RelativeSource Self}}">
+      <commonControls:ImageMask Width="22" Height="22" ImageSource="{StaticResource {x:Static proUIThemes:Icons.ProContentDownloadOutline}}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+    </commonControls:BorderlessButton>
+    <TextBlock Grid.Column="2" Margin="0,5,0,0" VerticalAlignment="Center" FontSize="13" TextAlignment="Right" TextTrimming="CharacterEllipsis" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{Binding Description}" />
+    <commonControls:BorderlessButton Grid.Column="3" Margin="14,0" HorizontalAlignment="Right" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Visibility="{Binding ShowMoreMenu, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <commonControls:ImageMask ImageSource="{StaticResource {x:Static proUIThemes:Icons.ProContentSectionMoreOptions}}" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      <FrameworkElement.ContextMenu>
+        <ContextMenu Placement="Bottom" ItemsSource="{Binding MoreMenu}">
+          <ItemsControl.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+              <Setter Property="MenuItem.Command" Value="{Binding Command}" />
+              <Setter Property="Header" Value="{Binding TranslationKey, Converter={StaticResource LocalizedStringConverter}}" />
+            </Style>
+          </ItemsControl.ItemContainerStyle>
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </commonControls:BorderlessButton>
+  </Grid>
+</UserControl>

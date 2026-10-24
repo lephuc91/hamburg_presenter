@@ -1,0 +1,22 @@
+{
+    "category": "Movements",
+    "description": "Move In",
+    "duration": 0.6,
+    "name": "Move In",
+    "numPasses": 1,
+    "shaderFile": "moveIn",
+    "type": 1,
+    "uuid": "31B698F6-500B-4097-B209-C6F811A99A7C",
+    "variables": [
+        {
+            "name": "direction",
+            "label": "Direction",
+            "description": "Direction of Move In",
+            "type": 3,
+            "min": [495, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

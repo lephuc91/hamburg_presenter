@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.SolidColor" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" x:Name="solidColorSelf" xmlns:inspectors="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors;assembly=ProPresenter.UI">
+  <Grid>
+    <commonControls:ColorPicker SelectedColor="{Binding Color, ElementName=solidColorSelf, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

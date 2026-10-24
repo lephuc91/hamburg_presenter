@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Props.Props" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:arrange="clr-namespace:ProPresenter.DO.Arrangements;assembly=ProPresenter.DO" xmlns:commands="clr-namespace:ProPresenter.UI.Commands" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:local="clr-namespace:ProPresenter.UI.Props" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:transitions="clr-namespace:ProPresenter.UI.Transitions" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding LISTITEM_CONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../SourceDetailListResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <utility:BindingProxy x:Key="propsVMProxy" Data="{Binding}" />
+      <commonConverters:TypeOfConverter x:Key="TypeOfConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <Style x:Key="MenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Style.Triggers>
+          <DataTrigger Value="{x:Type local:PropList}" Binding="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Converter={StaticResource TypeOfConverter}}">
+            <Setter Property="IsEnabled" Value="False" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <ContextMenu x:Key="PropContextMenu">
+        <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding Data.EditPropsCommand, Source={StaticResource propsVMProxy}}" Header="{mex:Localized MAIN_MENU_EDIT_MENU_title}" />
+        <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding Data.TransitionCommand, Source={StaticResource propsVMProxy}}" CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_TRANSITIONS_title}" />
+        <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" />
+        <Separator />
+        <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.CutCommand}" />
+        <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Copy}" />
+        <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Paste}" />
+        <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+        <Separator />
+        <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+      </ContextMenu>
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid Row="0" Height="22">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{mex:Localized PROPS_HEADER_title}" />
+        <commonControls:BorderlessButton Grid.Column="1" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding AddSlideCommand}" Visibility="{Binding ElementName=PropsList, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}">
+          <commonControls:PathControl Width="14" Height="14" PathType="Plus" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+        </commonControls:BorderlessButton>
+      </Grid>
+      <local:PropList x:Name="PropsList" Grid.Row="1" Margin="0,-1,0,0" HorizontalContentAlignment="Stretch" BorderThickness="0" ContextMenu="{StaticResource PropContextMenu}" DeselectOnLostFocus="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectItemsOnSelfDrop="False" SelectionMode="Extended" Style="{StaticResource {x:Type ListBox}}" VirtualizingPanel.ScrollUnit="Pixel" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" uiUtility:UIElementHelper.RegisterCopyCommand="{Binding CopyCommand}" uiUtility:UIElementHelper.RegisterCutCommand="{Binding CutCommand}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding DuplicateCommand}" uiUtility:UIElementHelper.RegisterPasteCommand="{Binding PasteCommand}" ActiveItem="{Binding ActiveItem}" DragDropCollection="{Binding}" DropFilesCommand="{Binding DropFilesCommand}" DropMediaCueCommand="{Binding DropMediaCueCommand}" ItemsSource="{Binding FilteredProps}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedListItem="{Binding SelectedItem, Mode=TwoWay}" SelectedListItems="{Binding SelectedItems}" Visibility="{Binding ElementName=PropsList, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="{x:Type arrange:ArrangedCue}">
+            <Border BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+              <local:PropTemplate ActiveProps="{Binding Data.ActiveProps, Source={StaticResource propsVMProxy}}" DataContext="{Binding}" TogglePropCommand="{Binding Data.TogglePropCommand, Source={StaticResource propsVMProxy}}" />
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemContainerStyle>
+          <Style BasedOn="{StaticResource {x:Type commonControls:ListBoxItem}}" TargetType="{x:Type commonControls:ListBoxItem}">
+            <Setter Property="FrameworkElement.ContextMenu" Value="{StaticResource PropContextMenu}" />
+            <Setter Property="commonControls:ListBoxItem.FocusOnContextMenuClose" Value="False" />
+            <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding SOURCELISTITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+      </local:PropList>
+      <controls:ImageTextButton Grid.Row="1" ButtonBackground="#80707070" ButtonHeight="80" ButtonWidth="80" ImageSource="{StaticResource {x:Static themes:Icons.EmptyAdd}}" Command="{Binding AddSlideCommand}" Text="{mex:Localized PROPS_WINDOW_ADD_PROP_label}" Visibility="{Binding ElementName=PropsList, Path=Items.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}" />
+    </Grid>
+    <Grid Row="1" Margin="8,6,8,5" HorizontalAlignment="Stretch" Visibility="{Binding FooterVisibilty}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <transitions:ButtonSelector Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsGlobalAllowed="False" SelectorButtonContentType="Utility" OutputController="{Binding OutputController}" SelectedTransition="{Binding SelectedTransition, Mode=TwoWay}" ToolTip="{mex:Localized PROPS_TRANSITION_BUTTON_tooltip}" TransitionHandler="{Binding TransitionHandler}" />
+      <commonControls:FilterBox Grid.Column="1" Height="22" MaxWidth="200" Margin="10,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" PlaceholderText="{mex:Localized GLOBAL_FILTER_FIELD_placeholder}" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+      <commonControls:BorderlessButton Grid.Column="2" VerticalAlignment="Center" CommandParameter="{x:Static commands:ShowSource.LowerRight}" Command="{Binding EditPropsCommand}" ToolTip="{mex:Localized PROPS_EDIT_BUTTON_tooltip}">
+        <commonControls:ImageMask Width="18" Height="18" ImageSource="../Resources/Icons/Toolbar/toolbarEditor.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+      </commonControls:BorderlessButton>
+    </Grid>
+  </Grid>
+</UserControl>

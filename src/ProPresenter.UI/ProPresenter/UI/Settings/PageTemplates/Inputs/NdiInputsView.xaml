@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Inputs.NdiInputsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:settings="clr-namespace:ProPresenter.UI.Settings" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:inputs="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Inputs">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="ndiInputsVMProxy" Data="{Binding}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="{Binding Source={x:Static settings:PageConstants.PAGE_MARGIN}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <commonControls:GroupedControl Grid.Row="0" VerticalAlignment="Top">
+      <Grid DataContext="{Binding Data, Source={StaticResource ndiInputsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_NDI_INPUT_SHOW_SOURCES_title}" />
+        <commonControls:ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowSources, Mode=TwoWay}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource ndiInputsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_NDI_INPUT_RECIEVE_GROUPS_title}" />
+        <TextBox Grid.Column="1" Width="120" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" uiUtility:TextBoxHelper.UpdateOnEnterKey="True" Text="{Binding ReceiveGroups, Mode=TwoWay}">
+          <UIElement.InputBindings>
+            <KeyBinding Key="Enter" Command="{Binding Path=UpdateNdiFinderSettingsCommand}" />
+          </UIElement.InputBindings>
+        </TextBox>
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource ndiInputsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_NDI_INPUT_ADDITIONAL_SEARCH_IPS_title}" />
+        <TextBox Grid.Column="1" Width="120" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" uiUtility:TextBoxHelper.UpdateOnEnterKey="True" Text="{Binding AdditionalSearchIPs, Mode=TwoWay}">
+          <UIElement.InputBindings>
+            <KeyBinding Key="Enter" Command="{Binding Path=UpdateNdiFinderSettingsCommand}" />
+          </UIElement.InputBindings>
+        </TextBox>
+      </Grid>
+    </commonControls:GroupedControl>
+    <commonControls:HelpButton Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" HelpCommand="{Binding Data.HelpCommand, Source={StaticResource ndiInputsVMProxy}}" />
+  </Grid>
+</UserControl>

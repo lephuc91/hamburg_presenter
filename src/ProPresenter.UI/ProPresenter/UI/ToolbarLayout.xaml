@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ToolbarLayout" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commands="clr-namespace:ProPresenter.UI.Commands" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:doCapture="clr-namespace:ProPresenter.DO.Capture;assembly=ProPresenter.DO" xmlns:downloads="clr-namespace:ProPresenter.UI.Downloads" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI" xmlns:looks="clr-namespace:ProPresenter.DO.Looks;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proUIThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:themesUI="clr-namespace:ProPresenter.UI.Templates" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="self" Focusable="True" uiUtility:UIElementHelper.Palette="{Binding TOOLBAR_PALETTE, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="selfProxy" Data="{Binding ElementName=self}" />
+      <commonUtility:BindingProxy x:Key="Proxy_CaptureVM" Data="{Binding CaptureViewModel, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ToolbarLayout}}}" />
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="NonCollapseValueToVisibilityConverter" IsCollapsing="False" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <ObjectDataProvider x:Key="EditStageLayoutCommandParameterProvider" ObjectType="{x:Type commands:EditStageLayoutCommandParameter}">
+        <ObjectDataProvider.ConstructorParameters>
+          <commands:ShowSource>Toolbar</commands:ShowSource>
+        </ObjectDataProvider.ConstructorParameters>
+      </ObjectDataProvider>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <windowing:Caption>
+    <Grid Margin="8,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="8" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="64" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="{Binding Data.RightColumnWidth.Value, Source={StaticResource selfProxy}, Mode=OneWay}" />
+      </Grid.ColumnDefinitions>
+      <commonControls:ToolBarButton Grid.Column="0" Icon="{StaticResource {x:Static proUIThemes:Icons.Search}}" Command="{Binding CommonInputActions.Find.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Label="{mex:Localized MAIN_TOOLBAR_SEARCH_BUTTON_label}" Click="OnOpenQuickSearchClick">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Static proUIThemes:Styles.ToolBarButton}}" TargetType="{x:Type commonControls:ToolBarButton}">
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding Data.ShowHouseOfWorshipIntegration, Source={StaticResource proxy}}">
+                <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized MAIN_TOOLBAR_SEARCH_BUTTON_toolTip}" />
+              </DataTrigger>
+              <DataTrigger Value="False" Binding="{Binding Data.ShowHouseOfWorshipIntegration, Source={StaticResource proxy}}">
+                <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized MAIN_TOOLBAR_SEARCH_BUTTON_NON_HOW_toolTip}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:ToolBarButton>
+      <StackPanel Grid.Column="2" Orientation="Horizontal">
+        <commonControls:ToolBarToggleButton Name="UX_TextStyleButton" Focusable="False" Icon="{StaticResource {x:Static proUIThemes:Icons.TextStyle}}" DataContext="{Binding Data.TextStyleVM, Source={StaticResource proxy}}" IsEnabled="{Binding CanShowTextStylePopover}" IsHitTestVisible="{Binding ElementName=textStyleControlPopup, Path=IsOpen, Converter={StaticResource InvertedBooleanConverter}}" Label="{mex:Localized MAIN_TOOLBAR_TEXT_STYLE_BUTTON_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_TEXT_STYLE_BUTTON_toolTip}" />
+        <Border Style="{StaticResource {x:Static proUIThemes:Styles.ToolBarSeparator}}" />
+        <commonControls:ToolBarToggleButton Name="UX_ThemeButton" uiUtility:ContextMenuHelper.CenterMenu="True" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Focusable="False" Icon="{StaticResource {x:Static proUIThemes:Icons.Theme}}" DataContext="{Binding Data.TextStyleVM, Source={StaticResource proxy}}" IsEnabled="{Binding CanShowTextStylePopover}" IsHitTestVisible="{Binding ElementName=NewThemeUI, Path=IsOpen, Converter={StaticResource InvertedBooleanConverter}}" Label="{mex:Localized MAIN_TOOLBAR_THEME_BUTTON_label}" ShowNotificationBadge="{Binding ElementName=NewThemeUiThemePicker, Path=DataContext.HasUnacknowledgedImportedThemes}" ToolTip="{mex:Localized MAIN_TOOLBAR_THEME_BUTTON_toolTip}" Click="OnOpenToolbarThemeMenu" />
+      </StackPanel>
+      <StackPanel Grid.Column="4" Orientation="Horizontal">
+        <commonControls:ToolBarToggleButton CommandParameter="{x:Static commands:ShowSource.Toolbar}" Command="{Binding ViewMenu.Show.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" IsChecked="{Binding ActiveInlineView, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.Presentation}, Mode=OneWay}" Label="{mex:Localized MAIN_TOOLBAR_SHOW_BUTTON_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_SHOW_BUTTON_toolTip}" Unchecked="MainView_Unchecked">
+          <commonControls:Icon Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Custom" Source="{StaticResource {x:Static proUIThemes:Icons.ShowPresentation}}" />
+        </commonControls:ToolBarToggleButton>
+        <commonControls:ToolBarToggleButton CommandParameter="{x:Static commands:ShowSource.Toolbar}" Icon="{StaticResource {x:Static proUIThemes:Icons.Editor}}" Command="{Binding ViewMenu.ShowPresentationEditor.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" IsChecked="{Binding ActiveInlineView, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.SlideEditor}, Mode=OneWay}" Label="{mex:Localized MAIN_TOOLBAR_EDIT_BUTTON_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_EDIT_BUTTON_toolTip}" Unchecked="MainView_Unchecked" />
+        <Border Style="{StaticResource {x:Static proUIThemes:Styles.ToolBarSeparator}}" />
+        <commonControls:ToolBarToggleButton CommandParameter="{x:Static commands:ShowSource.Toolbar}" Icon="{StaticResource {x:Static proUIThemes:Icons.Reflow}}" Command="{Binding ViewMenu.ShowReflowEditor.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" IsChecked="{Binding ActiveInlineView, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.Reflow}, Mode=OneWay}" Label="{mex:Localized MAIN_TOOLBAR_REFLOW_BUTTON_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_REFLOW_BUTTON_toolTip}" Unchecked="MainView_Unchecked" />
+        <Border Style="{StaticResource {x:Static proUIThemes:Styles.ToolBarSeparator}}" />
+        <commonControls:ToolBarToggleButton Icon="{StaticResource {x:Static proUIThemes:Icons.Bible}}" Command="{Binding ViewMenu.ShowBibles.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" IsChecked="{Binding ActiveInlineView, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.Bible}, Mode=OneWay}" Label="{mex:Localized MAIN_TOOLBAR_BIBLE_BUTTON_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_BIBLE_BUTTON_toolTip}" Visibility="{Binding ShowHouseOfWorshipIntegration, Converter={StaticResource ValueToVisibilityConverter}}" Unchecked="MainView_Unchecked" />
+        <Border Style="{StaticResource {x:Static proUIThemes:Styles.ToolBarSeparator}}" Visibility="{Binding ShowHouseOfWorshipIntegration, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <commonControls:ToolBarToggleButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Label="{mex:Localized MAIN_TOOLBAR_MORE_BUTTON_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_MORE_BUTTON_toolTip}">
+          <Grid>
+            <commonControls:Icon HorizontalAlignment="Center" VerticalAlignment="Center" IconSize="Medium" Source="{StaticResource {x:Static proUIThemes:Icons.More}}" />
+            <commonControls:Icon Margin="0,0,-8,2" HorizontalAlignment="Right" VerticalAlignment="Bottom" IconSize="XXSmall" Source="{StaticResource {x:Static proUIThemes:Icons.DownArrow}}" Visibility="{Binding IsMouseOver, Converter={StaticResource NonCollapseValueToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type commonControls:ToolBarToggleButton}}}" />
+          </Grid>
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Static proUIThemes:Styles.ToolBarToggleButton}}" TargetType="{x:Type commonControls:ToolBarToggleButton}">
+              <Style.Triggers>
+                <DataTrigger Value="StageEditor" Binding="{Binding ActiveInlineView}">
+                  <Setter Property="ToggleButton.IsChecked" Value="True" />
+                </DataTrigger>
+                <DataTrigger Value="TemplateEditor" Binding="{Binding ActiveInlineView}">
+                  <Setter Property="ToggleButton.IsChecked" Value="True" />
+                </DataTrigger>
+                <DataTrigger Value="CCLITemplateEditor" Binding="{Binding ActiveInlineView}">
+                  <Setter Property="ToggleButton.IsChecked" Value="True" />
+                </DataTrigger>
+                <DataTrigger Value="PropsEditor" Binding="{Binding ActiveInlineView}">
+                  <Setter Property="ToggleButton.IsChecked" Value="True" />
+                </DataTrigger>
+                <DataTrigger Value="MaskEditor" Binding="{Binding ActiveInlineView}">
+                  <Setter Property="ToggleButton.IsChecked" Value="True" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom">
+              <MenuItem Command="{Binding Data.EditStagePresentationCommand, Source={StaticResource proxy}}" CommandParameter="{Binding Source={StaticResource EditStageLayoutCommandParameterProvider}}" Header="{mex:Localized MAIN_TOOLBAR_MORE_MENU_STAGE_EDITOR_ITEM_title}" IsChecked="{Binding Data.ActiveInlineView, Source={StaticResource proxy}, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.StageEditor}}" />
+              <MenuItem Command="{Binding Data.TemplateVM.EditThemeCommand, Source={StaticResource proxy}}" CommandParameter="{x:Null}" Header="{mex:Localized MAIN_TOOLBAR_MORE_MENU_THEME_EDITOR_ITEM_title}" IsChecked="{Binding Data.ActiveInlineView, Source={StaticResource proxy}, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.TemplateEditor}}" />
+              <MenuItem CommandParameter="{x:Static commands:ShowSource.Toolbar}" Command="{Binding Data.EditCopyrightTemplateCommand, Source={StaticResource proxy}}" Header="{mex:Localized MAIN_TOOLBAR_MORE_MENU_CCLI_EDITOR_ITEM_title}" IsChecked="{Binding Data.ActiveInlineView, Source={StaticResource proxy}, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.CCLITemplateEditor}}" Visibility="{Binding Data.ShowHouseOfWorshipIntegration, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+              <MenuItem CommandParameter="{x:Static commands:ShowSource.Toolbar}" Command="{Binding Data.PropGroupCollectionVM.EditPropsCommand, Source={StaticResource proxy}}" Header="{mex:Localized MAIN_TOOLBAR_MORE_MENU_PROPS_EDITOR_ITEM_title}" IsChecked="{Binding Data.ActiveInlineView, Source={StaticResource proxy}, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.PropsEditor}}" />
+              <MenuItem CommandParameter="{x:Static commands:ShowSource.Toolbar}" Command="{Binding Data.AudienceLookVM.EditMasksCommand, Source={StaticResource proxy}}" Header="{mex:Localized MAIN_TOOLBAR_MORE_MENU_MASK_EDITOR_ITEM_title}" IsChecked="{Binding Data.ActiveInlineView, Source={StaticResource proxy}, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static local:InlineType.MaskEditor}}" />
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </commonControls:ToolBarToggleButton>
+      </StackPanel>
+      <StackPanel Grid.Column="6" commonControls:ItemSpacingHelper.ItemSpacing="16" Orientation="Horizontal">
+        <Border Visibility="{mex:FeatureFlag Cloud, IsInverted=True}">
+          <commonControls:ToolBarToggleButton Name="UX_DownloadsButton" uiUtility:ContextMenuHelper.CenterMenu="True" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" IsChecked="{Binding Data.DownloadsVM.ShowsPopover, Source={StaticResource proxy}}" IsHitTestVisible="{Binding ElementName=DownloadsUI, Path=IsOpen, Converter={StaticResource InvertedBooleanConverter}}" Label="{mex:Localized LIBRARY_PLAYLIST_DOWNLOADS_PLAYLIST_title}" ToolTip="{mex:Localized LIBRARY_PLAYLIST_DOWNLOADS_PLAYLIST_title}" Visibility="{Binding Data.DownloadsVM.Items.Value.Count, Source={StaticResource proxy}, Converter={StaticResource CountToVisibilityConverter}}">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <commonControls:ImageMask Fill="#FFC6C5C5" ImageSource="{StaticResource {x:Static proUIThemes:Icons.ProContentDownloadOutline}}" Visibility="{Binding Data.DownloadsVM.IsActive.Value, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+              <commonControls:ImageMask Width="20" Height="20" Fill="#FFC6C5C5" ImageSource="{StaticResource {x:Static proUIThemes:Icons.ProContentDownloadFull}}" Visibility="{Binding Data.DownloadsVM.IsActive.Value, Source={StaticResource proxy}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+              <ProgressBar Grid.Row="1" Width="50" Height="3" Margin="0,3,0,0" Maximum="100" Minimum="0" Visibility="{Binding Data.DownloadsVM.IsActive.Value, Source={StaticResource proxy}, Converter={StaticResource ValueToVisibilityConverter}}" Value="{Binding Data.DownloadsVM.PercentComplete.Value, Source={StaticResource proxy}, Mode=OneWay}" />
+            </Grid>
+          </commonControls:ToolBarToggleButton>
+        </Border>
+        <commonControls:ToolBarButton Command="{Binding ViewMenu.ProContent.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Label="{mex:Localized GLOBAL_PROCONTENT_NAME}" ToolTip="{mex:Localized MAIN_TOOLBAR_PROCONTENT_BUTTON_toolTip}">
+          <commonControls:ImageMask Fill="#FFC6C5C5" ImageSource="{StaticResource {x:Static proUIThemes:Icons.ProContentIconFlat}}" />
+        </commonControls:ToolBarButton>
+        <commonControls:ToolBarButton Icon="{StaticResource {x:Static proUIThemes:Icons.MediaBin}}" Command="{Binding ViewMenu.ToggleMediaBin.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Label="{mex:Localized MAIN_TOOLBAR_MEDIA_BIN_BUTTON_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_MEDIA_BIN_BUTTON_toolTip}" />
+        <commonControls:ToolBarButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Icon="{StaticResource {x:Static proUIThemes:Icons.Look}}" Command="{Binding ScreensMenu.StageEnable.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Label="{Binding Data.ViewModel.LiveLook.Live.Name, Source={StaticResource selfProxy}, FallbackValue={mex:Localized MAIN_MENU_SCREEN_LOOKS_title}, TargetNullValue={mex:Localized MAIN_MENU_SCREEN_LOOKS_title}}" ToolTip="{Binding Data.ViewModel.LiveLook.Live.Name, Source={StaticResource selfProxy}, ConverterParameter=MAIN_TOOLBAR_LOOK_BUTTON_toolTip, Converter={commonConverters:FormattedLocalizedStringConverter}}">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type looks:AudienceLook}}">
+                    <MenuItem Command="{Binding Data.ViewModel.TriggerLookCommand, Source={StaticResource selfProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                      <MenuItem.IsChecked>
+                        <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                          <Binding Path="Data.ViewModel.LiveLook.OriginalID" Source="{StaticResource selfProxy}" />
+                          <Binding Path="ID" />
+                        </MultiBinding>
+                      </MenuItem.IsChecked>
+                    </MenuItem>
+                  </ItemContainerTemplate>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+              <ItemsControl.ItemsSource>
+                <CompositeCollection>
+                  <CollectionContainer Collection="{Binding Data.ViewModel.Looks, Source={StaticResource selfProxy}}" />
+                  <Separator />
+                  <commonControls:RoutedMenuItem uiUtility:CommandTargets.Assign="{x:Static commands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" Command="{Binding ScreensMenu.EditLooks.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" />
+                </CompositeCollection>
+              </ItemsControl.ItemsSource>
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </commonControls:ToolBarButton>
+        <commonControls:ToolBarButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Icon="{StaticResource {x:Static proUIThemes:Icons.VideoCapture}}" Label="{mex:Localized RECORDING_BUTTON_LIVE_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_LIVE_BUTTON_toolTip}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Static proUIThemes:Styles.ToolBarButton}}" TargetType="{x:Type commonControls:ToolBarButton}">
+              <Setter Property="Background" Value="{Binding Data.StateColor, Source={StaticResource Proxy_CaptureVM}}" />
+              <Style.Triggers>
+                <DataTrigger Value="True" Binding="{Binding Data.IsLive, Source={StaticResource Proxy_CaptureVM}}">
+                  <Setter Property="commonControls:ToolBarButton.ButtonWidth" Value="Auto" />
+                </DataTrigger>
+                <DataTrigger Value="Caution" Binding="{Binding Data.State, Source={StaticResource Proxy_CaptureVM}}">
+                  <Setter Property="commonControls:ToolBarButton.Icon" Value="{StaticResource {x:Static proUIThemes:Icons.VideoCaptureCaution}}" />
+                </DataTrigger>
+                <DataTrigger Value="Error" Binding="{Binding Data.State, Source={StaticResource Proxy_CaptureVM}}">
+                  <Setter Property="commonControls:ToolBarButton.Icon" Value="{StaticResource {x:Static proUIThemes:Icons.VideoCaptureError}}" />
+                </DataTrigger>
+                <DataTrigger Value="Error" Binding="{Binding Data.State, Source={StaticResource Proxy_CaptureVM}}">
+                  <TriggerBase.EnterActions>
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetProperty="Opacity" From="0.3" To="1" Duration="0:0:2" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </TriggerBase.EnterActions>
+                  <TriggerBase.ExitActions>
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </TriggerBase.ExitActions>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <Grid MinWidth="30">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Grid}">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                  <DataTrigger Value="Active" Binding="{Binding Data.State, Source={StaticResource Proxy_CaptureVM}}">
+                    <Setter Property="Visibility" Value="Visible" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <TextBlock Margin="2,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Consolas" FontWeight="SemiBold" Foreground="{StaticResource {x:Static proUIThemes:Brushes.ControlForeground}}" Text="{Binding Data.CaptureTimeLapse, Source={StaticResource Proxy_CaptureVM}}" />
+          </Grid>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+                    <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
+                    <Setter Property="Margin" Value="0,2" />
+                  </Style>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+              <MenuItem IsEnabled="False" Visibility="{Binding Data.IsLive, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource ValueToVisibilityConverter}}">
+                <HeaderedItemsControl.Header>
+                  <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontStyle="Italic" Text="{mex:Localized RECORDING_BUTTON_CONTEXT_MENU_STATUS_title}" />
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.CaptureStreamStatusText, Source={StaticResource Proxy_CaptureVM}}" />
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.ResiStreamStatusText, Source={StaticResource Proxy_CaptureVM}}" Visibility="{Binding Data.ResiStreamStatusText, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static system1:String.Empty}}" />
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.DiskStatus, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource EnumToContentConverter}}" Visibility="{Binding Data.DiskStatus, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static doCapture:DiskStatus.OK}}" />
+                  </StackPanel>
+                </HeaderedItemsControl.Header>
+              </MenuItem>
+              <Separator Visibility="{Binding Data.IsLive, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource ValueToVisibilityConverter}}" />
+              <MenuItem IsEnabled="False" Visibility="{Binding Data.IsLive, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource ValueToVisibilityConverter}}">
+                <HeaderedItemsControl.Header>
+                  <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized RECORDING_WINDOW_DESTINATION_label}" />
+                      <TextBlock Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontStyle="Italic" Text="{Binding Data.Destination, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource EnumToContentConverter}}" />
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.CaptureFile.Filename, Source={StaticResource Proxy_CaptureVM}}" ToolTip="{Binding Data.CaptureFile.FullPath, Source={StaticResource Proxy_CaptureVM}}" Visibility="{Binding Data.CaptureFile.FullPath, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static String.Empty}}" />
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized RECORDING_BUTTON_DROP_label}" />
+                      <TextBlock Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock.Text>
+                          <MultiBinding StringFormat="{}{0:P1} ({1})">
+                            <Binding Path="Data.PercentDroppedFrames" Source="{StaticResource Proxy_CaptureVM}" />
+                            <Binding Path="Data.DroppedFrames" Source="{StaticResource Proxy_CaptureVM}" />
+                          </MultiBinding>
+                        </TextBlock.Text>
+                      </TextBlock>
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.ResiStreamStatus, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=RESI_STREAM_STATUS_FORMAT_label}" Visibility="{Binding Data.Destination, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static doCapture:DestinationType.Resi}}" />
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.UploadHealth, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=RESI_UPLOAD_HEALTH_FORMAT_label}" Visibility="{Binding Data.Destination, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static doCapture:DestinationType.Resi}}" />
+                    <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized RECORDING_BUTTON_BITRATE_label}" />
+                      <TextBlock Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.BitRate, Source={StaticResource Proxy_CaptureVM}, StringFormat={}{0}Mbps}" />
+                    </StackPanel>
+                  </StackPanel>
+                </HeaderedItemsControl.Header>
+              </MenuItem>
+              <Separator Visibility="{Binding Data.IsLive, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource ValueToVisibilityConverter}}" />
+              <MenuItem Command="{Binding Data.StartCaptureCommand, Source={StaticResource Proxy_CaptureVM}}" Header="{Binding Data.StartStopButtonLabel, Source={StaticResource Proxy_CaptureVM}}" Visibility="{Binding Data.IsLive, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+              <MenuItem Command="{Binding Data.StopCaptureCommand, Source={StaticResource Proxy_CaptureVM}}" Header="{Binding Data.StartStopButtonLabel, Source={StaticResource Proxy_CaptureVM}}" Visibility="{Binding Data.IsLive, Source={StaticResource Proxy_CaptureVM}, Converter={StaticResource ValueToVisibilityConverter}}" />
+              <Separator />
+              <MenuItem Command="{Binding Data.OpenCaptureSettingsCommand, Source={StaticResource Proxy_CaptureVM}}" Header="{mex:Localized RECORDING_BUTTON_CONTEXT_MENU_CAPTURE_SETTINGS_title}" />
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </commonControls:ToolBarButton>
+      </StackPanel>
+      <Border Grid.Column="7" Margin="0,0,-16,0" Style="{StaticResource {x:Static proUIThemes:Styles.ToolBarSeparator}}" />
+      <Grid Column="8">
+        <StackPanel Margin="16,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" commonControls:ItemSpacingHelper.ItemSpacing="16" Orientation="Horizontal">
+          <commonControls:ToolBarButton Command="{Binding ScreensMenu.AudienceEnable.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Label="{mex:Localized GLOBAL_AUDIENCE_title}" ToolTip="{mex:Localized MAIN_TOOLBAR_AUDIENCE_BUTTON_toolTip}">
+            <commonControls:TwoStateIcon HorizontalAlignment="Center" IconSize="Small" StateOneSource="{StaticResource {x:Static proUIThemes:Icons.ScreenOn}}" StateTwoSource="{StaticResource {x:Static proUIThemes:Icons.ScreenOff}}" State="{Binding ViewModel.IsAudienceEnabled, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ToolbarLayout}}}" />
+          </commonControls:ToolBarButton>
+          <commonControls:ToolBarButton Command="{Binding ScreensMenu.StageEnable.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Label="{mex:Localized GLOBAL_STAGE_title}" ToolTip="{mex:Localized MAIN_TOOLBAR_STAGE_BUTTON_toolTip}">
+            <commonControls:TwoStateIcon HorizontalAlignment="Center" IconSize="Small" StateOneSource="{StaticResource {x:Static proUIThemes:Icons.ScreenOn}}" StateTwoSource="{StaticResource {x:Static proUIThemes:Icons.ScreenOff}}" State="{Binding ViewModel.IsStageEnabled, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ToolbarLayout}}}" />
+          </commonControls:ToolBarButton>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+          <controls:NotificationCenter Margin="0,3,10,0" VisibleNotifications="{Binding VisibleNotifications}" />
+          <controls:AccountCenter />
+        </StackPanel>
+      </Grid>
+      <commonControls:AnchoredPopup Name="textStyleControlPopup" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" VerticalOffset="-15" IsOpen="{Binding IsChecked, ElementName=UX_TextStyleButton}" PlacementTarget="{Binding ElementName=UX_TextStyleButton}">
+        <ui:TextStyleControl DataContext="{Binding Data.TextStyleVM, Source={StaticResource proxy}}" />
+      </commonControls:AnchoredPopup>
+      <commonControls:AnchoredPopup Name="NewThemeUI" HorizontalAlignment="Left" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" VerticalOffset="-15" IsOpen="{Binding IsChecked, ElementName=UX_ThemeButton, Mode=TwoWay}" PlacementTarget="{Binding ElementName=UX_ThemeButton}">
+        <themesUI:ThemePicker x:Name="NewThemeUiThemePicker" ContextGroup="Presentation" EnableContextMenuOptions="True" IsOpen="{Binding ElementName=UX_ThemeButton, Path=IsChecked, Mode=TwoWay}" SelectTemplateCommand="{Binding Data.TextStyleVM.ApplyTemplateCommand, Source={StaticResource proxy}}" TemplateSlideTooltipText="{mex:Localized THEMES_POPOVER_APPLY_THEME_SLIDE_TO_SELECTION_tooltip}" />
+      </commonControls:AnchoredPopup>
+      <commonControls:AnchoredPopup Name="DownloadsUI" HorizontalAlignment="Center" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" VerticalOffset="-10" IsOpen="{Binding IsChecked, ElementName=UX_DownloadsButton, Mode=TwoWay}" PlacementTarget="{Binding ElementName=UX_DownloadsButton}">
+        <downloads:DownloadsList DataContext="{Binding Data.DownloadsVM, Source={StaticResource proxy}}" />
+      </commonControls:AnchoredPopup>
+    </Grid>
+  </windowing:Caption>
+</UserControl>

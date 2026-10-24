@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.GoToNext.SlideSettingsIndicatorControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="self" xmlns:gotonext="clr-namespace:ProPresenter.UI.PresentationView.GoToNext">
+  <StackPanel Orientation="Horizontal">
+    <TextBlock FontWeight="Bold" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{Binding GotoNext.Time.TotalSeconds, StringFormat=F1, ElementName=self}" />
+    <Image Width="16" Height="16" Margin="2,0,0,0" Source="..\..\Resources\Icons\Playback\playbackCompletionFirst.png">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type Image}">
+          <Setter Property="Visibility" Value="Collapsed" />
+          <Style.Triggers>
+            <DataTrigger Value="True" Binding="{Binding GotoNext.LoopToBeginning, ElementName=self}">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </Image>
+  </StackPanel>
+</UserControl>

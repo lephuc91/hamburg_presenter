@@ -1,0 +1,11 @@
+{
+    "category": "Objects",
+    "description": "Door",
+    "duration": 0.6,
+    "name": "Door",
+    "numPasses": 1,
+    "shaderFile": "door",
+    "type": 1,
+    "uuid": "DAA798F1-359A-46C3-AEC6-5C3DFE93635A",
+    "usesDepth": true
+}

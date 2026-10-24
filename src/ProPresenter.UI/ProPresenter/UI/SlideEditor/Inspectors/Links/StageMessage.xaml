@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Links.StageMessage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="self" xmlns:links="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Links;assembly=ProPresenter.UI">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <CheckBox Grid.ColumnSpan="2" Margin="0,0,0,7" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{mex:Localized TEXT_LINK_STAGE_MESSAGE_FLASH_CONDITION_title}" IsChecked="{Binding ShouldFlash, ElementName=self, Mode=TwoWay}" />
+    <TextBlock Grid.Row="1" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized TEXT_LINK_STAGE_MESSAGE_FLASH_COLOR_title}" />
+    <commonControls:ColorPicker Grid.Row="1" Grid.Column="1" Width="60" Height="22" HorizontalAlignment="Right" SelectedColor="{Binding FlashColor, ElementName=self, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

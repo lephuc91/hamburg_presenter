@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Screen.ScreenSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Screen" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:settings="clr-namespace:ProPresenter.UI.Settings" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiCommands="clr-namespace:ProPresenter.UI.Commands" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="screenSettingsVMProxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="{Binding Source={x:Static settings:PageConstants.PAGE_MARGIN}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <commonControls:GroupedControl Grid.Row="0">
+      <Grid DataContext="{Binding Data, Source={StaticResource screenSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_SCREENS_SHOW_OUTPUT_AT_LAUNCH_title}" />
+        <commonControls:ToggleSwitch Grid.Row="0" Grid.Column="1" IsChecked="{Binding ShowOutputAtLaunch, Mode=TwoWay}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_SCREENS_SHOW_OUTPUT_AT_LAUNCH_desc}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource screenSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_SCREENS_SHOW_SCREEN_STATS_title}" />
+        <commonControls:ToggleSwitch Grid.Row="0" Grid.Column="1" IsChecked="{Binding ShowScreenStats, Mode=TwoWay}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_SCREENS_SHOW_SCREEN_STATS_desc}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource screenSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_SCREENS_IGNORE_BACKGROUND_COLORS_title}" />
+        <commonControls:ToggleSwitch Grid.Row="0" Grid.Column="1" IsChecked="{Binding IgnoreBackgroundColors, Mode=TwoWay}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_SCREENS_IGNORE_BACKGROUND_COLORS_desc}" />
+      </Grid>
+    </commonControls:GroupedControl>
+    <StackPanel Grid.Row="1" Margin="0,25,0,8" Orientation="Horizontal">
+      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Text="{mex:Localized SETTINGS_SCREENS_RENDERING_HEADER_title}" />
+      <commonControls:HelpButton Margin="5,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Placement="Bottom">
+            <Control.Template>
+              <ControlTemplate>
+                <Grid Width="160" Background="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+                  <TextBlock Margin="4" TextWrapping="WrapWithOverflow" Foreground="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_SCREENS_RENDERING_HELP_message_win}" />
+                </Grid>
+              </ControlTemplate>
+            </Control.Template>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+      </commonControls:HelpButton>
+    </StackPanel>
+    <commonControls:GroupedControl Grid.Row="2" HorizontalAlignment="Stretch">
+      <Grid DataContext="{Binding Data, Source={StaticResource screenSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_SCREENS_TIMING_SOURCE_title}" />
+        <local:RenderClockSelector Grid.Column="1" ShowTitle="False" DataContext="{Binding ClockSourceVM}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource screenSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SETTINGS_SCREENS_BIT_DEPTH_title}" />
+        <commonControls:BorderlessComboBox Grid.Column="1" HorizontalAlignment="Right" IsEnabled="{Binding CanSelectBitDepth}" ItemsSource="{Binding BitDepths}" SelectedItem="{Binding SelectedBitDepth}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </commonControls:BorderlessComboBox>
+        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_SCREENS_BIT_DEPTH_desc}" />
+      </Grid>
+    </commonControls:GroupedControl>
+    <TextBlock Grid.Row="3" HorizontalAlignment="Right" FontSize="14" Foreground="{Binding ERROR, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_SCREENS_BIT_DEPTH_REQURES_RESTART_title}" Visibility="{Binding BitDepthChanged, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <StackPanel Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+      <Button MinWidth="150" Margin="0,0,5,0" uiUtility:CommandTargets.Assign="{x:Static uiCommands:CommandTargetType.MainWindow}" uiUtility:UIElementHelper.CornerRadius="4" Command="{Binding ScreensMenu.ConfigureScreens.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Content="{mex:Localized SETTINGS_SCREENS_CONFIGURE_SCREENS_title}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.Footer.Footer" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.Footer" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Registration.Footer">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ui:InterfaceDataTemplateSelector x:Key="FooterTemplateSelector">
+        <ui:InterfaceDataTemplateSelector.TemplateDictionary>
+          <ResourceDictionary>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:ISignedInFooterVM}}" DataType="{x:Type vm:ISignedInFooterVM}">
+              <local:SignedInFooter />
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:ISignedOutFooterVM}}" DataType="{x:Type vm:ISignedOutFooterVM}">
+              <local:SignedOutFooter />
+            </DataTemplate>
+            <DataTemplate x:Key="{DataTemplateKey {x:Type vm:IUndeterminedFooterVM}}" DataType="{x:Type vm:IUndeterminedFooterVM}">
+              <local:UndeterminedFooter />
+            </DataTemplate>
+          </ResourceDictionary>
+        </ui:InterfaceDataTemplateSelector.TemplateDictionary>
+      </ui:InterfaceDataTemplateSelector>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <commonControls:NonLeakingTemplateSelectingContentControl ContentTemplateSelector="{StaticResource FooterTemplateSelector}" Content="{Binding}" />
+</UserControl>

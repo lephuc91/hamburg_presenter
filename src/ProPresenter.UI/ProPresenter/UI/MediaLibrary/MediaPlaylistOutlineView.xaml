@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.MediaLibrary.MediaPlaylistOutlineView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonCommands="clr-namespace:Pro.UI.Commands;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.MediaLibrary" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:playlist="clr-namespace:ProPresenter.DO.Playlists;assembly=ProPresenter.DO" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../SourceDetailListResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="mediaLibraryVMProxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <local:MediaPlaylistTreeView Background="#00FFFFFF" BorderThickness="0" DeselectOnLostFocus="True" Style="{StaticResource PlaylistTreeViewStyle}" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding PlaylistVM.DeletePlaylistCommand}" uiUtility:UIElementHelper.RegisterDuplicateCommand="{Binding PlaylistVM.DuplicatePlaylistCommand}" ActiveItem="{Binding PlaylistVM.ActivePlaylist}" AddFilesCommand="{Binding AddFilesCommand}" DropProContentAssetCommand="{Binding DropProContentAssetCommand}" ItemsSource="{Binding PlaylistVM.Playlists}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedTreeItem="{Binding PlaylistVM.SelectedPlaylist}" SelectedTreeItems="{Binding PlaylistVM.SelectedPlaylists}" ShouldSetNewPlaylistActive="{Binding PlaylistVM.ShouldSetNewPlaylistActive}">
+    <ItemsControl.ItemContainerStyle>
+      <Style BasedOn="{StaticResource {x:Type commonControls:TreeViewItem}}" TargetType="{x:Type commonControls:TreeViewItem}">
+        <Setter Property="FrameworkElement.ContextMenu">
+          <Setter.Value>
+            <ContextMenu>
+              <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Rename}" CommandTarget="{Binding PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+              <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Duplicate}" />
+              <MenuItem Command="{x:Static commonCommands:CommonApplicationCommands.Delete}" />
+              <MenuItem Command="{Binding Data.PlaylistVM.OpenFileLocationCommand, Source={StaticResource mediaLibraryVMProxy}}" Header="{mex:Localized MEDIA_BIN_OUTLINE_CONTEXT_MENU_SMART_PLAYLIST_OPEN_LOCATION_title}" Visibility="{Binding Type, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static playlist:PlaylistType.Smart}}" />
+              <MenuItem Header="{mex:Localized MEDIA_BIN_OUTLINE_CONTEXT_MENU_SMART_PLAYLIST_BEHAVIOR_title}" ItemsSource="{Binding Source={StaticResource Layer}}" Visibility="{Binding Type, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static playlist:PlaylistType.Smart}}">
+                <ItemsControl.ItemContainerStyle>
+                  <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                    <Setter Property="MenuItem.Command" Value="{Binding Data.PlaylistVM.SetHotFolderBehaviorCommand, Source={StaticResource mediaLibraryVMProxy}}" />
+                    <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                    <Setter Property="Header" Value="{Binding Converter={StaticResource EnumToContentConverter}}" />
+                    <Setter Property="MenuItem.IsChecked">
+                      <Setter.Value>
+                        <MultiBinding Converter="{StaticResource CheckHotFolderBehaviorConverter}" Mode="OneWay">
+                          <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                          <Binding Path="Data.PlaylistVM.HotFolderBehavior" Source="{StaticResource mediaLibraryVMProxy}" />
+                        </MultiBinding>
+                      </Setter.Value>
+                    </Setter>
+                  </Style>
+                </ItemsControl.ItemContainerStyle>
+              </MenuItem>
+            </ContextMenu>
+          </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+          <DataTrigger Value="{x:Type playlist:LiveVideoPlaylist}" Binding="{Binding Converter={StaticResource TypeOfConverter}}">
+            <Setter Property="FrameworkElement.ContextMenu" Value="{x:Null}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ItemsControl.ItemContainerStyle>
+  </local:MediaPlaylistTreeView>
+</UserControl>

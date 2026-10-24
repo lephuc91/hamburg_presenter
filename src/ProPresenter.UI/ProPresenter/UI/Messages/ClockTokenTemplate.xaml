@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Messages.ClockTokenTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:localConverters="clr-namespace:ProPresenter.UI.Converters" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:pl="clr-namespace:Pro.Localization;assembly=Pro.Localization" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="clockTokenSelf" xmlns:messages="clr-namespace:ProPresenter.UI.Messages" Foreground="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <localConverters:DateFormatLengthConverter x:Key="DateFormatLengthConverter" NoDateLabel="{mex:Localized MESSAGES_WINDOW_SYSTEM_CLOCK_NO_DATE_title}" />
+      <localConverters:TimeFormatLengthConverter x:Key="TimeFormatLengthConverter" NoTimeLabel="{mex:Localized MESSAGES_WINDOW_SYSTEM_CLOCK_NO_TIME_title}" />
+      <ObjectDataProvider x:Key="DateFormatEnum" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="pl:FormatLength" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <ObjectDataProvider x:Key="ClockFormatEnum" MethodName="GetValues" ObjectType="{x:Type Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension TypeName="pl:FormatLength" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="0,3">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Margin="5,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding ClockName, ElementName=clockTokenSelf}" />
+    <Grid Row="1" Margin="17,0,0,0" IsSharedSizeScope="True">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid Row="0" Margin="0,0,0,5" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="ClockLabelColumn" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized MESSAGES_WINDOW_CLOCK_PROMPT_DATE_LABEL_title}" />
+        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource DateFormatEnum}}" SelectedItem="{Binding ClockData.DateFormatLength, Mode=TwoWay, ElementName=clockTokenSelf}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource DateFormatLengthConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+      </Grid>
+      <Grid Row="1" Margin="0,0,0,5" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="ClockLabelColumn" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized MESSAGES_WINDOW_CLOCK_PROMPT_TIME_LABEL_title}" />
+        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" ItemsSource="{Binding Source={StaticResource ClockFormatEnum}}" SelectedItem="{Binding ClockData.TimeFormatLength, Mode=TwoWay, ElementName=clockTokenSelf}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Converter={StaticResource TimeFormatLengthConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ComboBox>
+      </Grid>
+      <Grid Row="2" HorizontalAlignment="Left">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="ClockLabelColumn" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <CheckBox Grid.Column="1" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{mex:Localized MESSAGES_WINDOW_CLOCK_PROMPT_24HOUR_BUTTON_title}" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" IsChecked="{Binding ClockData.Use24HourFormat, Mode=TwoWay}" />
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

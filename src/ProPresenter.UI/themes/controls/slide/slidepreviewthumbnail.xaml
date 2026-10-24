@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ui:SharedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:proUiConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:themes="clr-namespace:ProPresenter.UI.Themes" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI">
+  <Style x:Key="{x:Static themes:Styles.SlidePreviewThumbnail}" TargetType="{x:Type ContentControl}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <FrameworkTemplate.Resources>
+            <ResourceDictionary>
+              <proUiConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsCollapsing="True" />
+            </ResourceDictionary>
+          </FrameworkTemplate.Resources>
+          <Border Name="PART_SelectionBorder" BorderThickness="4">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Border Name="PART_ThumbnailBorder" Grid.Row="0" Background="#00FFFFFF" Width="{StaticResource {x:Static themesUI:Constants.ThemeSlideWidth}}" Height="{StaticResource {x:Static themesUI:Constants.ThemeSlideHeight}}">
+                <UIElement.Effect>
+                  <DropShadowEffect BlurRadius="8" Direction="270" Opacity="0.7" ShadowDepth="1" Color="{StaticResource {x:Static themesUI:Colors.Shadow}}" />
+                </UIElement.Effect>
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                  <Grid>
+                    <commonControls:Checkerboard Width="{Binding ActualWidth, ElementName=PART_Thumbnail}" Height="{Binding ActualHeight, ElementName=PART_Thumbnail}" PrimaryBrush="{Binding CHECKERBOARDPRIMARY, Source={x:Static theming:AppTheme.Active}}" SecondaryBrush="{Binding CHECKERBOARDSECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+                    <Image Name="PART_Thumbnail" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="Fant" Stretch="Uniform" />
+                  </Grid>
+                </Border>
+              </Border>
+              <Grid Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="{Binding ElementName=PART_ThumbnailBorder, Path=Width}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Ellipse Grid.Column="0" Width="8" Height="8" Margin="0,2,10,0" Fill="{StaticResource {x:Static themesUI:Brushes.BadgeActive}}" Visibility="{Binding Path=ShowThemeNotificationIndicator, FallbackValue=Collapsed, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ValueToVisibilityConverter}}" />
+                <commonControls:EditableTextBlock Name="PART_Name" Grid.Column="1" Foreground="{Binding CONTENTPRIMARY, Source={x:Static theming:AppTheme.Active}}" ToolTip="{Binding Name}" />
+              </Grid>
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ui:SharedResourceDictionary>

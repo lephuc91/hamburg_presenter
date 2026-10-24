@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Fills.GradientColors" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:fills="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Fills;assembly=ProPresenter.UI">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <commonControls:ColorPicker Grid.Row="0" Grid.Column="0" Width="60" Height="22" Margin="0,0,0,5" HorizontalAlignment="Left" SelectedColor="{Binding Fill.StartColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    <commonControls:BorderlessButton Grid.Row="0" Grid.Column="1" Width="22" Height="22" Margin="5,0,5,5" HorizontalAlignment="Center" Command="{Binding SwapGradientColorsCommand}">
+      <commonControls:ImageMask ImageSource="/ProPresenter.UI;component/Resources/Icons/Inspector Assets/Gradient/Swapicon.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
+    </commonControls:BorderlessButton>
+    <commonControls:ColorPicker Grid.Row="0" Grid.Column="2" Width="60" Height="22" Margin="0,0,0,5" HorizontalAlignment="Right" SelectedColor="{Binding Fill.StopColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    <commonControls:RotatorUpDownPicker Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="22" HorizontalAlignment="Right" Angle="{Binding Fill.Angle, Mode=TwoWay}" />
+    <TextBlock Grid.Row="2" Grid.ColumnSpan="3" Margin="0,0,18,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="9" Text="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_GRADIENT_ANGLE_CONTROL_title}" />
+  </Grid>
+</UserControl>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.ChildPageButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:settingsVM="clr-namespace:ProPresenter.UI.ViewModels.Settings" x:Name="childPageButton" xmlns:pagetemplates="clr-namespace:ProPresenter.UI.Settings.PageTemplates">
+  <commonControls:BorderlessButton HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Command="{Binding SelectActivePageCommand, Source={di:DIMarkup {x:Type settingsVM:ISettingsVM}}}" CommandParameter="{Binding ChildPageVM, ElementName=childPageButton}" IsEnabled="{Binding ChildPageVM.IsNavigable, ElementName=childPageButton}" Click="ButtonBase_OnClick">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <ContentControl Grid.Column="0" Content="{Binding ElementName=childPageButton, Path=CustomContent}" />
+      <commonControls:PathControl Width="14" Height="14" HorizontalAlignment="Right" VerticalAlignment="Center" Fill="#00FFFFFF" PathType="VRightArrow" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:BorderlessButton}}" />
+    </Grid>
+  </commonControls:BorderlessButton>
+</UserControl>

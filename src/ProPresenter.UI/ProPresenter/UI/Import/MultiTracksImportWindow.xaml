@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Import.MultiTracksImportWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUi="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:local="clr-namespace:ProPresenter.UI.Import" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:templates="clr-namespace:ProPresenter.UI.Templates" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="self" Width="350" Padding="12" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.HideOnClose="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="Height" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" Title="{mex:Localized IMPORT_TEXT_title}" uiUtility:UIElementHelper.Palette="{Binding QUICKSEARCH_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <commonUi:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <commonUi:SharedResourceDictionary Source="../LibraryPlaylistResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="BindingProxyWindow" Data="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MultiTracksImportWindow}}}" />
+      <Style x:Key="dialogButton" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="MinWidth" Value="80" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+    </commonUi:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <DockPanel Margin="12" Grid.IsSharedSizeScope="True" LastChildFill="True">
+    <GroupBox DockPanel.Dock="Top" Style="{StaticResource {x:Static themes:Styles.LayoutGroup}}" Header="{mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_CONTENT_title}">
+      <Grid VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="SHAREDSIZEGROUP_Label" />
+          <ColumnDefinition Width="6" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="12" />
+          <RowDefinition />
+          <RowDefinition Height="12" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Row="0" Column="0" ColumnSpan="3">
+          <CheckBox Name="IsAutomationAndChordsCheckbox" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsAutomationAndChords, Mode=TwoWay}" IsEnabled="{Binding IsAutomationAndChordsEnabled}">
+            <TextBlock TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_CHORDS_AND_AUTOMATION_title}" />
+          </CheckBox>
+          <Image Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Source="{StaticResource {x:Static themes:Icons.Help}}">
+            <FrameworkElement.ToolTip>
+              <TextBlock TextWrapping="Wrap" Text="{Binding Data.HelpToolTipText, Source={StaticResource BindingProxyWindow}}" />
+            </FrameworkElement.ToolTip>
+          </Image>
+        </Grid>
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource {x:Static themes:Styles.LayoutItem}}" Text="{Binding StringFormat={}{0}:, Source={mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_KEY_title}}" />
+        <ui:KeyPicker Grid.Row="2" Grid.Column="2" SelectedKey="{Binding SelectedNote, Mode=TwoWay}" SelectedScale="{Binding SelectedScale, Mode=TwoWay}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type ui:KeyPicker}">
+              <Setter Property="IsEnabled" Value="False" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding IsAutomationAndChordsEnabled}" />
+                    <Condition Value="True" Binding="{Binding ElementName=IsAutomationAndChordsCheckbox, Path=IsChecked}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="IsEnabled" Value="True" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </ui:KeyPicker>
+        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource {x:Static themes:Styles.LayoutItem}}" Text="{Binding StringFormat={}{0}:, Source={mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_LINES_PER_SLIDE_title}}" />
+        <commonControls:LinesPerSlideControl Grid.Row="4" Grid.Column="2" Margin="0,1.5,0,0" Maximum="4" Minimum="1" IsTickedByTwos="{Binding ElementName=IsAutomationAndChordsCheckbox, Path=IsChecked}" SelectedValue="{Binding LinesPerSlide, Mode=TwoWay}" />
+      </Grid>
+    </GroupBox>
+    <GroupBox DockPanel.Dock="Top" Style="{StaticResource {x:Static themes:Styles.LayoutGroup}}" Header="{mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_FORMATTING_title}">
+      <Grid VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="SHAREDSIZEGROUP_Label" />
+          <ColumnDefinition Width="6" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="12" />
+          <RowDefinition />
+          <RowDefinition Height="12" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource {x:Static themes:Styles.LayoutItem}}" Text="{Binding StringFormat={}{0}:, Source={mex:Localized IMPORT_TEXT_PRESENTATION_THEME_label}}" />
+        <templates:TemplateButton Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" ContextGroup="MultiTracksImport" ShowOptions="False" DefaultTemplate="{Binding Themes.DefaultTheme[0]}" DefaultTemplateHeader="{mex:Localized GLOBAL_DEFAULT}" SelectTemplateCommand="{Binding SelectTemplateCommand}" SelectedTemplate="{Binding SelectedTemplate, Mode=TwoWay}" TemplateSlideTooltipText="{mex:Localized THEMES_POPOVER_SELECT_THEME_SLIDE_tooltip}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource {x:Static themes:Styles.LayoutItem}}" Text="{Binding StringFormat={}{0}:, Source={mex:Localized IMPORT_TEXT_PRESENTATION_SIZE_label}}" />
+        <ui:SizeSelector Grid.Row="2" Grid.Column="2" Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" SetTargetToDefaultSize="True" Target="{Binding Data, Source={StaticResource proxy}}" />
+      </Grid>
+    </GroupBox>
+    <GroupBox DockPanel.Dock="Top" Style="{StaticResource {x:Static themes:Styles.LayoutGroup}}" Header="{mex:Localized IMPORT_TEXT_DESTINATION_label}">
+      <Grid VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="SHAREDSIZEGROUP_Label" />
+          <ColumnDefinition Width="6" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="12" />
+          <RowDefinition />
+          <RowDefinition Height="12" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource {x:Static themes:Styles.LayoutItem}}" Text="{Binding StringFormat={}{0}:, Source={mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_NAME_title}}" />
+        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PresentationName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource {x:Static themes:Styles.LayoutItem}}" Text="{Binding StringFormat={}{0}:, Source={mex:Localized IMPORT_TEXT_DESTINATION_LIBRARY_label}}" />
+        <Button Grid.Row="2" Grid.Column="2" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+          <Grid Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Button}}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Margin="6,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding SelectedLibrary.Name}" />
+            <commonControls:PathControl Grid.Column="1" Width="8" Height="8" Margin="0,0,8,0" HorizontalAlignment="Right" PathType="DownArrow" Fill="{Binding Foreground, ElementName=self}" Stroke="{Binding Foreground, ElementName=self}" />
+          </Grid>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu ItemsSource="{x:Static do:DataVault.LibraryCollection}" Placement="Bottom" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Orientation="Horizontal">
+                    <Image Width="18" Height="18" RenderOptions.BitmapScalingMode="Fant" Source="{StaticResource {x:Static themes:Icons.Library}}" />
+                    <TextBlock Margin="8,0,0,0" Text="{Binding Name}" />
+                  </StackPanel>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+              <ItemsControl.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.Command" Value="{Binding Data.SelectLibraryCommand, Source={StaticResource proxy}}" />
+                  <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                  <Setter Property="MenuItem.IsChecked">
+                    <Setter.Value>
+                      <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}" Mode="OneWay">
+                        <Binding />
+                        <Binding Path="Data.SelectedLibrary" Source="{StaticResource proxy}" />
+                      </MultiBinding>
+                    </Setter.Value>
+                  </Setter>
+                </Style>
+              </ItemsControl.ItemContainerStyle>
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </Button>
+        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource {x:Static themes:Styles.LayoutItem}}" Text="{Binding StringFormat={}{0}:, Source={mex:Localized IMPORT_TEXT_DESTINATION_PLAYLIST_label}}" />
+        <Button Grid.Row="4" Grid.Column="2" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+          <Grid Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Button}}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Margin="6,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+              <TextBlock.Text>
+                <PriorityBinding>
+                  <Binding Path="SelectedPlaylist.Name" />
+                  <Binding Source="{mex:Localized GLOBAL_NONE}" />
+                </PriorityBinding>
+              </TextBlock.Text>
+            </TextBlock>
+            <commonControls:PathControl Grid.Column="1" Width="8" Height="8" Margin="0,0,8,0" HorizontalAlignment="Right" PathType="DownArrow" Fill="{Binding Foreground, ElementName=self}" Stroke="{Binding Foreground, ElementName=self}" />
+          </Grid>
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom" MinWidth="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+              <ItemsControl.ItemsSource>
+                <CompositeCollection>
+                  <MenuItem DataContext="{x:Null}" Header="{mex:Localized GLOBAL_NONE}" />
+                  <Separator Style="{StaticResource {x:Type Separator}}" />
+                  <CollectionContainer Collection="{Binding Data.Playlists, Source={StaticResource proxy}}" />
+                </CompositeCollection>
+              </ItemsControl.ItemsSource>
+              <ItemsControl.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                  <Setter Property="MenuItem.Command" Value="{Binding Data.SelectPlaylistCommand, Source={StaticResource proxy}}" />
+                  <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                  <Setter Property="MenuItem.IsChecked">
+                    <Setter.Value>
+                      <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}" Mode="OneWay">
+                        <Binding />
+                        <Binding Path="Data.SelectedPlaylist" Source="{StaticResource proxy}" />
+                      </MultiBinding>
+                    </Setter.Value>
+                  </Setter>
+                  <Style.Triggers>
+                    <DataTrigger Value="Group">
+                      <DataTrigger.Binding>
+                        <PriorityBinding>
+                          <Binding Path="Type" />
+                        </PriorityBinding>
+                      </DataTrigger.Binding>
+                      <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </ItemsControl.ItemContainerStyle>
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </Button>
+      </Grid>
+    </GroupBox>
+    <Grid Margin="8">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" HorizontalAlignment="Stretch" Foreground="#FFFF0000" TextAlignment="Center" TextWrapping="Wrap" Text="{mex:Localized PRESENTATION_QUICK_SEARCH_MULTITRACKS_DUPLICATE_DESTINATION_title}" Visibility="{Binding IsPresentationNameValid, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+      <ToggleButton Name="ToggleShowList" Grid.Row="1" Height="22" MinWidth="40" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" DockPanel.Dock="Top" FontWeight="Bold" Visibility="{Binding IsMultipleDocuments, Converter={StaticResource ValueToVisibilityConverter}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Content" Value="&lt;&lt;" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding IsChecked, ElementName=ToggleShowList}">
+                <Setter Property="Content" Value="&gt;&gt;" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ToggleButton>
+      <Grid Row="2" Margin="0,8,0,0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="4" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Style="{StaticResource dialogButton}" Command="{Binding AbortImportCommand}" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" />
+        <Button Grid.Column="2" Style="{StaticResource dialogButton}" Command="{Binding ImportSingleDocumentCommand}" Content="{mex:Localized IMPORT_TEXT_IMPORT_title}" IsEnabled="{Binding IsPresentationNameValid}" Visibility="{Binding IsMultipleDocuments, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+      </Grid>
+    </Grid>
+  </DockPanel>
+</windowing:ChromedWindow>

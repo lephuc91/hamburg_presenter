@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.CloudOnboarding.CloudTeaseWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Width="800" Height="600" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" xmlns:cloudonboarding="clr-namespace:ProPresenter.UI.CloudOnboarding" uiUtility:UIElementHelper.Palette="{Binding WELCOME_PALETTE, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Style>
+    <Style BasedOn="{StaticResource {x:Type windowing:ChromedWindow}}" TargetType="{x:Type windowing:ChromedWindow}">
+      <Setter Property="Background">
+        <Setter.Value>
+          <ImageBrush AlignmentX="Center" AlignmentY="Center" ImageSource="pack://application:,,,/ProPresenter.UI;component/Resources/Icons/CloudOnboarding/OnboardingBackground.png" Stretch="UniformToFill" />
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </FrameworkElement.Style>
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CloudOnboarding/CloudOnboardingResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <windowing:Caption>
+    <Grid Margin="60,100,60,20">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <StackPanel Grid.Row="0" Margin="0,20,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+        <Image Width="200" VerticalAlignment="Center" Source="{DynamicResource {x:Static themes:Icons.CloudWorkspaceLogo}}" Stretch="Uniform" />
+        <Border Margin="15,0,0,0" Padding="12,4" VerticalAlignment="Center" Background="{StaticResource CloudOnboarding.PillBackground}" BorderThickness="1" CornerRadius="12">
+          <TextBlock Margin="0,0,0,3" VerticalAlignment="Center" FontSize="14" Foreground="{StaticResource CloudOnboarding.TitleBrush}" Text="{mex:Localized CLOUD_COMING_SOON_COMING_SOON_title}" />
+        </Border>
+      </StackPanel>
+      <TextBlock Grid.Row="1" Margin="0,20,0,0" FontSize="14" FontWeight="Normal" LineHeight="24" Style="{StaticResource CloudOnboarding.TextBlockStyle}" TextWrapping="Wrap" Text="{mex:Localized CLOUD_COMING_SOON_PARAGRAPH_1}" />
+      <commonControls:UnderlinedButton Grid.Row="2" HorizontalAlignment="Center" Foreground="{StaticResource CloudOnboarding.HyperlinkBrush}" ShowHoverEffect="False" ShowPressedEffect="False" Command="{Binding LearnMoreCommand}" Content="{mex:Localized CLOUD_COMING_SOON_LEARN_MORE_BUTTON_title}" />
+      <Button Grid.Row="3" Height="24" Margin="0,60,0,0" HorizontalAlignment="Center" Command="{Binding SignUpForEarlyAccessCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type windowing:ICloseable}}, FallbackValue={x:Null}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+            <Setter Property="Content" Value="{mex:Localized CLOUD_COMING_SOON_SIGN_UP_BUTTON_title}" />
+            <Setter Property="Padding" Value="10,0" />
+          </Style>
+        </FrameworkElement.Style>
+      </Button>
+      <commonControls:UnderlinedButton Grid.Row="4" Margin="0,15,0,0" HorizontalAlignment="Center" Foreground="{StaticResource CloudOnboarding.PrimaryBrush}" ShowHoverEffect="False" ShowPressedEffect="False" Command="{Binding RemindMeLaterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type windowing:ICloseable}}, FallbackValue={x:Null}}" Content="{mex:Localized CLOUD_COMING_SOON_REMIND_ME_LATER_BUTTON_title}" />
+      <TextBlock Grid.Row="6" Margin="0,40,0,0" FontSize="12" Foreground="{StaticResource CloudOnboarding.SubtleBrush}" LineHeight="18" Style="{StaticResource CloudOnboarding.TextBlockStyle}" TextWrapping="Wrap" Text="{mex:Localized CLOUD_COMING_SOON_PARAGRAPH_2}" />
+    </Grid>
+  </windowing:Caption>
+</windowing:ChromedWindow>

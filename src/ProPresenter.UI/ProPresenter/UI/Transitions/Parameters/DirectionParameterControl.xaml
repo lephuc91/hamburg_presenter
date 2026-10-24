@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Transitions.Parameters.DirectionParameterControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:localConverter="clr-namespace:ProPresenter.UI.Transitions.Converters" x:Name="directionParamControlSelf" xmlns:parameters="clr-namespace:ProPresenter.UI.Transitions.Parameters">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <localConverter:AvailableDirectionConverter x:Key="AvailableDirectionConverter" />
+      <localConverter:TransitionDirectionStringConverter x:Key="TransitionDirectionStringConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="100" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Column="0" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding Label}" />
+    <commonControls:BorderlessComboBox Grid.Column="1" Height="22" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left" ItemsSource="{Binding AllowedDirections, Converter={StaticResource AvailableDirectionConverter}}" SelectedItem="{Binding Value, ElementName=directionParamControlSelf, Mode=TwoWay}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Converter={StaticResource TransitionDirectionStringConverter}}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </commonControls:BorderlessComboBox>
+  </Grid>
+</UserControl>

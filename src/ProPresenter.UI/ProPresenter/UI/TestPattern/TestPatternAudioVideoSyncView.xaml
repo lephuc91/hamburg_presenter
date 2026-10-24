@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.TestPattern.TestPatternAudioVideoSyncView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:screenConfig="clr-namespace:ProPresenter.UI.OutputConfiguration" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:testpattern="clr-namespace:ProPresenter.UI.TestPattern">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="testPatternVMProxy" Data="{Binding}" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:TimeSliceToTimeFormatConverter x:Key="TimeSliceToTimeFormatConverter" ConversionUnit="TotalMilliSeconds" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" VerticalAlignment="Top">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized TEST_PATTERN_AUDIO_DELAY_title}" />
+      <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="{Binding BUTTON_DISABLED_CONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized TEST_PATTERN_AUDIO_DELAY_label}" />
+      <Border Grid.Row="2" CornerRadius="4" Background="{Binding SOURCELIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" Margin="8,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized AUDIO_PREFERENCES_HEADER_MAIN_title}" />
+          <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,8,8,8" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+            <commonControls:IntegerUpDown Width="60" Height="22" FormatString="{}{0}" Increment="1" Maximum="1500" Minimum="0" IsEnabled="{Binding DisableMainOutputDevice, Converter={StaticResource InvertedBooleanConverter}}" Value="{Binding MainDelay, Converter={StaticResource TimeSliceToTimeFormatConverter}}" />
+            <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="ms" />
+          </StackPanel>
+          <Separator Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding SdiNdiOutputActive, Converter={StaticResource ValueToVisibilityConverter}}" />
+          <TextBlock Grid.Row="2" Grid.Column="0" Margin="8,8,0,8" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized AUDIO_PREFERENCES_HEADER_SDI_NDI_title}" Visibility="{Binding SdiNdiOutputActive, Converter={StaticResource ValueToVisibilityConverter}}" />
+          <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,8,8,8" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding SdiNdiOutputActive, Converter={StaticResource ValueToVisibilityConverter}}">
+            <commonControls:IntegerUpDown Width="60" Height="22" FormatString="{}{0}" Increment="1" Maximum="1500" Minimum="0" Value="{Binding SdiNdiDelay, Converter={StaticResource TimeSliceToTimeFormatConverter}}" />
+            <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="ms" />
+          </StackPanel>
+        </Grid>
+      </Border>
+    </Grid>
+    <Grid Row="1" Margin="0,10,0,0" VerticalAlignment="Top">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <TextBlock Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized TEST_PATTERN_VIDEO_DELAY_title}" />
+      <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="{Binding BUTTON_DISABLED_CONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized TEST_PATTERN_VIDEO_DELAY_label}" />
+      <Border Grid.Row="2" CornerRadius="4" Background="{Binding SOURCELIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+        <ItemsControl AlternationCount="{Binding Path=Items.Count, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding VideoOutputs}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Grid screenConfig:DeviceHelper.ConfiguredPhysicalVisibility="{Binding}">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="8,8,2,8" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding OutputDevice.Name}" />
+                <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,8,8,8" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                  <commonControls:IntegerUpDown Width="60" Height="22" FormatString="{}{0}" Increment="1" Minimum="0" Maximum="{Binding OutputDevice.DeviceMode.RefreshRate}" Value="{Binding OutputDevice.VideoDelay, Mode=TwoWay}" />
+                  <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{mex:Localized GLOBAL_VIDEO_FRAMES_UNIT}" />
+                </StackPanel>
+                <Separator Name="ItemSeparator" Grid.Row="0" Grid.ColumnSpan="2" />
+              </Grid>
+              <DataTemplate.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                  <Setter TargetName="ItemSeparator" Property="UIElement.Visibility" Value="Collapsed" />
+                </Trigger>
+              </DataTemplate.Triggers>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

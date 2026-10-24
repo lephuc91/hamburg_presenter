@@ -1,0 +1,11 @@
+{
+    "category": "Dissolves",
+    "description": "Warp Fade",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Warp Fade",
+    "numPasses": 1,
+    "shaderFile": "warpFade",
+    "type": 1,
+    "uuid": "72091328-AA13-4312-86FD-D54A5FC10A9C"
+}

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Welcome.JoinWorkspacePage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" Background="#00FFFFFF" xmlns:welcome="clr-namespace:ProPresenter.UI.Welcome;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ProPresenter.UI;component/CloudOnboarding/CloudOnboardingResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+        <TextBlock Margin="0,0,0,10" HorizontalAlignment="Center" FontSize="36" FontWeight="Bold" Foreground="{StaticResource CloudOnboarding.TitleBrush}" Text="{markupExtensions:Localized ONBOARDING_JOIN_WORKSPACE_title}" />
+        <TextBlock Margin="0,0,0,30" HorizontalAlignment="Center" FontSize="16" Foreground="{StaticResource CloudOnboarding.SubtleBrush}" Text="{markupExtensions:Localized ONBOARDING_JOIN_WORKSPACE_subtitle}" />
+        <Border Width="500" Height="280" Background="{StaticResource CloudOnboarding.CardBackgroundBrush}" BorderBrush="{StaticResource CloudOnboarding.SubtleBrush}" BorderThickness="1" CornerRadius="8">
+          <Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{Binding HasWorkspaces, Converter={StaticResource BoolToVis}}">
+              <ItemsControl Margin="5,20,5,20" ItemsSource="{Binding Workspaces}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <StackPanel>
+                      <Button Padding="20,15" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Background="#00FFFFFF" Cursor="Hand" Command="{Binding DataContext.JoinSelectedWorkspaceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                        <Control.Template>
+                          <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Padding="{TemplateBinding Control.Padding}" Background="{TemplateBinding Control.Background}">
+                              <ContentPresenter HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" />
+                            </Border>
+                          </ControlTemplate>
+                        </Control.Template>
+                        <Grid HorizontalAlignment="Stretch">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                              <TextBlock Margin="0,0,10,0" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource CloudOnboarding.PrimaryBrush}" Text="{Binding Name}" />
+                              <Image Width="20" Height="16" VerticalAlignment="Center" Source="{StaticResource {x:Static themes:Icons.SyncCloudWorkspace}}" />
+                            </StackPanel>
+                            <TextBlock FontSize="12" Foreground="{StaticResource CloudOnboarding.SubtleBrush}" Text="{Binding LastModified}" />
+                          </StackPanel>
+                          <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="28" Foreground="{StaticResource CloudOnboarding.PrimaryBrush}" Text="&gt;" />
+                        </Grid>
+                      </Button>
+                      <Separator Height="1" Background="{StaticResource CloudOnboarding.SubtleBrush}" />
+                    </StackPanel>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </ScrollViewer>
+          </Grid>
+        </Border>
+        <Button Width="500" Height="54" Margin="0,25,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{StaticResource CloudOnboarding.CardBackgroundBrush}" Cursor="Hand" Command="{Binding CreateNewWorkspaceCommand}">
+          <Control.Template>
+            <ControlTemplate TargetType="{x:Type Button}">
+              <Border Padding="{TemplateBinding Control.Padding}" Background="{TemplateBinding Control.Background}" BorderBrush="{StaticResource CloudOnboarding.SubtleBrush}" BorderThickness="1" CornerRadius="8">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" />
+              </Border>
+            </ControlTemplate>
+          </Control.Template>
+          <TextBlock FontSize="16" Foreground="{StaticResource CloudOnboarding.PrimaryBrush}" Text="{Binding StringFormat=+ {0}, Source={markupExtensions:Localized ONBOARDING_JOIN_WORKSPACE_CREATE_NEW_title}}" />
+        </Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</UserControl>

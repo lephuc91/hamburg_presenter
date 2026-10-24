@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Labels.LabelsSettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Labels" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:settings="clr-namespace:ProPresenter.UI.Settings" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <commonConverters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+      <Style x:Key="LabelGridStyle" BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
+        <Style.Setters>
+          <Setter Property="HorizontalAlignment" Value="Stretch" />
+          <Setter Property="VerticalAlignment" Value="Stretch" />
+          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+          <Setter Property="DataGrid.SelectionMode" Value="Extended" />
+          <Setter Property="DataGrid.AutoGenerateColumns" Value="False" />
+          <Setter Property="DataGrid.CanUserDeleteRows" Value="False" />
+          <Setter Property="DataGrid.CanUserReorderColumns" Value="False" />
+          <Setter Property="DataGrid.CanUserResizeColumns" Value="False" />
+          <Setter Property="DataGrid.GridLinesVisibility" Value="None" />
+          <Setter Property="DataGrid.RowHeaderWidth" Value="0" />
+          <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
+        </Style.Setters>
+      </Style>
+      <Style x:Key="GridDataRowContextMenuStyle" BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+        <Setter Property="FrameworkElement.ContextMenu">
+          <Setter.Value>
+            <ContextMenu>
+              <MenuItem Command="{x:Static ApplicationCommands.Delete}" />
+            </ContextMenu>
+          </Setter.Value>
+        </Setter>
+        <Setter Property="Height" Value="22" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="{Binding Source={x:Static settings:PageConstants.PAGE_MARGIN}}">
+    <Border Grid.Row="0" Background="{Binding DATAGRIDROW_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding Labels.Count, Converter={StaticResource CountToVisibilityConverter}}">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <local:LabelDataGrid Grid.Column="0" BorderThickness="0" RowStyle="{StaticResource GridDataRowContextMenuStyle}" Style="{StaticResource LabelGridStyle}" Background="{Binding DATAGRIDROW_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" ItemsSource="{Binding Labels}" RenameNextItem="{Binding RenameNextItem, Mode=TwoWay}" SelectedDataGridItem="{Binding SelectedLabel, Mode=TwoWay}" SelectedDataGridItems="{Binding SelectedLabels}">
+          <DataGrid.Columns>
+            <DataGridTemplateColumn Width="*" Header="{mex:Localized SETTINGS_LABELS_NAME_COLUMN_HEADER_title}">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <commonControls:EditableTextBlock MinWidth="100" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Width="Auto" Header="{mex:Localized SETTINGS_LABELS_COLOR_COLUMN_HEADER_title}">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <commonControls:ColorPicker Width="50" HorizontalAlignment="Center" Foreground="#FF000000" UsingAlphaChannel="True" SelectedColor="{Binding Color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+          </DataGrid.Columns>
+        </local:LabelDataGrid>
+        <Border Grid.Row="1" HorizontalAlignment="Stretch" Background="{Binding DATAGRID_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+          <StackPanel Margin="5" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+            <commonControls:BorderlessPathButton Margin="0,0,5,0" PathType="Plus" Command="{Binding AddLabelCommand}" />
+            <commonControls:BorderlessPathButton PathType="Minus" Command="{Binding RemoveLabelCommand}" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </Border>
+    <Border Grid.Row="0" CornerRadius="4" Background="{Binding DATAGRIDROW_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding Labels.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}">
+      <controls:ImageTextButton ButtonHeight="80" ButtonWidth="80" ImageSource="{StaticResource {x:Static themes:Icons.EmptyAdd}}" ButtonBackground="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" Command="{Binding AddLabelCommand}" Text="{mex:Localized SETTINGS_LABELS_ADD_LABEL_title}" />
+    </Border>
+  </Grid>
+</UserControl>

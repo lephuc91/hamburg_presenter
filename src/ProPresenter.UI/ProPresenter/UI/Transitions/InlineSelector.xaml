@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Transitions.InlineSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Transitions" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:validation="clr-namespace:ProPresenter.UI.Validation" x:Name="inlineSelectorSelf" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Grid>
+      <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Label, ElementName=inlineSelectorSelf}" />
+      <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Visibility="{Binding TransitionHandler.IsActive, ElementName=inlineSelectorSelf, Converter={StaticResource ValueToVisibilityConverter}}">
+        <local:FavoriteButton x:Name="FavoriteButton" Click="FavoriteButton_Click" FavoriteCreatedFromSaveAs="FavoriteCreatedFromSaveAs" Margin="0,0,5,0" VerticalAlignment="Center" TransitionHandler="{Binding TransitionHandler, ElementName=inlineSelectorSelf}" />
+        <commonControls:BorderlessButton Name="RemoveButton" Height="22" VerticalAlignment="Center" Click="RemoveButton_Click">
+          <commonControls:ImageMask ImageSource="pack://application:,,,/ProPresenter.UI;component/Resources/Icons/Transitions/trash.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessButton}}}" />
+        </commonControls:BorderlessButton>
+      </StackPanel>
+    </Grid>
+    <Grid Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <local:PreviewControl Grid.Column="0" HorizontalAlignment="Left" OutputController="{Binding OutputController, ElementName=inlineSelectorSelf}" TransitionHandler="{Binding TransitionHandler, ElementName=inlineSelectorSelf}" />
+      <StackPanel Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center">
+        <commonControls:EditableTextBlock Name="FavoriteTransitionNameEdit" Margin="0,0,0,5" VerticalAlignment="Center" Text="{Binding TransitionHandler.ActiveParameters.Name, ElementName=inlineSelectorSelf}" Visibility="{Binding TransitionHandler.IsActive, ElementName=inlineSelectorSelf, Converter={StaticResource ValueToVisibilityConverter}}" PreviewMouseDown="FavoriteTransitionNameEdit_PreviewMouseDown">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type commonControls:EditableTextBlock}">
+              <Setter Property="commonControls:EditableTextBlock.ValidationRule">
+                <Setter.Value>
+                  <validation:TransitionPresetNameValidationRule />
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </FrameworkElement.Style>
+        </commonControls:EditableTextBlock>
+        <TextBlock Margin="0,0,0,5" VerticalAlignment="Center" Text="{mex:Localized GLOBAL_DEFAULT}" Visibility="{Binding TransitionHandler.IsActive, ElementName=inlineSelectorSelf, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <local:ButtonSelector Height="22" VerticalAlignment="Center" SelectorButtonContentType="ChooseAndChange" SelectorButtonSelectorStyle="Compact" OutputController="{Binding ElementName=inlineSelectorSelf, Path=OutputController}" SelectedTransition="{Binding ElementName=inlineSelectorSelf, Path=SelectedTransition}" TransitionHandler="{Binding ElementName=inlineSelectorSelf, Path=TransitionHandler}" />
+      </StackPanel>
+    </Grid>
+    <local:ParameterControl Grid.Row="2" Margin="0,5,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" TransitionHandler="{Binding TransitionHandler, ElementName=inlineSelectorSelf}" Visibility="{Binding TransitionHandler.IsActive, ElementName=inlineSelectorSelf, Converter={StaticResource ValueToVisibilityConverter}}" />
+  </Grid>
+</UserControl>

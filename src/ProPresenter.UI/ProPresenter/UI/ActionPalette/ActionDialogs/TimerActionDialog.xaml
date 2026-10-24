@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ActionPalette.ActionDialogs.TimerActionDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:timerui="clr-namespace:ProPresenter.UI.Timer" Width="250" xmlns:actiondialogs="clr-namespace:ProPresenter.UI.ActionPalette.ActionDialogs" Foreground="{Binding POPUPCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <timerui:TimerActionContent ChangeConfigurationCommand="{Binding ChangeConfigurationCommand}" SelectTimerCommand="{Binding SelectTimerCommand}" TimerAction="{Binding TimerAction}" Timers="{Binding Timers}" />
+</UserControl>

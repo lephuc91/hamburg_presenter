@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Fills.SolidColors" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:fills="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Fills;assembly=ProPresenter.UI">
+  <Grid>
+    <commonControls:ColorPicker Width="60" Height="22" HorizontalAlignment="Stretch" SelectedColor="{Binding Fill.Color, Mode=TwoWay}" />
+  </Grid>
+</UserControl>

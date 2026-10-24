@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Capture.RecordButton" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:capture="clr-namespace:ProPresenter.UI.Capture" xmlns:captureAnalytics="clr-namespace:ProPresenter.DO.Analytics.Events.Capture;assembly=ProPresenter.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:doCapture="clr-namespace:ProPresenter.DO.Capture;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" MinWidth="60">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="recordingVMProxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+      <DoubleAnimation x:Key="ErrorAnimation" AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetProperty="Opacity" From="0.3" To="1" Duration="0:0:2" />
+      <DoubleAnimation x:Key="ResetErrorAnimation" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <commonControls:ToolBarButton uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Icon="{StaticResource {x:Static themes:Icons.VideoCapture}}" Label="{mex:Localized RECORDING_BUTTON_LIVE_label}" ToolTip="{mex:Localized MAIN_TOOLBAR_LIVE_BUTTON_toolTip}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Static themes:Styles.ToolBarButton}}" TargetType="{x:Type commonControls:ToolBarButton}">
+          <Setter Property="Background" Value="{Binding StateColor}" />
+          <Style.Triggers>
+            <DataTrigger Value="Caution" Binding="{Binding State}">
+              <Setter Property="commonControls:ToolBarButton.Icon" Value="{StaticResource {x:Static themes:Icons.VideoCaptureCaution}}" />
+            </DataTrigger>
+            <DataTrigger Value="Error" Binding="{Binding State}">
+              <Setter Property="commonControls:ToolBarButton.Icon" Value="{StaticResource {x:Static themes:Icons.VideoCaptureError}}" />
+            </DataTrigger>
+            <DataTrigger Value="Error" Binding="{Binding Data.State, Source={StaticResource recordingVMProxy}}">
+              <TriggerBase.EnterActions>
+                <BeginStoryboard>
+                  <Storyboard>
+                    <StaticResourceExtension ResourceKey="ErrorAnimation" />
+                  </Storyboard>
+                </BeginStoryboard>
+              </TriggerBase.EnterActions>
+              <TriggerBase.ExitActions>
+                <BeginStoryboard>
+                  <Storyboard>
+                    <StaticResourceExtension ResourceKey="ResetErrorAnimation" />
+                  </Storyboard>
+                </BeginStoryboard>
+              </TriggerBase.ExitActions>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <Grid MinWidth="30">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <DataTrigger Value="Active" Binding="{Binding State}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <TextBlock Margin="2,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="{StaticResource {x:Static themes:Brushes.ControlForeground}}" Text="{Binding CaptureTimeLapse}" />
+      </Grid>
+      <FrameworkElement.ContextMenu>
+        <ContextMenu Placement="Bottom">
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
+                <Setter Property="Margin" Value="0,2" />
+              </Style>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <MenuItem IsEnabled="False" Visibility="{Binding Data.IsLive, Source={StaticResource recordingVMProxy}, Converter={StaticResource ValueToVisibilityConverter}}">
+            <HeaderedItemsControl.Header>
+              <StackPanel Orientation="Vertical">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontStyle="Italic" Text="{mex:Localized RECORDING_BUTTON_CONTEXT_MENU_STATUS_title}" />
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.CaptureStreamStatusText, Source={StaticResource recordingVMProxy}}" />
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.ResiStreamStatusText, Source={StaticResource recordingVMProxy}}" Visibility="{Binding Data.ResiStreamStatusText, Source={StaticResource recordingVMProxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static system1:String.Empty}}" />
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.DiskStatus, Source={StaticResource recordingVMProxy}, Converter={StaticResource EnumToContentConverter}}" Visibility="{Binding Data.DiskStatus, Source={StaticResource recordingVMProxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static doCapture:DiskStatus.OK}}" />
+              </StackPanel>
+            </HeaderedItemsControl.Header>
+          </MenuItem>
+          <Separator Visibility="{Binding Data.IsLive, Source={StaticResource recordingVMProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+          <MenuItem IsEnabled="False" Visibility="{Binding Data.IsLive, Source={StaticResource recordingVMProxy}, Converter={StaticResource ValueToVisibilityConverter}}">
+            <HeaderedItemsControl.Header>
+              <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized RECORDING_WINDOW_DESTINATION_label}" />
+                  <TextBlock Grid.Row="2" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontStyle="Italic" Text="{Binding Data.Destination, Source={StaticResource recordingVMProxy}, Converter={StaticResource EnumToContentConverter}}" />
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.CaptureFile.Filename, Source={StaticResource recordingVMProxy}}" ToolTip="{Binding Data.CaptureFile.FullPath, Source={StaticResource recordingVMProxy}}" Visibility="{Binding Data.CaptureFile.FullPath, Source={StaticResource recordingVMProxy}, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static String.Empty}}" />
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized RECORDING_BUTTON_DROP_label}" />
+                  <TextBlock Grid.Row="2" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock.Text>
+                      <MultiBinding StringFormat="{}{0:P1} ({1})">
+                        <Binding Path="Data.PercentDroppedFrames" Source="{StaticResource recordingVMProxy}" />
+                        <Binding Path="Data.DroppedFrames" Source="{StaticResource recordingVMProxy}" />
+                      </MultiBinding>
+                    </TextBlock.Text>
+                  </TextBlock>
+                </StackPanel>
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.ResiStreamStatus, Source={StaticResource recordingVMProxy}, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=RESI_STREAM_STATUS_FORMAT_label}" Visibility="{Binding Data.Destination, Source={StaticResource recordingVMProxy}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static doCapture:DestinationType.Resi}}" />
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.UploadHealth, Source={StaticResource recordingVMProxy}, Converter={StaticResource FormattedLocalizedStringConverter}, ConverterParameter=RESI_UPLOAD_HEALTH_FORMAT_label}" Visibility="{Binding Data.Destination, Source={StaticResource recordingVMProxy}, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static doCapture:DestinationType.Resi}}" />
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                  <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized RECORDING_BUTTON_BITRATE_label}" />
+                  <TextBlock Grid.Row="2" Grid.Column="1" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Data.BitRate, Source={StaticResource recordingVMProxy}, StringFormat={}{0}Mbps}" />
+                </StackPanel>
+              </StackPanel>
+            </HeaderedItemsControl.Header>
+          </MenuItem>
+          <Separator Visibility="{Binding Data.IsLive, Source={StaticResource recordingVMProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+          <MenuItem Command="{Binding Data.StartCaptureCommand, Source={StaticResource recordingVMProxy}}" Header="{Binding StartStopButtonLabel}" Visibility="{Binding Data.IsLive, Source={StaticResource recordingVMProxy}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+          <MenuItem Command="{Binding Data.StopCaptureCommand, Source={StaticResource recordingVMProxy}}" Header="{Binding StartStopButtonLabel}" Visibility="{Binding Data.IsLive, Source={StaticResource recordingVMProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+          <Separator />
+          <MenuItem CommandParameter="{x:Static captureAnalytics:CaptureShownSource.Toolbar}" Command="{Binding Data.OpenCaptureSettingsCommand, Source={StaticResource recordingVMProxy}}" Header="{mex:Localized RECORDING_BUTTON_CONTEXT_MENU_CAPTURE_SETTINGS_title}" />
+        </ContextMenu>
+      </FrameworkElement.ContextMenu>
+    </commonControls:ToolBarButton>
+  </Grid>
+</UserControl>

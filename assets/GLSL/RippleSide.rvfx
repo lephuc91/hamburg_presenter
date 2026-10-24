@@ -1,0 +1,20 @@
+{
+    "description": "Ripple distortion from the side.",
+    "name": "Ripple Side",
+    "numPasses": 1,
+    "shaderFile": "RippleSide",
+    "type": 0,
+    "uuid": "2A34B3FB-0AC5-4C7D-B07E-05FE83D796B4",
+    "variables": [
+        {
+            "name": "speed",
+            "label": "Speed",
+            "description": "Speed of ripple",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

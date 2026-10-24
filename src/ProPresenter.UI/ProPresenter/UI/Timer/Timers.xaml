@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Timer.Timers" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:controls="clr-namespace:ProPresenter.UI.Controls" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.Timer" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="timerVMProxy" Data="{Binding}" />
+      <converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+      <converters:CountToVisibilityConverter x:Key="InvertedCountToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Height="22">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource AncestorType=Grid}}" Text="{mex:Localized TIMERS_HEADER_title}" />
+      <commonControls:BorderlessButton Grid.Column="1" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding AddTimerItemCommand}" ToolTip="{mex:Localized TIMERS_ADD_BUTTON_tooltip}" Visibility="{Binding ElementName=TimerList, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}">
+        <commonControls:PathControl Width="14" Height="14" PathType="Plus" Fill="{Binding Foreground, RelativeSource={RelativeSource Self}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource Self}}" />
+      </commonControls:BorderlessButton>
+    </Grid>
+    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+      <local:TimersList x:Name="TimerList" ItemsSource="{Binding Timers}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Border BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+              <local:TimerTemplate DataContext="{Binding}" ResetCommand="{Binding Data.ResetCommand, Source={StaticResource timerVMProxy}}" StartCommand="{Binding Data.StartCommand, Source={StaticResource timerVMProxy}}" StopCommand="{Binding Data.StopCommand, Source={StaticResource timerVMProxy}}" />
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemContainerStyle>
+          <Style TargetType="{x:Type ContentPresenter}">
+            <Setter Property="FrameworkElement.ContextMenu">
+              <Setter.Value>
+                <ContextMenu>
+                  <MenuItem Command="{Binding Data.RemoveTimerCommand, Source={StaticResource timerVMProxy}}" CommandParameter="{Binding PlacementTarget.DataContext.ID, RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}" Header="{mex:Localized GLOBAL_DELETE_title}" />
+                </ContextMenu>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ItemsControl.ItemContainerStyle>
+      </local:TimersList>
+    </ScrollViewer>
+    <controls:ImageTextButton Grid.Row="1" ButtonBackground="#80707070" ButtonHeight="80" ButtonWidth="80" ImageSource="{StaticResource {x:Static themes:Icons.EmptyAdd}}" Command="{Binding AddTimerItemCommand}" Text="{mex:Localized TIMERS_WINDOW_ADD_TIMER_label}" Visibility="{Binding ElementName=TimerList, Path=Items.Count, Converter={StaticResource InvertedCountToVisibilityConverter}}" />
+    <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="Collapsed">
+      <Button Height="22" MinWidth="70" Margin="10" Padding="10,0" VerticalAlignment="Center" Command="{Binding StopAllCommand}" Content="{mex:Localized TIMERS_WINDOW_STOP_ALL_BUTTON_title}" ToolTip="{mex:Localized TIMERS_WINDOW_STOP_ALL_BUTTON_tooltip}" />
+      <Button Height="22" MinWidth="70" Margin="0,10" Padding="10,0" VerticalAlignment="Center" Command="{Binding ResetAllCommand}" Content="{mex:Localized TIMERS_WINDOW_RESET_ALL_BUTTON_title}" ToolTip="{mex:Localized TIMERS_WINDOW_RESET_ALL_BUTTON_tooltip}" />
+      <Button Height="22" MinWidth="70" Margin="10" Padding="10,0" VerticalAlignment="Center" Command="{Binding StartAllCommand}" Content="{mex:Localized TIMERS_WINDOW_START_ALL_BUTTON_title}" ToolTip="{mex:Localized TIMERS_WINDOW_START_ALL_BUTTON_tooltip}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

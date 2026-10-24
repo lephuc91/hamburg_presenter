@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentControl x:Class="Pro.UI.Controls.PathControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters" xmlns:local="clr-namespace:Pro.UI.Controls" xmlns:ui="clr-namespace:Pro.UI" x:Name="pathControl">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Path Stretch="Uniform" Fill="{Binding Fill, ElementName=pathControl}" Opacity="{Binding Opacity, ElementName=pathControl}" SnapsToDevicePixels="{Binding SnapsToDevicePixels, ElementName=pathControl}" Stroke="{Binding Stroke, ElementName=pathControl}" StrokeThickness="{Binding StrokeThickness, ElementName=pathControl}">
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Path}">
+        <Style.Triggers>
+          <DataTrigger Value="{x:Static local:PathType.Plus}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Plus}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Minus}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Minus}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.VDownArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource VDownArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.VRightArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource VRightArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.VLeftArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource VLeftArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.VUpArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource VUpArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.DownArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource DownArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.UpArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource UpArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.RightArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource RightArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.FullRightArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource FullRightArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.DoubleRightArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource DoubleRightArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.LeftArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource LeftArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.FullLeftArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource FullLeftArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.NorthWestArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource DownArrow}" />
+            <Setter Property="RenderTransform">
+              <Setter.Value>
+                <RotateTransform Angle="135" />
+              </Setter.Value>
+            </Setter>
+            <Setter Property="UIElement.RenderTransformOrigin" Value="0.5, 0.5" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.NorthEastArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource DownArrow}" />
+            <Setter Property="RenderTransform">
+              <Setter.Value>
+                <RotateTransform Angle="225" />
+              </Setter.Value>
+            </Setter>
+            <Setter Property="UIElement.RenderTransformOrigin" Value="0.5, 0.5" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.SouthEastArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource DownArrow}" />
+            <Setter Property="RenderTransform">
+              <Setter.Value>
+                <RotateTransform Angle="315" />
+              </Setter.Value>
+            </Setter>
+            <Setter Property="UIElement.RenderTransformOrigin" Value="0.5, 0.5" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.SouthWestArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource DownArrow}" />
+            <Setter Property="RenderTransform">
+              <Setter.Value>
+                <RotateTransform Angle="45" />
+              </Setter.Value>
+            </Setter>
+            <Setter Property="UIElement.RenderTransformOrigin" Value="0.5, 0.5" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.MotionArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource MotionArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.DoubleArrow}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource DoubleArrow}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Play}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Play}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Pause}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Pause}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Forward}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Forward}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Backward}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Forward}" />
+            <Setter Property="RenderTransform">
+              <Setter.Value>
+                <RotateTransform Angle="180" />
+              </Setter.Value>
+            </Setter>
+            <Setter Property="UIElement.RenderTransformOrigin" Value="0.5, 0.5" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Beginning}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource End}" />
+            <Setter Property="RenderTransform">
+              <Setter.Value>
+                <RotateTransform Angle="180" />
+              </Setter.Value>
+            </Setter>
+            <Setter Property="UIElement.RenderTransformOrigin" Value="0.5, 0.5" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.End}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource End}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Stop}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Stop}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Magnifier}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Magnifier}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Filter}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Filter}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Checkmark}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Checkmark}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Globe}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Globe}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Cross}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Cross}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Eye}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Eye}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.EyeDisabled}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource EyeDisabled}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Justified}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Justified}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.RightAlignment}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource RightAlignment}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.CenterAlignment}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource CenterAlignment}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.LeftAlignment}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource LeftAlignment}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.TopAlignment}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource TopAlignment}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.BottomAlignment}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource BottomAlignment}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.MiddleAlignment}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource MiddleAlignment}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.LeftArrowThin}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource LeftArrowThin}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.RightArrowThin}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource RightArrowThin}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.DownArrowThin}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource DownArrowThin}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.UpArrowThin}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource UpArrowThin}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Linked}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Linked}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Unlinked}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Unlinked}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Folder}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Folder}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.More}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource More}" />
+          </DataTrigger>
+          <DataTrigger Value="{x:Static local:PathType.Cancel}" Binding="{Binding PathType, ElementName=pathControl}">
+            <Setter Property="Data" Value="{StaticResource Cancel}" />
+          </DataTrigger>
+          <DataTrigger Value="True" Binding="{Binding Data, ElementName=pathControl, Converter={StaticResource IsNotNullToBoolConverter}}">
+            <Setter Property="Data" Value="{Binding Data, ElementName=pathControl}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </Path>
+</ContentControl>

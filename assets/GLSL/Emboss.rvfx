@@ -1,0 +1,30 @@
+{
+    "description": "Emboss effect.",
+    "name": "Emboss",
+    "numPasses": 1,
+    "shaderFile": "Emboss",
+    "type": 0,
+    "uuid": "D2C1718A-571B-4844-BD72-7C13193E8F26",
+    "variables": [
+        {
+            "name": "lightX",
+            "label": "Light X",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0, 0, 0, 0],
+            "value": [0, 0, 0, 0]
+        },
+        {
+            "name": "lightY",
+            "label": "Light Y",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

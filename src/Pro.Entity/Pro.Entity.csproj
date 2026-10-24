@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Pro.Entity</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>netcoreapp9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="PresentationCore">
+      <HintPath>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\9.0.13\PresentationCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Common">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Loro">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Loro.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Common.Standard">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="Testably.Abstractions.FileSystem.Interface">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Testably.Abstractions.FileSystem.Interface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

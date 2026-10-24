@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.AddWorkspaceDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions" x:Name="self" xmlns:controls="clr-namespace:Pro.UI.Controls">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="{markupExtensions:Localized GLOBAL_NAME}" />
+    <TextBox Name="WorkspaceNameTextBox" Grid.Row="0" Grid.Column="1" Width="250" Height="22" VerticalContentAlignment="Center" Text="{Binding WorkspaceName, ElementName=self}" />
+    <CheckBox Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalContentAlignment="Center" IsChecked="{Binding IsCloudWorkspace, ElementName=self}" Visibility="{markupExtensions:FeatureFlag Cloud}" />
+    <TextBlock Grid.Row="1" Grid.Column="1" Text="{markupExtensions:Localized CLOUDWORKSPACE_NEW_WORKSPACE_DIALOG_CHECKBOX_title}" Visibility="{markupExtensions:FeatureFlag Cloud}" />
+  </Grid>
+</UserControl>

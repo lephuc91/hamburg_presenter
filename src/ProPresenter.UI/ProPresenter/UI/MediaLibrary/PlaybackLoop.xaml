@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.MediaLibrary.PlaybackLoop" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mediaProperties="clr-namespace:ProPresenter.DO.Media.Properties;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:proSSAPI="clr-namespace:Pro.ssAPI;assembly=Pro.ssAPI" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="playbackLoop" xmlns:medialibrary="clr-namespace:ProPresenter.UI.MediaLibrary;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{mex:Localized PLAYLIST_ITEM_GLOBAL_PLAYBACK_BEHAVIOR_LOOP_FOR_COUNT_title}" Visibility="{Binding PlaybackBehavior, ElementName=playbackLoop, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static proSSAPI:PlaybackBehaviorType.LoopForCount}}" />
+    <commonControls:IntegerUpDown Name="Count" Grid.Row="1" Width="100" Height="22" Margin="0,10,0,0" HorizontalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Maximum="{x:Static mediaProperties:TransportProperties.MAX_LOOP_COUNT}" ShowButtonSpinner="False" Text="{Binding PlaylbackCount, ElementName=playbackLoop, Mode=TwoWay}" Visibility="{Binding PlaybackBehavior, ElementName=playbackLoop, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static proSSAPI:PlaybackBehaviorType.LoopForCount}}" />
+    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{mex:Localized PLAYLIST_ITEM_GLOBAL_PLAYBACK_BEHAVIOR_LOOP_FOR_TIME_title}" Visibility="{Binding PlaybackBehavior, ElementName=playbackLoop, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static proSSAPI:PlaybackBehaviorType.LoopForTime}}" />
+    <commonControls:TimeSliceTextBox Name="Time" Grid.Row="1" Width="100" Height="22" Margin="0,10,0,0" HorizontalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" ShowHours="False" Style="{StaticResource {x:Type TextBox}}" TimeValue="{Binding PlaylbackTime, ElementName=playbackLoop, Mode=TwoWay}" Visibility="{Binding PlaybackBehavior, ElementName=playbackLoop, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static proSSAPI:PlaybackBehaviorType.LoopForTime}}" />
+  </Grid>
+</UserControl>

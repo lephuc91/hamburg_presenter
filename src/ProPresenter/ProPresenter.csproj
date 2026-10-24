@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>ProPresenter</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>True</UseWPF>
+    <TargetFramework>netcoreapp9.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>12.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="appicon.ico" />
+    <None Remove="ProPresenter.resources.Whats_New.WhatsNewFeatures.json" />
+    <None Remove="ProPresenter.images.watermark.png" />
+    <EmbeddedResource Include="appicon.ico" LogicalName="appicon.ico" />
+    <EmbeddedResource Include="ProPresenter.resources.Whats_New.WhatsNewFeatures.json" LogicalName="ProPresenter.resources.Whats_New.WhatsNewFeatures.json" />
+    <EmbeddedResource Include="ProPresenter.images.watermark.png" LogicalName="ProPresenter.images.watermark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Pro.Common">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Reporting">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Interprocess">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Interprocess.dll</HintPath>
+    </Reference>
+    <Reference Include="ProPresenter.Controller">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProPresenter.Controller.dll</HintPath>
+    </Reference>
+    <Reference Include="ProPresenter.DO">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProPresenter.DO.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.SerializationInterop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.SerializationInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="ProPresenter.UI">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProPresenter.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="ProCore.Interop">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProCore.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Data.SQLite">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Entity">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.CoreApplication">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.CoreApplication.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.UI">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.DO">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.DO.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Localization">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Testably.Abstractions.FileSystem.Interface">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Testably.Abstractions.FileSystem.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="CommunityToolkit.Mvvm">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Web">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.ssAPI">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.ssAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="ProPresenter.Rendering">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ProPresenter.Rendering.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Editor">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Text">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="Semver">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Semver.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty.Core">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ReactiveProperty.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Search">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Core">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.PDF">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.PDF.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.SDK.NET">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Microsoft.Windows.SDK.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Bugsnag">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Bugsnag.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="TestableIO.System.IO.Abstractions.Wrappers">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\TestableIO.System.IO.Abstractions.Wrappers.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Imaging">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.DxDiagReport">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.DxDiagReport.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Serialization">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Common.Standard">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Common.Standard.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Loro">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Loro.dll</HintPath>
+    </Reference>
+    <Reference Include="CrashRecovery">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\CrashRecovery.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty.WPF">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ReactiveProperty.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveProperty">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\ReactiveProperty.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\System.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Pro.Data.Entities">
+      <HintPath>C:\Program Files\Renewed Vision\ProPresenter\Pro.Data.Entities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<local:ActionDialogBase x:Class="ProPresenter.UI.ActionPalette.ActionDialogs.ActionDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControl="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:local="clr-namespace:ProPresenter.UI.ActionPalette.ActionDialogs" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" Effect="{StaticResource ControlDropShadowEffect}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="PlacementBottom" TargetType="{x:Type Grid}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="Bottom" Binding="{Binding Placement, RelativeSource={RelativeSource AncestorType={x:Type local:ActionDialog}}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="PlacementLeft" TargetType="{x:Type Grid}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="Left" Binding="{Binding Placement, RelativeSource={RelativeSource AncestorType={x:Type local:ActionDialog}}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="PlacementRight" TargetType="{x:Type Grid}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="Right" Binding="{Binding Placement, RelativeSource={RelativeSource AncestorType={x:Type local:ActionDialog}}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="PlacementTop" TargetType="{x:Type Grid}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="Top" Binding="{Binding Placement, RelativeSource={RelativeSource AncestorType={x:Type local:ActionDialog}}}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Grid Row="0" Column="1" Height="20" Margin="0,-6,0,0" Background="#00FFFFFF" Style="{StaticResource PlacementBottom}">
+      <commonControl:PathControl Width="30" Height="30" HorizontalAlignment="Center" PathType="UpArrow" Fill="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" Stroke="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" />
+    </Grid>
+    <Grid Row="1" Column="2" Width="20" Margin="-6,0,0,0" Background="#00FFFFFF" Style="{StaticResource PlacementLeft}">
+      <commonControl:PathControl Width="30" Height="30" HorizontalAlignment="Center" PathType="UpArrow" Fill="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" Stroke="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}">
+        <FrameworkElement.LayoutTransform>
+          <RotateTransform Angle="90" CenterX="0.5" CenterY="0.5" />
+        </FrameworkElement.LayoutTransform>
+      </commonControl:PathControl>
+    </Grid>
+    <Grid Row="1" Column="0" Width="20" Margin="0,0,-6,0" Background="#00FFFFFF" Style="{StaticResource PlacementRight}">
+      <commonControl:PathControl Width="30" Height="30" HorizontalAlignment="Center" PathType="UpArrow" Fill="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" Stroke="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}">
+        <FrameworkElement.LayoutTransform>
+          <RotateTransform Angle="270" CenterX="0.5" CenterY="0.5" />
+        </FrameworkElement.LayoutTransform>
+      </commonControl:PathControl>
+    </Grid>
+    <Grid Row="2" Column="1" Height="22" Margin="0,-8,0,0" Background="#00FFFFFF" Style="{StaticResource PlacementTop}">
+      <commonControl:PathControl Width="30" Height="30" HorizontalAlignment="Center" PathType="UpArrow" Fill="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}" Stroke="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}">
+        <FrameworkElement.LayoutTransform>
+          <RotateTransform Angle="180" CenterX="0.5" CenterY="0.5" />
+        </FrameworkElement.LayoutTransform>
+      </commonControl:PathControl>
+    </Grid>
+    <Border Grid.Row="1" Grid.Column="1" BorderThickness="0" Background="{Binding POPUP, Source={x:Static theming:AppTheme.Active}}">
+      <Grid Margin="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ContentControl Margin="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding Child, RelativeSource={RelativeSource AncestorType={x:Type local:ActionDialog}}}" />
+        <Button Grid.Row="1" Width="70" Height="22" Margin="0,0,15,15" HorizontalAlignment="Right" IsDefault="True" Visibility="Collapsed" Content="{mex:Localized GLOBAL_DONE}" Click="Done_Click" />
+      </Grid>
+    </Border>
+  </Grid>
+</local:ActionDialogBase>

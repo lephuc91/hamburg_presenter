@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter.RegisteredWithProPresenterPlusCode" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:behaviors="clr-namespace:Pro.UI.Behaviors;assembly=Pro.UI" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:local="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Registration.ProPresenter" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.Settings.Pages.Registration.ProPresenter">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="vmProxy" Data="{Binding}" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+      <commonConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <commonConverters:FormattedLocalizedStringConverter x:Key="FormattedLocalizedStringConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsInverted="True" />
+      <Style x:Key="RegisterInformationDescription" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+      </Style>
+      <Style x:Key="RegisterInformationValue" TargetType="{x:Type TextBlock}">
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="UIElement.Opacity" Value="0.6" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+      </Style>
+      <ObjectDataProvider x:Key="SeatStates" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type vm:SeatState}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <commonControls:GroupedControl>
+      <Grid DataContext="{Binding Data, Source={StaticResource vmProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Style="{StaticResource RegisterInformationDescription}" Text="{mex:Localized SETTINGS_ACCOUNT_DEVICE_NAME_label}" />
+        <TextBlock Style="{StaticResource RegisterInformationValue}" Text="{Binding DeviceName}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource vmProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Style="{StaticResource RegisterInformationDescription}" Text="{mex:Localized SETTINGS_ACCOUNT_UNLOCK_CODE_label}" />
+        <TextBlock Style="{StaticResource RegisterInformationValue}" Text="{Binding UnlockCode}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource vmProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{mex:Localized SETTINGS_ACCOUNT_PROPRESENTER_EXPIRATION_label}" />
+        <TextBlock Grid.Column="1" Text="{Binding LicenseExpiration}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource RegisterInformationValue}" TargetType="{x:Type TextBlock}">
+              <Style.Triggers>
+                <DataTrigger Value="True" Binding="{Binding IsLicenseExpired}">
+                  <Setter Property="Foreground" Value="{Binding REGISTERINFO_EXPIRED, Source={x:Static theming:AppTheme.Active}}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource vmProxy}}" Visibility="{Binding ShowSeatInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Style="{StaticResource RegisterInformationDescription}" Text="{mex:Localized SETTINGS_ACCOUNT_AVAILABLE_SEATS_label}" />
+        <TextBlock Grid.Column="1" Style="{StaticResource RegisterInformationValue}">
+          <TextBlock.Text>
+            <MultiBinding StringFormat="{}{0}/{1}">
+              <Binding Path="AvailableSeats" />
+              <Binding Path="TotalSeats" />
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource vmProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock VerticalAlignment="Center" Style="{StaticResource RegisterInformationDescription}" Text="{mex:Localized SETTINGS_ACCOUNT_CURRENT_SEAT_STATE_label}" />
+        <commonControls:BorderlessComboBox Grid.Column="1" HorizontalAlignment="Right" ItemsSource="{Binding Source={StaticResource SeatStates}}">
+          <behaviors1:Interaction.Behaviors xmlns:behaviors1="clr-namespace:Microsoft.Xaml.Behaviors;assembly=Microsoft.Xaml.Behaviors">
+            <behaviors:CommandableComboboxBehaviour ChangeItemCommand="{Binding ChangeSeatStateCommand}" SelectedItem="{Binding SeatState}" />
+          </behaviors1:Interaction.Behaviors>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </commonControls:BorderlessComboBox>
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource vmProxy}}" Visibility="{Binding IsCurrentBuildCoveredByLicense, Converter={StaticResource ValueToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock VerticalAlignment="Center" Opacity="1" Style="{StaticResource RegisterInformationDescription}" Foreground="{Binding REGISTERINFO_EXPIRED, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized SETTINGS_ACCOUNT_UNLICENSED_VERSION_label}" />
+        <Button Grid.Column="1" HorizontalAlignment="Right" Command="{Binding DowngradeCommand}" Content="{mex:Localized SETTINGS_ACCOUNT_DOWNLOAD_PREVIOUS_VERSION_BUTTON_title}" />
+      </Grid>
+    </commonControls:GroupedControl>
+    <Button Grid.Row="1" MinWidth="80" Margin="0,15,0,0" Padding="10,0" HorizontalAlignment="Right" Command="{Binding UnregisterCommand}" Content="{mex:Localized SETTINGS_ACCOUNT_UNREGISTER_DEVICE_BUTTON_title}" />
+    <commonControls:ModalPopup HorizontalAlignment="Center" VerticalAlignment="Center" IsModal="True" Placement="Center" IsOpen="{Binding UnlockCodeVM.IsVisible}" PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+      <local:UnlockCodeControl DataContext="{Binding Data.UnlockCodeVM, Source={StaticResource vmProxy}}" />
+    </commonControls:ModalPopup>
+  </Grid>
+</UserControl>

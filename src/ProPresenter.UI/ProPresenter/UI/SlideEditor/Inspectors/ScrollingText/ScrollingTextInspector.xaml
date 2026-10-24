@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.ScrollingText.ScrollingTextInspector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:converters="clr-namespace:ProPresenter.UI.SlideEditor.Converters" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.ScrollingText" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:scrollersDO="clr-namespace:ProPresenter.DO.Slide.Custom.Elements.Scrollers;assembly=ProPresenter.DO" x:Name="scrollingElement">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="scrollingTextVMProxy" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="updateIsLinkedProxy" Data="{Binding}" />
+      <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+      <local:FadeRightConverter x:Key="FadeRightConverter" />
+      <Style x:Key="{x:Type commonControls:RadioToggleButton}" BasedOn="{StaticResource {x:Type commonControls:RadioToggleButton}}" TargetType="{x:Type commonControls:RadioToggleButton}">
+        <Setter Property="Height" Value="22" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="3*" />
+      </Grid.ColumnDefinitions>
+      <Grid Column="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <commonControls:RadioToggleButton Grid.Column="0" IsChecked="{Binding ScrollDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static scrollersDO:ScrollingType.Left}, Mode=TwoWay}">
+          <commonControls:PathControl Width="18" Height="18" PathType="LeftArrowThin" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:RadioToggleButton}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:RadioToggleButton}}" />
+        </commonControls:RadioToggleButton>
+        <commonControls:RadioToggleButton Grid.Column="1" IsChecked="{Binding ScrollDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static scrollersDO:ScrollingType.Right}, Mode=TwoWay}">
+          <commonControls:PathControl Width="18" Height="18" PathType="RightArrowThin" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:RadioToggleButton}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:RadioToggleButton}}" />
+        </commonControls:RadioToggleButton>
+        <commonControls:RadioToggleButton Grid.Column="2" IsChecked="{Binding ScrollDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static scrollersDO:ScrollingType.Up}, Mode=TwoWay}">
+          <commonControls:PathControl Width="18" Height="18" PathType="UpArrowThin" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:RadioToggleButton}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:RadioToggleButton}}" />
+        </commonControls:RadioToggleButton>
+        <commonControls:RadioToggleButton Grid.Column="3" IsChecked="{Binding ScrollDirection, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static scrollersDO:ScrollingType.Down}, Mode=TwoWay}">
+          <commonControls:PathControl Width="18" Height="18" PathType="DownArrowThin" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:RadioToggleButton}}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=commonControls:RadioToggleButton}}" />
+        </commonControls:RadioToggleButton>
+      </Grid>
+    </Grid>
+    <Grid Row="1" Margin="0,7,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="3*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized TEXT_INSPECTOR_SCROLLING_START_POSITION_label}" />
+      <commonControls:DropDownButton Grid.Column="1">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type commonControls:DropDownButton}">
+            <Setter Property="commonControls:DropDownButton.CustomContent" Value="{mex:Localized TEXT_INSPECTOR_SCROLLING_START_POSITION_AUTOMATIC_MENU_ITEM_title}" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding StartsOffScreen}">
+                <Setter Property="commonControls:DropDownButton.CustomContent" Value="{mex:Localized TEXT_INSPECTOR_SCROLLING_START_POSITION_OFF_SCREEN_MENU_ITEM_title}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <commonControls:DropDownButton.CustomContextMenu>
+          <ContextMenu Placement="Bottom">
+            <MenuItem Command="{Binding Data.DisableStartPositionCommand, Source={StaticResource scrollingTextVMProxy}}" Header="{mex:Localized TEXT_INSPECTOR_SCROLLING_START_POSITION_AUTOMATIC_MENU_ITEM_title}" IsChecked="{Binding Data.StartsOffScreen, Source={StaticResource scrollingTextVMProxy}, Converter={StaticResource InvertedBooleanConverter}}" />
+            <MenuItem Command="{Binding Data.EnableStartPositionCommand, Source={StaticResource scrollingTextVMProxy}}" Header="{mex:Localized TEXT_INSPECTOR_SCROLLING_START_POSITION_OFF_SCREEN_MENU_ITEM_title}" IsChecked="{Binding Data.StartsOffScreen, Source={StaticResource scrollingTextVMProxy}}" />
+          </ContextMenu>
+        </commonControls:DropDownButton.CustomContextMenu>
+      </commonControls:DropDownButton>
+    </Grid>
+    <Grid Row="2" Margin="0,7,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="3*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized TEXT_INSPECTOR_SCROLLING_SCROLL_SPEED_label}" />
+      <commonControls:UnitsSlider Grid.Column="1" HorizontalAlignment="Stretch" FillMode="None" IsSnapToTickEnabled="True" LargeChange="20" Maximum="100" Minimum="0" SmallChange="1" TickFrequency="1" Units="%" Value="{Binding ScrollRate, Mode=TwoWay, Converter={commonConverters:PercentageConverter}}" />
+    </Grid>
+    <Grid Row="3" Margin="0,7,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="3*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,7,0" HorizontalAlignment="Right" Text="{mex:Localized TEXT_INSPECTOR_SCROLLING_FEATHERING_label}" />
+      <commonControls:FeatheringControl Grid.Column="1" HigherValue="{Binding FadeRight, Mode=TwoWay, Converter={StaticResource FadeRightConverter}}" HigherValueLabel="{Binding ScrollDirection, Converter={converters:ScrollDirectionToLabelConverter HorizontalLabel={mex:Localized TEXT_INSPECTOR_SCROLLING_FEATHERING_RIGHT_label}, VerticalLabel={mex:Localized TEXT_INSPECTOR_SCROLLING_FEATHERING_BOTTOM_label}}}" LowerValue="{Binding FadeLeft, Mode=TwoWay}" LowerValueLabel="{Binding ScrollDirection, Converter={converters:ScrollDirectionToLabelConverter HorizontalLabel={mex:Localized TEXT_INSPECTOR_SCROLLING_FEATHERING_LEFT_label}, VerticalLabel={mex:Localized TEXT_INSPECTOR_SCROLLING_FEATHERING_TOP_label}}}" ValueLinked="{Binding IsLinked, Mode=TwoWay}" />
+    </Grid>
+    <Grid Row="4" Margin="0,7,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="3*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="0" Margin="0,0,7,0" HorizontalAlignment="Right" Text="{mex:Localized TEXT_INSPECTOR_SCROLLING_REPEAT_label}" />
+      <Grid Column="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <CheckBox Grid.Column="0" Margin="0,0,7,0" HorizontalAlignment="Left" IsChecked="{Binding ShouldRepeat, Mode=TwoWay}" />
+        <commonControls:DoubleUpDown Grid.Column="1" Width="60" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" FormatString="{}{0:F0}" Increment="1" Maximum="10000" Minimum="0" IsEnabled="{Binding ShouldRepeat}" Value="{Binding RepeatDistance}" />
+      </Grid>
+    </Grid>
+    <Grid Row="5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="3*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="1" Margin="0,0,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="9" Text="{mex:Localized TEXT_INSPECTOR_SCROLLING_LOOP_DISTANCE_label}" />
+    </Grid>
+  </Grid>
+</UserControl>

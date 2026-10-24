@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationView.PresentationView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:multiTracks="clr-namespace:ProPresenter.UI.MultiTracks" xmlns:thumbnails="clr-namespace:ProPresenter.UI.Thumbnails" x:Name="self" xmlns:presentationview="clr-namespace:ProPresenter.UI.PresentationView">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <AdornerDecorator>
+    <Grid>
+      <thumbnails:CustomPresentationThumbnailPanel x:Name="thumbnailPanel" Margin="3" ClearSelectionOnActivation="False" ListViewHeightIncrement="300" MinimumListViewHeight="20" ActiveItem="{Binding PresentationVM.ActiveSlide, ElementName=self}" AddDroppedActionCommand="{Binding PresentationVM.AddDroppedActionCommand, ElementName=self}" AddDroppedMediaActionCommand="{Binding PresentationVM.AddDroppedMediaActionCommand, ElementName=self}" AddMediaActionCommand="{Binding PresentationVM.AddMediaActionCommand, ElementName=self}" AddMediaPlaylistActionCommand="{Binding PresentationVM.AddMediaPlaylistActionCommand, ElementName=self}" CopyCommand="{Binding PresentationVM.CopyCommand, ElementName=self}" CutCommand="{Binding PresentationVM.CutCommand, ElementName=self}" DeleteCommand="{Binding PresentationVM.DeleteCommand, ElementName=self}" DocumentCue="{Binding DocumentCue, ElementName=self}" DropMediaFilesCommand="{Binding PresentationVM.DropMediaFilesCommand, ElementName=self}" DropProContentAssetCommand="{Binding PresentationVM.DropProContentAssetCommand, ElementName=self}" DropPropCommand="{Binding PresentationVM.DropPropCommand, ElementName=self}" DroppedIntoCommand="{Binding PresentationVM.DroppedIntoCommand, ElementName=self}" DuplicateCommand="{Binding PresentationVM.DuplicateCommand, ElementName=self}" HideBackgroundImage="{Binding PresentationVM.HideBackgroundImage, ElementName=self}" ItemActivatedCommand="{Binding PresentationVM.TriggerSlideCommand, ElementName=self}" Items="{Binding DocumentCue.DocumentAction.ActiveArrangement.ArrangedCues, ElementName=self}" MoveToCommand="{Binding PresentationVM.MoveToCommand, ElementName=self}" PasteCommand="{Binding PresentationVM.PasteCommand, ElementName=self}" RowCapacity="{Binding PresentationVM.PresentationRowCapacity, ElementName=self}" SelectedItem="{Binding PresentationVM.SelectedSlide, ElementName=self, Mode=TwoWay}" SelectedItems="{Binding PresentationVM.SelectedSlides, ElementName=self}" Source="{Binding DocumentCue.DocumentAction.Presentation, ElementName=self}" ThumbnailContextMenu="{Binding ThumbnailContextMenu, ElementName=self}" ViewSettings="{Binding PresentationVM.PresentationViewSettings, ElementName=self}" />
+      <multiTracks:MultiTracksUnauthorizedOverlay IsMultiTracksAvailable="{Binding DocumentCue.DocumentAction.Presentation.IsAvailable, ElementName=self, FallbackValue=true, TargetNullValue=true}" OpenWebsiteCommand="{Binding PresentationVM.OpenMultiTracksWebsiteCommand, ElementName=self}" RetryAuthorizationCommand="{Binding PresentationVM.RetryMultiTracksAuthorizationCommand, ElementName=self}" SelectedPresentation="{Binding DocumentCue.DocumentAction.Presentation, ElementName=self}">
+        <multiTracks:MultiTracksUnauthorizedOverlay.IsCheckingAccountStatus>
+          <PriorityBinding>
+            <Binding ElementName="self" Path="DocumentCue.DocumentAction.Presentation.IsCheckingAccountStatus" />
+          </PriorityBinding>
+        </multiTracks:MultiTracksUnauthorizedOverlay.IsCheckingAccountStatus>
+      </multiTracks:MultiTracksUnauthorizedOverlay>
+    </Grid>
+  </AdornerDecorator>
+</UserControl>

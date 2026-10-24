@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<commonUI:DragDropListBox x:Class="ProPresenter.UI.CueInspector.PlaybackMarkerList" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ciVMs="clr-namespace:ProPresenter.UI.ViewModels.CueInspector" xmlns:commonUI="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" Style="{StaticResource {x:Type ListBox}}" xmlns:cueinspector="clr-namespace:ProPresenter.UI.CueInspector" />

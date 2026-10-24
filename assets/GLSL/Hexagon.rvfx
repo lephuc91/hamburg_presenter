@@ -1,0 +1,20 @@
+{
+    "description": "Samples image to nearest Hexagon.",
+    "name": "Hexagon",
+    "numPasses": 1,
+    "shaderFile": "Hexagon",
+    "type": 0,
+    "uuid": "690831F6-A8A4-4B70-9AEB-E9A5E7FBDF63",
+    "variables": [
+        {
+            "name": "hexSize",
+            "label": "Size",
+            "description": "amount to blur by",
+            "type": 1,
+            "min": [10, 0, 0, 0],
+            "max": [100, 1, 1, 1],
+            "defValue": [40, 0, 0, 0],
+            "value": [50, 0, 0, 0]
+        }
+    ]
+}

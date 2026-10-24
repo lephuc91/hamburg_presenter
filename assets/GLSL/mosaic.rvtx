@@ -1,0 +1,11 @@
+{
+    "category": "Movements",
+    "description": "Mosaic",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Mosaic",
+    "numPasses": 1,
+    "shaderFile": "mosaic",
+    "type": 1,
+    "uuid": "9BE0AB3A-9239-4976-BA34-417EADB27995"
+}

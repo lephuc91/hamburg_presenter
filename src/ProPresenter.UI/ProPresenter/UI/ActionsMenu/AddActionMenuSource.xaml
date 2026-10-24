@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<components:FrameworkCollection x:Class="ProPresenter.UI.ActionsMenu.AddActionMenuSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:actions="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" xmlns:actionsDO="clr-namespace:ProPresenter.DO.Actions;assembly=ProPresenter.DO" xmlns:audioDO="clr-namespace:ProPresenter.DO.Audio;assembly=ProPresenter.DO" xmlns:capture="clr-namespace:ProPresenter.UI.ActionsMenu.Capture" xmlns:clearGroups="clr-namespace:ProPresenter.DO.ClearGroups;assembly=ProPresenter.DO" xmlns:clearGroupsUI="clr-namespace:ProPresenter.UI.ClearGroups" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:communication="clr-namespace:ProPresenter.DO.Communication;assembly=ProPresenter.DO" xmlns:components="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:deviceDO="clr-namespace:ProPresenter.DO.Communication.Devices;assembly=ProPresenter.DO" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:liveVideoDO="clr-namespace:ProPresenter.DO.LiveVideo;assembly=ProPresenter.DO" xmlns:looksDO="clr-namespace:ProPresenter.DO.Looks;assembly=ProPresenter.DO" xmlns:macroGroups="clr-namespace:ProPresenter.DO.MacroGroups;assembly=ProPresenter.DO" xmlns:macros="clr-namespace:ProPresenter.DO.Macros;assembly=ProPresenter.DO" xmlns:media="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:messagesDO="clr-namespace:ProPresenter.DO.Messages;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:props="clr-namespace:ProPresenter.UI.Props" xmlns:propsDO="clr-namespace:ProPresenter.DO.Props;assembly=ProPresenter.DO" xmlns:timersDO="clr-namespace:ProPresenter.DO.Timer;assembly=ProPresenter.DO" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="addActionMenuSource" xmlns:actionsmenu="clr-namespace:ProPresenter.UI.ActionsMenu">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ActionTargetCollectionResource.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="actionMenuVMProxy" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="addActionMenuSourceProxy" Data="{Binding ElementName=addActionMenuSource}" />
+      <Style x:Key="AddClearActionMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.AddClearActionCommand, Source={StaticResource actionMenuVMProxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="Header" Value="{Binding Converter={StaticResource EnumToContentConverter}}" />
+        <Setter Property="MenuItem.Icon" Value="{StaticResource ActionIconStyle}" />
+      </Style>
+      <Style x:Key="PlaylistMenuItemStyle" BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="MenuItem.Command" Value="{Binding Data.AddPlaylistActionCommand, Source={StaticResource actionMenuVMProxy}}" />
+        <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+        <Setter Property="HeaderTemplate">
+          <Setter.Value>
+            <DataTemplate>
+              <TextBlock Margin="{Binding Converter={StaticResource PlaylistMarginConverter}}" Text="{Binding Name}" />
+            </DataTemplate>
+          </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+          <DataTrigger Value="LiveVideo" Binding="{Binding Type}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <MenuItem Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_title}">
+    <MenuItem ItemContainerStyle="{StaticResource AddClearActionMenuItemStyle}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_CLEAR_title}">
+      <MenuItem.Icon>
+        <Image Source="../Resources/Icons/Actions/clearAll.png" />
+      </MenuItem.Icon>
+      <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.ClearGroup}" ItemsSource="{StaticResource ClearGroupCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddClearGroupActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized ACTION_TYPE_CLEAR_GROUP_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}">
+        <FrameworkElement.Resources>
+          <ResourceDictionary>
+            <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type clearGroups:ClearGroup}}">
+              <MenuItem Command="{Binding Data.AddClearGroupActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                <MenuItem.Icon>
+                  <clearGroupsUI:ClearGroupImageControl ClearGroup="{Binding}" />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ItemContainerTemplate>
+          </ResourceDictionary>
+        </FrameworkElement.Resources>
+      </MenuItem>
+      <Separator />
+      <MenuItem DataContext="{x:Static actionsDO:ClearType.Audio}" Header="{mex:Localized ACTION_TYPE_CLEAR_AUDIO_SHORT_title}" />
+      <MenuItem DataContext="{x:Static actionsDO:ClearType.Background}" Header="{mex:Localized ACTION_TYPE_CLEAR_BACKGROUND_SHORT_title}" />
+      <MenuItem DataContext="{x:Static actionsDO:ClearType.LiveVideo}" Header="{mex:Localized ACTION_TYPE_CLEAR_VIDEO_INPUT_SHORT_title}" />
+      <MenuItem DataContext="{x:Static actionsDO:ClearType.Props}" Header="{mex:Localized ACTION_TYPE_CLEAR_PROPS_SHORT_title}" />
+      <MenuItem DataContext="{x:Static actionsDO:ClearType.Slide}" Header="{mex:Localized ACTION_TYPE_CLEAR_SLIDE_SHORT_title}" />
+      <MenuItem DataContext="{x:Static actionsDO:ClearType.Messages}" Header="{mex:Localized ACTION_TYPE_CLEAR_MESSAGES_SHORT_title}" />
+      <MenuItem DataContext="{x:Static actionsDO:ClearType.Announcement}" Header="{mex:Localized ACTION_TYPE_CLEAR_ANNOUNCEMENT_SHORT_title}" />
+    </MenuItem>
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.AudienceLook}" ItemsSource="{StaticResource AudienceLookCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddAudienceLookCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_LOOK_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type looksDO:AudienceLook}}">
+            <MenuItem Command="{Binding Data.AddAudienceLookCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}" />
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem DataContext="{x:Static actions:ActionType.StageLayout}" Style="{StaticResource CueMenuItemStyle}" Command="{Binding Data.AddStageLayoutActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_STAGE_title}" />
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" CommandParameter="{x:Static actionsDO:SlideDestinationType.NoChange}" DataContext="{x:Static actions:ActionType.SlideDestination}" ItemsSource="{StaticResource SlideDestinationCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddSlideDestinationActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_SLIDE_DESTINATION_title}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type actionsDO:SlideDestinationType}}">
+            <MenuItem Command="{Binding Data.AddSlideDestinationActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.Timer}" ItemsSource="{StaticResource TimerCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddTimerActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_TIMER_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type timersDO:TimerData}}">
+            <MenuItem Command="{Binding Data.AddTimerActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}" />
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.Prop}" ItemsSource="{StaticResource PropGroupCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddPropActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_PROPS_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}">
+      <FrameworkElement.Resources>
+        <props:SelectAddPropCommandParamConverter x:Key="SelectAddPropCommandParamConverter" />
+        <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter}" />
+        <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type propsDO:PropCue}}">
+          <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddPropActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{Binding Name}" ItemsSource="{mex:EnumerationItemSource {x:Type actionsDO:PropTriggerType}}">
+            <MenuItem.CommandParameter>
+              <MultiBinding Converter="{StaticResource SelectAddPropCommandParamConverter}">
+                <Binding />
+              </MultiBinding>
+            </MenuItem.CommandParameter>
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type mex:EnumerationMember}}">
+                  <MenuItem Style="{StaticResource CueMenuItemStyle}" Command="{Binding Data.AddPropActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{Binding Description}">
+                    <MenuItem.CommandParameter>
+                      <MultiBinding Converter="{StaticResource SelectAddPropCommandParamConverter}">
+                        <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=MenuItem}" />
+                        <Binding Path="Value" />
+                      </MultiBinding>
+                    </MenuItem.CommandParameter>
+                  </MenuItem>
+                </ItemContainerTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+          </MenuItem>
+        </ItemContainerTemplate>
+        <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type propsDO:PropGroup}}">
+          <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding}" />
+        </ItemContainerTemplate>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.Message}" ItemsSource="{StaticResource MessagesCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddMessageActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_MESSAGE_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type messagesDO:Message}}">
+            <MenuItem Command="{Binding Data.AddMessageActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}" />
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.VisualPlaylist}" ItemContainerStyle="{StaticResource PlaylistMenuItemStyle}" Style="{StaticResource CueMenuItemStyle}" Command="{Binding Data.AddMediaPlaylistActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_MEDIA_PLAYLIST_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding Data.MediaPlaylists, Source={StaticResource actionMenuVMProxy}}" Visibility="{Binding Data.CanAddPlaylistAction, Source={StaticResource addActionMenuSourceProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.AudioPlaylist}" ItemContainerStyle="{StaticResource PlaylistMenuItemStyle}" Style="{StaticResource CueMenuItemStyle}" Command="{Binding Data.AddAudioPlaylistActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_AUDIO_PLAYLIST_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}" ItemsSource="{Binding Data.AudioPlaylists, Source={StaticResource actionMenuVMProxy}}" Visibility="{Binding Data.CanAddPlaylistAction, Source={StaticResource addActionMenuSourceProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.Communication}" ItemsSource="{StaticResource DeviceCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddMIDIActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_ACTION_COMMUNICATION_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type deviceDO:MIDIDevice}}">
+            <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" UsesItemContainerTemplate="True" Command="{Binding Data.AddMIDIActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{Binding Label}" ItemsSource="{Binding Source={StaticResource MIDICommand}}">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type communication:MIDICommand}}">
+                    <MenuItem Command="{Binding Data.AddMIDIActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding Converter={StaticResource EnumToContentConverter}}" />
+                  </ItemContainerTemplate>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+            </MenuItem>
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static actions:ActionType.AudioInput}" ItemsSource="{StaticResource AudioInputCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddAudioInputActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized AUDIO_INPUT_ACTION_DISPLAY_NAME_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type audioDO:AudioInput}}">
+            <MenuItem Command="{Binding Data.AddAudioInputActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding LongName}" />
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem uiUtility:MenuItemHelper.InvokeCommandWithChildren="True" DataContext="{x:Static media:MediaType.LiveVideo}" ItemsSource="{StaticResource AvailableVideoInputCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Command="{Binding Data.AddVideoInputActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized ACTION_TYPE_LIVE_VIDEO_MEDIA_title}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type liveVideoDO:LiveVideoInput}}">
+            <MenuItem Command="{Binding Data.AddVideoInputActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding LongName}" />
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <MenuItem DataContext="{x:Static actions:ActionType.Macro}" ItemsSource="{StaticResource MacroGroupCollection}" Style="{StaticResource CueMenuItemStyle}" UsesItemContainerTemplate="True" Header="{mex:Localized ACTION_TYPE_MACRO_title}">
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type macroGroups:MacroGroup}}">
+            <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding}">
+              <FrameworkElement.Resources>
+                <ResourceDictionary>
+                  <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type macros:ProPresenterMacro}}">
+                    <MenuItem Icon="{StaticResource MacroIcon}" Command="{Binding Data.AddMacroActionCommand, Source={StaticResource actionMenuVMProxy}}" CommandParameter="{Binding}" Header="{Binding Name}" />
+                  </ItemContainerTemplate>
+                </ResourceDictionary>
+              </FrameworkElement.Resources>
+            </MenuItem>
+          </ItemContainerTemplate>
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+    </MenuItem>
+    <capture:AddCaptureMenuItem DataContext="{x:Static actions:ActionType.Capture}" AddCaptureActionCommand="{Binding Data.AddCaptureActionCommand, Source={StaticResource actionMenuVMProxy}}" AddCaptureActionWithPresetCommand="{Binding Data.AddCaptureActionWithPresetCommand, Source={StaticResource actionMenuVMProxy}}" CapturePresets="{Binding Data.CapturePresets, Source={StaticResource actionMenuVMProxy}}" IsEnabled="{Binding HasItems, RelativeSource={RelativeSource Self}}" Visibility="{Binding Data.CanAddCaptureAction, Source={StaticResource addActionMenuSourceProxy}, Converter={StaticResource ValueToVisibilityConverter}}" />
+    <Separator />
+    <commonControls:RoutedMenuItem Command="{Binding ViewMenu.ActionPalette.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" />
+  </MenuItem>
+  <MenuItem Command="{Binding Data.AddMediaActionCommand, Source={StaticResource actionMenuVMProxy}}" Header="{mex:Localized PRESENTATION_CONTEXT_MENU_ADD_MEDIA_ACTION_title}">
+    <FrameworkElement.Style>
+      <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+          <DataTrigger Value="True" Binding="{Binding Data.GraphicMediaActionPresent, Source={StaticResource actionMenuVMProxy}}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+          <DataTrigger Value="False" Binding="{Binding Data.CanAddMediaAction, Source={StaticResource addActionMenuSourceProxy}}">
+            <Setter Property="Visibility" Value="Collapsed" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+  </MenuItem>
+</components:FrameworkCollection>

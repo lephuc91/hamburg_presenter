@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.OutputConfiguration.ScreenControlHeader" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:outputConfig="clr-namespace:ProPresenter.DO.OutputConfiguration;assembly=ProPresenter.DO" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self" xmlns:outputconfiguration="clr-namespace:ProPresenter.UI.OutputConfiguration" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}" Foreground="{Binding (uiUtility:UIElementHelper.Palette).Standard.Content, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ObjectDataProvider x:Key="ScreenArragementTypes" MethodName="GetValues" xmlns:system1="clr-namespace:System;assembly=System.Runtime" ObjectType="{x:Type system1:Enum}">
+        <ObjectDataProvider.MethodParameters>
+          <x:TypeExtension Type="{x:Type outputConfig:ScreenArrangementType}" />
+        </ObjectDataProvider.MethodParameters>
+      </ObjectDataProvider>
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid Row="0" Margin="10,0,0,0">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <commonControls:EditableTextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Text="{Binding SelectedScreenArrangement.Name, ElementName=self}" />
+      <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiBold">
+        <TextBlock.Text>
+          <MultiBinding StringFormat="{}{0:F0} x {1:F0}">
+            <Binding ElementName="self" Path="SelectedScreenArrangement.TotalSize.X" />
+            <Binding ElementName="self" Path="SelectedScreenArrangement.TotalSize.Y" />
+          </MultiBinding>
+        </TextBlock.Text>
+      </TextBlock>
+      <StackPanel Grid.RowSpan="2" Grid.Column="1" Margin="0,2,5,2" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+        <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" Content="{mex:Localized SCREEN_CONFIGURATION_SCREEN_COLOR_label}" IsChecked="{Binding SelectedScreenArrangement.BackgroundEnabled, Mode=TwoWay}" />
+        <commonControls:ColorPicker Width="70" Height="22" SelectedColor="{Binding SelectedScreenArrangement.BackgroundColor, Mode=TwoWay}" />
+      </StackPanel>
+    </Grid>
+    <Grid Row="1" Height="35" uiUtility:UIElementHelper.Palette="{Binding DETAILHEADER_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+      <ComboBox Name="ScreenArrangementTypeComboBox" Height="22" MinWidth="100" Margin="8,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource ScreenArragementTypes}}" SelectedItem="{Binding SelectedScreenArrangement.ArrangementType, Mode=OneWay, ElementName=self}" DropDownClosed="ScreenArrangementTypeComboBox_DropDownClosed">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+            <Setter Property="IsEnabled" Value="True" />
+            <Style.Triggers>
+              <DataTrigger Value="{x:Static outputConfig:ScreenTargetType.Stage}" Binding="{Binding SelectedScreenArrangement.ScreenTargetType, ElementName=self}">
+                <Setter Property="IsEnabled" Value="False" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <ContentPresenter Content="{Binding Converter={StaticResource EnumToContentConverter}}" />
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ComboBox>
+      <ContentControl Margin="0,0,10,0" HorizontalAlignment="Right">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static outputConfig:ScreenArrangementType.Mirror}" Binding="{Binding SelectedScreenArrangement.ArrangementType, ElementName=self}" />
+                  <Condition Value="{x:Static outputConfig:ScreenTargetType.Audience}" Binding="{Binding SelectedScreenArrangement.ScreenTargetType, ElementName=self}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_OUTPUT_COUNT_label}" />
+                        <commonControls:IntegerUpDown Width="60" Height="22" Maximum="{x:Static outputConfig:SingleScreenArrangement.MaxMirroredScreens}" Minimum="2" Value="{Binding SelectedScreenArrangement.ScreenCount, ElementName=self}" />
+                      </StackPanel>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static outputConfig:ScreenArrangementType.Group}" Binding="{Binding SelectedScreenArrangement.ArrangementType, ElementName=self}" />
+                  <Condition Value="{x:Static outputConfig:ScreenTargetType.Audience}" Binding="{Binding SelectedScreenArrangement.ScreenTargetType, ElementName=self}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_ROW_COUNT_label}" />
+                        <commonControls:IntegerUpDown Width="60" Height="22" Maximum="{x:Static outputConfig:CombinedScreenArrangement.MaxRows}" Minimum="1" Value="{Binding SelectedScreenArrangement.RowCount, ElementName=self}" />
+                        <TextBlock Margin="15,0,5,0" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_COLUMN_COUNT_label}" />
+                        <commonControls:IntegerUpDown Width="60" Height="22" Maximum="{x:Static outputConfig:CombinedScreenArrangement.MaxColumns}" Minimum="1" Value="{Binding SelectedScreenArrangement.ColumnCount, ElementName=self}" />
+                      </StackPanel>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="{x:Static outputConfig:ScreenArrangementType.EdgeBlend}" Binding="{Binding SelectedScreenArrangement.ArrangementType, ElementName=self}" />
+                  <Condition Value="{x:Static outputConfig:ScreenTargetType.Audience}" Binding="{Binding SelectedScreenArrangement.ScreenTargetType, ElementName=self}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_DEVICE_COUNT_label}" />
+                        <commonControls:IntegerUpDown Width="60" Height="22" Maximum="{x:Static outputConfig:EdgeBlendScreenArrangement.MaxScreens}" Minimum="2" Value="{Binding SelectedScreenArrangement.ScreenCount, ElementName=self}" />
+                      </StackPanel>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentControl>
+    </Grid>
+  </Grid>
+</UserControl>

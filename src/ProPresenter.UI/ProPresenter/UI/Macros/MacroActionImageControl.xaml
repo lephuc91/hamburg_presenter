@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Macros.MacroActionImageControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:converters="clr-namespace:ProPresenter.UI.Converters" xmlns:triggering="clr-namespace:Pro.DO.Triggering;assembly=Pro.DO" x:Name="macroActionImageControl" xmlns:macros="clr-namespace:ProPresenter.UI.Macros">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converters:MacroIconToImageSource x:Key="MacroIconToImageSource" />
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <commonControls:ImageMask Width="16" Height="16" Effect="{DynamicResource ScrimItemDropShadowEffect}" Stroke="{DynamicResource ScrimItemBorder}" StrokeThickness="{DynamicResource ScrimItemBorderThickness}" DataContext="{Binding Macro, ElementName=macroActionImageControl}" Fill="{Binding Macro.Color, Converter={StaticResource ColorToBrushConverter}, ElementName=macroActionImageControl}" ImageSource="{Binding Macro.ImageType, ElementName=macroActionImageControl, Converter={StaticResource MacroIconToImageSource}}" Visibility="{Binding Macro.ImageType, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Static triggering:ImageType.Custom}, ElementName=macroActionImageControl}" />
+    <Image Width="16" Height="16" Source="{Binding Macro.Icon, ElementName=macroActionImageControl}" Visibility="{Binding Macro.ImageType, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static triggering:ImageType.Custom}, ElementName=macroActionImageControl}" />
+  </Grid>
+</UserControl>

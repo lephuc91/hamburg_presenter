@@ -1,0 +1,8 @@
+{
+    "description": "Simluates a thermal camera.",
+    "name": "Heat Signature",
+    "numPasses": 1,
+    "shaderFile": "HeatSignature",
+    "type": 0,
+    "uuid": "F3F254AF-BF83-412D-B802-51E42A25FDF9"
+}

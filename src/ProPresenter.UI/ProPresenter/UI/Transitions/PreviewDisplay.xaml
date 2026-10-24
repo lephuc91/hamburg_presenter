@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Grid x:Class="ProPresenter.UI.Transitions.PreviewDisplay" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" x:Name="self" xmlns:transitions="clr-namespace:ProPresenter.UI.Transitions;assembly=ProPresenter.UI">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" IsCollapsing="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsCollapsing="True" IsInverted="True" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Border Grid.Row="0" Background="#FF000000">
+      <Image Name="PreviewImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderOptions.BitmapScalingMode="Fant" RenderOptions.EdgeMode="Aliased" Stretch="None" Visibility="{Binding Preview.IsLoaded, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+    </Border>
+    <commonControls:LoadingIndicator Grid.Row="0" DisplayMode="Spinner" Width="{Binding Preview.TargetSize.X, ElementName=self}" Height="{Binding Preview.TargetSize.Y, ElementName=self}" Visibility="{Binding Preview.IsLoaded, ElementName=self, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+    <TextBlock Grid.Row="1" MaxWidth="115" Margin="0,6" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Text="{Binding TitleText, ElementName=self}" Visibility="{Binding HideSubtitle, ElementName=self, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+  </Grid>
+  <Line Name="MouseOverLine" IsHitTestVisible="False" Stroke="#FFFF0000" StrokeThickness="1" Visibility="Hidden" />
+</Grid>

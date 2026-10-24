@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Templates.NewThemeDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="Self" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.UseGlobalStyle="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" xmlns:templates="clr-namespace:ProPresenter.UI.Templates;assembly=ProPresenter.UI" Title="{mex:Localized THEMES_CREATE_WINDOW_title}">
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Grid Margin="0,0,0,10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="{mex:Localized THEMES_CREATE_WINDOW_NAME_TEXT_FIELD_label}" />
+      <ComboBox Name="themeSelector" Grid.Column="1" Width="250" Height="22" uiUtility:ComboBoxHelper.MaxLength="100" IsEditable="True" ItemsSource="{Binding Themes, ElementName=Self}" />
+    </Grid>
+    <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+      <Button Grid.Column="1" Height="22" MinWidth="80" Margin="0,0,10,0" Padding="10,0" HorizontalAlignment="Right" VerticalAlignment="Center" IsDefault="True" Command="{Binding SaveNewThemeCommand, ElementName=Self}" CommandParameter="{Binding Text, ElementName=themeSelector}" Content="{mex:Localized GLOBAL_SAVE}" Click="Save_Click" />
+      <Button Height="22" MinWidth="80" Padding="10,0" HorizontalAlignment="Left" VerticalAlignment="Center" IsCancel="True" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" />
+    </StackPanel>
+  </Grid>
+</windowing:ChromedWindow>

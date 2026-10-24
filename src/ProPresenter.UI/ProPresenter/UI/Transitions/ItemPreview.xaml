@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Transitions.ItemPreview" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProPresenter.UI.Transitions" x:Name="self">
+  <local:PreviewDisplay x:Name="TransitionPreview" TitleText="{Binding Transition.Preset.Name, ElementName=self}" />
+</UserControl>

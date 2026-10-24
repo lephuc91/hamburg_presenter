@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="Pro.UI.Controls.RotatorUpDownPicker" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" xmlns:behaviors="clr-namespace:Pro.UI.Behaviors" xmlns:commonConverters="clr-namespace:Pro.UI.Converters" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:Pro.UI.Controls" x:Name="Self">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="self" Data="{Binding ElementName=Self}" />
+      <commonConverters:AngleToDoubleConverter x:Key="AngleToDoubleConverter" Data="{Binding Data.IsCartesian, Source={StaticResource self}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <StackPanel Orientation="Horizontal">
+      <local:Rotator Width="22" Height="22" Angle="{Binding Angle, ElementName=Self, Mode=TwoWay}" />
+      <local:DoubleUpDown x:Name="UpDown" Width="60" Height="22" VerticalAlignment="Center" FormatString="{}{0:N0}°" Maximum="360" Minimum="0" Style="{StaticResource {x:Type local:DoubleUpDown}}" Value="{Binding Angle, ElementName=Self, Mode=TwoWay, Converter={StaticResource AngleToDoubleConverter}}">
+        <b:Interaction.Behaviors>
+          <behaviors:DoubleUpDownMathExpressionBehavior />
+        </b:Interaction.Behaviors>
+      </local:DoubleUpDown>
+    </StackPanel>
+  </Grid>
+</UserControl>

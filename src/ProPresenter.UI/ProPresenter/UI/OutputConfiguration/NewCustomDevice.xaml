@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.OutputConfiguration.NewCustomDevice" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="newCustomDevice" Width="400" Height="150" uiUtility:WindowHelper.HideOnClose="True" uiUtility:WindowHelper.UseGlobalStyle="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" Style="{StaticResource {x:Type windowing:ChromedWindow}}" WindowStartupLocation="CenterOwner" xmlns:outputconfiguration="clr-namespace:ProPresenter.UI.OutputConfiguration;assembly=ProPresenter.UI" Title="{mex:Localized SCREEN_CONFIGURATION_NEW_PLACEHOLDER_title}">
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_NEW_PLACEHOLDER_NAME_label}" />
+    <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Height="22" Margin="0,0,0,10" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Text="{Binding Device.PlaceholderDeviceName, ElementName=newCustomDevice, Mode=TwoWay}" />
+    <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,5,10" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_NEW_PLACEHOLDER_WIDTH_label}" />
+    <commonControls:IntegerUpDown Grid.Row="1" Grid.Column="1" Width="80" Height="22" Margin="0,0,0,10" HorizontalAlignment="Left" Maximum="30000" Minimum="1" Value="{Binding Device.PlaceholderDeviceMode.Width, ElementName=newCustomDevice, Mode=TwoWay}" />
+    <TextBlock Grid.Row="1" Grid.Column="2" Margin="0,0,5,10" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized SCREEN_CONFIGURATION_NEW_PLACEHOLDER_HEIGHT_label}" />
+    <commonControls:IntegerUpDown Grid.Row="1" Grid.Column="3" Width="80" Height="22" Margin="0,0,0,10" HorizontalAlignment="Right" Maximum="30000" Minimum="1" Value="{Binding Device.PlaceholderDeviceMode.Height, ElementName=newCustomDevice, Mode=TwoWay}" />
+    <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
+      <Button Width="70" Margin="0,0,5,0" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" Click="Cancel_Click" />
+      <Button Width="70" Content="{mex:Localized GLOBAL_OK_BUTTON_title}" Click="OK_Click" />
+    </StackPanel>
+  </Grid>
+</windowing:ChromedWindow>

@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Welcome.WelcomeDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Welcome" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" Width="910" Height="660" uiUtility:WindowHelper.CanOwnWindows="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Title="{mex:Localized WELCOME_WINDOW_title}" uiUtility:UIElementHelper.Palette="{Binding WELCOME_PALETTE, Source={x:Static theming:AppTheme.Active}}" CanClose="{Binding CanCloseWelcomeWindow}">
+  <FrameworkElement.Style>
+    <Style BasedOn="{StaticResource {x:Type windowing:ChromedWindow}}" TargetType="{x:Type windowing:ChromedWindow}">
+      <Setter Property="Background" Value="{Binding MAINCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+      <Style.Triggers>
+        <DataTrigger Value="True" Binding="{Binding IsCloudOnboardingEnabled}">
+          <Setter Property="Background">
+            <Setter.Value>
+              <ImageBrush AlignmentX="Center" AlignmentY="Center" ImageSource="pack://application:,,,/ProPresenter.UI;component/Resources/Icons/CloudOnboarding/OnboardingBackground.png" Stretch="UniformToFill" />
+            </Setter.Value>
+          </Setter>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Style>
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../CloudOnboarding/CloudOnboardingResources.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <LinearGradientBrush x:Key="gradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#FFA235" />
+        <GradientStop Offset="1" Color="#FF6C1A" />
+      </LinearGradientBrush>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <windowing:Caption>
+    <Grid>
+      <FrameworkElement.Resources>
+        <ResourceDictionary>
+          <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+          <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+          <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+        </ResourceDictionary>
+      </FrameworkElement.Resources>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <ContentPresenter>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentPresenter}">
+            <Setter Property="Margin" Value="0,20" />
+            <Style.Triggers>
+              <DataTrigger Value="{x:Static local:WelcomePage.SignIn}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:SignInPage DataContext="{Binding Data.SignInVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="Margin" Value="0" />
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.JoinWorkspace}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:JoinWorkspacePage DataContext="{Binding Data.JoinWorkspaceVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="Margin" Value="0" />
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.CreateWorkspace}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:CreateWorkspacePage DataContext="{Binding Data.CreateWorkspaceVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="Margin" Value="0" />
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.Intro}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:IntroPage DataContext="{Binding Data.IntroVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="Margin" Value="0" />
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.Migration}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:Migration DataContext="{Binding Data.MigrationVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.ScreenConfiguration}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:ScreenConfigPage Padding="80,0" DataContext="{Binding Data.ScreenSetupVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.Settings}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:SettingsPage DataContext="{Binding Data.SettingsVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.Appendix}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:Appendix DataContext="{Binding Data.AppendixVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.SampleContent}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:SampleContentPage DataContext="{Binding Data.SampleContentVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.DownloadContent}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:DownloadContentPage DataContext="{Binding Data.SampleContentVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="Margin" Value="0" />
+              </DataTrigger>
+              <DataTrigger Value="{x:Static local:WelcomePage.AdditionalResources}" Binding="{Binding Data.CurrentPage, Source={StaticResource proxy}}">
+                <Setter Property="Content">
+                  <Setter.Value>
+                    <local:AdditionalResourcesPage DataContext="{Binding Data.AdditionalResourcesVM, Source={StaticResource proxy}}" />
+                  </Setter.Value>
+                </Setter>
+                <Setter Property="Margin" Value="0" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentPresenter>
+      <ProgressBar Grid.Row="1" Height="10" Background="#00FFFFFF" BorderThickness="0" Foreground="{StaticResource gradientBrush}" Maximum="5" Minimum="0" Value="{Binding ProgressValue, Mode=OneWay}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type ProgressBar}}" TargetType="{x:Type ProgressBar}">
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.SignIn}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.JoinWorkspace}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.CreateWorkspace}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.ScreenConfiguration}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.DownloadContent}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.AdditionalResources}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ProgressBar>
+      <Grid Row="2">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Background" Value="{Binding SUBHEADER, Source={x:Static theming:AppTheme.Active}}" />
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.SignIn}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.JoinWorkspace}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.CreateWorkspace}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.ScreenConfiguration}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="{StaticResource CloudOnboarding.BottomStripeBrush}" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.DownloadContent}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="{StaticResource CloudOnboarding.BottomStripeBrush}" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.AdditionalResources}" Binding="{Binding CurrentPage}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Background" Value="{StaticResource CloudOnboarding.BottomStripeBrush}" />
+              </MultiDataTrigger>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  <Condition Value="{x:Static local:WelcomePage.AdditionalResources}" Binding="{Binding CurrentPage}" />
+                  <Condition Value="True" Binding="{Binding AdditionalResourcesVM.IsDownloadingWorkspace}" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Button Height="22" Command="{Binding ContinueCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type windowing:ICloseable}}, FallbackValue={x:Null}}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+              <Setter Property="Content" Value="{mex:Localized GLOBAL_CONTINUE_BUTTON_title}" />
+              <Setter Property="HorizontalAlignment" Value="Center" />
+              <Setter Property="Margin" Value="0,10" />
+              <Setter Property="Padding" Value="50,0" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static local:MigrationStatus.InProgress}" Binding="{Binding MigrationVM.Status}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static local:WelcomePage.Migration}" Binding="{Binding CurrentPage}" />
+                    <Condition Value="{x:Static local:MigrationStatus.Init}" Binding="{Binding MigrationVM.Status}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Content" Value="{mex:Localized WELCOME_WINDOW_MIGRATE_BUTTON_title}" />
+                </MultiDataTrigger>
+                <DataTrigger Value="{x:Static local:WelcomePage.Appendix}" Binding="{Binding CurrentPage}">
+                  <Setter Property="Content" Value="{mex:Localized WELCOME_WINDOW_GET_STARTED_BUTTON_title}" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                    <Condition Value="{x:Static local:WelcomePage.AdditionalResources}" Binding="{Binding CurrentPage}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Content" Value="{mex:Localized ONBOARDING_ADDITIONAL_RESOURCES_GET_STARTED_title}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                    <Condition Value="{x:Static local:WelcomePage.ScreenConfiguration}" Binding="{Binding CurrentPage}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="HorizontalAlignment" Value="Right" />
+                  <Setter Property="Margin" Value="0,10,30,10" />
+                  <Setter Property="Padding" Value="30,0" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                    <Condition Value="{x:Static local:WelcomePage.DownloadContent}" Binding="{Binding CurrentPage}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="HorizontalAlignment" Value="Right" />
+                  <Setter Property="Margin" Value="0,10,30,10" />
+                  <Setter Property="Padding" Value="30,0" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding IsCloudOnboardingEnabled}" />
+                    <Condition Value="{x:Static local:WelcomePage.AdditionalResources}" Binding="{Binding CurrentPage}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="HorizontalAlignment" Value="Right" />
+                  <Setter Property="Margin" Value="0,10,30,10" />
+                  <Setter Property="Padding" Value="30,0" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Button>
+        <Button Height="22" Margin="0,10,50,10" Padding="30,0" HorizontalAlignment="Right" Command="{Binding SkipCommand}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <DataTrigger Value="{x:Static local:MigrationStatus.InProgress}" Binding="{Binding MigrationVM.Status}">
+                  <Setter Property="Content" Value="{mex:Localized WELCOME_WINDOW_MIGRATE_ABORT_BUTTON_title}" />
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static local:WelcomePage.Migration}" Binding="{Binding CurrentPage}" />
+                    <Condition Value="{x:Static local:MigrationStatus.Init}" Binding="{Binding MigrationVM.Status}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Content" Value="{mex:Localized WELCOME_WINDOW_MIGRATE_SKIP_BUTTON_title}" />
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+                <DataTrigger Value="{x:Static local:WelcomePage.Intro}" Binding="{Binding CurrentPage}">
+                  <Setter Property="Content" Value="{mex:Localized WELCOME_WINDOW_INTRO_SKIP_BUTTON_title}" />
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Button>
+        <commonControls:BorderlessButton Height="22" Margin="0,10,5,10" HorizontalAlignment="Left" Command="{Binding NavigateCommand}">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessButton}}" TargetType="{x:Type commonControls:BorderlessButton}">
+              <Setter Property="Visibility" Value="Collapsed" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static local:WelcomePage.Migration}" Binding="{Binding CurrentPage}" />
+                    <Condition Value="{x:Static local:MigrationStatus.Init}" Binding="{Binding MigrationVM.Status}" />
+                    <Condition Value="False" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="CommandParameter" Value="{x:Static local:WelcomePage.Intro}" />
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <commonControls:ImageMask Margin="5,0,0,0" ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{mex:Localized WELCOME_WINDOW_GO_BACK_BUTTON_WELCOME_title}" />
+                      </StackPanel>
+                    </Setter.Value>
+                  </Setter>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static local:WelcomePage.ScreenConfiguration}" Binding="{Binding CurrentPage}" />
+                    <Condition Value="True" Binding="{Binding MigrationVM.IsPro6Available}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="CommandParameter" Value="{x:Static local:WelcomePage.Migration}" />
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <commonControls:ImageMask Margin="5,0,0,0" ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{mex:Localized WELCOME_WINDOW_GO_BACK_BUTTON_MIGRATION_title}" />
+                      </StackPanel>
+                    </Setter.Value>
+                  </Setter>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="{x:Static local:WelcomePage.ScreenConfiguration}" Binding="{Binding CurrentPage}" />
+                    <Condition Value="False" Binding="{Binding MigrationVM.IsPro6Available}" />
+                    <Condition Value="False" Binding="{Binding IsCloudOnboardingEnabled}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="CommandParameter" Value="{x:Static local:WelcomePage.Intro}" />
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <commonControls:ImageMask Margin="5,0,0,0" ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{mex:Localized WELCOME_WINDOW_GO_BACK_BUTTON_WELCOME_title}" />
+                      </StackPanel>
+                    </Setter.Value>
+                  </Setter>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger>
+                <DataTrigger Value="{x:Static local:WelcomePage.Settings}" Binding="{Binding CurrentPage}">
+                  <Setter Property="CommandParameter" Value="{x:Static local:WelcomePage.ScreenConfiguration}" />
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <commonControls:ImageMask Margin="5,0,0,0" ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{mex:Localized WELCOME_WINDOW_GO_BACK_BUTTON_SCREEN_CONFIG_title}" />
+                      </StackPanel>
+                    </Setter.Value>
+                  </Setter>
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Value="{x:Static local:WelcomePage.SampleContent}" Binding="{Binding CurrentPage}">
+                  <Setter Property="CommandParameter" Value="{x:Static local:WelcomePage.Settings}" />
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <commonControls:ImageMask Margin="5,0,0,0" ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{mex:Localized WELCOME_WINDOW_GO_BACK_BUTTON_CUSTOMIZATION_title}" />
+                      </StackPanel>
+                    </Setter.Value>
+                  </Setter>
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Value="{x:Static local:WelcomePage.Appendix}" Binding="{Binding CurrentPage}">
+                  <Setter Property="CommandParameter" Value="{x:Static local:WelcomePage.SampleContent}" />
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <commonControls:ImageMask Margin="5,0,0,0" ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{mex:Localized WELCOME_WINDOW_GO_BACK_BUTTON_START_CREATING_title}" />
+                      </StackPanel>
+                    </Setter.Value>
+                  </Setter>
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Value="{x:Static local:WelcomePage.DownloadContent}" Binding="{Binding CurrentPage}">
+                  <Setter Property="CommandParameter" Value="{x:Static local:WelcomePage.ScreenConfiguration}" />
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <commonControls:ImageMask Margin="15,0,0,0" ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{mex:Localized CLOUD_ONBOARDING_RETURNING_USERS_BACK_button}" />
+                      </StackPanel>
+                    </Setter.Value>
+                  </Setter>
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Value="{x:Static local:WelcomePage.AdditionalResources}" Binding="{Binding CurrentPage}">
+                  <Setter Property="CommandParameter" Value="{Binding PreviousPage}" />
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <commonControls:ImageMask Margin="15,0,0,0" ImageSource="../Resources/Icons/LeftArrow.png" Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{mex:Localized CLOUD_ONBOARDING_RETURNING_USERS_BACK_button}" />
+                      </StackPanel>
+                    </Setter.Value>
+                  </Setter>
+                  <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </commonControls:BorderlessButton>
+      </Grid>
+    </Grid>
+  </windowing:Caption>
+</windowing:ChromedWindow>

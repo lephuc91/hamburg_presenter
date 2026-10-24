@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.PresentationLibrary.NewPresentationDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:librarian="clr-namespace:ProPresenter.DO.Librarian;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:playlists="clr-namespace:ProPresenter.DO.Playlists;assembly=ProPresenter.DO" xmlns:proUIThemes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:templates="clr-namespace:ProPresenter.UI.Templates" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self" Width="400" xmlns:presentationlibrary="clr-namespace:ProPresenter.UI.PresentationLibrary" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="selfProxy" Data="{Binding}" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Border BorderThickness="1" uiUtility:UIElementHelper.FocusedElement="{Binding ElementName=PresentationName}" BorderBrush="{Binding POPUPBORDER, Source={x:Static theming:AppTheme.Active}}">
+    <Grid Margin="10" ClipToBounds="True">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <commonControls:PlaceholderTextBox Name="PresentationName" Grid.ColumnSpan="2" Height="22" Margin="0,0,0,7" HorizontalAlignment="Center" PlaceholderText="{mex:Localized NEW_PRESENTATION_NAME_placeholder}" Text="{Binding Name}" />
+      <TextBlock Grid.Row="1" Margin="0,0,7,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized NEW_PRESENTATION_THEME_label}" />
+      <templates:TemplateButton Grid.Row="1" Grid.Column="1" Margin="0,7,0,0" HorizontalAlignment="Left" ContextGroup="Presentation" ShowOptions="False" DefaultTemplate="{Binding DefaultTheme[0], ElementName=self}" DefaultTemplateHeader="{mex:Localized THEMES_MENU_REVERT_TO_DEFAULT_THEME}" SelectedTemplate="{Binding SelectedTemplate}" TemplateSlideTooltipText="{mex:Localized THEMES_POPOVER_SELECT_THEME_SLIDE_tooltip}" />
+      <TextBlock Grid.Row="2" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized NEW_PRESENTATION_SIZE_label}" />
+      <ui:SizeSelector x:Name="sizeSelector" Grid.Row="2" Grid.Column="1" Margin="0,7,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" SetTargetToDefaultSize="True" SelectedSize="{Binding DataContext.Size, ElementName=self, Mode=TwoWay}" />
+      <TextBlock Grid.Row="3" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized NEW_PRESENTATION_LIBRARY_label}" />
+      <commonControls:DropDownButton Grid.Row="3" Grid.Column="1" Margin="0,7" VerticalAlignment="Center" VerticalContentAlignment="Center" CustomContent="{Binding SelectedLibrary.Name}">
+        <commonControls:DropDownButton.CustomContextMenu>
+          <ContextMenu ItemsSource="{x:Static do:DataVault.LibraryCollection}" Placement="Bottom" UsesItemContainerTemplate="True" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type librarian:Library}}">
+                  <MenuItem uiUtility:CommandHelper.CommandParameter="{Binding}" Command="{Binding Data.SelectLibraryCommand, Source={StaticResource selfProxy}}" Header="{Binding Name}">
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding />
+                        <Binding Path="Data.SelectedLibrary" Source="{StaticResource selfProxy}" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                  </MenuItem>
+                </ItemContainerTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+          </ContextMenu>
+        </commonControls:DropDownButton.CustomContextMenu>
+      </commonControls:DropDownButton>
+      <TextBlock Grid.Row="4" Margin="0,0,7,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized NEW_PRESENTATION_ADD_TO_PLAYLIST_label}" />
+      <commonControls:DropDownButton Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" IsEnabled="{Binding CanSelectPlaylist}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type commonControls:DropDownButton}">
+            <Setter Property="commonControls:DropDownButton.CustomContent" Value="{Binding SelectedPlaylist.Name}" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding SelectedPlaylist}" Value="{x:Null}">
+                <Setter Property="commonControls:DropDownButton.CustomContent" Value="{mex:Localized NEW_PRESENTATION_ADD_TO_PLAYLIST_NO_PLAYLIST_label}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <commonControls:DropDownButton.CustomContextMenu>
+          <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <CollectionViewSource x:Key="Playlists" Source="{Binding Data.Playlists, Source={StaticResource selfProxy}}" />
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:GeneralPlaylist}}">
+                  <MenuItem Command="{Binding Data.SelectPlaylistCommand, Source={StaticResource selfProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding />
+                        <Binding Path="Data.SelectedPlaylist" Source="{StaticResource selfProxy}" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                    <MenuItem.Icon>
+                      <Image Source="{StaticResource {x:Static proUIThemes:Icons.LibraryPlaylist}}" />
+                    </MenuItem.Icon>
+                  </MenuItem>
+                </ItemContainerTemplate>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:PCOPlaylist}}">
+                  <MenuItem Command="{Binding Data.SelectPlaylistCommand, Source={StaticResource selfProxy}}" CommandParameter="{Binding}" Header="{Binding Name}">
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding />
+                        <Binding Path="Data.SelectedPlaylist" Source="{StaticResource selfProxy}" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                    <MenuItem.Icon>
+                      <Image Source="{StaticResource {x:Static proUIThemes:Icons.PCOPlaylist}}" />
+                    </MenuItem.Icon>
+                  </MenuItem>
+                </ItemContainerTemplate>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type playlists:GeneralGroupPlaylist}}">
+                  <MenuItem UsesItemContainerTemplate="True" Header="{Binding Name}" ItemsSource="{Binding Children}">
+                    <MenuItem.Icon>
+                      <Image Source="{StaticResource {x:Static proUIThemes:Icons.PlaylistFolder}}" />
+                    </MenuItem.Icon>
+                  </MenuItem>
+                </ItemContainerTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+            <ItemsControl.ItemsSource>
+              <CompositeCollection>
+                <MenuItem Command="{Binding Data.SelectPlaylistCommand, Source={StaticResource selfProxy}}" CommandParameter="{x:Null}" Header="{mex:Localized NEW_PRESENTATION_ADD_TO_PLAYLIST_NO_PLAYLIST_label}">
+                  <FrameworkElement.Style>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                      <Setter Property="MenuItem.IsChecked" Value="False" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding Data.SelectedPlaylist, Source={StaticResource selfProxy}}" Value="{x:Null}">
+                          <Setter Property="MenuItem.IsChecked" Value="True" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </MenuItem>
+                <Separator />
+                <CollectionContainer Collection="{Binding Source={StaticResource Playlists}}" />
+              </CompositeCollection>
+            </ItemsControl.ItemsSource>
+          </ContextMenu>
+        </commonControls:DropDownButton.CustomContextMenu>
+      </commonControls:DropDownButton>
+      <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Margin="0,7,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+        <Button Height="22" MinWidth="80" Padding="4,0" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" Click="CancelBtn_Click" />
+        <Button Height="22" MinWidth="80" Margin="10,0,0,0" Padding="4,0" IsDefault="True" Command="{Binding SubmitCommand}" Content="{mex:Localized GLOBAL_NEW}" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

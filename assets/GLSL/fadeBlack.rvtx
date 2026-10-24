@@ -1,0 +1,11 @@
+{
+    "category": "Dissolves",
+    "description": "Fade Black",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Fade Black",
+    "numPasses": 1,
+    "shaderFile": "fadeBlack",
+    "type": 1,
+    "uuid": "01E95287-E84D-4638-9E28-18C8735ABE47"
+}

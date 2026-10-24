@@ -1,0 +1,11 @@
+{
+    "category": "Dissolves",
+    "description": "Fade Dark",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Fade Dark",
+    "numPasses": 1,
+    "shaderFile": "fadeDark",
+    "type": 1,
+    "uuid": "E4D84DA7-E8E3-43B5-820E-8D883416D355"
+}

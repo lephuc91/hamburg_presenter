@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ui:ThemedWindow x:Class="ProPresenter.UI.SlideQuickEdit.QuickEditWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.SendKeyEventsToMainWindow="False" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" Topmost="True" xmlns:slidequickedit="clr-namespace:ProPresenter.UI.SlideQuickEdit;assembly=ProPresenter.UI">
+  <Grid>
+    <Image Name="SlideRenderBitmap" />
+    <Canvas Name="ElementCanvas" Background="#00FFFFFF" ClipToBounds="True" Width="{Binding Width, ElementName=SlideRenderBitmap}" Height="{Binding Height, ElementName=SlideRenderBitmap}" />
+  </Grid>
+</ui:ThemedWindow>

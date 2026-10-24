@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:templates="clr-namespace:ProPresenter.UI.Templates" xmlns:themes="clr-namespace:ProPresenter.UI.Themes" xmlns:themesDO="clr-namespace:ProPresenter.DO.Themes;assembly=ProPresenter.DO" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common">
+  <commonConverters:InvertedBooleanConverter x:Key="InvertedBoolConverter" />
+  <commonConverters:ValueToVisibilityConverter x:Key="BoolToVisiblityConverter" />
+  <Style x:Key="{x:Static themes:Styles.ThemeThumbnailList}" TargetType="{x:Type ContentControl}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <ItemsControl Name="PART_List" Margin="8,0,0,0" IsTabStop="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" FocusVisualStyle="{x:Null}">
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <DataTemplate x:Key="{DataTemplateKey {x:Type themesDO:ThemeContainer}}" DataType="{x:Type themesDO:ThemeContainer}">
+                  <templates:ThemeThumbnail FocusVisualStyle="{x:Null}" IsMediaActionEnabled="{Binding IsMediaActionEnabled, FallbackValue=False, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeList}}}" SelectThemeCommand="{Binding SelectThemeCommand, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeList}}}" SelectedTemplateSlide="{Binding SelectedTemplate, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeList}}}" ShowThemeNotificationIndicator="{Binding Theme.HasThemeDetailsBeenAcknowledgedByUser, Mode=OneWay, Converter={StaticResource InvertedBoolConverter}}" Theme="{Binding Theme}">
+                    <FrameworkElement.Resources>
+                      <ResourceDictionary>
+                        <utility:BindingProxy x:Key="DeleteCommandProxy" Data="{Binding DeleteThemeCommand, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeList}}}" />
+                        <utility:BindingProxy x:Key="EnableContextMenuProxy" Data="{Binding EnableContextMenuOptions, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeList}}}" />
+                      </ResourceDictionary>
+                    </FrameworkElement.Resources>
+                    <FrameworkElement.ContextMenu>
+                      <ContextMenu Visibility="{Binding Data, Source={StaticResource EnableContextMenuProxy}, Converter={StaticResource BoolToVisiblityConverter}}">
+                        <MenuItem Command="{Binding Data, Source={StaticResource DeleteCommandProxy}}" CommandParameter="{Binding Theme}" Header="{mex:Localized THEMES_MENU_REMOVE_THEME_title}" />
+                      </ContextMenu>
+                    </FrameworkElement.ContextMenu>
+                  </templates:ThemeThumbnail>
+                </DataTemplate>
+                <DataTemplate x:Key="{DataTemplateKey {x:Type themesDO:TemplateSlide}}" DataType="{x:Type themesDO:TemplateSlide}">
+                  <templates:ThemeSlideThumbnail IsTabStop="False" FocusVisualStyle="{x:Null}" IsMediaActionEnabled="{Binding IsMediaActionEnabled, FallbackValue=False, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeSlideList}}}" SelectTemplateSlideCommand="{Binding SelectTemplateSlideCommand, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeSlideList}}}" SelectedTemplateSlide="{Binding SelectedTemplate, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeSlideList}}}" TemplateSlide="{Binding}" TemplateSlideTooltipText="{Binding TemplateSlideTooltipText, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeSlideList}}}">
+                    <FrameworkElement.Resources>
+                      <ResourceDictionary>
+                        <utility:BindingProxy x:Key="DeleteCommandProxy" Data="{Binding DeleteTemplateSlideCommand, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeSlideList}}}" />
+                        <utility:BindingProxy x:Key="RenameCommandProxy" Data="{Binding RenameTemplateSlideCommand, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeSlideThumbnail}}}" />
+                        <utility:BindingProxy x:Key="EnableContextMenuProxy" Data="{Binding EnableContextMenuOptions, FallbackValue={x:Null}, RelativeSource={RelativeSource AncestorType={x:Type templates:ThemeSlideList}}}" />
+                      </ResourceDictionary>
+                    </FrameworkElement.Resources>
+                    <FrameworkElement.ContextMenu>
+                      <ContextMenu Visibility="{Binding Data, Source={StaticResource EnableContextMenuProxy}, Converter={StaticResource BoolToVisiblityConverter}}">
+                        <MenuItem Command="{Binding Data, Source={StaticResource RenameCommandProxy}}" Header="{mex:Localized THEMES_POPOVER_SLIDE_CONTEXT_MENU_RENAME_title}" />
+                        <MenuItem Command="{Binding Data, Source={StaticResource DeleteCommandProxy}}" CommandParameter="{Binding}" Header="{mex:Localized THEMES_POPOVER_SLIDE_CONTEXT_MENU_DELETE_title}" />
+                      </ContextMenu>
+                    </FrameworkElement.ContextMenu>
+                  </templates:ThemeSlideThumbnail>
+                </DataTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel IsItemsHost="True" Orientation="Horizontal" FocusVisualStyle="{x:Null}" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

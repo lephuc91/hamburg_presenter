@@ -1,0 +1,23 @@
+{
+    "category": "Objects",
+    "description": "Random Squares",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Random Squares",
+    "numPasses": 1,
+    "shaderFile": "randomSquares",
+    "type": 1,
+    "uuid": "39030834-E94F-417E-A8B4-4870C9C7D413",
+    "variables": [
+        {
+            "name": "squareSize",
+            "label": "Size",
+            "description": "Square Size",
+            "type": 1,
+            "min": [1.0, 0.01, 0.01, 0.01],
+            "max": [10, 1, 1, 1],
+            "defValue": [2.5, 0.5, 0.5, 0.5],
+            "value": [2.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

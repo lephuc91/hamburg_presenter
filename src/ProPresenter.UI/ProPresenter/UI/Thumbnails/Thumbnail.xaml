@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Thumbnails.Thumbnail" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:coreTypes="clr-namespace:System;assembly=mscorlib" xmlns:do="clr-namespace:ProPresenter.DO;assembly=ProPresenter.DO" xmlns:livevideo="clr-namespace:ProPresenter.UI.LiveVideo" xmlns:local="clr-namespace:ProPresenter.UI.Thumbnails" xmlns:overlay="clr-namespace:ProPresenter.UI.ThumbnailOverlay" xmlns:re="clr-namespace:Pro.ssAPI;assembly=Pro.ssAPI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:time="clr-namespace:Pro.Common.Time;assembly=Pro.Common" x:Name="self" AllowDrop="True">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonConverters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+      <commonConverters:IsNotNullOrWhiteSpaceConverter x:Key="IsNotNullOrWhiteSpaceConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToHiddenVisibilityConverter" IsCollapsing="False" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="NonCollapseInvertedValueToVisibilityConverter" IsCollapsing="False" IsInverted="True" />
+      <commonConverters:TypeOfConverter x:Key="TypeOfConverter" />
+      <commonConverters:TimeSliceToStringConverter x:Key="TimeSliceToStringConverter" />
+      <local:ThumbnailGradientConverter x:Key="ThumbnailGradientConverter" />
+      <local:BrokenLinkNotificationIconSizeConverter x:Key="BrokenLinkNotificationIconSizeConverter" />
+      <local:ListViewScrimItemsConverter x:Key="ListViewScrimItemsConverter" />
+      <local:DisplayModeScrimItemsConverter x:Key="DisplayModeScrimItemsConverter" />
+      <local:ListViewLabelColorConverter x:Key="ListViewLabelColorConverter" />
+      <local:ListContentConverter x:Key="ListContentConverter" />
+      <LinearGradientBrush x:Key="GradientStroke" StartPoint="1 1" EndPoint="0.293 0">
+        <GradientStop Offset="0" Color="{Binding THUMBNAILSTROKEGRADIENTSTART_COLOR, Source={x:Static theming:AppTheme.Active}}" />
+        <GradientStop Offset="1" Color="{Binding THUMBNAILSTROKEGRADIENTEND_COLOR, Source={x:Static theming:AppTheme.Active}}" />
+      </LinearGradientBrush>
+      <Style x:Key="IndexTextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{Binding Source.LabelForeground, ElementName=self}" />
+        <Setter Property="Text" Value="{Binding Index, ElementName=self}" />
+        <Setter Property="Visibility" Value="{Binding Source.ShowIndex, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+        <Style.Triggers>
+          <DataTrigger Value="Content" Binding="{Binding DisplayMode, ElementName=self}">
+            <Setter Property="Foreground" Value="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+          </DataTrigger>
+          <DataTrigger Value="True" Binding="{Binding IsSelected, ElementName=self}">
+            <Setter Property="Foreground" Value="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="SlideThumbnailIndexTextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{Binding Source.LabelForeground, ElementName=self}" />
+        <Setter Property="Text" Value="{Binding Index, ElementName=self}" />
+        <Setter Property="Visibility" Value="{Binding Source.ShowIndex, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </Style>
+      <Style x:Key="ImageStyle" TargetType="{x:Type Image}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+        <Setter Property="Stretch" Value="None" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+          <DataTrigger Value="ScaleToFit" Binding="{Binding Source.ScaleBehavior, ElementName=self}">
+            <Setter Property="Stretch" Value="Uniform" />
+          </DataTrigger>
+          <DataTrigger Value="ScaleAndBlur" Binding="{Binding Source.ScaleBehavior, ElementName=self}">
+            <Setter Property="Stretch" Value="Uniform" />
+          </DataTrigger>
+          <DataTrigger Value="ScaleToFill" Binding="{Binding Source.ScaleBehavior, ElementName=self}">
+            <Setter Property="Stretch" Value="UniformToFill" />
+          </DataTrigger>
+          <DataTrigger Value="StretchToFill" Binding="{Binding Source.ScaleBehavior, ElementName=self}">
+            <Setter Property="Stretch" Value="Fill" />
+          </DataTrigger>
+          <DataTrigger Value="TopLeft" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+          </DataTrigger>
+          <DataTrigger Value="TopCenter" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+          </DataTrigger>
+          <DataTrigger Value="TopRight" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+          </DataTrigger>
+          <DataTrigger Value="MiddleLeft" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+          </DataTrigger>
+          <DataTrigger Value="MiddleCenter" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+          </DataTrigger>
+          <DataTrigger Value="MiddleRight" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+          </DataTrigger>
+          <DataTrigger Value="BottomLeft" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+          </DataTrigger>
+          <DataTrigger Value="BottomCenter" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+          </DataTrigger>
+          <DataTrigger Value="BottomRight" Binding="{Binding Source.ScaleAlignment, ElementName=self}">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="BackgroundImageStyle" BasedOn="{StaticResource ImageStyle}" TargetType="{x:Type Image}">
+        <Setter Property="Visibility" Value="{Binding HideBackgroundImage, ElementName=self, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+        <Style.Triggers>
+          <DataTrigger Value="{x:Static do:PanelViewType.EasyView}" Binding="{Binding ViewSettings.ViewType, ElementName=self}">
+            <Setter Property="Visibility" Value="{Binding ViewSettings.ShowMediaActions, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="ProContentScrimItemStyle" TargetType="{x:Type overlay:ProContentScrimItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="MissingIconWithScrim" Binding="{Binding ElementName=self, Path=OverlayVM.Type}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <Style x:Key="CloudMediaScrimItemStyle" TargetType="{x:Type overlay:CloudMediaScrimItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+          <DataTrigger Value="MissingIconWithScrim" Binding="{Binding ElementName=self, Path=OverlayVM.Type}">
+            <Setter Property="Visibility" Value="Visible" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+      <DataTemplate x:Key="{x:Static local:Thumbnail.ThumbnailTemplateKey}">
+        <Grid>
+          <Border Padding="3">
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Border}">
+                <Style.Triggers>
+                  <DataTrigger Value="True" Binding="{Binding IsSelected, ElementName=self}">
+                    <Setter Property="Background" Value="{Binding SECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Border Grid.Row="0" BorderThickness="2" CornerRadius="1">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type Border}">
+                    <Style.Triggers>
+                      <DataTrigger Value="True" Binding="{Binding IsActive, ElementName=self}">
+                        <Setter Property="BorderBrush" Value="{Binding ActiveBrush, ElementName=self}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+                <Border BorderThickness="2" CornerRadius="1">
+                  <FrameworkElement.Style>
+                    <Style TargetType="{x:Type Border}">
+                      <Style.Triggers>
+                        <DataTrigger Value="True" Binding="{Binding WasActive, ElementName=self}">
+                          <Setter Property="BorderBrush" Value="{Binding THUMBNAILKEYBOARDFOCUS, Source={x:Static theming:AppTheme.Active}}" />
+                          <Setter Property="UIElement.Effect">
+                            <Setter.Value>
+                              <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Color="{Binding THUMBNAILKEYBOARDFOCUS_COLOR, Source={x:Static theming:AppTheme.Active}}" />
+                            </Setter.Value>
+                          </Setter>
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                  <Grid>
+                    <Border Name="GroupLabelBorder" Padding="1" CornerRadius="1" Background="{Binding Source.BackgroundColor, ElementName=self, Converter={StaticResource ThumbnailGradientConverter}}">
+                      <Grid>
+                        <Grid.RowDefinitions>
+                          <RowDefinition Height="Auto" />
+                          <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <local:PreviewContainer x:Name="previewContainer" Tag="{x:Static local:Thumbnail.PreviewContainerKey}" AspectRatio="{Binding Source.ThumbnailAspectRatio, ElementName=self}" ViewSettings="{Binding ViewSettings, ElementName=self}">
+                          <Grid Name="backgroundGrid">
+                            <Border Background="#FF000000" Visibility="{Binding HideCheckerboard, ElementName=self, Converter={StaticResource ValueToHiddenVisibilityConverter}}" />
+                            <commonControls:Checkerboard PrimaryBrush="{Binding CHECKERBOARDPRIMARY, Source={x:Static theming:AppTheme.Active}}" SecondaryBrush="{Binding CHECKERBOARDSECONDARY, Source={x:Static theming:AppTheme.Active}}">
+                              <FrameworkElement.Style>
+                                <Style TargetType="{x:Type commonControls:Checkerboard}">
+                                  <Setter Property="Visibility" Value="{Binding Source.ScaleBehavior, ConverterParameter={x:Static re:ScaleBehavior.ScaleAndBlur}, ElementName=self, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                                  <Style.Triggers>
+                                    <DataTrigger Value="True" Binding="{Binding HideCheckerboard, ElementName=self}">
+                                      <Setter Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                  </Style.Triggers>
+                                </Style>
+                              </FrameworkElement.Style>
+                            </commonControls:Checkerboard>
+                            <Rectangle Name="PendingMediaBackground" Fill="{StaticResource {x:Static themes:Brushes.PendingMediaBackgroundGradient}}" Visibility="{Binding Source.IsMediaPending, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+                            <Grid>
+                              <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="6*" />
+                                <RowDefinition Height="*" />
+                              </Grid.RowDefinitions>
+                              <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="6*" />
+                                <ColumnDefinition Width="*" />
+                              </Grid.ColumnDefinitions>
+                              <Image Grid.Row="1" Grid.Column="1" Stretch="Uniform" Source="{StaticResource {x:Static themes:Icons.MediaPendingPlaceholder}}" Visibility="{Binding Source.IsMediaPending, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+                            </Grid>
+                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{StaticResource {x:Static themes:Brushes.ScaleAndBlurPlaceholderFill}}" Visibility="{Binding Source.ScaleBehavior, ConverterParameter={x:Static re:ScaleBehavior.ScaleAndBlur}, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+                            <Grid Width="{Binding ActualWidth, ElementName=previewContainer}" Height="{Binding ActualHeight, ElementName=previewContainer}" Background="{Binding BackgroundColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}">
+                              <livevideo:VideoInputPreview VideoInput="{Binding Source.LiveVideoInput, ElementName=self}" Visibility="{Binding Source.LiveVideoInput, ElementName=self, Converter={StaticResource NonCollapseInvertedValueToVisibilityConverter}}" />
+                              <Image Name="BackgroundImage" Style="{StaticResource BackgroundImageStyle}" Source="{Binding BackgroundImage.BitmapSource, ElementName=self}" />
+                            </Grid>
+                          </Grid>
+                          <overlay:MediaOverlay x:Name="thumbnailOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AllowOpenVideoInputSetup="False" Width="{Binding ActualWidth, ElementName=previewContainer}" Height="{Binding ActualHeight, ElementName=previewContainer}" BackgroundControl="{Binding ElementName=backgroundGrid}" DataContext="{Binding ElementName=self, Path=OverlayVM}" />
+                          <Grid Width="{Binding ActualWidth, ElementName=previewContainer}" Height="{Binding ActualHeight, ElementName=previewContainer}">
+                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" Fill="{Binding PreviewColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}" />
+                            <Image Name="PreviewImage" IsHitTestVisible="False" Source="{Binding PreviewImage.BitmapSource, ElementName=self}">
+                              <FrameworkElement.Style>
+                                <Style BasedOn="{StaticResource ImageStyle}" TargetType="{x:Type Image}">
+                                  <Style.Triggers>
+                                    <DataTrigger Value="{x:Static do:PanelViewType.EasyView}" Binding="{Binding ViewSettings.ViewType, ElementName=self}">
+                                      <Setter Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                  </Style.Triggers>
+                                </Style>
+                              </FrameworkElement.Style>
+                            </Image>
+                            <ContentControl IsHitTestVisible="False">
+                              <FrameworkElement.Style>
+                                <Style TargetType="{x:Type ContentControl}">
+                                  <Style.Triggers>
+                                    <DataTrigger Value="{x:Static do:PanelViewType.EasyView}" Binding="{Binding ViewSettings.ViewType, ElementName=self}">
+                                      <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                          <DataTemplate>
+                                            <commonControls:TruncatedTextblock Margin="0,16,0,0" Effect="{StaticResource DefaultDropShadowEffect}" FontFamily="{Binding ViewSettings.Font.SystemFamilyName, ElementName=self}" FontSize="{Binding ViewSettings.CharacterSize, ElementName=self}" FontStretch="{Binding ViewSettings.Font.Stretch, ElementName=self}" FontWeight="{Binding ViewSettings.Font.Weight, ElementName=self}" Foreground="{Binding ViewSettings.TextColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}" HorizontalTextAlignment="{Binding ViewSettings.HorizontalAlignment, ElementName=self}" Text="{Binding TextContent, ElementName=self}" TruncatingMode="{Binding ViewSettings.TruncatingMode, ElementName=self}" VerticalTextAlignment="{Binding ViewSettings.VerticalAlignment, ElementName=self}">
+                                              <FrameworkElement.Style>
+                                                <Style TargetType="{x:Type commonControls:TruncatedTextblock}">
+                                                  <Setter Property="FontStyle" Value="Normal" />
+                                                  <Style.Triggers>
+                                                    <DataTrigger Value="True" Binding="{Binding ViewSettings.Font.IsItalic, ElementName=self}">
+                                                      <Setter Property="FontStyle" Value="Italic" />
+                                                    </DataTrigger>
+                                                  </Style.Triggers>
+                                                </Style>
+                                              </FrameworkElement.Style>
+                                            </commonControls:TruncatedTextblock>
+                                          </DataTemplate>
+                                        </Setter.Value>
+                                      </Setter>
+                                    </DataTrigger>
+                                  </Style.Triggers>
+                                </Style>
+                              </FrameworkElement.Style>
+                            </ContentControl>
+                            <local:ThumbnailScrimView Items="{Binding Source.ScrimItems, ElementName=self, ConverterParameter={x:Static do:DisplayMode.Label}, Converter={StaticResource DisplayModeScrimItemsConverter}}" Visibility="{Binding ViewSettings.ShowScrimItems, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+                            <overlay:CloudMediaScrimItem Style="{StaticResource CloudMediaScrimItemStyle}" DataContext="{Binding ElementName=self, Path=OverlayVM}" />
+                            <overlay:ProContentScrimItem Style="{StaticResource ProContentScrimItemStyle}" DataContext="{Binding ElementName=self, Path=OverlayVM}" />
+                          </Grid>
+                        </local:PreviewContainer>
+                        <Grid Row="1" Visibility="{Binding DisplayMode, ElementName=self, ConverterParameter={x:Static do:DisplayMode.Label}, Converter={StaticResource ValueToVisibilityConverter}}" Loaded="Grid_Loaded">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                          </Grid.ColumnDefinitions>
+                          <TextBlock Grid.Column="0" Margin="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Style="{StaticResource SlideThumbnailIndexTextBlock}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding ShowIndex, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+                          <TextBlock Grid.Column="1" Margin="6,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Effect="{StaticResource DefaultDropShadowEffect}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{Binding Source.Name, ElementName=self, Mode=OneWay}" ToolTip="{Binding Source.Name, ElementName=self, Mode=OneWay}" />
+                          <Border Grid.Column="2" Margin="3,2,2,2" HorizontalAlignment="Right" Background="{Binding Source.LabelColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}">
+                            <TextBlock Grid.Column="2" Margin="3,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Medium" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Effect="{StaticResource DefaultDropShadowEffect}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{Binding Source.LabelName, ElementName=self, Mode=OneWay}" ToolTip="{Binding Source.LabelName, ElementName=self, Mode=OneWay}" />
+                          </Border>
+                        </Grid>
+                      </Grid>
+                    </Border>
+                    <Border BorderThickness="1" CornerRadius="1" BorderBrush="{StaticResource GradientStroke}" />
+                  </Grid>
+                </Border>
+              </Border>
+              <Grid Row="1" Visibility="{Binding DisplayMode, ElementName=self, ConverterParameter={x:Static do:DisplayMode.Content}, Converter={StaticResource ValueToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource IndexTextBlock}" />
+                <commonControls:EditableTextBlock Name="tbName" Grid.Column="1" Margin="6,0,0,0" VerticalAlignment="Center" ClickToEdit="False" FontSize="10" CanEdit="{Binding Source.CanRename, ElementName=self, Mode=OneWay}" Text="{Binding Source.Name, ElementName=self, Mode=TwoWay}" ToolTip="{Binding Source.Name, ElementName=self, Mode=OneWay}">
+                  <FrameworkElement.Style>
+                    <Style TargetType="{x:Type commonControls:EditableTextBlock}">
+                      <Setter Property="Foreground" Value="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+                      <Style.Triggers>
+                        <DataTrigger Value="True" Binding="{Binding IsSelected, ElementName=self}">
+                          <Setter Property="Foreground" Value="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </FrameworkElement.Style>
+                </commonControls:EditableTextBlock>
+                <local:ThumbnailScrimView Grid.Column="2" HorizontalAlignment="Right" Foreground="{Binding Foreground, ElementName=tbName}" Items="{Binding Source.ScrimItems, ElementName=self, ConverterParameter={x:Static do:DisplayMode.Content}, Converter={StaticResource DisplayModeScrimItemsConverter}}" />
+              </Grid>
+            </Grid>
+          </Border>
+          <Grid>
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                  <DataTrigger Value="0" Binding="{Binding Source.BuildCount, ElementName=self}">
+                    <Setter Property="Visibility" Value="Hidden" />
+                  </DataTrigger>
+                  <DataTrigger Value="False" Binding="{Binding ShowBuildProgress, ElementName=self}">
+                    <Setter Property="Visibility" Value="Hidden" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+            <commonControls:BubbleProgressControl Name="BubbleControl" HorizontalAlignment="Center" VerticalAlignment="Bottom" ActiveFill="{Binding THUMBNAILBUBBLEACTIVEFILL, Source={x:Static theming:AppTheme.Active}}" CurrentValue="{Binding Source.BuildPosition, ElementName=self}" DefaultFill="{Binding THUMBNAILBUBBLEDEFAULTFILL, Source={x:Static theming:AppTheme.Active}}" Maximum="{Binding Source.BuildCount, ElementName=self}" Stroke="{Binding Background, ElementName=GroupLabelBorder}" Visibility="{Binding DisplayBubbleView, ElementName=BubbleControl, Converter={StaticResource ValueToHiddenVisibilityConverter}}" />
+            <Border Padding="10,0" HorizontalAlignment="Center" VerticalAlignment="Bottom" BorderThickness="1" CornerRadius="1" Background="{Binding THUMBNAILBUBBLEDEFAULTFILL, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding BorderBrush, ElementName=GroupLabelBorder}" Visibility="{Binding IsVisible, ElementName=BubbleControl, Converter={StaticResource InvertedValueToVisibilityConverter}}">
+              <TextBlock Effect="{StaticResource DefaultDropShadowEffect}">
+                <TextBlock.Text>
+                  <MultiBinding StringFormat="{}{0} of {1}">
+                    <Binding ElementName="self" Path="Source.BuildPosition" />
+                    <Binding ElementName="self" Path="Source.BuildCount" />
+                  </MultiBinding>
+                </TextBlock.Text>
+              </TextBlock>
+            </Border>
+          </Grid>
+        </Grid>
+      </DataTemplate>
+      <DataTemplate x:Key="{x:Static local:Thumbnail.ListTemplateKey}">
+        <Border BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+          <Grid Background="{Binding ViewSettings.ControlBackgroundColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="25" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="4" Padding="4" BorderThickness="2">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}">
+                  <Setter Property="Background" Value="#00FFFFFF" />
+                  <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding IsActive, ElementName=self}">
+                      <Setter Property="Background" Value="{Binding ActiveListBrush, ElementName=self}" />
+                      <Setter Property="BorderBrush" Value="{Binding ActiveBorderBrush, ElementName=self}" />
+                    </DataTrigger>
+                    <DataTrigger Value="True" Binding="{Binding IsSelected, ElementName=self}">
+                      <Setter Property="Background" Value="{Binding SECONDARY, Source={x:Static theming:AppTheme.Active}}" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </Border>
+            <Border Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="4" Padding="4" BorderThickness="2">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type Border}">
+                  <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding WasActive, ElementName=self}">
+                      <Setter Property="BorderBrush" Value="{Binding THUMBNAILKEYBOARDFOCUS, Source={x:Static theming:AppTheme.Active}}" />
+                      <Setter Property="UIElement.Effect">
+                        <Setter.Value>
+                          <DropShadowEffect BlurRadius="10" Direction="0" ShadowDepth="0" Color="{Binding THUMBNAILKEYBOARDFOCUS_COLOR, Source={x:Static theming:AppTheme.Active}}" />
+                        </Setter.Value>
+                      </Setter>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </Border>
+            <Border Name="labelBorder" Grid.RowSpan="2" Grid.Column="0" Background="{Binding Source.BackgroundColor, ElementName=self, Converter={StaticResource ListViewLabelColorConverter}}" />
+            <Grid Row="0" RowSpan="2" Column="1">
+              <Border Margin="2" Background="{Binding BackgroundColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}">
+                <local:PreviewContainer x:Name="listViewPreviewContainer" Tag="{x:Static local:Thumbnail.ListViewPreviewContainerKey}" AspectRatio="{Binding Source.ThumbnailAspectRatio, ElementName=self}" ViewSettings="{Binding ViewSettings, ElementName=self}">
+                  <Grid Name="backgroundGrid">
+                    <Border Background="#FF000000" Visibility="{Binding HideCheckerboard, ElementName=self, Converter={StaticResource ValueToHiddenVisibilityConverter}}" />
+                    <commonControls:Checkerboard PrimaryBrush="{Binding CHECKERBOARDPRIMARY, Source={x:Static theming:AppTheme.Active}}" SecondaryBrush="{Binding CHECKERBOARDSECONDARY, Source={x:Static theming:AppTheme.Active}}">
+                      <FrameworkElement.Style>
+                        <Style TargetType="{x:Type commonControls:Checkerboard}">
+                          <Setter Property="Visibility" Value="{Binding Source.ScaleBehavior, ConverterParameter={x:Static re:ScaleBehavior.ScaleAndBlur}, ElementName=self, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+                          <Style.Triggers>
+                            <DataTrigger Value="True" Binding="{Binding HideCheckerboard, ElementName=self}">
+                              <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </FrameworkElement.Style>
+                    </commonControls:Checkerboard>
+                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{StaticResource {x:Static themes:Brushes.ScaleAndBlurPlaceholderFill}}" Visibility="{Binding Source.ScaleBehavior, ConverterParameter={x:Static re:ScaleBehavior.ScaleAndBlur}, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+                    <Grid Width="{Binding ActualWidth, ElementName=listViewPreviewContainer}" Height="{Binding ActualHeight, ElementName=listViewPreviewContainer}" Background="{Binding BackgroundColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}">
+                      <livevideo:VideoInputPreview VideoInput="{Binding Source.LiveVideoInput, ElementName=self}" Visibility="{Binding Source.LiveVideoInput, ElementName=self, Converter={StaticResource NonCollapseInvertedValueToVisibilityConverter}}" />
+                      <Image Style="{StaticResource BackgroundImageStyle}" Source="{Binding BackgroundImage.BitmapSource, ElementName=self}" />
+                    </Grid>
+                  </Grid>
+                  <overlay:MediaOverlay x:Name="overlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AllowOpenVideoInputSetup="False" Width="{Binding ActualWidth, ElementName=listViewPreviewContainer}" Height="{Binding ActualHeight, ElementName=listViewPreviewContainer}" BackgroundControl="{Binding ElementName=backgroundGrid}" DataContext="{Binding ElementName=self, Path=OverlayVM}" />
+                  <Rectangle Width="{Binding ActualWidth, ElementName=listViewPreviewContainer}" Height="{Binding ActualHeight, ElementName=listViewPreviewContainer}" Fill="{Binding PreviewColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}" />
+                  <Image Name="previewImage" Style="{StaticResource ImageStyle}" Source="{Binding PreviewImage.BitmapSource, ElementName=self}" />
+                  <local:ThumbnailScrimView Width="{Binding ActualWidth, ElementName=listViewPreviewContainer}" Height="{Binding ActualHeight, ElementName=listViewPreviewContainer}" Items="{Binding Source.ScrimItems, ElementName=self, ConverterParameter={x:Static do:ListViewType.Preview}, Converter={StaticResource ListViewScrimItemsConverter}}" Visibility="{Binding ViewSettings.ShowScrimItems, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+                  <overlay:ProContentScrimItem Style="{StaticResource ProContentScrimItemStyle}" Width="{Binding ActualWidth, ElementName=listViewPreviewContainer}" Height="{Binding ActualHeight, ElementName=listViewPreviewContainer}" DataContext="{Binding ElementName=self, Path=OverlayVM}" />
+                </local:PreviewContainer>
+              </Border>
+            </Grid>
+            <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{StaticResource DefaultDropShadowEffect}" Style="{StaticResource IndexTextBlock}" />
+            <Grid Row="0" Column="2" Margin="10,6,10,3" HorizontalAlignment="Left" VerticalAlignment="Top">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock Margin="0,0,5,0" Effect="{StaticResource DefaultDropShadowEffect}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" ToolTip="{Binding Source.Name, ElementName=self}" Visibility="{Binding Source.ShowGroupLabel, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                    <Setter Property="Text" Value="{Binding Source.Name, ElementName=self, StringFormat={}{0},}" />
+                    <Style.Triggers>
+                      <DataTrigger Value="{x:Static time:TimeSlice.Zero}" Binding="{Binding Source.Duration, ElementName=self}">
+                        <Setter Property="Text" Value="{Binding Source.Name, ElementName=self}" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+              <TextBlock Grid.Column="1" Margin="0,0,5,0" Text="{Binding Source.Duration, ElementName=self, Converter={StaticResource TimeSliceToStringConverter}}" Visibility="{Binding Source.Duration, ElementName=self, ConverterParameter={x:Static time:TimeSlice.Zero}, Converter={StaticResource InvertedValueToVisibilityConverter}}" />
+              <TextBlock Grid.Column="2" TextTrimming="CharacterEllipsis" Effect="{StaticResource DefaultDropShadowEffect}" Background="{Binding Source.LabelColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{Binding Source.LabelName, ElementName=self}" ToolTip="{Binding Source.LabelName, ElementName=self}" />
+            </Grid>
+            <commonControls:TruncatedTextblock Grid.Row="1" Grid.Column="2" Margin="10,3" Effect="{StaticResource DefaultDropShadowEffect}" FontFamily="{Binding ViewSettings.Font.SystemFamilyName, ElementName=self}" FontSize="{Binding ViewSettings.CharacterSize, ElementName=self}" FontStretch="{Binding ViewSettings.Font.Stretch, ElementName=self}" FontWeight="{Binding ViewSettings.Font.Weight, ElementName=self}" Foreground="{Binding ViewSettings.TextColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}" HorizontalTextAlignment="{Binding ViewSettings.HorizontalAlignment, ElementName=self}" Text="{Binding TextContent, ElementName=self, IsAsync=True, Converter={StaticResource ListContentConverter}}" TruncatingMode="{Binding ViewSettings.TruncatingMode, ElementName=self}" VerticalTextAlignment="{Binding ViewSettings.VerticalAlignment, ElementName=self}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type commonControls:TruncatedTextblock}">
+                  <Setter Property="Grid.ColumnSpan" Value="2" />
+                  <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding SecondaryContent, ElementName=self, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}">
+                      <Setter Property="Grid.ColumnSpan" Value="1" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </commonControls:TruncatedTextblock>
+            <TextBlock Grid.Row="0" Grid.Column="3" Margin="10,6,10,3" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" Effect="{StaticResource DefaultDropShadowEffect}" Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{Binding SecondaryContentLabel, ElementName=self}">
+              <FrameworkElement.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                  <Style.Triggers>
+                    <DataTrigger Value="False" Binding="{Binding SecondaryContent, ElementName=self, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </FrameworkElement.Style>
+            </TextBlock>
+            <commonControls:TruncatedTextblock Grid.Row="1" Grid.Column="3" Margin="10,3" Effect="{StaticResource DefaultDropShadowEffect}" FontFamily="{Binding ViewSettings.Font.SystemFamilyName, ElementName=self}" FontSize="{Binding ViewSettings.CharacterSize, ElementName=self}" FontStretch="{Binding ViewSettings.Font.Stretch, ElementName=self}" FontWeight="{Binding ViewSettings.Font.Weight, ElementName=self}" Foreground="{Binding ViewSettings.TextColor, ElementName=self, Converter={StaticResource ColorToBrushConverter}}" HorizontalTextAlignment="{Binding ViewSettings.HorizontalAlignment, ElementName=self}" Text="{Binding SecondaryContent, ElementName=self, Converter={StaticResource ListContentConverter}}" TruncatingMode="{Binding ViewSettings.TruncatingMode, ElementName=self}" VerticalTextAlignment="{Binding ViewSettings.VerticalAlignment, ElementName=self}" />
+            <local:ThumbnailScrimView Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Width="150" Margin="6" HorizontalAlignment="Right" Items="{Binding Source.ScrimItems, ElementName=self, ConverterParameter={x:Static do:ListViewType.Content}, Converter={StaticResource ListViewScrimItemsConverter}}" Visibility="{Binding ViewSettings.ShowScrimItems, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" />
+          </Grid>
+        </Border>
+      </DataTemplate>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <FrameworkElement.Style>
+    <Style TargetType="{x:Type ContentControl}">
+      <Style.Triggers>
+        <DataTrigger Value="False" Binding="{Binding Source.IsEnabled, ElementName=self}">
+          <Setter Property="UIElement.Opacity" Value="0.5" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+  </FrameworkElement.Style>
+</UserControl>

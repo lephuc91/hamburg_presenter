@@ -1,0 +1,30 @@
+{
+    "description": "Makes selected color clear.",
+    "name": "Color Key",
+    "numPasses": 1,
+    "shaderFile": "ColorKey",
+    "type": 0,
+    "uuid": "469387A2-681A-458E-9414-DAB953C1564F",
+    "variables": [
+        {
+            "name": "srcColor",
+            "label": "Color",
+            "description": "color to change",
+            "type": 2,
+            "min": [0, 0, 0, 0],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 1],
+            "value": [1, 1, 1, 1]
+        },
+        {
+            "name": "tolerance",
+            "label": "Tolerance",
+            "description": "Amount to Blend",
+            "type": 1,
+            "min": [0.01, 0.01, 0.01, 0.01],
+            "max": [1, 1, 1, 1],
+            "defValue": [0.5, 0.5, 0.5, 1],
+            "value": [0.5, 0.5, 0.5, 0.5]
+        }
+    ]
+}

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Input.AudioSourceDeviceSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Input" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" x:Name="audioSourceDeviceSelector">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="audioSourceDeviceSelectorProxy" Data="{Binding ElementName=audioSourceDeviceSelector}" />
+      <commonConverters:IsNotNullOrWhiteSpaceConverter x:Key="IsNotNullOrWhiteSpaceConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <commonConverters:IsNotNullToBoolConverter x:Key="IsNotNullToBoolConverter" />
+      <Style x:Key="DeviceTypeHeaderStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <commonControls:DropDownButton>
+    <commonControls:DropDownButton.CustomContent>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="Fant" Stretch="Uniform">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type Image}">
+              <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.SettingsAudioInput}}" />
+              <Style.Triggers>
+                <DataTrigger Value="Aircast" Binding="{Binding Data.Source.VideoDevice.Type, Source={StaticResource audioSourceDeviceSelectorProxy}}">
+                  <Setter Property="Height" Value="11" />
+                  <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.AirCastAudio}}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Data.Source.VideoDevice, Source={StaticResource audioSourceDeviceSelectorProxy}}" Value="{x:Null}">
+                  <Setter Property="Source" Value="{x:Null}" />
+                </DataTrigger>
+                <DataTrigger Value="True" Binding="{Binding Data.Source.AudioDevice, Source={StaticResource audioSourceDeviceSelectorProxy}, Converter={StaticResource IsNotNullToBoolConverter}}">
+                  <Setter Property="Source" Value="{StaticResource {x:Static themesUI:Icons.SettingsAudioInput}}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </Image>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+          <FrameworkElement.Style>
+            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+              <Setter Property="Text" Value="{mex:Localized SETTINGS_INPUT_AUDIO_NO_DEVICE_MENU_title}" />
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding Data.Source.DeviceName, Source={StaticResource audioSourceDeviceSelectorProxy}, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}" />
+                    <Condition Value="True" Binding="{Binding Data.Source.IsDeviceConnected, Source={StaticResource audioSourceDeviceSelectorProxy}}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Text" Value="{Binding Data.Source.DeviceName, Source={StaticResource audioSourceDeviceSelectorProxy}}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding Data.Source.DeviceName, Source={StaticResource audioSourceDeviceSelectorProxy}, Converter={StaticResource IsNotNullOrWhiteSpaceConverter}}" />
+                    <Condition Value="False" Binding="{Binding Data.Source.IsDeviceConnected, Source={StaticResource audioSourceDeviceSelectorProxy}}" />
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Text" Value="{Binding Data.Source.DeviceName, Source={StaticResource audioSourceDeviceSelectorProxy}, StringFormat={mex:Localized SETTINGS_INPUTS_DISCONNECTED_DEVICE_MENU_title}}" />
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding Data.DefaultVideoDevice, Source={StaticResource audioSourceDeviceSelectorProxy}, Converter={StaticResource IsNotNullToBoolConverter}}" />
+                    <Condition Value="True">
+                      <Condition.Binding>
+                        <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                          <Binding Path="Data.DefaultVideoDevice" Source="{StaticResource audioSourceDeviceSelectorProxy}" />
+                          <Binding Path="Data.Source.VideoDevice" Source="{StaticResource audioSourceDeviceSelectorProxy}" />
+                        </MultiBinding>
+                      </Condition.Binding>
+                    </Condition>
+                  </MultiDataTrigger.Conditions>
+                  <Setter Property="Text" Value="{mex:Localized SETTINGS_INPUT_VIDEO_AUDIO_DEFAULT_DEVICE_MENU_title}" />
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </TextBlock>
+      </Grid>
+    </commonControls:DropDownButton.CustomContent>
+    <commonControls:DropDownButton.CustomContextMenu>
+      <ContextMenu Placement="Bottom" MinWidth="{Binding Path=PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+        <ItemsControl.ItemsSource>
+          <CompositeCollection>
+            <CollectionContainer>
+              <CollectionContainer.Collection>
+                <local:AudioSourceDeviceSelectorSource AddAirCastDeviceCommand="{Binding Data.AddAirCastDeviceCommand, Source={StaticResource audioSourceDeviceSelectorProxy}}" AudioDevices="{Binding Data.AudioDevices, Source={StaticResource audioSourceDeviceSelectorProxy}}" ClearDeviceCommand="{Binding Data.ClearDeviceCommand, Source={StaticResource audioSourceDeviceSelectorProxy}}" DefaultVideoDevice="{Binding Data.DefaultVideoDevice, Source={StaticResource audioSourceDeviceSelectorProxy}}" SelectAudioDeviceCommand="{Binding Data.SelectAudioDeviceCommand, Source={StaticResource audioSourceDeviceSelectorProxy}}" SelectVideoDeviceCommand="{Binding Data.SelectVideoDeviceCommand, Source={StaticResource audioSourceDeviceSelectorProxy}}" Source="{Binding Data.Source, Source={StaticResource audioSourceDeviceSelectorProxy}}" VideoDevices="{Binding Data.VideoDevices, Source={StaticResource audioSourceDeviceSelectorProxy}}" />
+              </CollectionContainer.Collection>
+            </CollectionContainer>
+          </CompositeCollection>
+        </ItemsControl.ItemsSource>
+      </ContextMenu>
+    </commonControls:DropDownButton.CustomContextMenu>
+  </commonControls:DropDownButton>
+</UserControl>

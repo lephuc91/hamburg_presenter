@@ -1,0 +1,11 @@
+{
+    "category": "Dissolves",
+    "description": "Fade White",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Fade White",
+    "numPasses": 1,
+    "shaderFile": "fadeWhite",
+    "type": 1,
+    "uuid": "C2123A39-357E-4626-9257-783AF40918FC"
+}

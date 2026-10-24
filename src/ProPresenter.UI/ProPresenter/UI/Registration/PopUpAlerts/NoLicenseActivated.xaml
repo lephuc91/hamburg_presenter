@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Registration.PopUpAlerts.NoLicenseActivated" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProPresenter.UI.Registration.PopUpAlerts" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" x:Name="noLicenseActivated" Title="NoLicenseActivated" Width="500" uiUtility:WindowHelper.ChildOf="ActiveWindow" uiUtility:WindowHelper.SendKeyEventsToMainWindow="True" uiUtility:WindowHelper.UseGlobalStyle="True" CanClose="False" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" ShowInTaskbar="False" ShowTitle="False" ShowTitlebar="False" SizeToContent="Height" Style="{StaticResource {x:Type windowing:ChromedWindow}}" UseLayoutRounding="True" WindowStartupLocation="CenterOwner">
+  <Control.Background>
+    <ImageBrush ImageSource="pack://application:,,,/ProPresenter.UI;component/Resources/Icons/Registration/Pop-Up-Background.png" RenderOptions.BitmapScalingMode="Fant" Stretch="UniformToFill" />
+  </Control.Background>
+  <local:ActivationPopUpContent ConfirmationButtonTitleKey="REGISTRATION_UNLICENSED_CONTINUE_WITH_WATERMARKS_title" OrganizationFormattingKey="REGISTRATION_UNLICENSED_ORGANIZATION_label" TitleTranslationKey="REGISTRATION_UNLICENSED_WELCOME_label" CloseCommand="{Binding CloseCommand, ElementName=noLicenseActivated}" OrganizationName="{Binding OrganizationName}">
+    <system:String xmlns:system="clr-namespace:System;assembly=System.Private.CoreLib">REGISTRATION_UNLICENSED_SUCCESS_label</system:String>
+    <String xmlns="clr-namespace:System;assembly=System.Private.CoreLib">REGISTRATION_UNLICENSED_UPGRADE_label</String>
+  </local:ActivationPopUpContent>
+</windowing:ChromedWindow>

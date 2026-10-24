@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.PropertyEditor" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:inspector="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor" xmlns:localConverters="clr-namespace:ProPresenter.UI.SlideEditor.Converters" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="self" Background="{Binding SURFACE, Source={x:Static theming:AppTheme.Active}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="proxy" Data="{Binding ElementName=self}" />
+      <localConverters:InspectorTabToVisibilityConverter x:Key="InspectorTabToVisibilityConverter" Data="{Binding Data.AvailableInspectorTabs, Source={StaticResource proxy}}" />
+      <localConverters:InspectorTabToIndexConverter x:Key="InspectorTabToIndexConverter" />
+      <localConverters:TabItemWidthConverter x:Key="TabItemWidthConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <Style x:Key="PropertyTabItemStyle" BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+        <Setter Property="Height" Value="24" />
+        <Setter Property="Width">
+          <Setter.Value>
+            <MultiBinding Converter="{StaticResource TabItemWidthConverter}">
+              <Binding Path="ActualWidth" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" />
+              <Binding Path="Data.AvailableInspectorTabs" Source="{StaticResource proxy}" />
+            </MultiBinding>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <TabControl Name="InspectorTabControl" Background="{Binding SURFACE, Source={x:Static theming:AppTheme.Active}}" SelectedIndex="{Binding SelectedInspectorTab, ElementName=self, Converter={StaticResource InspectorTabToIndexConverter}, Mode=TwoWay}">
+    <TabItem Style="{StaticResource PropertyTabItemStyle}" Header="{mex:Localized EDITOR_PRESENTATION_PRESENTATION_INSPECTOR_TAB_title}" Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.Document}}">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <inspector:DocumentInspector Margin="10,0" DataContext="{Binding DocumentInspectorVM}" RemoveTransitionCommand="{Binding RemoveTransitionCommand}" />
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Style="{StaticResource PropertyTabItemStyle}" Header="{mex:Localized EDITOR_STAGE_LAYOUT_INSPECTOR_TAB_title}" Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.StageLayout}}">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <inspector:StageLayoutInspector Margin="10,0" DataContext="{Binding StageLayoutInspectorVM}" />
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Style="{StaticResource PropertyTabItemStyle}" Header="{mex:Localized EDITOR_PROP_INSPECTOR_TAB_title}" Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.PropSlide}}">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <inspector:PropSlideInspector Margin="10,0" DataContext="{Binding PropsInspectorVM}" />
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Style="{StaticResource PropertyTabItemStyle}" Header="{mex:Localized EDITOR_MASK_INSPECTOR_TAB_title}" Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.Mask}}">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <inspector:MaskInspector Margin="10,0" SelectedItemName="{Binding SelectedItemName}" />
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.Template}}">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource PropertyTabItemStyle}" TargetType="{x:Type TabItem}">
+          <Setter Property="Header" Value="{mex:Localized EDITOR_THEME_SLIDE_INSPECTOR_TAB_title}" />
+          <Style.Triggers>
+            <DataTrigger Value="CCLITemplate" Binding="{Binding EditMode}">
+              <Setter Property="Header" Value="{mex:Localized EDITOR_CCLI_INSPECTOR_TAB_title}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <inspector:TemplateSlideInspector Margin="10,0" DataContext="{Binding TemplateSlideInspectorVM}" />
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Style="{StaticResource PropertyTabItemStyle}" Header="{mex:Localized EDITOR_PRESENTATION_SHAPE_INSPECTOR_TAB_title}" Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.Shape}}">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <inspector:ShapeInspector Margin="10,0" DataContext="{Binding ShapeInspectorVM}" EditMediaCommand="{Binding EditMediaCommand, ElementName=self}" />
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Style="{StaticResource PropertyTabItemStyle}" Header="{mex:Localized EDITOR_PRESENTATION_SLIDE_INSPECTOR_TAB_title}" Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.Slide}}">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <inspector:SlideInspector Margin="10,0" DataContext="{Binding SlideInspectorVM}" />
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Style="{StaticResource PropertyTabItemStyle}" Header="{mex:Localized EDITOR_TEXT_INSPECTOR_TAB_title}" Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.Text}}">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <inspector:TextInspector Margin="10,0" AllowTextFill="{Binding TextLinkVM.AllowTextFill}" AvailableListPresets="{Binding TextInspectorVM.AvailableListPresets}" CommandTargetType="{Binding TextInspectorVM.CommandTargetType}" EditMode="{Binding EditMode}" FocusTextBoxCommand="{Binding TextInspectorVM.FocusTextBoxCommand}" IsTextLinkEnabled="{Binding TextLinkVM.IsTextLinkEnabled}" MediaProvider="{Binding TextInspectorVM.MediaProvider}" PreserveFormat="{Binding TextLinkVM.DisablePreserveFormatControls}" ShowTextStyleControls="{Binding TextInspectorVM.ShowTextStyleControls}" TextInspectorVM="{Binding TextInspectorVM}">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type inspector:TextInspector}">
+              <Setter Property="inspector:TextInspector.ActiveLineFillMask" Value="{Binding TextInspectorVM.ActiveLineFillMask}" />
+              <Setter Property="inspector:TextInspector.ActiveRunSettings" Value="{Binding TextInspectorVM.ActiveRunSettings}" />
+              <Setter Property="inspector:TextInspector.ApplyDocumentSettingsCommand" Value="{Binding TextInspectorVM.ApplyDocumentSettingsCommand}" />
+              <Setter Property="inspector:TextInspector.ApplyLineFillMaskSettingsCommand" Value="{Binding TextInspectorVM.ApplyLineFillMaskSettingsCommand}" />
+              <Setter Property="inspector:TextInspector.ApplyParagraphSettingsCommand" Value="{Binding TextInspectorVM.ApplyParagraphSettingsCommand}" />
+              <Setter Property="inspector:TextInspector.ApplyRunSettingsCommand" Value="{Binding TextInspectorVM.ApplyRunSettingsCommand}" />
+              <Setter Property="inspector:TextInspector.CaretIndex" Value="{Binding TextInspectorVM.CaretIndex}" />
+              <Setter Property="inspector:TextInspector.ChangeTextFillTypeCommand" Value="{Binding TextInspectorVM.ChangeTextFillTypeCommand}" />
+              <Setter Property="inspector:TextInspector.Document" Value="{Binding TextInspectorVM.ActiveDocument}" />
+              <Setter Property="inspector:TextInspector.SelectionRanges" Value="{Binding TextInspectorVM.SelectionRanges}" />
+              <Style.Triggers>
+                <DataTrigger Value="True" Binding="{Binding OverlayEditorVM.Show}">
+                  <Setter Property="inspector:TextInspector.ActiveRunSettings" Value="{Binding OverlayEditorVM.ActiveRunSettings}" />
+                  <Setter Property="inspector:TextInspector.ApplyDocumentSettingsCommand" Value="{x:Null}" />
+                  <Setter Property="inspector:TextInspector.ApplyLineFillMaskSettingsCommand" Value="{x:Null}" />
+                  <Setter Property="inspector:TextInspector.ApplyParagraphSettingsCommand" Value="{x:Null}" />
+                  <Setter Property="inspector:TextInspector.ApplyRunSettingsCommand" Value="{x:Null}" />
+                  <Setter Property="inspector:TextInspector.CaretIndex" Value="{Binding OverlayEditorVM.CaretIndex}" />
+                  <Setter Property="inspector:TextInspector.ChangeTextFillTypeCommand" Value="{x:Null}" />
+                  <Setter Property="inspector:TextInspector.Document" Value="{Binding OverlayEditorVM.Text}" />
+                  <Setter Property="inspector:TextInspector.SelectionRanges" Value="{Binding OverlayEditorVM.SelectionRanges}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </inspector:TextInspector>
+      </ScrollViewer>
+    </TabItem>
+    <TabItem Style="{StaticResource PropertyTabItemStyle}" Header="{mex:Localized EDITOR_BUILD_INSPECTOR_TAB_title}" Visibility="{Binding AvailableInspectorTabs, ElementName=self, Converter={StaticResource InspectorTabToVisibilityConverter}, ConverterParameter={x:Static local:InspectorTab.Build}}">
+      <inspector:BuildOrderInspector DataContext="{Binding BuildInspectorVM}" />
+    </TabItem>
+  </TabControl>
+</UserControl>

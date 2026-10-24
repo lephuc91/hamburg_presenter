@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.OutputConfiguration.CornerPinning" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtilities="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="self" xmlns:outputconfiguration="clr-namespace:ProPresenter.UI.OutputConfiguration">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <Style x:Key="DoubleUpDownStyle" BasedOn="{StaticResource {x:Type commonControls:DoubleUpDown}}" TargetType="{x:Type commonControls:DoubleUpDown}">
+        <Setter Property="UpDownBase.ClipValueToMinMax" Value="{Binding ClipToMinMax, ElementName=self}" />
+        <Setter Property="NumericUpDown.FormatString" Value="F0" />
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Width" Value="55" />
+      </Style>
+      <Style x:Key="WidthUpdownStyle" BasedOn="{StaticResource DoubleUpDownStyle}" TargetType="{x:Type commonControls:DoubleUpDown}">
+        <Setter Property="UpDownBase.Maximum" Value="{Binding CornerPinningOptions.MaximumWidth, ElementName=self}" />
+        <Setter Property="UpDownBase.Minimum" Value="{Binding CornerPinningOptions.MinimumWidth, ElementName=self}" />
+      </Style>
+      <Style x:Key="HeightUpdownStyle" BasedOn="{StaticResource DoubleUpDownStyle}" TargetType="{x:Type commonControls:DoubleUpDown}">
+        <Setter Property="UpDownBase.Maximum" Value="{Binding CornerPinningOptions.MaximumHeight, ElementName=self}" />
+        <Setter Property="UpDownBase.Minimum" Value="{Binding CornerPinningOptions.MinimumHeight, ElementName=self}" />
+      </Style>
+      <Style x:Key="CornerPinningTextBlockStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+      </Style>
+      <Style x:Key="CornerPinningStackPanelStyle" TargetType="{x:Type StackPanel}">
+        <Setter Property="Margin" Value="10,5,10,0" />
+        <Setter Property="StackPanel.Orientation" Value="Vertical" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <system1:Boolean x:Key="FalseValue" xmlns:system1="clr-namespace:System;assembly=System.Private.CoreLib">False</system1:Boolean>
+      <Boolean x:Key="TrueValue" xmlns="clr-namespace:System;assembly=System.Private.CoreLib">True</Boolean>
+      <commonUtilities:BindingProxy x:Key="cornerPinningSelfProxy" Data="{Binding ElementName=self}" />
+      <commonConverters:Vector2dConverter x:Key="TopLeftPositionConverter" Data="{Binding Data.CornerPinningOptions.TopLeft, Source={StaticResource cornerPinningSelfProxy}}" />
+      <commonConverters:Vector2dConverter x:Key="TopRightPositionConverter" Data="{Binding Data.CornerPinningOptions.TopRight, Source={StaticResource cornerPinningSelfProxy}}" />
+      <commonConverters:Vector2dConverter x:Key="BottomLeftPositionConverter" Data="{Binding Data.CornerPinningOptions.BottomLeft, Source={StaticResource cornerPinningSelfProxy}}" />
+      <commonConverters:Vector2dConverter x:Key="BottomRightPositionConverter" Data="{Binding Data.CornerPinningOptions.BottomRight, Source={StaticResource cornerPinningSelfProxy}}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <CheckBox Name="CornerPinningEnableCheckBox" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="{mex:Localized GLOBAL_ENABLE_title}" IsChecked="{Binding CornerPinningOptions.IsEnabled, ElementName=self}" />
+    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0" Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_explanation}" />
+    <Grid Row="2" Column="0" ColumnSpan="2" Margin="0,0,0,0" HorizontalAlignment="Center" IsEnabled="{Binding CornerPinningOptions.IsEnabled, ElementName=self}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <StackPanel Grid.RowSpan="2" Grid.Column="1" Margin="0,5" Orientation="Horizontal">
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+      </StackPanel>
+      <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Orientation="Vertical">
+        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Background="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" />
+      </StackPanel>
+      <Grid Row="0" Column="0" Margin="0,0,20,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Style="{StaticResource CornerPinningStackPanelStyle}">
+          <commonControls:DoubleUpDown Style="{StaticResource WidthUpdownStyle}" Value="{Binding CornerPinningOptions.TopLeft, Mode=TwoWay, ElementName=self, Converter={StaticResource TopLeftPositionConverter}, ConverterParameter={StaticResource TrueValue}}" />
+          <TextBlock Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_DELTA_X_label}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Style="{StaticResource CornerPinningStackPanelStyle}">
+          <commonControls:DoubleUpDown Style="{StaticResource HeightUpdownStyle}" Value="{Binding CornerPinningOptions.TopLeft, ElementName=self, Converter={StaticResource TopLeftPositionConverter}, ConverterParameter={StaticResource FalseValue}}" />
+          <TextBlock Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_DELTA_Y_label}" />
+        </StackPanel>
+      </Grid>
+      <Grid Row="0" Column="2" Margin="20,0,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Style="{StaticResource CornerPinningStackPanelStyle}">
+          <commonControls:DoubleUpDown Style="{StaticResource WidthUpdownStyle}" Value="{Binding CornerPinningOptions.TopRight, ElementName=self, Converter={StaticResource TopRightPositionConverter}, ConverterParameter={StaticResource TrueValue}}" />
+          <TextBlock Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_DELTA_X_label}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Style="{StaticResource CornerPinningStackPanelStyle}">
+          <commonControls:DoubleUpDown Style="{StaticResource HeightUpdownStyle}" Value="{Binding CornerPinningOptions.TopRight, ElementName=self, Converter={StaticResource TopRightPositionConverter}, ConverterParameter={StaticResource FalseValue}}" />
+          <TextBlock Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_DELTA_Y_label}" />
+        </StackPanel>
+      </Grid>
+      <Grid Row="1" Column="0" Margin="0,0,20,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Style="{StaticResource CornerPinningStackPanelStyle}">
+          <commonControls:DoubleUpDown Style="{StaticResource WidthUpdownStyle}" Value="{Binding CornerPinningOptions.BottomLeft, ElementName=self, Converter={StaticResource BottomLeftPositionConverter}, ConverterParameter={StaticResource TrueValue}}" />
+          <TextBlock Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_DELTA_X_label}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Style="{StaticResource CornerPinningStackPanelStyle}">
+          <commonControls:DoubleUpDown Style="{StaticResource HeightUpdownStyle}" Value="{Binding CornerPinningOptions.BottomLeft, ElementName=self, Converter={StaticResource BottomLeftPositionConverter}, ConverterParameter={StaticResource FalseValue}}" />
+          <TextBlock Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_DELTA_Y_label}" />
+        </StackPanel>
+      </Grid>
+      <Grid Row="1" Column="2" Margin="20,0,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Style="{StaticResource CornerPinningStackPanelStyle}">
+          <commonControls:DoubleUpDown Style="{StaticResource WidthUpdownStyle}" Value="{Binding CornerPinningOptions.BottomRight, ElementName=self, Converter={StaticResource BottomRightPositionConverter}, ConverterParameter={StaticResource TrueValue}}" />
+          <TextBlock Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_DELTA_X_label}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Style="{StaticResource CornerPinningStackPanelStyle}">
+          <commonControls:DoubleUpDown Style="{StaticResource HeightUpdownStyle}" Value="{Binding CornerPinningOptions.BottomRight, ElementName=self, Converter={StaticResource BottomRightPositionConverter}, ConverterParameter={StaticResource FalseValue}}" />
+          <TextBlock Style="{StaticResource CornerPinningTextBlockStyle}" Text="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_TAB_DELTA_Y_label}" />
+        </StackPanel>
+      </Grid>
+      <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="22" MinWidth="100" Margin="0,10,0,0" Padding="10,0" HorizontalAlignment="Center" Content="{mex:Localized SCREEN_CONFIGURATION_CORNER_PIN_RESET_ALL_title}" Visibility="{Binding CornerPinningOptions.IsEnabled, ElementName=self, Converter={StaticResource ValueToVisibilityConverter}}" Click="CornerPinningReset_Click" />
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Inputs.Video.VideoInputDeviceSettings" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:audioControls="clr-namespace:Pro.UI.Controls.Audio;assembly=Pro.UI" xmlns:commonAudio="clr-namespace:Pro.DO.Audio;assembly=Pro.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:doMedia="clr-namespace:ProPresenter.DO.Media;assembly=ProPresenter.DO" xmlns:input="clr-namespace:ProPresenter.UI.Input" xmlns:inputs="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Inputs" xmlns:liveVideoControls="clr-namespace:ProPresenter.UI.LiveVideo" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:ProPresenter.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:utility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:video="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Inputs.Video">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <utility:BindingProxy x:Key="videoInputsSettingsVMProxy" Data="{Binding}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:TimeSliceToTimeFormatConverter x:Key="TimeSliceToTimeFormatConverter" ConversionUnit="TotalMilliSeconds" />
+      <commonConverters:EnumToContentConverter x:Key="EnumToContentConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <commonControls:GroupedControl Grid.Row="0" GroupBackground="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding ActiveLiveVideoInput, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}">
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_NAME_title}" />
+        <commonControls:PlaceholderTextBox Grid.Column="1" Width="250" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" IsTextBindingExplicit="True" PlaceholderText="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_NAME_prompt}" Text="{Binding ActiveLiveVideoInput.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_DEVICE_title}" />
+        <liveVideoControls:VideoInputDeviceSelector Grid.Row="1" Grid.Column="2" Width="250" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" AddAirCastDeviceCommand="{Binding AddAirCastDeviceCommand}" AvailableDevices="{Binding VideoDevices}" ClearSelectedVideoInputDeviceCommand="{Binding ClearSelectedVideoInputDeviceCommand}" SelectVideoDeviceCommand="{Binding SelectVideoDeviceCommand}" SelectedLiveVideoInput="{Binding ActiveLiveVideoInput}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Value="True" Binding="{Binding CanConfigureAirCast}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+              <DataTrigger Binding="{Binding ActiveLiveVideoInput.VideoDevice}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_SCREENS_RENDER_FORMAT_title}" />
+        <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ActiveLiveVideoInput.VideoDevice.ColorFormat, Converter={StaticResource EnumToContentConverter}}" Visibility="{Binding ActiveLiveVideoInput.HasSignal, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}" Visibility="{Binding CanConfigureAirCast, Converter={StaticResource ValueToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_AIRPLAY_DISPLAY_NAME_title}" />
+        <TextBox Grid.Column="1" Width="250" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" uiUtility:TextBoxHelper.UpdateOnEnterKey="True" Text="{Binding AirCastDisplayName, Mode=TwoWay}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}" Visibility="{Binding CanConfigureAirCast, Converter={StaticResource ValueToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_AIRPLAY_PASSWORD_title}" />
+        <TextBox Grid.Column="1" Width="90" Height="22" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalContentAlignment="Center" uiUtility:TextBoxHelper.UpdateOnEnterKey="True" Text="{Binding AirCastPassword, Mode=TwoWay}" />
+        <commonControls:ToggleSwitch Grid.Column="2" IsChecked="{Binding AirCastPasswordEnabled}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}" Visibility="{Binding ActiveLiveVideoInput.SupportsAlphaChannel, Converter={StaticResource ValueToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="{mex:Localized VIDEO_INPUT_ALPHA_TYPE_title}" />
+        <commonControls:BorderlessComboBox Grid.Row="7" Grid.Column="1" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" SelectedItem="{Binding ActiveLiveVideoInput.AlphaType, Mode=TwoWay}">
+          <ItemsControl.ItemsSource>
+            <CompositeCollection>
+              <doMedia:AlphaType>Straight</doMedia:AlphaType>
+              <doMedia:AlphaType>Premultiplied</doMedia:AlphaType>
+            </CompositeCollection>
+          </ItemsControl.ItemsSource>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <TextBlock HorizontalAlignment="Right" Text="{Binding Converter={StaticResource EnumToContentConverter}}" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </commonControls:BorderlessComboBox>
+      </Grid>
+    </commonControls:GroupedControl>
+    <commonControls:GroupedControl Grid.Row="1" Margin="0,15,0,0" GroupBackground="{Binding DETAILLIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding ActiveLiveVideoInput, Converter={StaticResource InvertedValueToVisibilityConverter}, ConverterParameter={x:Null}}">
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_AUDIO_SOURCE_title}" />
+        <input:AudioSourceDeviceSelector Grid.Column="1" Width="250" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" AddAirCastDeviceCommand="{Binding AddAirCastDeviceAudioSourceCommand}" AudioDevices="{Binding AudioDevices}" ClearDeviceCommand="{Binding ClearDeviceCommand}" DefaultVideoDevice="{Binding ActiveLiveVideoInput.VideoDevice}" SelectAudioDeviceCommand="{Binding SelectAudioSourceAudioDeviceCommand}" SelectVideoDeviceCommand="{Binding SelectAudioSourceVideoDeviceCommand}" Source="{Binding ActiveLiveVideoInput.AudioSource}" VideoDevices="{Binding VideoDevices}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_AUDIO_DELAY_title}" />
+        <commonControls:DoubleUpDown Grid.Column="1" Width="70" Height="22" HorizontalAlignment="Right" VerticalAlignment="Center" FormatString="{}{0}ms" Maximum="1500" Minimum="0" IsEnabled="{Binding ActiveLiveVideoInput.AudioSource.HasDevice}" Value="{Binding VideoInputAudioDelay, Converter={StaticResource TimeSliceToTimeFormatConverter}}" />
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_AUDIO_LEVEL_title}" />
+        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" IsEnabled="{Binding ActiveLiveVideoInput.AudioSource.HasDevice}">
+          <commonControls:FillSlider Width="210" VerticalAlignment="Center" Maximum="{x:Static commonAudio:AudioConstants.DecibelRangeMaximum}" Minimum="{x:Static commonAudio:AudioConstants.DecibelRangeMinimum}" Value="{Binding ActiveLiveVideoInput.AudioSource.Routing.MasterChannel.Level}" />
+          <commonControls:DoubleUpDown Width="70" Height="22" FormatString="{}{0:N0}dB" Increment="1" Maximum="{x:Static commonAudio:AudioConstants.DecibelRangeMaximum}" Minimum="{x:Static commonAudio:AudioConstants.DecibelRangeMinimum}" ShowButtonSpinner="False" Value="{Binding ActiveLiveVideoInput.AudioSource.Routing.MasterChannel.Level}" />
+        </StackPanel>
+      </Grid>
+      <Grid DataContext="{Binding Data, Source={StaticResource videoInputsSettingsVMProxy}}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+          <TextBlock VerticalAlignment="Center" Text="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_AUDIO_CHANNELS_title}" />
+          <commonControls:BorderlessToggleButton Width="24" Height="24" uiUtility:UIElementHelper.Palette="{Binding AUDIOMONITORINGBUTTON_PALETTE, Source={x:Static theming:AppTheme.Active}}" Command="{Binding ToggleVideoInputAudioMonitoringCommand}" CommandParameter="{Binding ActiveLiveVideoInput}" IsChecked="{Binding ActiveLiveVideoInput.AudioSource.IsMonitoring, Mode=OneWay}" ToolTip="{mex:Localized SETTINGS_INPUTS_VIDEO_MONITOR_AUDIO_tooltip}">
+            <commonControls:ImageMask ImageSource="/ProPresenter.UI;component/Resources/Icons/Preferences/Input/InputListen@2x.png" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type commonControls:BorderlessToggleButton}}}" />
+          </commonControls:BorderlessToggleButton>
+        </StackPanel>
+        <Button Grid.Row="0" HorizontalAlignment="Right" uiUtility:ContextMenuHelper.OpenOnLeftClick="True" Content="{mex:Localized SETTINGS_INPUTS_VIDEO_INPUT_AUDIO_ROUTING_title}" IsEnabled="{Binding ActiveLiveVideoInput.AudioSource.HasDevice}">
+          <FrameworkElement.ContextMenu>
+            <ContextMenu Placement="Bottom">
+              <Control.Template>
+                <ControlTemplate>
+                  <audioControls:DeviceToBusChannelControl AutoOnly="True" BorderThickness="1" ShowInputAudioControls="False" ShowMuteAndSoloButtons="False" ShowOutputAudioControls="False" ShowOutputChannelIndex="True" uiUtility:UIElementHelper.Palette="{Binding SOURCELIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" AudioMap="{Binding Data.ActiveLiveVideoInput.AudioSource.Routing.ChannelMap, Source={StaticResource videoInputsSettingsVMProxy}}" Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" ColumnHeaderText="{mex:Localized SETTINGS_INPUTS_ROUTING_PROPRESENTER_CHANNEL_label}" RowHeaderText="{Binding Data.ActiveLiveVideoInput.AudioSource.DeviceName, Source={StaticResource videoInputsSettingsVMProxy}}" TextElement.Foreground="{Binding PANELCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                </ControlTemplate>
+              </Control.Template>
+            </ContextMenu>
+          </FrameworkElement.ContextMenu>
+        </Button>
+        <Border Grid.Row="1" MaxHeight="285" Margin="0,8,0,0" HorizontalAlignment="Stretch" BorderThickness="1" Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}" Visibility="{Binding ActiveLiveVideoInput.AudioSource.HasDevice, Converter={StaticResource ValueToVisibilityConverter}}">
+          <inputs:ChannelSetMixer ChannelLevels="{Binding ActiveLiveVideoInput.AudioSource.DeviceChannelLevels}" ChannelMap="{Binding ActiveLiveVideoInput.AudioSource.Routing.ChannelMap}" ChannelSet="{Binding ActiveLiveVideoInput.AudioSource.Routing.ChannelSet}" MasterChannel="{Binding ActiveLiveVideoInput.AudioSource.Routing.MasterChannel}" />
+        </Border>
+        <ui:SelectAllNoneControl Grid.Row="2" Margin="0,4,0,0" HorizontalAlignment="Left" IsEnabled="{Binding ActiveLiveVideoInput.AudioSource.IsDeviceConnected}" SelectAllCommand="{Binding EnableAllChannelsCommand}" SelectNoneCommand="{Binding DisableAllChannelsCommand}" Visibility="{Binding ActiveLiveVideoInput.AudioSource.HasDevice, Converter={StaticResource ValueToVisibilityConverter}}" />
+      </Grid>
+    </commonControls:GroupedControl>
+  </Grid>
+</UserControl>

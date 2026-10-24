@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ProContent.ProContentView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonComponents="clr-namespace:Pro.UI.Components;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.ProContent" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themes="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:vm="clr-namespace:ProPresenter.UI.ViewModels.ProContent" xmlns:vmCollection="clr-namespace:ProPresenter.UI.ViewModels.ProContent.Collection" x:Name="proContentView">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="proContentVMProxy" Data="{Binding}" />
+      <commonConverters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="InvertedValueToVisibilityConverter" IsInverted="True" />
+      <SolidColorBrush x:Key="SecondaryColorBrush" Color="{StaticResource {x:Static themes:Colors.ContentSecondary}}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <local:ProContentNoNetworkExperience Grid.Row="0" Visibility="{Binding ConnectionState, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static vm:ConnectionState.InternetUnavailable}}" />
+    <local:ProContentConnectionErrorExperience Grid.Row="0" RefreshCommand="{Binding ReloadCommand}" ShowSupportWebsiteLinkTextKey="{Binding ContactSupportLinkText, Mode=OneWay}" ShowSupportWebsiteUrl="{Binding ContactSupportUrl}" Visibility="{Binding ConnectionState, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static vm:ConnectionState.Error}}" />
+    <Grid Row="0" Visibility="{Binding ConnectionState, Converter={StaticResource ValueToVisibilityConverter}, ConverterParameter={x:Static vm:ConnectionState.Connected}}">
+      <TextBlock Margin="30" HorizontalAlignment="Stretch" FontSize="20" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding CurrentGroup.Name, StringFormat={mex:Localized PROCONTENT_SEARCH_RESULTS_EMPTY_message}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="0" Binding="{Binding Collections.Count}" />
+                  <Condition Value="false" Binding="{Binding IsLoadingData}" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                  <Setter Property="Visibility" Value="Visible" />
+                </MultiDataTrigger.Setters>
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </TextBlock>
+      <local:ProContentFloatingHeaderControl xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" FillAvailableSpace="False" Items="{Binding Collections}">
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type local:ProContentFloatingHeaderControl}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Value="0" Binding="{Binding Collections.Count}">
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+        <controls:FloatingHeaderControl.HeaderTemplates>
+          <commonComponents:TaggedDataTemplate>
+            <local:ProContentCollectionHeader Background="{Binding LIST_BACKGROUND, Source={x:Static theming:AppTheme.Active}}" DataContext="{Binding}" />
+          </commonComponents:TaggedDataTemplate>
+        </controls:FloatingHeaderControl.HeaderTemplates>
+        <controls:FloatingHeaderControl.ItemTemplates>
+          <commonComponents:TaggedDataTemplate>
+            <local:ProContentCarouselView DataContext="{Binding}" SelectAssetCommand="{Binding Data.SelectAssetCommand, Source={StaticResource proContentVMProxy}}" />
+          </commonComponents:TaggedDataTemplate>
+          <commonComponents:TaggedDataTemplate Tag="{x:Static vmCollection:LayoutType.Grid}">
+            <local:ProContentThumbnailPanel Margin="{x:Static local:ProContentLayoutHelper.COLLECTION_MARGIN}" DataContext="{Binding}" Items="{Binding Assets}" SelectAssetCommand="{Binding Data.SelectAssetCommand, Source={StaticResource proContentVMProxy}}" />
+          </commonComponents:TaggedDataTemplate>
+        </controls:FloatingHeaderControl.ItemTemplates>
+      </local:ProContentFloatingHeaderControl>
+    </Grid>
+  </Grid>
+</UserControl>

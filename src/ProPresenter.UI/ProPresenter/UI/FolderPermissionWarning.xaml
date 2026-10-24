@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.FolderPermissionWarning" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" x:Name="self" xmlns:ui="clr-namespace:ProPresenter.UI;assembly=ProPresenter.UI">
+  <StackPanel>
+    <TextBlock TextWrapping="Wrap" Text="{Binding FolderWarningMessage, ElementName=self}" />
+    <TextBlock Margin="0,8,0,0" TextWrapping="Wrap" Text="{mex:Localized FOLDER_PERMISSION_ALERT_info}" />
+    <TextBlock>
+      <Hyperlink Foreground="#FF1E90FF" NavigateUri="https://support.renewedvision.com/hc/en-us/articles/360044825753" RequestNavigate="Hyperlink_RequestNavigate">
+        <TextBlock Text="{mex:Localized FOLDER_PERMISSION_ALERT_WEBPAGE_title}" />
+      </Hyperlink>
+    </TextBlock>
+  </StackPanel>
+</UserControl>

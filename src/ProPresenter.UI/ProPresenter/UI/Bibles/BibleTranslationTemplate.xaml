@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Bibles.BibleTranslationTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Bibles" xmlns:localConverter="clr-namespace:ProPresenter.UI.Bibles.Converters" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="self" uiUtility:UIElementHelper.Palette="{Binding DETAILLIST_PALETTE, Source={x:Static theming:AppTheme.Active}}" Background="{Binding (uiUtility:UIElementHelper.Palette).Standard.Background, RelativeSource={RelativeSource Self}}">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="templateDataContext" Data="{Binding}" />
+      <commonUtility:BindingProxy x:Key="bibleTranslationTemplateProxy" Data="{Binding ElementName=self}" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverterInverted" IsInverted="True" />
+      <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      <localConverter:TranslationToBibleConverter x:Key="TranslationToBibleConverter" Data="{Binding Data.LoadedBibles, Source={StaticResource bibleTranslationTemplateProxy}}" />
+      <CollectionViewSource x:Key="slideElements" Source="{Binding TemplateSlide.Slide.Elements, ElementName=self}" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="10,5">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="3*" />
+    </Grid.ColumnDefinitions>
+    <local:LoadedBibleSelector Grid.Column="0" CurrentBibleTranslation="{Binding}" LoadedBibles="{Binding ElementName=self, Path=LoadedBibles}" Translations="{Binding ElementName=self, Path=Translations}" />
+    <TextBlock Grid.Column="1" Margin="10,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized BIBLE_VERSE_title}" />
+    <local:TemplateElementSelector Grid.Column="2" SelectElementCommand="{Binding Data.VerseElementCommand, Source={StaticResource bibleTranslationTemplateProxy}}" SelectedElement="{Binding VerseElement}" TemplateSlide="{Binding Data.TemplateSlide, Source={StaticResource bibleTranslationTemplateProxy}}" />
+    <TextBlock Grid.Column="3" Margin="10,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{mex:Localized BIBLE_REFERENCE_title}" />
+    <local:TemplateElementSelector Grid.Column="4" AllowReferenceWithVerse="True" IsReferenceWithVerseActive="{Binding IncludeReferenceWithVerse}" SelectElementCommand="{Binding Data.ReferenceElementCommand, Source={StaticResource bibleTranslationTemplateProxy}}" SelectReferenceWithVerseCommand="{Binding Data.IncludeReferenceWithVerseCommand, Source={StaticResource bibleTranslationTemplateProxy}}" SelectedElement="{Binding ReferenceElement}" TemplateSlide="{Binding Data.TemplateSlide, Source={StaticResource bibleTranslationTemplateProxy}}">
+      <FrameworkElement.Style>
+        <Style TargetType="{x:Type local:TemplateElementSelector}">
+          <Setter Property="IsEnabled" Value="True" />
+          <Style.Triggers>
+            <DataTrigger Value="NoReference" Binding="{Binding Data.ReferenceType, Source={StaticResource bibleTranslationTemplateProxy}}">
+              <Setter Property="IsEnabled" Value="False" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+    </local:TemplateElementSelector>
+    <Grid Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <commonControls:BorderlessButton Grid.Column="0" Margin="0,0,20,0" HorizontalAlignment="Right" VerticalAlignment="Center" uiUtility:ContextMenuHelper.CenterMenu="True" uiUtility:ContextMenuHelper.OpenOnLeftClick="True">
+        <TextBlock Name="ContentText" Margin="4,2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{mex:Localized BIBLE_HEADER_LICENSE_BUTTON_title}" />
+        <FrameworkElement.ContextMenu>
+          <ContextMenu Background="#00FFFFFF" Placement="Bottom" DataContext="{Binding Data.Abbreviation, Source={StaticResource templateDataContext}, Converter={StaticResource TranslationToBibleConverter}}">
+            <Control.Template>
+              <ControlTemplate>
+                <local:BibleInformation />
+              </ControlTemplate>
+            </Control.Template>
+          </ContextMenu>
+        </FrameworkElement.ContextMenu>
+      </commonControls:BorderlessButton>
+      <commonControls:BorderlessPathButton Name="AddTranslationButton" Grid.Column="1" VerticalAlignment="Center" PathType="Plus" Command="{Binding Data.AddBibleTranslationCommand, Source={StaticResource bibleTranslationTemplateProxy}}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessPathButton}}" TargetType="{x:Type commonControls:BorderlessPathButton}">
+            <Setter Property="Visibility" Value="Visible" />
+            <Style.Triggers>
+              <DataTrigger Value="False">
+                <DataTrigger.Binding>
+                  <MultiBinding Converter="{StaticResource MultiBindingEqualityConverter}">
+                    <Binding Path="Data" Source="{StaticResource templateDataContext}" />
+                    <Binding Path="Data.Translations.PrimaryTranslation" Source="{StaticResource bibleTranslationTemplateProxy}" />
+                  </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter Property="Visibility" Value="Collapsed" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:BorderlessPathButton>
+      <commonControls:BorderlessPathButton Name="RemoveTranslationButton" Grid.Column="1" VerticalAlignment="Center" PathType="Minus" Command="{Binding Data.RemoveBibleTranslationCommand, Source={StaticResource bibleTranslationTemplateProxy}}" CommandParameter="{Binding}">
+        <FrameworkElement.Style>
+          <Style BasedOn="{StaticResource {x:Type commonControls:BorderlessPathButton}}" TargetType="{x:Type commonControls:BorderlessPathButton}">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+              <DataTrigger Value="Collapsed" Binding="{Binding Visibility, ElementName=AddTranslationButton}">
+                <Setter Property="Visibility" Value="Visible" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </commonControls:BorderlessPathButton>
+    </Grid>
+  </Grid>
+</UserControl>

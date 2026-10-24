@@ -1,0 +1,23 @@
+{
+    "category": "Wipes",
+    "description": "Wipe",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Wipe",
+    "numPasses": 1,
+    "shaderFile": "wipe",
+    "type": 1,
+    "uuid": "7084A71F-C12C-4EEA-8D90-A2D30FB0B256",
+    "variables": [
+        {
+            "name": "direction",
+            "label": "Direction",
+            "description": "Direction of Wipe",
+            "type": 3,
+            "min": [495, 0, 0, 0],
+            "max": [2, 2, 2, 2],
+            "defValue": [1, 1, 1, 1],
+            "value": [1, 1, 1, 1]
+        }
+    ]
+}

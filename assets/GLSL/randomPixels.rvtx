@@ -1,0 +1,11 @@
+{
+    "category": "Objects",
+    "description": "Random Pixels",
+    "duration": 0.6,
+    "hasAB": true,
+    "name": "Random Pixels",
+    "numPasses": 1,
+    "shaderFile": "randomPixels",
+    "type": 1,
+    "uuid": "DF2C1B6C-5B62-49A1-B72E-C80CB3C0CA75"
+}

@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.UtilityView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:audioLibrary="clr-namespace:ProPresenter.UI.AudioLibrary" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI" xmlns:macros="clr-namespace:ProPresenter.UI.Macros" xmlns:messages="clr-namespace:ProPresenter.UI.Messages" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:props="clr-namespace:ProPresenter.UI.Props" xmlns:stage="clr-namespace:ProPresenter.UI.Stage" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:timer="clr-namespace:ProPresenter.UI.Timer" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="utilityView">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <commonUtility:BindingProxy x:Key="mainLayoutVMProxy" Data="{Binding}" />
+      <commonConverters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+      <Style x:Key="UniformTabControl" BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
+        <Setter Property="UIElement.SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type TabControl}">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border>
+                  <UniformGrid Name="HeaderPanel" HorizontalAlignment="Stretch" IsItemsHost="True" Rows="1" />
+                </Border>
+                <Border Name="Border" Grid.Row="1" Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}">
+                  <ContentPresenter Name="PART_SelectedContentHost" ContentSource="SelectedContent" />
+                </Border>
+              </Grid>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+      <Style x:Key="TabItemIconStyle" TargetType="{x:Type commonControls:ImageMask}">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Margin" Value="0,2" />
+        <Setter Property="Width" Value="16" />
+      </Style>
+      <Style x:Key="DropTabItemStyle" BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type commonControls:DropTabItem}">
+        <Setter Property="UIElement.AllowDrop" Value="False" />
+        <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Height" Value="22" />
+        <Setter Property="Margin" Value="-0.5,0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="uiUtility:UIElementHelper.Palette" Value="{Binding UTILITYVIEWTABITEM_PALETTE, Source={x:Static theming:AppTheme.Active}}" />
+        <Style.Triggers>
+          <DataTrigger Value="Props" Binding="{Binding}">
+            <Setter Property="UIElement.AllowDrop" Value="True" />
+          </DataTrigger>
+          <DataTrigger Value="Macros" Binding="{Binding}">
+            <Setter Property="UIElement.AllowDrop" Value="True" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <local:UtilityViewTabControl x:Name="tabControl" HorizontalContentAlignment="Stretch" uiUtility:TabControlHelper.DisableArrowNavigation="True" Style="{StaticResource UniformTabControl}" Background="{Binding OUTLINEDETAIL, Source={x:Static theming:AppTheme.Active}}" DataContext="{Binding UtilityViewVM}" FocusVisualStyle="{x:Null}" ItemsSource="{Binding UtilityViewTabs}" SelectedItem="{Binding SelectedViewType, Mode=TwoWay}">
+    <ItemsControl.ItemContainerStyle>
+      <Style BasedOn="{StaticResource DropTabItemStyle}" TargetType="{x:Type commonControls:DropTabItem}" />
+    </ItemsControl.ItemContainerStyle>
+    <ItemsControl.ItemTemplate>
+      <DataTemplate>
+        <StackPanel Background="#00FFFFFF">
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type StackPanel}">
+              <Style.Triggers>
+                <DataTrigger Value="Audio" Binding="{Binding}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized AUDIO_BIN_TAB_tooltip}" />
+                </DataTrigger>
+                <DataTrigger Value="Stage" Binding="{Binding}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized STAGE_TAB_tooltip}" />
+                </DataTrigger>
+                <DataTrigger Value="Timers" Binding="{Binding}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized TIMERS_TAB_tooltip}" />
+                </DataTrigger>
+                <DataTrigger Value="Messages" Binding="{Binding}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized MESSAGES_TAB_tooltip}" />
+                </DataTrigger>
+                <DataTrigger Value="Props" Binding="{Binding}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized PROPS_TAB_tooltip}" />
+                </DataTrigger>
+                <DataTrigger Value="Macros" Binding="{Binding}">
+                  <Setter Property="FrameworkElement.ToolTip" Value="{mex:Localized MACROS_TAB_tooltip}" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+          <commonControls:ImageMask Fill="{Binding BORDERLESSBUTTON_CONTENT, Source={x:Static theming:AppTheme.Active}}">
+            <FrameworkElement.Style>
+              <Style BasedOn="{StaticResource TabItemIconStyle}" TargetType="{x:Type commonControls:ImageMask}">
+                <Style.Triggers>
+                  <DataTrigger Value="Audio" Binding="{Binding}">
+                    <Setter Property="commonControls:ImageMask.ImageSource" Value="/ProPresenter.UI;component/Resources/Icons/ClearLayer/clearButtonAudio.png" />
+                  </DataTrigger>
+                  <DataTrigger Value="Stage" Binding="{Binding}">
+                    <Setter Property="commonControls:ImageMask.ImageSource" Value="/ProPresenter.UI;component/Resources/Icons/Toolbar/toolbarStage.png" />
+                  </DataTrigger>
+                  <DataTrigger Value="Timers" Binding="{Binding}">
+                    <Setter Property="commonControls:ImageMask.ImageSource" Value="/ProPresenter.UI;component/Resources/Icons/Toolbar/toolbarTimers.png" />
+                  </DataTrigger>
+                  <DataTrigger Value="Messages" Binding="{Binding}">
+                    <Setter Property="commonControls:ImageMask.ImageSource" Value="/ProPresenter.UI;component/Resources/Icons/Toolbar/toolbarMessages.png" />
+                  </DataTrigger>
+                  <DataTrigger Value="Props" Binding="{Binding}">
+                    <Setter Property="commonControls:ImageMask.ImageSource" Value="/ProPresenter.UI;component/Resources/Icons/Toolbar/toolbarProps.png" />
+                  </DataTrigger>
+                  <DataTrigger Value="Macros" Binding="{Binding}">
+                    <Setter Property="commonControls:ImageMask.ImageSource" Value="/ProPresenter.UI;component/Resources/Icons/Macro.png" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </commonControls:ImageMask>
+        </StackPanel>
+      </DataTemplate>
+    </ItemsControl.ItemTemplate>
+    <TabControl.ContentTemplate>
+      <DataTemplate>
+        <ContentControl>
+          <FrameworkElement.Style>
+            <Style TargetType="{x:Type ContentControl}">
+              <Style.Triggers>
+                <DataTrigger Value="Audio" Binding="{Binding}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <audioLibrary:AudioView DataContext="{Binding Data.AudioLibraryVM, Source={StaticResource mainLayoutVMProxy}}" GotFocusCommand="{Binding Data.AudioLibraryVM.GotFocusCommand, Source={StaticResource mainLayoutVMProxy}}" TriggerAudioCommand="{Binding Data.AudioLibraryVM.TriggerMediaItemCommand, Source={StaticResource mainLayoutVMProxy}}" />
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <DataTrigger Value="Stage" Binding="{Binding}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <stage:StageDisplay DataContext="{Binding Data.StageVM, Source={StaticResource mainLayoutVMProxy}}" />
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <DataTrigger Value="Timers" Binding="{Binding}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <timer:Timers DataContext="{Binding Data.TimerVM, Source={StaticResource mainLayoutVMProxy}}" GotFocusCommand="{Binding Data.TimerVM.GotFocusCommand, Source={StaticResource mainLayoutVMProxy}}" />
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <DataTrigger Value="Messages" Binding="{Binding}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <messages:Messages DataContext="{Binding Data.MessagesVM, Source={StaticResource mainLayoutVMProxy}}" DefaultTheme="{Binding Data.TemplateVM.DefaultTheme, Source={StaticResource mainLayoutVMProxy}}" />
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <DataTrigger Value="Props" Binding="{Binding}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <Grid>
+                        <props:PropGroups DataContext="{Binding Data.PropGroupCollectionVM, Source={StaticResource mainLayoutVMProxy}}" />
+                      </Grid>
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+                <DataTrigger Value="Macros" Binding="{Binding}">
+                  <Setter Property="Content">
+                    <Setter.Value>
+                      <Grid>
+                        <macros:MacroGroupCollectionView DataContext="{Binding Data.MacroGroupsVM, Source={StaticResource mainLayoutVMProxy}}" />
+                      </Grid>
+                    </Setter.Value>
+                  </Setter>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </FrameworkElement.Style>
+        </ContentControl>
+      </DataTemplate>
+    </TabControl.ContentTemplate>
+    <FrameworkElement.Resources>
+      <ResourceDictionary>
+        <Style x:Key="{x:Type TabPanel}" TargetType="{x:Type TabPanel}">
+          <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+      </ResourceDictionary>
+    </FrameworkElement.Resources>
+  </local:UtilityViewTabControl>
+</UserControl>

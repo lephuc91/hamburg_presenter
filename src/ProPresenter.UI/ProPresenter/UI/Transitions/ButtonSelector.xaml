@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Transitions.ButtonSelector" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:local="clr-namespace:ProPresenter.UI.Transitions" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:ui="clr-namespace:Pro.UI;assembly=Pro.UI" x:Name="transitionButtonSelf">
+  <FrameworkElement.Resources>
+    <ui:SharedResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ui:SharedResourceDictionary Source="../Resources/Paths/Paths.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <commonUtility:BindingProxy x:Key="transitionButtonSelfProxy" Data="{Binding ElementName=transitionButtonSelf}" />
+      <commonConverters:TimeSliceToDoubleSecondConverter x:Key="TimeSliceToDoubleSecondConverter" RoundDecimalPlace="1" />
+      <commonConverters:ValueToVisibilityConverter x:Key="ValueToVisibilityConverter" />
+    </ui:SharedResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <FrameworkElement.Style>
+      <Style TargetType="{x:Type Grid}">
+        <Setter Property="FrameworkElement.ToolTip" Value="{x:Null}" />
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding ToolTip, ElementName=transitionButtonSelf}" Value="{x:Null}">
+            <Setter Property="FrameworkElement.ToolTip" Value="{Binding SelectedTransition.TransitionDescription.DisplayName, ElementName=transitionButtonSelf}" />
+          </DataTrigger>
+        </Style.Triggers>
+      </Style>
+    </FrameworkElement.Style>
+    <ToggleButton Name="TransitionPopupButton" VerticalContentAlignment="Center">
+      <FrameworkElement.Style>
+        <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type ToggleButton}">
+          <Setter Property="Height" Value="22" />
+          <Style.Triggers>
+            <DataTrigger Value="Short" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+              <Setter Property="Background" Value="#00FFFFFF" />
+              <Setter Property="BorderThickness" Value="0" />
+              <Setter Property="Height" Value="18" />
+            </DataTrigger>
+            <DataTrigger Value="ChooseAndName" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+              <Setter Property="Background" Value="#00FFFFFF" />
+              <Setter Property="BorderThickness" Value="0" />
+              <Setter Property="Height" Value="22" />
+            </DataTrigger>
+            <DataTrigger Value="Utility" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+              <Setter Property="Background" Value="#00FFFFFF" />
+              <Setter Property="BorderThickness" Value="0" />
+              <Setter Property="Height" Value="18" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </FrameworkElement.Style>
+      <ContentControl>
+        <FrameworkElement.Style>
+          <Style TargetType="{x:Type ContentControl}">
+            <Style.Triggers>
+              <DataTrigger Value="ChooseAndName" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                          <FrameworkElement.Style>
+                            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                              <Setter Property="Text" Value="{Binding SelectedTransition.Name, ElementName=transitionButtonSelf}" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=SelectedTransition, ElementName=transitionButtonSelf}" Value="{x:Null}">
+                                  <Setter Property="Text" Value="{mex:Localized TRANSITIONS_CHOOSE_BUTTON_title}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </FrameworkElement.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center">
+                          <FrameworkElement.Style>
+                            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                              <Setter Property="Text" Value="{Binding SelectedTransition.Duration, ElementName=transitionButtonSelf, Converter={StaticResource TimeSliceToDoubleSecondConverter}, StringFormat={}{0}s}" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=SelectedTransition, ElementName=transitionButtonSelf}" Value="{x:Null}">
+                                  <Setter Property="Text" Value="{x:Null}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </FrameworkElement.Style>
+                        </TextBlock>
+                      </Grid>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="LongChooseAndName" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                          <FrameworkElement.Style>
+                            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                              <Setter Property="Text" Value="{Binding SelectedTransition.Name, ElementName=transitionButtonSelf, StringFormat={}{0}:}" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=SelectedTransition, ElementName=transitionButtonSelf}" Value="{x:Null}">
+                                  <Setter Property="Text" Value="{mex:Localized TRANSITIONS_CHOOSE_TRANSITION_BUTTON_title}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </FrameworkElement.Style>
+                        </TextBlock>
+                        <TextBlock Margin="5,0,0,0">
+                          <FrameworkElement.Style>
+                            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                              <Setter Property="Text" Value="{Binding SelectedTransition.Duration, ElementName=transitionButtonSelf, Converter={StaticResource TimeSliceToDoubleSecondConverter}, StringFormat={}{0}s}" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=SelectedTransition, ElementName=transitionButtonSelf}" Value="{x:Null}">
+                                  <Setter Property="Text" Value="{x:Null}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </FrameworkElement.Style>
+                        </TextBlock>
+                      </StackPanel>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="ChooseAndChange" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <TextBlock VerticalAlignment="Center">
+                        <FrameworkElement.Style>
+                          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                            <Setter Property="Text" Value="{mex:Localized TRANSITIONS_CHANGE_BUTTON_title}" />
+                            <Style.Triggers>
+                              <DataTrigger Binding="{Binding Path=SelectedTransition, ElementName=transitionButtonSelf}" Value="{x:Null}">
+                                <Setter Property="Text" Value="{mex:Localized TRANSITIONS_CHOOSE_BUTTON_title}" />
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </TextBlock>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="DefaultAndName" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                        <FrameworkElement.Style>
+                          <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                            <Setter Property="Text" Value="{Binding SelectedTransition.Name, ElementName=transitionButtonSelf}" />
+                            <Style.Triggers>
+                              <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                  <Condition Value="True" Binding="{Binding TransitionHandler.IsTransitionModified, ElementName=transitionButtonSelf}" />
+                                  <Condition Value="Favorite" Binding="{Binding TransitionHandler.ActiveTransition.TransitionType, ElementName=transitionButtonSelf}" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Text" Value="{Binding SelectedTransition.Name, ElementName=transitionButtonSelf, StringFormat={}{0}*}" />
+                              </MultiDataTrigger>
+                              <DataTrigger Binding="{Binding SelectedTransition, ElementName=transitionButtonSelf}" Value="{x:Null}">
+                                <Setter Property="Text" Value="{mex:Localized GLOBAL_DEFAULT}" />
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </TextBlock>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="Short" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <commonControls:PathControl Grid.Column="0" Width="18" Height="18" VerticalAlignment="Center" StrokeThickness="0">
+                        <FrameworkElement.Style>
+                          <Style TargetType="{x:Type commonControls:PathControl}">
+                            <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Advanced}" />
+                            <Setter Property="commonControls:PathControl.Fill" Value="{Binding TRANSITIONSHORTCHECKED, Source={x:Static theming:AppTheme.Active}}" />
+                            <Style.Triggers>
+                              <DataTrigger Value="Cut" Binding="{Binding SelectedTransition.TransitionDescription.Name, ElementName=transitionButtonSelf}">
+                                <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Cut}" />
+                              </DataTrigger>
+                              <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.TransitionDescription.Name, ElementName=transitionButtonSelf}">
+                                <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Dissolve}" />
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding SelectedTransition, ElementName=transitionButtonSelf}" Value="{x:Null}">
+                                <Setter Property="commonControls:PathControl.Fill" Value="{Binding TRANSITIONSHORTCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                              </DataTrigger>
+                              <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                  <Condition Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" />
+                                  <Condition Binding="{Binding SelectedTransition, ElementName=transitionButtonSelf}" Value="{x:Null}" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="commonControls:PathControl.Fill" Value="{Binding TRANSITIONSHORTHOVER, Source={x:Static theming:AppTheme.Active}}" />
+                              </MultiDataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </FrameworkElement.Style>
+                      </commonControls:PathControl>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+              <DataTrigger Value="Utility" Binding="{Binding SelectorButtonContentType, ElementName=transitionButtonSelf}">
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <Border Background="#00FFFFFF">
+                        <commonControls:PathControl Grid.Column="0" Width="18" Height="18" VerticalAlignment="Center" StrokeThickness="0">
+                          <FrameworkElement.Style>
+                            <Style TargetType="{x:Type commonControls:PathControl}">
+                              <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Advanced}" />
+                              <Setter Property="commonControls:PathControl.Fill" Value="{Binding TRANSITIONSHORTCONTENT, Source={x:Static theming:AppTheme.Active}}" />
+                              <Style.Triggers>
+                                <DataTrigger Value="Cut" Binding="{Binding SelectedTransition.TransitionDescription.Name, ElementName=transitionButtonSelf}">
+                                  <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Cut}" />
+                                </DataTrigger>
+                                <DataTrigger Value="Dissolve" Binding="{Binding SelectedTransition.TransitionDescription.Name, ElementName=transitionButtonSelf}">
+                                  <Setter Property="commonControls:PathControl.Data" Value="{StaticResource Dissolve}" />
+                                </DataTrigger>
+                                <DataTrigger Value="True" Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}">
+                                  <Setter Property="commonControls:PathControl.Fill" Value="{Binding TRANSITIONSHORTHOVER, Source={x:Static theming:AppTheme.Active}}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </FrameworkElement.Style>
+                        </commonControls:PathControl>
+                      </Border>
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </FrameworkElement.Style>
+      </ContentControl>
+    </ToggleButton>
+    <commonControls:AnchoredPopup Name="TransitionAnchoredPopup" HorizontalAlignment="Center" AllowsTransparency="True" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=TransitionPopupButton}" Placement="{Binding PopupPlacement, ElementName=transitionButtonSelf}" PlacementTarget="{Binding ElementName=transitionButtonSelf}" Closed="TransitionPopup_Closed" Opened="TransitionPopup_Opened">
+      <Border Padding="0,0,5,5" Effect="{StaticResource ControlDropShadowEffect}">
+        <Border>
+          <ContentControl>
+            <FrameworkElement.Style>
+              <Style TargetType="{x:Type ContentControl}">
+                <Setter Property="ContentTemplate">
+                  <Setter.Value>
+                    <DataTemplate>
+                      <local:ExtendedSelector IsGlobalAllowed="{Binding Data.IsGlobalAllowed, Source={StaticResource transitionButtonSelfProxy}}" OutputController="{Binding Data.OutputController, Source={StaticResource transitionButtonSelfProxy}}" TransitionHandler="{Binding Data.TransitionHandler, Source={StaticResource transitionButtonSelfProxy}}" />
+                    </DataTemplate>
+                  </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                  <DataTrigger Value="Compact" Binding="{Binding Data.SelectorButtonSelectorStyle, Source={StaticResource transitionButtonSelfProxy}}">
+                    <Setter Property="ContentTemplate">
+                      <Setter.Value>
+                        <DataTemplate>
+                          <local:CompactSelector IsGlobalAllowed="{Binding Data.IsGlobalAllowed, Source={StaticResource transitionButtonSelfProxy}}" OutputController="{Binding Data.OutputController, Source={StaticResource transitionButtonSelfProxy}}" TransitionHandler="{Binding Data.TransitionHandler, Source={StaticResource transitionButtonSelfProxy}}" />
+                        </DataTemplate>
+                      </Setter.Value>
+                    </Setter>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </FrameworkElement.Style>
+          </ContentControl>
+        </Border>
+      </Border>
+    </commonControls:AnchoredPopup>
+  </Grid>
+</UserControl>

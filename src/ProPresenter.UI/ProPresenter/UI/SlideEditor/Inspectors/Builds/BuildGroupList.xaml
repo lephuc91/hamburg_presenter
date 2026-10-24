@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.SlideEditor.Inspectors.Builds.BuildGroupList" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:ProPresenter.UI.SlideEditor.Inspectors.Builds" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" x:Name="buildGroupList" uiUtility:UIElementHelper.RegisterDeleteCommand="{Binding DeleteBuildsCommand}">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+    <ItemsControl Margin="25,0,0,0" VerticalAlignment="Stretch" ItemsSource="{Binding BuildGroups}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <local:BuildGroup BuildVM="{Binding DataContext, RelativeSource={RelativeSource AncestorType=local:BuildGroupList}}" Builds="{Binding}" />
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </ScrollViewer>
+</UserControl>

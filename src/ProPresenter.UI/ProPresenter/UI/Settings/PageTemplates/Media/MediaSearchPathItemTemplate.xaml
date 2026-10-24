@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.PageTemplates.Media.MediaSearchPathItemTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" Background="#00FFFFFF" xmlns:media="clr-namespace:ProPresenter.UI.Settings.PageTemplates.Media">
+  <Border BorderThickness="0,0,0,1" BorderBrush="{Binding DIVIDER, Source={x:Static theming:AppTheme.Active}}">
+    <Grid Margin="8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <CheckBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,0" IsChecked="{Binding IsActive}" />
+      <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding Name}" />
+      <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Foreground="{Binding CONTENTSECONDARY, Source={x:Static theming:AppTheme.Active}}" Text="{Binding Path}" />
+    </Grid>
+  </Border>
+</UserControl>

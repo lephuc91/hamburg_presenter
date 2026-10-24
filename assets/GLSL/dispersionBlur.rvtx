@@ -1,0 +1,34 @@
+{
+    "category": "Blurs",
+    "description": "Dispersion Blur",
+    "duration": 0.6,
+    "hasAB": 1,
+    "name": "Dispersion Blur",
+    "numPasses": 1,
+    "shaderFile": "dispersionBlur",
+    "type": 1,
+    "uuid": "F1475C78-329A-4897-B5C0-266C6433CCCC",
+    "variables": [
+        {
+            "name": "size",
+            "label": "Radius",
+            "description": "Adjust distortion",
+            "type": 1,
+            "min": [0, 1, 1, 1],
+            "max": [2, 2, 2, 2],
+            "defValue": [0.5, 1.5, 1.5, 1.5],
+            "value": [0.5, 1.5, 1.5, 1.5]
+        },
+        {
+            "name": "angle",
+            "label": "Angle",
+            "description": "Adjust distortion",
+            "type": 1,
+            "min": [0, 1, 1, 1],
+            "max": [4, 2, 2, 2],
+            "defValue": [2.3, 1.5, 1.5, 1.5],
+            "value": [0.5, 1.5, 1.5, 1.5]
+        }
+    ]
+}
+

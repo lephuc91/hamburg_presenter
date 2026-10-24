@@ -1,0 +1,11 @@
+{
+    "category": "Movements",
+    "description": "Swap",
+    "duration": 0.6,
+    "name": "Swap",
+    "numPasses": 1,
+    "shaderFile": "swap",
+    "type": 1,
+    "uuid": "6E087942-135D-4239-9093-98AD4BA86274",
+    "usesDepth": true
+}

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.LibraryView.PowerPointImportSelectorContent" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:converters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:markupExtensions="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" x:Name="Self" xmlns:libraryview="clr-namespace:ProPresenter.UI.LibraryView">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <converters:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="10">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <TextBlock Margin="10" VerticalAlignment="Center" Text="{markupExtensions:Localized IMPORT_POWERPOINT_OPTIONS_ALERT_message}" />
+      <WrapPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Orientation="Vertical">
+        <RadioButton GroupName="ImportType" Content="{markupExtensions:Localized IMPORT_POWERPOINT_OPTIONS_AS_IMAGES_BUTTON_title}" IsChecked="{Binding Path=UseLegacyImport, ElementName=Self, Mode=TwoWay}" />
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <RadioButton GroupName="ImportType" Content="{markupExtensions:Localized IMPORT_POWERPOINT_OPTIONS_NATIVE_IMPORTER_BUTTON_title}" IsChecked="{Binding Path=UseLegacyImport, ElementName=Self, Mode=TwoWay, Converter={StaticResource InvertedBooleanConverter}}" />
+          <controls:HelpButton Name="HelpButton" Grid.Column="1" Width="20" Height="20" Margin="5" HelpCommand="{Binding Path=ShowHelpCommand, ElementName=Self}" />
+          <controls:AnchoredPopup Name="HelpButtonPopup" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" IsOpen="{Binding Path=IsPopUpOpen, ElementName=Self, Mode=TwoWay}" PlacementTarget="{Binding ElementName=HelpButton}">
+            <Border Padding="10" BorderThickness="1" CornerRadius="5" Background="{Binding OUTLINEDETAIL, Source={x:Static theming:AppTheme.Active}}" BorderBrush="{Binding PRIMARYLIGHT, Source={x:Static theming:AppTheme.Active}}">
+              <TextBlock Width="250" TextWrapping="Wrap" Foreground="{Binding LIGHTCONTENT, Source={x:Static theming:AppTheme.Active}}" Text="{markupExtensions:Localized IMPORT_POWERPOINT_OPTIONS_NATIVE_IMPORTER_HTLP_TOOLTIP_title}" />
+            </Border>
+          </controls:AnchoredPopup>
+        </Grid>
+      </WrapPanel>
+    </Grid>
+  </Grid>
+</UserControl>

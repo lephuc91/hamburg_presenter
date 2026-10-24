@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<windowing:ChromedWindow x:Class="ProPresenter.UI.Capture.ResiAbortUploadWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:commonConverter="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:dialog="clr-namespace:Pro.UI.DialogService;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:windowing="clr-namespace:Pro.UI.Controls.Windowing;assembly=Pro.UI" MaxWidth="470" uiUtility:WindowHelper.ChildOf="MainWindow" uiUtility:WindowHelper.HideOnClose="True" uiUtility:WindowHelper.UseGlobalStyle="True" CanMaximize="False" CanMinimize="False" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="CenterOwner" xmlns:capture="clr-namespace:ProPresenter.UI.Capture;assembly=ProPresenter.UI" Title="{mex:Localized APP_QUIT_RESI_ABORT_UPLOAD_ALERT_title}" Resources="{commonConverter:EnumToContentConverter Key=EnumToContentConverter}">
+  <Grid Margin="10">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Width="60" Height="60" Margin="0,0,10,0" VerticalAlignment="Center" Source="{StaticResource {x:Static themesUI:Icons.AppIcon}}" Stretch="Uniform" />
+    <TextBlock Grid.Row="0" Grid.Column="1" Text="{mex:Localized APP_QUIT_RESI_ABORT_UPLOAD_ALERT_info}" />
+    <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+      <Button Height="22" MinWidth="80" Margin="10,0,0,0" Padding="4,0" DataContext="{x:Static dialog:ForceQuitButton.Cancel}" Content="{mex:Localized GLOBAL_CANCEL_BUTTON_title}" Click="Button_Click" />
+      <Button Height="22" MinWidth="80" Margin="10,0,0,0" Padding="4,0" DataContext="{x:Static dialog:ForceQuitButton.Continue}" Content="{mex:Localized APP_QUIT_ANYWAYS_BUTTON_title}" Click="Button_Click" />
+    </StackPanel>
+  </Grid>
+</windowing:ChromedWindow>

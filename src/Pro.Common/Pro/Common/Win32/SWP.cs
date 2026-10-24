@@ -1,0 +1,24 @@
+using System;
+
+namespace Pro.Common.Win32;
+
+[Flags]
+public enum SWP : uint
+{
+	NONE = 0u,
+	NOSIZE = 1u,
+	NOMOVE = 2u,
+	NOZORDER = 4u,
+	NOREDRAW = 8u,
+	NOACTIVATE = 0x10u,
+	DRAWFRAME = 0x20u,
+	FRAMECHANGED = 0x20u,
+	SHOWWINDOW = 0x40u,
+	HIDEWINDOW = 0x80u,
+	NOCOPYBITS = 0x100u,
+	NOOWNERZORDER = 0x200u,
+	NOREPOSITION = 0x200u,
+	NOSENDCHANGING = 0x400u,
+	DEFERERASE = 0x2000u,
+	ASYNCWINDOWPOS = 0x4000u
+}

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.ActionPalette.ActionDialogs.AudioInputDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:audio="clr-namespace:ProPresenter.DO.Audio;assembly=ProPresenter.DO" xmlns:commands="clr-namespace:ProPresenter.UI.Commands" xmlns:commonAudio="clr-namespace:Pro.DO.Audio;assembly=Pro.DO" xmlns:commonControls="clr-namespace:Pro.UI.Controls;assembly=Pro.UI" xmlns:commonConverters="clr-namespace:Pro.UI.Converters;assembly=Pro.UI" xmlns:commonUtility="clr-namespace:Pro.Common.Utility;assembly=Pro.Common" xmlns:di="clr-namespace:Pro.UI.DependencyInjection;assembly=Pro.UI" xmlns:input="clr-namespace:ProPresenter.UI.Input" xmlns:inputActions="clr-namespace:ProPresenter.DO.InputActionMap;assembly=ProPresenter.DO" xmlns:mex="clr-namespace:Pro.UI.MarkupExtensions;assembly=Pro.UI" xmlns:theming="clr-namespace:ProPresenter.UI.Theming" xmlns:uiUtility="clr-namespace:Pro.UI.Utility;assembly=Pro.UI" xmlns:actiondialogs="clr-namespace:ProPresenter.UI.ActionPalette.ActionDialogs">
+  <Grid Name="self">
+    <FrameworkElement.Resources>
+      <ResourceDictionary>
+        <commonUtility:BindingProxy x:Key="proxy" Data="{Binding}" />
+        <commonConverters:MultiBindingEqualityConverter x:Key="MultiBindingEqualityConverter" />
+      </ResourceDictionary>
+    </FrameworkElement.Resources>
+    <Grid Background="{Binding PANEL, Source={x:Static theming:AppTheme.Active}}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Margin="0,0,15,0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{Binding ONSURFACE, Source={x:Static theming:AppTheme.Active}}" Text="{mex:Localized AUDIO_INPUT_ACTION_POPOVER_AUDIO_INPUT_label}" />
+      <commonControls:DropDownButton Grid.Column="1" Width="400" HorizontalAlignment="Left" CustomContent="{Binding SelectedAudioInputDescription}">
+        <commonControls:DropDownButton.CustomContextMenu>
+          <ContextMenu Placement="Bottom" UsesItemContainerTemplate="True" Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Self}}">
+            <ItemsControl.ItemsSource>
+              <CompositeCollection>
+                <CollectionContainer Collection="{Binding Data.AvailableAudioInputs, Source={StaticResource proxy}}" />
+                <Separator />
+                <MenuItem uiUtility:CommandTargets.Assign="{x:Static commands:CommandTargetType.MainWindow}" uiUtility:CommandTargets.Default="False" uiUtility:MenuItemHelper.GestureTextVisibility="Hidden" Command="{Binding ProMenu.Input.BindCommand, Source={di:DIMarkup {x:Type inputActions:IInputActions}}}" Header="{mex:Localized AUDIO_INPUT_ACTION_POPOVER_OPEN_INPUTS_MENU_ITEM_title}" />
+              </CompositeCollection>
+            </ItemsControl.ItemsSource>
+            <FrameworkElement.Resources>
+              <ResourceDictionary>
+                <ItemContainerTemplate x:Key="{ItemContainerTemplateKey {x:Type audio:AudioInput}}">
+                  <MenuItem uiUtility:CommandHelper.CommandParameter="{Binding}" Command="{Binding Data.SelectInputCommand, Source={StaticResource proxy}}" Header="{Binding LongName}">
+                    <MenuItem.IsChecked>
+                      <MultiBinding Mode="OneWay" Converter="{StaticResource MultiBindingEqualityConverter}">
+                        <Binding />
+                        <Binding Path="Data.SelectedAudioInput" Source="{StaticResource proxy}" />
+                      </MultiBinding>
+                    </MenuItem.IsChecked>
+                  </MenuItem>
+                </ItemContainerTemplate>
+              </ResourceDictionary>
+            </FrameworkElement.Resources>
+          </ContextMenu>
+        </commonControls:DropDownButton.CustomContextMenu>
+      </commonControls:DropDownButton>
+      <CheckBox Grid.Row="1" Margin="0,15,15,0" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{mex:Localized AUDIO_INPUT_ACTION_POPOVER_SET_MODE_BUTTON_title}" IsChecked="{Binding Action.OverrideMode}" />
+      <input:AudioInputModeSelector Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,15,0,0" VerticalAlignment="Center" BehaviorMode="{Binding Action.BehaviorMode}" IsEnabled="{Binding Action.OverrideMode}" LinkedVideoInputs="{Binding Action.LinkedVideoInputs}" VideoInputs="{Binding VideoInputs}" />
+      <CheckBox Grid.Row="2" Margin="0,15,15,0" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{mex:Localized AUDIO_INPUT_ACTION_POPOVER_SET_LEVEL_BUTTON_title}" IsChecked="{Binding Action.OverrideVolume}" />
+      <Grid Row="2" Column="1" Width="400" Margin="0,15,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <commonControls:FillSlider Margin="0,0,15,0" VerticalAlignment="Center" Maximum="{x:Static commonAudio:AudioConstants.DecibelRangeMaximum}" Minimum="{x:Static commonAudio:AudioConstants.DecibelRangeMinimum}" IsEnabled="{Binding Action.OverrideVolume}" Value="{Binding Action.Volume}" />
+        <commonControls:DoubleUpDown Grid.Column="1" Width="40" Height="22" FormatString="{}{0:N0}dB" Increment="1" Maximum="{x:Static commonAudio:AudioConstants.DecibelRangeMaximum}" Minimum="{x:Static commonAudio:AudioConstants.DecibelRangeMinimum}" ShowButtonSpinner="False" IsEnabled="{Binding Action.OverrideVolume}" Value="{Binding Action.Volume}" />
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="ProPresenter.UI.Settings.ListItemTemplates.RegistrationItemTemplate" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:themesUI="clr-namespace:Pro.UI.Themes;assembly=Pro.UI" xmlns:listitemtemplates="clr-namespace:ProPresenter.UI.Settings.ListItemTemplates;assembly=ProPresenter.UI">
+  <Grid Margin="4,3,0,3">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Ellipse Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Width="38" Margin="0,0,8,0" Stretch="UniformToFill">
+      <Shape.Fill>
+        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Icon}" />
+      </Shape.Fill>
+      <UIElement.Effect>
+        <DropShadowEffect BlurRadius="4" Direction="270" Opacity="0.5" ShadowDepth="1" Color="{StaticResource {x:Static themesUI:Colors.Shadow}}" />
+      </UIElement.Effect>
+    </Ellipse>
+    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding ListItemTitle}" />
+    <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" FontSize="10" Text="{Binding ListItemSubscript}" />
+  </Grid>
+</UserControl>
